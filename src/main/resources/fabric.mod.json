@@ -1,0 +1,58 @@
+{
+	"schemaVersion": 1,
+	"id": "silk-api",
+	"version": "${version}",
+	"name": "Silk API | 丝绸编程接口",
+	"authors": [
+		"§6Saikel Orado"
+	],
+	"contributors": [
+		"Fabric Team | Fabric 团队",
+		"§cAnd YOU! | 还有你！"
+	],
+	"contact": {
+		"homepage": "https://homepage",
+		"sources": "https://sources",
+		"issues": "https://issues"
+	},
+	"custom": {
+		"modmenu": {
+			"badges": [
+				"library"
+			],
+			"links": {
+				"modmenu.discord": "https://discord.gg/jEGF5fb",
+				"modmenu.support.afdian": "https://afdian.net/a/GameGeek_Saikel",
+				"modmenu.support.patreon": "https://www.patreon.com/GameGeek_Saikel"
+			},
+			"update_checker": true
+		}
+	},
+	"license": "MIT",
+	"icon": "assets/silk-api/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"pers.saikel_orado.silk.Main"
+		],
+		"client": [
+			"pers.saikel_orado.silk.Client"
+		]
+	},
+	"mixins": [
+		"silk-api.mixins.json",
+		{
+			"config": "silk-api.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"java": ">=17",
+		"minecraft": "~1.20.1",
+		"fabricloader": ">=0.14.21",
+		"fabric-api": ">=0.83.0"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

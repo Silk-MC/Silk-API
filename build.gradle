@@ -1,0 +1,93 @@
+plugins {
+	id 'fabric-loom' version '1.3-SNAPSHOT'
+	id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+	archivesName = project.archives_base_name
+}
+
+repositories {
+	// 添加存储库以从此处检索工件.
+	// 你应该只在依赖其他模组时使用它，因为
+	// Loom 添加必要的 maven 存储库以自动下载 Minecraft 和库.
+	// 见 https://docs.gradle.org/current/userguide/declaring_repositories.html
+	// 有关存储库的更多信息.
+}
+
+loom {
+	splitEnvironmentSourceSets()
+	
+	mods {
+		"modid" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
+	
+}
+
+dependencies {
+	// 要更改版本, 请参阅 gradle.properties 文件
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	
+	// Fabric API. 这在理论上是可选的, 但无论如何您都可能需要它.
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	
+	// 取消注释以下行以启用已弃用的 Fabric API 模块.
+	// 这些包含在 Fabric API 发布版本中, 允许您在以后更方便的时候将您的模块更新为最新的模块.
+	// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
+	
+	// 本模组所需要添加使用的本地模组库
+	modCompileOnly fileTree(dir: 'lib', includes: ['*.jar'])
+}
+
+processResources {
+	inputs.property "version", project.version
+	
+	filesMatching("fabric.mod.json") {
+		expand "version": project.version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	// Minecraft 1.18 (1.18-pre2) 及以上使用 Java 17.
+	it.options.release = 17
+}
+
+java {
+	// Loom 会自动将 sourcesJar 附加到 RemapSourcesJar 任务和 “build” 任务
+	// 如果其存在.
+	// 如果删除此行，则不会生成源.
+	withSourcesJar()
+	
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
+}
+
+jar {
+	from("LICENSE") {
+		rename { "${it}_${project.base.archivesName.get()}" }
+	}
+}
+
+// 配置 Maven 发布
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			from components.java
+		}
+	}
+	
+	// 有关如何设置发布的信息, 请参阅 https://docs.gradle.org/current/userguide/publishing_maven.html
+	repositories {
+		// 添加要发布到此处的存储库.
+		// 注意: 这个语句块与顶层的块功能不同.
+		// 这里的存储库将用于发布您的工件, 而不是用于检索依赖项.
+	}
+}
