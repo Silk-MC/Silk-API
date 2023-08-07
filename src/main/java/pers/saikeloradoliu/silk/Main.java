@@ -1,4 +1,4 @@
-package pers.saikel_orado.silk;
+package pers.saikeloradoliu.silk;
 
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;

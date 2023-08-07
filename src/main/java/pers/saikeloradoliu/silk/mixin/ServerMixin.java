@@ -1,4 +1,4 @@
-package pers.saikel_orado.silk.mixin;
+package pers.saikeloradoliu.silk.mixin;
 
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;

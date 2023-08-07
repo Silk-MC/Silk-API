@@ -33,10 +33,10 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"pers.saikel_orado.silk.Main"
+			"pers.saikeloradoliu.silk.Main"
 		],
 		"client": [
-			"pers.saikel_orado.silk.Client"
+			"pers.saikeloradoliu.silk.Client"
 		]
 	},
 	"mixins": [
