@@ -11,9 +11,9 @@
 		"§cAnd YOU! | 还有你！"
 	],
 	"contact": {
-		"homepage": "https://homepage",
-		"sources": "https://sources",
-		"issues": "https://issues"
+		"homepage": "https://github.com/Silk-MC/Silk-API",
+		"sources": "https://github.com/Silk-MC/Silk-API/tree/1.20",
+		"issues": "https://github.com/Silk-MC/Silk-API/issues"
 	},
 	"custom": {
 		"modmenu": {
@@ -21,14 +21,14 @@
 				"library"
 			],
 			"links": {
-				"modmenu.discord": "https://discord.gg/jEGF5fb",
-				"modmenu.support.afdian": "https://afdian.net/a/GameGeek_Saikel",
-				"modmenu.support.patreon": "https://www.patreon.com/GameGeek_Saikel"
+				"modmenu.discord": "https://discord.gg/ZJuQyH2RBz",
+				"modmenu.support.patreon": "https://www.patreon.com/GameGeek_Saikel",
+				"modmenu.support.afdian": "https://afdian.net/a/GameGeek_Saikel"
 			},
 			"update_checker": true
 		}
 	},
-	"license": "MIT",
+	"license": "LGPL-3.0",
 	"icon": "assets/silk-api/icon.png",
 	"environment": "*",
 	"entrypoints": {
