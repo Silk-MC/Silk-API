@@ -24,39 +24,31 @@ import java.util.Optional;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  */
 final public class SilkData implements ModBasicData {
-    public static final SilkData INSTANCE = new SilkData();
-
-    @Override
-    public String getModId() {
-        return "silk-api";
-    }
-
-    @Override
-    public Optional<URL> getCommunityLink() {
-        String url = getModInstance().getMetadata().getCustomValue("modmenu").getAsObject().get("links").getAsObject().get("modmenu.discord").getAsString();
-        try {
-            return Optional.of(new URL(url));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public Optional<URL> getSupportLink() {
-        String url = getModInstance().getMetadata().getCustomValue("modmenu").getAsObject().get("links").getAsObject().get("modmenu.support.patreon").getAsString();
-        try {
-            return Optional.of(new URL(url));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public URL getAfdianLink() {
-        String url = getModInstance().getMetadata().getCustomValue("modmenu").getAsObject().get("links").getAsObject().get("modmenu.support.afdian").getAsString();
-        try {
-            return new URL(url);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+	public static final SilkData INSTANCE = new SilkData();
+	
+	@Override
+	public String getModId() {
+		return "silk-api";
+	}
+	
+	@Override
+	public Optional<URL> getCommunityLink() throws MalformedURLException {
+		String url = getModInstance().getMetadata().getCustomValue("modmenu").getAsObject().get("links").getAsObject().get("modmenu.discord").getAsString();
+		return Optional.of(new URL(url));
+	}
+	
+	@Override
+	public Optional<URL> getSupportLink() throws MalformedURLException {
+		String url = getModInstance().getMetadata().getCustomValue("modmenu").getAsObject().get("links").getAsObject().get("modmenu.support.patreon").getAsString();
+		return Optional.of(new URL(url));
+	}
+	
+	public URL getAfdianLink() {
+		String url = getModInstance().getMetadata().getCustomValue("modmenu").getAsObject().get("links").getAsObject().get("modmenu.support.afdian").getAsString();
+		try {
+			return new URL(url);
+		} catch (MalformedURLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

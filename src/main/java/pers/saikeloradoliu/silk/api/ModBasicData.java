@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -29,76 +30,109 @@ import java.util.Optional;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  */
 public interface ModBasicData {
-    default String getMinecraftVer() {
-        return MinecraftVersion.CURRENT.getName();
-    }
-
-    String getModId();
-
-    default ModContainer getModInstance() {
-        var modContainerOptional = FabricLoader.getInstance().getModContainer(getModId());
-        if (modContainerOptional.isEmpty())
-            throw new RuntimeException("Mod not found, no mod with id '" + getModId() + "' exists!");
-        return modContainerOptional.get();
-    }
-
-    default String getModName() {
-        return getModInstance().getMetadata().getName();
-    }
-
-    default String getModVer() {
-        return getModInstance().getMetadata().getVersion().getFriendlyString();
-    }
-
-    /**
-     * <p>此记录器用于将文本写入控制台和日志文件。</p>
-     * <p>使用您的模组 ID 作为记录器的名称被认为是最佳实践。</p>
-     * <p>这样，就很清楚是哪个模组写了信息、警告和错误。</p>
-     */
-    default Logger getLogger() {
-        return LoggerFactory.getLogger(getModName());
-    }
-
-    default Optional<Identifier> getIconId() {
-        Optional<String> path = getModInstance().getMetadata().getIconPath(4);
-        return path.map(Identifier::new);
-    }
-
-    default int getThemeColor() {
-        return -1;
-    }
-
-    default Optional<URL> getHomepage() {
-        Optional<String> url = getModInstance().getMetadata().getContact().get("homepage");
-        if (url.isEmpty()) return Optional.empty();
-        try {
-            return Optional.of(new URL(url.get()));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    default Optional<URL> getSourcesLink() {
-        Optional<String> url = getModInstance().getMetadata().getContact().get("sources");
-        if (url.isEmpty()) return Optional.empty();
-        try {
-            return Optional.of(new URL(url.get()));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    default Optional<URL> getIssuesLink() {
-        Optional<String> url = getModInstance().getMetadata().getContact().get("issues");
-        if (url.isEmpty()) return Optional.empty();
-        try {
-            return Optional.of(new URL(url.get()));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    Optional<URL> getCommunityLink();
-
-    Optional<URL> getSupportLink();
+	default String getMinecraftVer() {
+		return MinecraftVersion.CURRENT.getName();
+	}
+	
+	default int getThemeColor() {
+		return -1;
+	}
+	
+	String getModId();
+	
+	default String getModName() {
+		return getModInstance().getMetadata().getName();
+	}
+	
+	default String getModVer() {
+		return getModInstance().getMetadata().getVersion().getFriendlyString();
+	}
+	
+	default String getModSlug() {
+		return getModId();
+	}
+	
+	default Collection<String> getLicense() {
+		return getModInstance().getMetadata().getLicense();
+	}
+	
+	
+	default Optional<Identifier> getIconId() {
+		Optional<String> path = getModInstance().getMetadata().getIconPath(4);
+		return path.map(Identifier::new);
+	}
+	
+	default Optional<URL> getLink(LinkType type) {
+		try {
+			return switch (type) {
+				case HOMEPAGE -> getHomepage();
+				case SOURCES -> getSourcesLink();
+				case ISSUES -> getIssuesLink();
+				case COMMUNITY -> getCommunityLink();
+				case SUPPORT -> getSupportLink();
+			};
+		} catch (MalformedURLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	/**
+	 * 此方法推荐仅用于重定向链接，推荐使用 {@link ModBasicData#getLink(LinkType)}
+	 */
+	default Optional<URL> getHomepage() throws MalformedURLException {
+		Optional<String> url = getModInstance().getMetadata().getContact().get("homepage");
+		if (url.isEmpty()) return Optional.empty();
+		return Optional.of(new URL(url.get()));
+	}
+	
+	/**
+	 * 此方法推荐仅用于重定向链接，推荐使用 {@link ModBasicData#getLink(LinkType)}
+	 */
+	default Optional<URL> getSourcesLink() throws MalformedURLException {
+		Optional<String> url = getModInstance().getMetadata().getContact().get("sources");
+		if (url.isEmpty()) return Optional.empty();
+		return Optional.of(new URL(url.get()));
+	}
+	
+	/**
+	 * 此方法推荐仅用于重定向链接，推荐使用 {@link ModBasicData#getLink(LinkType)}
+	 */
+	default Optional<URL> getIssuesLink() throws MalformedURLException {
+		Optional<String> url = getModInstance().getMetadata().getContact().get("issues");
+		if (url.isEmpty()) return Optional.empty();
+		return Optional.of(new URL(url.get()));
+	}
+	
+	/**
+	 * 此方法推荐仅用于重定向链接，推荐使用 {@link ModBasicData#getLink(LinkType)}
+	 */
+	default Optional<URL> getCommunityLink() throws MalformedURLException {
+		return Optional.empty();
+	}
+	
+	/**
+	 * 此方法推荐仅用于重定向链接，推荐使用 {@link ModBasicData#getLink(LinkType)}
+	 */
+	default Optional<URL> getSupportLink() throws MalformedURLException {
+		return Optional.empty();
+	}
+	
+	default ModContainer getModInstance() {
+		var modContainerOptional = FabricLoader.getInstance().getModContainer(getModId());
+		if (modContainerOptional.isEmpty())
+			throw new RuntimeException("Mod not found, no mod with id '" + getModId() + "' exists!");
+		return modContainerOptional.get();
+	}
+	
+	/**
+	 * <p>此记录器用于将文本写入控制台和日志文件。</p>
+	 * <p>这样，就很清楚是哪个模组写了信息、警告和错误。</p>
+	 */
+	default Logger getLogger() {
+		return LoggerFactory.getLogger(getModName());
+	}
+	
+	enum LinkType {
+		HOMEPAGE, SOURCES, ISSUES, COMMUNITY, SUPPORT
+	}
 }
