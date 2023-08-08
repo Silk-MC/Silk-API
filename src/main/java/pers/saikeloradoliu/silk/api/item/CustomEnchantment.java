@@ -9,23 +9,18 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikeloradoliu.silk;
+package pers.saikeloradoliu.silk.api.item;
 
-import net.fabricmc.api.ModInitializer;
+import net.minecraft.enchantment.Enchantment;
+
+import java.util.List;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">Fabric Loader 最先调用的类，通常用于进行最终注册和模组最先操作</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">用于需要完全自定义物品的附魔</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  */
-public class Main implements ModInitializer {
-	/**
-	 * <p>只要 Minecraft 处于 mod-load-ready(模组-加载-准备) 状态, 此代码就会运行.</p>
-	 * <p>但是, 有些东西（比如资源）可能仍然未初始化.</p>
-	 * <p style="color:DD0000">!谨慎操作!</p>
-	 */
-	@Override
-	public void onInitialize() {
-	}
+public interface CustomEnchantment {
+	List<Enchantment> getEnchantments();
 }

@@ -13,10 +13,13 @@ package pers.saikeloradoliu.silk.api;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.fabricmc.loader.api.metadata.Person;
 import net.minecraft.MinecraftVersion;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pers.saikeloradoliu.silk.SilkData;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -30,7 +33,7 @@ import java.util.Optional;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  */
 public interface ModBasicData {
-	default String getMinecraftVer() {
+	static String getMinecraftVer() {
 		return MinecraftVersion.CURRENT.getName();
 	}
 	
@@ -38,7 +41,7 @@ public interface ModBasicData {
 		return -1;
 	}
 	
-	String getModId();
+	@NotNull String getModId();
 	
 	default String getModName() {
 		return getModInstance().getMetadata().getName();
@@ -52,10 +55,13 @@ public interface ModBasicData {
 		return getModId();
 	}
 	
+	default Collection<Person> getAuthors() {
+		return getModInstance().getMetadata().getAuthors();
+	}
+	
 	default Collection<String> getLicense() {
 		return getModInstance().getMetadata().getLicense();
 	}
-	
 	
 	default Optional<Identifier> getIconId() {
 		Optional<String> path = getModInstance().getMetadata().getIconPath(4);
@@ -119,8 +125,11 @@ public interface ModBasicData {
 	
 	default ModContainer getModInstance() {
 		var modContainerOptional = FabricLoader.getInstance().getModContainer(getModId());
-		if (modContainerOptional.isEmpty())
-			throw new RuntimeException("Mod not found, no mod with id '" + getModId() + "' exists!");
+		if (modContainerOptional.isEmpty()) {
+			String msg = "Mod not found, no mod with id '" + getModId() + "' exists!";
+			SilkData.INSTANCE.getLogger().atError().log(msg);
+			throw new RuntimeException(msg);
+		}
 		return modContainerOptional.get();
 	}
 	

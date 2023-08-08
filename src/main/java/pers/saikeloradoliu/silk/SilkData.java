@@ -11,6 +11,7 @@
 
 package pers.saikeloradoliu.silk;
 
+import org.jetbrains.annotations.NotNull;
 import pers.saikeloradoliu.silk.api.ModBasicData;
 
 import java.net.MalformedURLException;
@@ -27,7 +28,7 @@ final public class SilkData implements ModBasicData {
 	public static final SilkData INSTANCE = new SilkData();
 	
 	@Override
-	public String getModId() {
+	public @NotNull String getModId() {
 		return "silk-api";
 	}
 	
