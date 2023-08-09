@@ -19,14 +19,16 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
-import pers.saikeloradoliu.silk.util.TickUtil;
+import pers.saikeloradoliu.silk.annotation.SilkApi;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">辅助弓的创建的数据直观和清晰</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @since 0.1.0
  */
+@SilkApi
 public abstract class Bow extends RangedWeaponItem implements RangedWeaponExtend, Vanishable {
 	public Bow(Settings settings) {
 		super(settings);
@@ -46,14 +48,6 @@ public abstract class Bow extends RangedWeaponItem implements RangedWeaponExtend
 	@Override
 	public int getMaxUseTime(ItemStack stack) {
 		return getMaxUseTicks();
-	}
-	
-	/**
-	 * 获取拉弓进度
-	 */
-	public float getPullProgress(int useTicks) {
-		float maxPullTicks = TickUtil.getTick(getMaxPullTime());
-		return (useTicks > maxPullTicks) ? 1 : (float) useTicks / maxPullTicks;
 	}
 	
 	/**

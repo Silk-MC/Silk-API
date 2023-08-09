@@ -3,7 +3,7 @@
 	"package": "pers.saikeloradoliu.silk.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"client": [
-		"ClientMixin"
+		"api.item.RangedWeaponExtendMixin$SetUsingMovementMultiple"
 	],
 	"injectors": {
 		"defaultRequire": 1

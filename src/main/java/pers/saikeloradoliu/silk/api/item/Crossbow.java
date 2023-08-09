@@ -11,20 +11,15 @@
 
 package pers.saikeloradoliu.silk.api.item;
 
-import net.minecraft.enchantment.Enchantment;
 import pers.saikeloradoliu.silk.annotation.SilkApi;
 
-import java.util.List;
-
 /**
- * <p><b style="color:FFC800"><font size="+1">用于需要完全自定义物品的附魔</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">作用</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
 @SilkApi
-public interface CustomEnchantment {
-	@SilkApi
-	List<Enchantment> getEnchantments();
+public class Crossbow {
 }

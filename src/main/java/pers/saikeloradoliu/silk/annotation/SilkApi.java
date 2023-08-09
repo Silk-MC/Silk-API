@@ -9,18 +9,20 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikeloradoliu.silk.mixin;
+package pers.saikeloradoliu.silk.annotation;
 
-import net.minecraft.client.MinecraftClient;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import java.lang.annotation.*;
 
-@Mixin(MinecraftClient.class)
-public class ClientMixin {
-	@Inject(at = @At("HEAD"), method = "run")
-	private void run(CallbackInfo info) {
-		// 此代码被注入 MinecraftClient.run()V 的开头
-	}
+/**
+ * <p><b style="color:FFC800"><font size="+1">使用了此注解的所有元素都被识别为 Silk API 的一部分，以取消 'unused' 警告</font></b></p>
+ * <style="color:FFC800">
+ *
+ * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @since 0.1.0
+ */
+@SilkApi
+@Documented
+@Retention(RetentionPolicy.SOURCE)
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
+public @interface SilkApi {
 }

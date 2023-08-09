@@ -13,47 +13,75 @@ package pers.saikeloradoliu.silk.api.item;
 
 import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
+import pers.saikeloradoliu.silk.annotation.SilkApi;
+import pers.saikeloradoliu.silk.util.TickUtil;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用与扩展远程武器特性的方法接口</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @since 0.1.0
  */
+@SilkApi
 public interface RangedWeaponExtend extends CustomEnchantment {
-	double DEFAULT_USING_SPEED_RADIO = 0.2;
+	@SilkApi
+	float DEFAULT_USING_SPEED_RADIO = 0.2F;
+	@SilkApi
 	float DEFAULT_MAX_USE_TIME = 60 * 60;
+	@SilkApi
 	float DEFAULT_MAX_PULL_TIME = 1;
-	double DEFAULT_VELOCITY_MULTIPLE = 3;
+	@SilkApi
+	float DEFAULT_VELOCITY_MULTIPLE = 3;
+	@SilkApi
 	int DEFAULT_RANGE = BowItem.RANGE;
 	
-	float getUsingSpeedRadio();
+	@SilkApi
+	float getUsingMovementMultiple();
 	
+	@SilkApi
 	int getMaxUseTicks();
 	
+	@SilkApi
 	float getMaxPullTime();
 	
+	@SilkApi
 	float getBulletSpeed();
 	
+	@SilkApi
 	float getBasicDamageMultiple();
 	
+	@SilkApi
 	float getPullingFovScale();
 	
+	@SilkApi
 	default float getPullingFovMultiple() {
 		return 1 / getPullingFovScale();
 	}
 	
+	@SilkApi
 	default float getDamageMultiple() {
-		return (float) (getBasicDamageMultiple() / (getBulletSpeed() / DEFAULT_VELOCITY_MULTIPLE));
+		return getBasicDamageMultiple() / (getBulletSpeed() / DEFAULT_VELOCITY_MULTIPLE);
+	}
+	
+	/**
+	 * 获取拉弓进度
+	 */
+	@SilkApi
+	default float getPullProgress(int useTicks) {
+		float maxPullTicks = TickUtil.getTick(getMaxPullTime());
+		return (useTicks > maxPullTicks) ? 1 : (float) useTicks / maxPullTicks;
 	}
 	
 	/**
 	 * 设置弹丸 ID 的 NBT 以供 JSON 渲染使用
 	 */
+	@SilkApi
 	void setBulletId(ItemStack stack, ItemStack useBullet);
 	
 	/**
 	 * 获取 NBT 弹丸 ID 以供 JSON 渲染使用
 	 */
+	@SilkApi
 	float getBulletId(ItemStack stack);
 }

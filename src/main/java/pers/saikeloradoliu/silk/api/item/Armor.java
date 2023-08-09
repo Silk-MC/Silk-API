@@ -14,43 +14,57 @@ package pers.saikeloradoliu.silk.api.item;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
+import org.jetbrains.annotations.NotNull;
+import pers.saikeloradoliu.silk.annotation.SilkApi;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">辅助盔甲的创建的数据直观和清晰</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @since 0.1.0
  */
-interface Armor extends ArmorMaterial {
+@SilkApi
+public interface Armor extends ArmorMaterial {
 	/**
 	 * 基础耐久基数
 	 */
+	@SilkApi
 	int[] DURABILITY_BASE = {11, 16, 15, 13};
 	/**
 	 * 击退抗性比例
 	 */
+	@SilkApi
 	int KR_RATIO = 10;
 	
-	String getId();
+	@SilkApi
+	@NotNull String getId();
 	
+	@SilkApi
 	int getDurability();
 	
+	@SilkApi
 	int[] getProtection();
 	
+	@SilkApi
 	float getKnockBackResistance();
 	
+	@SilkApi
 	default ArmorItem createHelmet(Item.Settings settings) {
 		return new ArmorItem(this, ArmorItem.Type.HELMET, settings);
 	}
 	
+	@SilkApi
 	default ArmorItem createChestPlate(Item.Settings settings) {
 		return new ArmorItem(this, ArmorItem.Type.CHESTPLATE, settings);
 	}
 	
+	@SilkApi
 	default ArmorItem createLeggings(Item.Settings settings) {
 		return new ArmorItem(this, ArmorItem.Type.LEGGINGS, settings);
 	}
 	
+	@SilkApi
 	default ArmorItem createBoots(Item.Settings settings) {
 		return new ArmorItem(this, ArmorItem.Type.BOOTS, settings);
 	}

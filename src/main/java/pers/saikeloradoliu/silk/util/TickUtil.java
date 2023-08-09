@@ -11,29 +11,55 @@
 
 package pers.saikeloradoliu.silk.util;
 
+import pers.saikeloradoliu.silk.annotation.SilkApi;
+
 import java.util.concurrent.TimeUnit;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">作用</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">有关刻的所有实用类</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @since 0.1.0
  */
+@SilkApi
 public interface TickUtil {
+	@SilkApi
 	int TPS = 20;
+	@SilkApi
 	int MC_TIME_PASSES_MAGNIFICATION = 72;
 	
 	/**
 	 * 为 {@link TickUtil#getTick(TimeType, TimeUnit, float)} 的简化版本，以自然秒作为单位
 	 */
+	@SilkApi
 	static int getTick(float naturalSec) {
 		return (int) (naturalSec * TPS);
 	}
 	
+	/**
+	 * 为 {@link TickUtil#getTime(TimeType, TimeUnit, float)} 的简化版本，以自然秒作为返回值
+	 *
+	 * @return 自然秒
+	 */
+	@SilkApi
+	static float getTime(int tick) {
+		return (float) tick / TPS;
+	}
+	
+	@SilkApi
 	static int getTick(TimeType type, TimeUnit unit, float time) {
 		return switch (type) {
 			case NATURAL -> getNaturalTick(unit, time);
 			case GAME -> getGameTick(unit, time);
+		};
+	}
+	
+	@SilkApi
+	static float getTime(TimeType type, TimeUnit unit, float tick) {
+		return switch (type) {
+			case NATURAL -> getNaturalTime(unit, tick);
+			case GAME -> getGameTime(unit, tick);
 		};
 	}
 	
@@ -43,22 +69,6 @@ public interface TickUtil {
 	
 	private static int getGameTick(TimeUnit unit, float time) {
 		return Math.max(1, getNaturalTick(unit, time) / MC_TIME_PASSES_MAGNIFICATION);
-	}
-	
-	/**
-	 * 为 {@link TickUtil#getTime(TimeType, TimeUnit, float)} 的简化版本，以自然秒作为返回值
-	 *
-	 * @return 自然秒
-	 */
-	static float getTime(int tick) {
-		return (float) tick / TPS;
-	}
-	
-	static float getTime(TimeType type, TimeUnit unit, float tick) {
-		return switch (type) {
-			case NATURAL -> getNaturalTime(unit, tick);
-			case GAME -> getGameTime(unit, tick);
-		};
 	}
 	
 	private static float getNaturalTime(TimeUnit unit, float tick) {

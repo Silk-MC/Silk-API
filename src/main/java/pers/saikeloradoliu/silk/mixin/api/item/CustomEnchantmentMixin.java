@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">设置物品附魔</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">设置自定义物品附魔</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
@@ -41,11 +41,13 @@ final class CustomEnchantmentMixin {
 	 */
 	@Mixin(Enchantment.class)
 	abstract static class SetAcceptEnchantment {
+		/**
+		 * 如果物品为自定义物品判断此魔咒是否包含在自定义魔咒中，所以请忽略 'EqualsBetweenInconvertibleTypes' 警告
+		 */
 		@SuppressWarnings("EqualsBetweenInconvertibleTypes")
 		@Inject(method = "isAcceptableItem", at = @At("RETURN"), cancellable = true)
 		private void acceptEnchantment(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-			if (stack.getItem() instanceof CustomEnchantment item
-					&& item.getEnchantments().stream().anyMatch(enchantment -> enchantment.equals(this))) {
+			if (stack.getItem() instanceof CustomEnchantment item && item.getEnchantments().stream().anyMatch(enchantment -> enchantment.equals(this))) {
 				cir.setReturnValue(true);
 			}
 		}
@@ -66,7 +68,7 @@ final class CustomEnchantmentMixin {
 			for (Enchantment enchantment : Registries.ENCHANTMENT) {
 				if (enchantment.isTreasure() && !treasureAllowed || !enchantment.isAvailableForRandomSelection() || !enchantment.isAcceptableItem(stack) && !stack.isOf(Items.BOOK))
 					continue;
-				for (int level = enchantment.getMaxLevel(); level > enchantment.getMinLevel() - 1; --level) {
+				for (int level = enchantment.getMaxLevel(); level > enchantment.getMinLevel() - 1; level--) {
 					if (power < enchantment.getMinPower(level) || power > enchantment.getMaxPower(level)) continue;
 					enchantments.add(new EnchantmentLevelEntry(enchantment, level));
 					continue nextEnchantment;

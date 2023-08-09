@@ -12,41 +12,52 @@
 package pers.saikeloradoliu.silk.api.item;
 
 import net.minecraft.item.*;
+import pers.saikeloradoliu.silk.annotation.SilkApi;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">辅助工具的创建的数据直观和清晰</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @since 0.1.0
  */
+@SilkApi
 public interface Tool extends ToolMaterial {
 	/**
 	 * 基础伤害
 	 */
+	@SilkApi
 	int BASE_DAMAGE = 1;
 	/**
 	 * 基础攻速
 	 */
+	@SilkApi
 	int BASE_SPEED = 4;
 	
+	@SilkApi
 	float getMaterialDamage();
 	
+	@SilkApi
 	default ShovelItem createShovel(float damage, Item.Settings settings) {
 		return new ShovelItem(this, getDamage(damage), getSpeed(1), settings);
 	}
 	
+	@SilkApi
 	default PickaxeItem createPickaxe(float damage, Item.Settings settings) {
 		return new PickaxeItem(this, (int) getDamage(damage), getSpeed(1.2F), settings);
 	}
 	
+	@SilkApi
 	default AxeItem createAxe(float damage, float speed, Item.Settings settings) {
 		return new AxeItem(this, getDamage(damage), getSpeed(speed), settings);
 	}
 	
+	@SilkApi
 	default HoeItem createHoe(float speed, Item.Settings settings) {
 		return new HoeItem(this, (int) getDamage(1), getSpeed(speed), settings);
 	}
 	
+	@SilkApi
 	default SwordItem createSword(float damage, Item.Settings settings) {
 		return new SwordItem(this, (int) getDamage(damage), getSpeed(1.6F), settings);
 	}
