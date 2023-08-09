@@ -16,23 +16,25 @@ import net.minecraft.item.ItemStack;
 import pers.saikeloradoliu.silk.annotation.SilkApi;
 import pers.saikeloradoliu.silk.util.TickUtil;
 
+import java.util.concurrent.TimeUnit;
+
 /**
- * <p><b style="color:FFC800"><font size="+1">用与扩展远程武器特性的方法接口</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">用与扩展弓特性的方法接口</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
 @SilkApi
-public interface RangedWeaponExtend extends CustomEnchantment {
+public interface BowExtend {
 	@SilkApi
-	float DEFAULT_USING_SPEED_RADIO = 0.2F;
+	float BOW_MAX_PROJECTILE_SPEED = 3;
 	@SilkApi
-	float DEFAULT_MAX_USE_TIME = 60 * 60;
+	float DEFAULT_USING_SPEED_RATIO = 0.2F;
 	@SilkApi
 	float DEFAULT_MAX_PULL_TIME = 1;
 	@SilkApi
-	float DEFAULT_VELOCITY_MULTIPLE = 3;
+	float DEFAULT_PROJECTILE_DEVIATION = 1;
 	@SilkApi
 	int DEFAULT_RANGE = BowItem.RANGE;
 	
@@ -40,48 +42,50 @@ public interface RangedWeaponExtend extends CustomEnchantment {
 	float getUsingMovementMultiple();
 	
 	@SilkApi
-	int getMaxUseTicks();
+	float getMaxPullTicks();
 	
 	@SilkApi
-	float getMaxPullTime();
-	
-	@SilkApi
-	float getBulletSpeed();
+	float getMaxProjectileSpeed();
 	
 	@SilkApi
 	float getBasicDamageMultiple();
 	
 	@SilkApi
-	float getPullingFovScale();
+	float getUsingFovScale();
 	
 	@SilkApi
-	default float getPullingFovMultiple() {
-		return 1 / getPullingFovScale();
+	float getFiringError();
+	
+	@SilkApi
+	default int getMaxUseTicks() {
+		return TickUtil.getTick(TickUtil.TimeType.NATURAL, TimeUnit.HOURS, 1);
+	}
+	
+	@SilkApi
+	default float getUsingFovMultiple() {
+		return 1 / getUsingFovScale();
 	}
 	
 	@SilkApi
 	default float getDamageMultiple() {
-		return getBasicDamageMultiple() / (getBulletSpeed() / DEFAULT_VELOCITY_MULTIPLE);
+		return getBasicDamageMultiple() / (getMaxProjectileSpeed() / BOW_MAX_PROJECTILE_SPEED);
 	}
 	
-	/**
-	 * 获取拉弓进度
-	 */
 	@SilkApi
-	default float getPullProgress(int useTicks) {
-		float maxPullTicks = TickUtil.getTick(getMaxPullTime());
-		return (useTicks > maxPullTicks) ? 1 : (float) useTicks / maxPullTicks;
+	default float getBowPullProgress(int useTicks) {
+		float progress = useTicks / getMaxPullTicks();
+		return Math.min(1, (progress * progress + progress * 2) / 3);
 	}
 	
 	/**
 	 * 设置弹丸 ID 的 NBT 以供 JSON 渲染使用
 	 */
 	@SilkApi
-	void setBulletId(ItemStack stack, ItemStack useBullet);
+	void setProjectileId(ItemStack stack, ItemStack useProjectile);
 	
 	/**
 	 * 获取 NBT 弹丸 ID 以供 JSON 渲染使用
 	 */
 	@SilkApi
-	float getBulletId(ItemStack stack);
+	float getProjectileId(ItemStack stack);
 }

@@ -3,7 +3,9 @@
 	"package": "pers.saikeloradoliu.silk.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"client": [
-		"api.item.RangedWeaponExtendMixin$SetUsingMovementMultiple"
+		"api.item.BowExtendMixin$SetMouseMoveScale",
+		"api.item.BowExtendMixin$SetUsingFovScale",
+		"api.item.BowExtendMixin$SetUsingMovementMultiple"
 	],
 	"injectors": {
 		"defaultRequire": 1
