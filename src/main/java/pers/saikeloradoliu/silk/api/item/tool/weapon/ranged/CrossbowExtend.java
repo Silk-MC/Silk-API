@@ -9,14 +9,20 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikeloradoliu.silk.api.item;
+package pers.saikeloradoliu.silk.api.item.tool.weapon.ranged;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.CrossbowItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.Identifier;
 import pers.saikeloradoliu.silk.annotation.SilkApi;
+import pers.saikeloradoliu.silk.api.item.tool.HoldingFovZoom;
+import pers.saikeloradoliu.silk.api.item.tool.HoldingMovementMultiplier;
+
+import java.util.Optional;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">在 {@link BowExtend} 的基础上用与扩展弩特性的方法接口</font></b></p>
@@ -26,38 +32,74 @@ import pers.saikeloradoliu.silk.annotation.SilkApi;
  * @since 0.1.0
  */
 @SilkApi
-public interface CrossbowExtend extends BowExtend {
+public interface CrossbowExtend extends RangedWeaponExtend, HoldingMovementMultiplier, HoldingFovZoom {
 	@SilkApi
 	String CHARGED_PROJECTILES_KEY = "ChargedProjectiles";
 	@SilkApi
+	int CROSSBOW_MAX_USE_TICKS = 25;
+	@SilkApi
 	float CROSSBOW_MAX_PROJECTILE_SPEED = 3.15F;
 	
-	@SilkApi
-	float getChargedMovementMultiple();
+	@Override
+	default float getMaxProjectileSpeed() {
+		return CROSSBOW_MAX_PROJECTILE_SPEED;
+	}
 	
-	@SilkApi
-	float getChargedFovScale();
+	@Override
+	default float getMaxDamageMultiple() {
+		return 1;
+	}
 	
-	@SilkApi
-	default float getChargedFovMultiple() {
-		return 1 / getChargedFovScale();
+	@Override
+	default float getFiringError() {
+		return DEFAULT_FIRING_ERROR;
+	}
+	
+	@Override
+	default int getMaxUseTicks() {
+		return CROSSBOW_MAX_USE_TICKS;
+	}
+	
+	@Override
+	default float getDamageMultiple() {
+		return getMaxDamageMultiple() / (getMaxProjectileSpeed() / CROSSBOW_MAX_PROJECTILE_SPEED);
 	}
 	
 	@SilkApi
-	default float getCrossbowPullProgress(int useTicks, ItemStack stack) {
-		return Math.min(1, useTicks / getPullTicks(stack));
+	default float getUsingProgress(int useTicks, ItemStack stack) {
+		return Math.min(1, useTicks / getMaxPullTicks(stack));
 	}
 	
 	@SilkApi
-	default int getPullTicks(ItemStack stack) {
+	default int getMaxPullTicks(ItemStack stack) {
 		// 设置“快速装填”效果
 		int quickChargeLevel = EnchantmentHelper.getLevel(Enchantments.QUICK_CHARGE, stack);
 		return quickChargeLevel == 0 ? getMaxUseTicks() : getMaxUseTicks() - getMaxUseTicks() / 5 * quickChargeLevel;
 	}
 	
 	@SilkApi
-	default float getProjectileSpeed(ItemStack stack) {
+	default float getMaxProjectileSpeed(ItemStack stack) {
 		return CrossbowItem.hasProjectile(stack, Items.FIREWORK_ROCKET) ? getMaxProjectileSpeed() / 2 : getMaxProjectileSpeed();
+	}
+	
+	@Override
+	default float getHoldingFovZoom() {
+		return 1;
+	}
+	
+	@Override
+	default float getHoldingMovementMultiple() {
+		return DEFAULT_MOVEMENT_MULTIPLE;
+	}
+	
+	@Override
+	default boolean isConflictItems(Item checkItem) {
+		return checkItem instanceof HoldingMovementMultiplier;
+	}
+	
+	@Override
+	default Optional<Identifier> getHubOverlay() {
+		return Optional.empty();
 	}
 }
 

@@ -3,9 +3,14 @@
 	"package": "pers.saikeloradoliu.silk.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"client": [
-		"api.item.BowExtendMixin$SetMouseMoveScale",
-		"api.item.BowExtendMixin$SetUsingFovScale",
-		"api.item.BowExtendMixin$SetUsingMovementMultiple"
+		"api.item.HoldingFovZoomMixin$RenderHudOverlay",
+		"api.item.HoldingFovZoomMixin$SetMouseMoveMultiplier",
+		"api.item.HoldingFovZoomMixin$SetUsingFovZoom",
+		"api.item.HoldingMovementMultiplierMixin",
+		"api.item.UsingFovZoomMixin$RenderHudOverlay",
+		"api.item.UsingFovZoomMixin$SetFovZoom",
+		"api.item.UsingFovZoomMixin$SetMouseMoveMultiplier",
+		"api.item.UsingMovementMultiplierMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

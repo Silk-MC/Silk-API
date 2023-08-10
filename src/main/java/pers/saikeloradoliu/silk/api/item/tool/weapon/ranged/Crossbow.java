@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikeloradoliu.silk.api.item;
+package pers.saikeloradoliu.silk.api.item.tool.weapon.ranged;
 
 import com.google.common.collect.Lists;
 import net.minecraft.advancement.criterion.Criteria;
@@ -205,6 +205,11 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 		}
 	}
 	
+	@Override
+	public int getEnchantability() {
+		return 10;
+	}
+	
 	/**
 	 * <p>设置自定义伤害</p>
 	 * 重实现 {@link CrossbowItem#shoot(World, LivingEntity, Hand, ItemStack, ItemStack, float, boolean, float, float, float)}
@@ -285,7 +290,7 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 		// 获取已使用游戏刻
 		int usedTicks = getMaxUseTime(stack) - remainingUseTicks;
 		// 获取张弩进度
-		float pullProgress = getCrossbowPullProgress(usedTicks, stack);
+		float pullProgress = getUsingProgress(usedTicks, stack);
 		// 如果张弩进度 ≥ 1 且未装填并装填所有弹药
 		if (pullProgress >= 1.0f && !isCharged(stack) && loadAllProjectile(user, stack)) {
 			// 设置已装填
@@ -307,7 +312,7 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 		// 如果已装填
 		if (isCharged(stack)) {
 			// 发射所有
-			shootAllProjectile(world, user, hand, stack, getProjectileSpeed(stack), getFiringError());
+			shootAllProjectile(world, user, hand, stack, getMaxProjectileSpeed(stack), getFiringError());
 			// 设置未装填
 			setCharged(stack, false);
 			return TypedActionResult.consume(stack);
@@ -338,7 +343,7 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 			SoundEvent soundEvent = getQuickChargeSound(quickChargeLevel);
 			SoundEvent soundEvent2 = quickChargeLevel == 0 ? SoundEvents.ITEM_CROSSBOW_LOADING_MIDDLE : null;
 			// 获取张弩进度
-			float pullProgress = (float) (stack.getMaxUseTime() - remainingUseTicks) / (float) getPullTicks(stack);
+			float pullProgress = (float) (stack.getMaxUseTime() - remainingUseTicks) / getMaxPullTicks(stack);
 			if (pullProgress < 0.2F) {
 				charged = false;
 				loaded = false;
@@ -371,6 +376,6 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 	 */
 	@Override
 	public int getMaxUseTime(ItemStack stack) {
-		return getPullTicks(stack);
+		return getMaxPullTicks(stack);
 	}
 }

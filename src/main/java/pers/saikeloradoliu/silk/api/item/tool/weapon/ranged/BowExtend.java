@@ -9,14 +9,15 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikeloradoliu.silk.api.item;
+package pers.saikeloradoliu.silk.api.item.tool.weapon.ranged;
 
-import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
 import pers.saikeloradoliu.silk.annotation.SilkApi;
-import pers.saikeloradoliu.silk.util.TickUtil;
+import pers.saikeloradoliu.silk.api.item.tool.UsingFovZoom;
+import pers.saikeloradoliu.silk.api.item.tool.UsingMovementMultiplier;
 
-import java.util.concurrent.TimeUnit;
+import java.util.Optional;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用与扩展弓特性的方法接口</font></b></p>
@@ -26,66 +27,62 @@ import java.util.concurrent.TimeUnit;
  * @since 0.1.0
  */
 @SilkApi
-public interface BowExtend {
+public interface BowExtend extends RangedWeaponExtend, UsingMovementMultiplier, UsingFovZoom {
 	@SilkApi
 	float BOW_MAX_PROJECTILE_SPEED = 3;
 	@SilkApi
-	float DEFAULT_USING_SPEED_RATIO = 0.2F;
+	int BOW_MAX_USE_TICKS = 72000;
 	@SilkApi
-	float DEFAULT_MAX_PULL_TIME = 1;
-	@SilkApi
-	float DEFAULT_PROJECTILE_DEVIATION = 1;
-	@SilkApi
-	int DEFAULT_RANGE = BowItem.RANGE;
+	int BOW_MAX_PULL_TICKS = 20;
 	
 	@SilkApi
-	float getUsingMovementMultiple();
+	default int getMaxPullTicks() {
+		return BOW_MAX_PULL_TICKS;
+	}
 	
-	@SilkApi
-	float getMaxPullTicks();
+	@Override
+	default float getMaxProjectileSpeed() {
+		return BOW_MAX_PROJECTILE_SPEED;
+	}
 	
-	@SilkApi
-	float getMaxProjectileSpeed();
+	@Override
+	default float getMaxDamageMultiple() {
+		return 1;
+	}
 	
-	@SilkApi
-	float getBasicDamageMultiple();
+	@Override
+	default float getFiringError() {
+		return DEFAULT_FIRING_ERROR;
+	}
 	
-	@SilkApi
-	float getUsingFovScale();
-	
-	@SilkApi
-	float getFiringError();
-	
-	@SilkApi
+	@Override
 	default int getMaxUseTicks() {
-		return TickUtil.getTick(TickUtil.TimeType.NATURAL, TimeUnit.HOURS, 1);
+		return BOW_MAX_USE_TICKS;
 	}
 	
-	@SilkApi
-	default float getUsingFovMultiple() {
-		return 1 / getUsingFovScale();
-	}
-	
-	@SilkApi
+	@Override
 	default float getDamageMultiple() {
-		return getBasicDamageMultiple() / (getMaxProjectileSpeed() / BOW_MAX_PROJECTILE_SPEED);
+		return getMaxDamageMultiple() / (getMaxProjectileSpeed() / BOW_MAX_PROJECTILE_SPEED);
 	}
 	
-	@SilkApi
-	default float getBowPullProgress(int useTicks) {
-		float progress = useTicks / getMaxPullTicks();
+	@Override
+	default float getUsingProgress(int useTicks, ItemStack stack) {
+		float progress = (float) useTicks / getMaxPullTicks();
 		return Math.min(1, (progress * progress + progress * 2) / 3);
 	}
 	
-	/**
-	 * 设置弹丸 ID 的 NBT 以供 JSON 渲染使用
-	 */
-	@SilkApi
-	void setProjectileId(ItemStack stack, ItemStack useProjectile);
+	@Override
+	default float getUsingFovZoom() {
+		return 1;
+	}
 	
-	/**
-	 * 获取 NBT 弹丸 ID 以供 JSON 渲染使用
-	 */
-	@SilkApi
-	float getProjectileId(ItemStack stack);
+	@Override
+	default float getUsingMovementMultiple() {
+		return DEFAULT_MOVEMENT_MULTIPLE;
+	}
+	
+	@Override
+	default Optional<Identifier> getHubOverlay() {
+		return Optional.empty();
+	}
 }

@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikeloradoliu.silk.api.item;
+package pers.saikeloradoliu.silk.api.item.tool;
 
 import net.minecraft.item.*;
 import pers.saikeloradoliu.silk.annotation.SilkApi;

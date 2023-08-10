@@ -20,10 +20,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
+import net.minecraft.util.math.random.Random;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import pers.saikeloradoliu.silk.SilkData;
 import pers.saikeloradoliu.silk.api.item.CustomEnchantment;
 
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ import java.util.List;
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @since 0.1.0
  */
 final class CustomEnchantmentMixin {
 	/**
@@ -76,5 +79,11 @@ final class CustomEnchantmentMixin {
 			}
 			cir.setReturnValue(enchantments);
 		}
+		
+		@Inject(method = "enchant", at = @At("HEAD"))
+		private static void test(Random random, ItemStack stack, int level, boolean treasureAllowed, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir) {
+			SilkData.INSTANCE.getLogger().info(stack.getItem().toString());
+		}
+		
 	}
 }

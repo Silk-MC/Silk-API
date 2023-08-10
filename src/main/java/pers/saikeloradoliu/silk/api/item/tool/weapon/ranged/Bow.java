@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikeloradoliu.silk.api.item;
+package pers.saikeloradoliu.silk.api.item.tool.weapon.ranged;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -67,9 +67,9 @@ public abstract class Bow extends BowItem implements BowExtend {
 		if (useProjectile.isEmpty() && !inCreateOrInfinity) return;
 		
 		// 获取弓已使用游戏刻
-		int usedTicks = this.getMaxUseTime(stack) - remainingUseTicks;
+		int usedTicks = getMaxUseTime(stack) - remainingUseTicks;
 		// 获取弓拉弓进度
-		float pullProgress = getBowPullProgress(usedTicks);
+		float pullProgress = getUsingProgress(usedTicks, stack);
 		// 如果拉弓进度小于 0.1
 		if (pullProgress < 0.1) return;
 		
