@@ -101,5 +101,10 @@ public interface CrossbowExtend extends RangedWeaponExtend, HoldingMovementMulti
 	default Optional<Identifier> getHubOverlay() {
 		return Optional.empty();
 	}
+	
+	@Override
+	default boolean onlyFirstPerson() {
+		return true;
+	}
 }
 

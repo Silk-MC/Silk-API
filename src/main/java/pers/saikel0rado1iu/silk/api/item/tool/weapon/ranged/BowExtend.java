@@ -85,4 +85,9 @@ public interface BowExtend extends RangedWeaponExtend, UsingMovementMultiplier, 
 	default Optional<Identifier> getHubOverlay() {
 		return Optional.empty();
 	}
+	
+	@Override
+	default boolean onlyFirstPerson() {
+		return true;
+	}
 }

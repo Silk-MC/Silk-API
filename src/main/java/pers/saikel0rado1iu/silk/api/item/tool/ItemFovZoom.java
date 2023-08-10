@@ -38,5 +38,8 @@ interface ItemFovZoom {
 	Identifier POWDER_SNOW_OUTLINE = new Identifier("textures/misc/powder_snow_outline.png");
 	
 	@SilkApi
+	boolean onlyFirstPerson();
+	
+	@SilkApi
 	Optional<Identifier> getHubOverlay();
 }

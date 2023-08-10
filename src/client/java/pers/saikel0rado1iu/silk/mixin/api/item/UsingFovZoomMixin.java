@@ -58,7 +58,7 @@ final class UsingFovZoomMixin {
 			if (player == null) return;
 			ItemStack activeStack = player.getActiveItem();
 			Item activeItem = activeStack.getItem();
-			if (activeItem instanceof UsingFovZoom fovZoom) {
+			if (activeItem instanceof UsingFovZoom fovZoom && fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
 				float pullProgress = fovZoom.getUsingProgress(activeItem.getMaxUseTime(activeStack) - player.getItemUseTimeLeft(), activeStack);
 				float fovChangeAmount = (1 - fovZoom.getUsingFovMultiple()) * pullProgress;
 				fovMultiplier -= fovChangeAmount;
@@ -81,7 +81,7 @@ final class UsingFovZoomMixin {
 			if (player == null) return;
 			ItemStack activeStack = player.getActiveItem();
 			Item activeItem = activeStack.getItem();
-			if (client.options.getPerspective().isFirstPerson() && activeItem instanceof UsingFovZoom fovZoom) {
+			if (activeItem instanceof UsingFovZoom fovZoom && fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
 				float pullProgress = fovZoom.getUsingProgress(activeStack.getMaxUseTime() - player.getItemUseTimeLeft(), activeStack);
 				float moveMultiple = 1 - (1 - fovZoom.getUsingFovMultiple()) * pullProgress;
 				args.set(0, (double) args.get(0) * moveMultiple);
@@ -95,7 +95,7 @@ final class UsingFovZoomMixin {
 			if (player == null) return;
 			ItemStack activeStack = player.getActiveItem();
 			Item activeItem = activeStack.getItem();
-			if (client.options.getPerspective().isFirstPerson() && activeItem instanceof UsingFovZoom fovZoom) {
+			if (activeItem instanceof UsingFovZoom fovZoom && fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
 				float pullProgress = fovZoom.getUsingProgress(activeStack.getMaxUseTime() - player.getItemUseTimeLeft(), activeStack);
 				float moveMultiple = 1 - (1 - fovZoom.getUsingFovMultiple()) * pullProgress;
 				args.set(0, (double) args.get(0) * moveMultiple);
@@ -141,8 +141,10 @@ final class UsingFovZoomMixin {
 			if (player == null) return;
 			ItemStack activeStack = player.getActiveItem();
 			Item activeItem = activeStack.getItem();
-			if (client.options.getPerspective().isFirstPerson() && activeItem instanceof UsingFovZoom fovZoom && fovZoom.getHubOverlay().isPresent())
-				renderHudOverlay(context, fovZoom.getHubOverlay().get(), 1);
+			if (client.options.getPerspective().isFirstPerson() && activeItem instanceof UsingFovZoom fovZoom && fovZoom.getHubOverlay().isPresent()) {
+				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson())
+					renderHudOverlay(context, fovZoom.getHubOverlay().get(), 1);
+			}
 		}
 	}
 }

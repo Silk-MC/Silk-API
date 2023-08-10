@@ -58,12 +58,16 @@ final class HoldingFovZoomMixin {
 			Item mainHandItem = player.getMainHandStack().getItem();
 			Item offHandItem = player.getOffHandStack().getItem();
 			if (mainHandItem instanceof HoldingFovZoom fovZoom) {
-				float fovChangeAmount = 1 - fovZoom.getHoldingFovMultiple();
-				fovMultiplier -= fovChangeAmount;
+				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+					float fovChangeAmount = 1 - fovZoom.getHoldingFovMultiple();
+					fovMultiplier -= fovChangeAmount;
+				}
 			}
 			if (offHandItem instanceof HoldingFovZoom fovZoom && !fovZoom.isConflictItems(mainHandItem)) {
-				float fovChangeAmount = 1 - fovZoom.getHoldingFovMultiple();
-				fovMultiplier -= fovChangeAmount;
+				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+					float fovChangeAmount = 1 - fovZoom.getHoldingFovMultiple();
+					fovMultiplier -= fovChangeAmount;
+				}
 			}
 		}
 	}
@@ -79,39 +83,45 @@ final class HoldingFovZoomMixin {
 		
 		@ModifyArgs(method = "updateMouse", at = @At(value = "INVOKE", target = "L net/minecraft/client/tutorial/TutorialManager;onUpdateMouse(DD)V"))
 		private void setMove(Args args) {
-			if (!client.options.getPerspective().isFirstPerson()) return;
 			ClientPlayerEntity player = client.player;
 			if (player == null) return;
 			Item mainHandItem = player.getMainHandStack().getItem();
 			Item offHandItem = player.getOffHandStack().getItem();
 			if (mainHandItem instanceof HoldingFovZoom fovZoom) {
-				float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
-				args.set(0, (double) args.get(0) * moveMultiple);
-				args.set(1, (double) args.get(1) * moveMultiple);
+				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+					float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
+					args.set(0, (double) args.get(0) * moveMultiple);
+					args.set(1, (double) args.get(1) * moveMultiple);
+				}
 			}
 			if (offHandItem instanceof HoldingFovZoom fovZoom && !fovZoom.isConflictItems(mainHandItem)) {
-				float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
-				args.set(0, (double) args.get(0) * moveMultiple);
-				args.set(1, (double) args.get(1) * moveMultiple);
+				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+					float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
+					args.set(0, (double) args.get(0) * moveMultiple);
+					args.set(1, (double) args.get(1) * moveMultiple);
+				}
 			}
 		}
 		
 		@ModifyArgs(method = "updateMouse", at = @At(value = "INVOKE", target = "L net/minecraft/client/network/ClientPlayerEntity;changeLookDirection(DD)V"))
 		private void setLookDirection(Args args) {
-			if (!client.options.getPerspective().isFirstPerson()) return;
 			ClientPlayerEntity player = client.player;
 			if (player == null) return;
 			Item mainHandItem = player.getMainHandStack().getItem();
 			Item offHandItem = player.getOffHandStack().getItem();
 			if (mainHandItem instanceof HoldingFovZoom fovZoom) {
-				float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
-				args.set(0, (double) args.get(0) * moveMultiple);
-				args.set(1, (double) args.get(1) * moveMultiple);
+				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+					float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
+					args.set(0, (double) args.get(0) * moveMultiple);
+					args.set(1, (double) args.get(1) * moveMultiple);
+				}
 			}
 			if (offHandItem instanceof HoldingFovZoom fovZoom && !fovZoom.isConflictItems(mainHandItem)) {
-				float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
-				args.set(0, (double) args.get(0) * moveMultiple);
-				args.set(1, (double) args.get(1) * moveMultiple);
+				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+					float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
+					args.set(0, (double) args.get(0) * moveMultiple);
+					args.set(1, (double) args.get(1) * moveMultiple);
+				}
 			}
 		}
 	}
@@ -149,15 +159,18 @@ final class HoldingFovZoomMixin {
 		
 		@Inject(method = "render", at = @At(value = "INVOKE", target = "L net/minecraft/client/option/Perspective;isFirstPerson()Z", shift = At.Shift.BY))
 		private void setRender(DrawContext context, float tickDelta, CallbackInfo ci) {
-			if (!client.options.getPerspective().isFirstPerson()) return;
 			ClientPlayerEntity player = client.player;
 			if (player == null) return;
 			Item mainHandItem = player.getMainHandStack().getItem();
 			Item offHandItem = player.getOffHandStack().getItem();
-			if (mainHandItem instanceof HoldingFovZoom fovZoom && fovZoom.getHubOverlay().isPresent())
-				renderHudOverlay(context, fovZoom.getHubOverlay().get(), 1);
-			if (offHandItem instanceof HoldingFovZoom fovZoom && fovZoom.getHubOverlay().isPresent())
-				renderHudOverlay(context, fovZoom.getHubOverlay().get(), 1);
+			if (mainHandItem instanceof HoldingFovZoom fovZoom && fovZoom.getHubOverlay().isPresent()) {
+				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson())
+					renderHudOverlay(context, fovZoom.getHubOverlay().get(), 1);
+			}
+			if (offHandItem instanceof HoldingFovZoom fovZoom && fovZoom.getHubOverlay().isPresent()) {
+				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson())
+					renderHudOverlay(context, fovZoom.getHubOverlay().get(), 1);
+			}
 		}
 	}
 }
