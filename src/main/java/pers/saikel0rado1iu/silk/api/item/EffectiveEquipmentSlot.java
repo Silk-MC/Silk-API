@@ -9,37 +9,27 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.api.item.tool;
+package pers.saikel0rado1iu.silk.api.item;
 
-import net.minecraft.util.Identifier;
+import net.minecraft.entity.EquipmentSlot;
 import org.jetbrains.annotations.ApiStatus;
-import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
 import java.util.Optional;
+import java.util.Set;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">物品的视场角缩放通用数据</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">用于有特殊属性的物品能够生效的装备槽</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
 @ApiStatus.Internal
-interface ItemFovZoom {
-	@SilkApi
-	float DEFAULT_FOV_ZOOM = 1.2F;
-	@SilkApi
-	Identifier VIGNETTE_TEXTURE = new Identifier("textures/misc/vignette.png");
-	@SilkApi
-	Identifier PUMPKIN_BLUR = new Identifier("textures/misc/pumpkinblur.png");
-	@SilkApi
-	Identifier SPYGLASS_SCOPE = new Identifier("textures/misc/spyglass_scope.png");
-	@SilkApi
-	Identifier POWDER_SNOW_OUTLINE = new Identifier("textures/misc/powder_snow_outline.png");
-	
-	boolean onlyFirstPerson();
-	
-	Optional<Identifier> getHubOverlay();
-	
-	boolean isHubStretch();
+interface EffectiveEquipmentSlot {
+	/**
+	 * 返回有效的装备槽位集合
+	 *
+	 * @return 如果值为 {@link Optional#empty()}，则意味着在任意物品栏内皆能生效
+	 */
+	Optional<Set<EquipmentSlot>> getEffectiveEquipmentSlot();
 }

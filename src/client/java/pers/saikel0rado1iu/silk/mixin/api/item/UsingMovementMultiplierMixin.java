@@ -16,7 +16,6 @@ import net.minecraft.client.input.Input;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.Hand;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -42,12 +41,6 @@ abstract class UsingMovementMultiplierMixin extends AbstractClientPlayerEntity {
 	public UsingMovementMultiplierMixin(ClientWorld world, GameProfile profile) {
 		super(world, profile);
 	}
-	
-	@Shadow
-	public abstract Hand getActiveHand();
-	
-	@Shadow
-	public abstract boolean isUsingItem();
 	
 	@Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "L net/minecraft/client/network/ClientPlayerEntity;isUsingItem()Z", shift = At.Shift.AFTER))
 	private void applyMovementMultiple(CallbackInfo ci) {

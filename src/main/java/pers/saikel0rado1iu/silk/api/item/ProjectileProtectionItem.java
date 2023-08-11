@@ -9,37 +9,38 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.api.item.tool;
+package pers.saikel0rado1iu.silk.api.item;
 
-import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.util.AmountType;
 
 import java.util.Optional;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">物品的视场角缩放通用数据</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">用于自带弹射物保护的物品</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-@ApiStatus.Internal
-interface ItemFovZoom {
+@SilkApi
+public interface ProjectileProtectionItem extends EffectiveEquipmentSlot {
+	/**
+	 * @return 如果 {@link ProjectileProtectionItem#getPrPrType()}
+	 * 的返回值为 {@link AmountType#VALUE}，则此方法返回减少的伤害值；
+	 * 如果返回值为 {@link AmountType#RATIO}，则此方法返回减少的伤害比例
+	 */
 	@SilkApi
-	float DEFAULT_FOV_ZOOM = 1.2F;
-	@SilkApi
-	Identifier VIGNETTE_TEXTURE = new Identifier("textures/misc/vignette.png");
-	@SilkApi
-	Identifier PUMPKIN_BLUR = new Identifier("textures/misc/pumpkinblur.png");
-	@SilkApi
-	Identifier SPYGLASS_SCOPE = new Identifier("textures/misc/spyglass_scope.png");
-	@SilkApi
-	Identifier POWDER_SNOW_OUTLINE = new Identifier("textures/misc/powder_snow_outline.png");
+	float getPrPrAmount();
 	
-	boolean onlyFirstPerson();
+	@SilkApi
+	AmountType getPrPrType();
 	
-	Optional<Identifier> getHubOverlay();
-	
-	boolean isHubStretch();
+	/**
+	 * 设置此效果的可叠加次数
+	 *
+	 * @return 如果值为 {@link Optional#empty()}，则此效果可无限叠加
+	 */
+	@SilkApi
+	Optional<Integer> getPrPrStackNumber();
 }

@@ -141,6 +141,9 @@ final class HoldingFovZoomMixin {
 		@Shadow
 		private int scaledHeight;
 		
+		@Shadow
+		protected abstract void renderOverlay(DrawContext context, Identifier texture, float opacity);
+		
 		@Unique
 		private void renderHudOverlay(DrawContext context, Identifier texture, float scale) {
 			float sideLength = (float) Math.min(scaledWidth, scaledHeight);
@@ -164,12 +167,15 @@ final class HoldingFovZoomMixin {
 			Item mainHandItem = player.getMainHandStack().getItem();
 			Item offHandItem = player.getOffHandStack().getItem();
 			if (mainHandItem instanceof HoldingFovZoom fovZoom && fovZoom.getHubOverlay().isPresent()) {
-				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson())
-					renderHudOverlay(context, fovZoom.getHubOverlay().get(), 1);
+				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+					if (fovZoom.isHubStretch()) renderOverlay(context, fovZoom.getHubOverlay().get(), 1.0f);
+					else renderHudOverlay(context, fovZoom.getHubOverlay().get(), 1);
+				}
 			}
 			if (offHandItem instanceof HoldingFovZoom fovZoom && fovZoom.getHubOverlay().isPresent()) {
-				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson())
-					renderHudOverlay(context, fovZoom.getHubOverlay().get(), 1);
+				if (!fovZoom.onlyFirstPerson() || !client.options.getPerspective().isFirstPerson()) return;
+				if (fovZoom.isHubStretch()) renderOverlay(context, fovZoom.getHubOverlay().get(), 1.0f);
+				else renderHudOverlay(context, fovZoom.getHubOverlay().get(), 1);
 			}
 		}
 	}

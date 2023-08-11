@@ -4,7 +4,10 @@
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
 		"api.item.CustomEnchantmentMixin$SetAcceptEnchantment",
-		"api.item.CustomEnchantmentMixin$SetTableEnchantment"
+		"api.item.CustomEnchantmentMixin$SetTableEnchantment",
+		"api.item.armor.PiglinIgnoreItemMixin",
+		"api.item.armor.ProjectileProtectionItemMixin$SetMob",
+		"api.item.armor.ProjectileProtectionItemMixin$SetPlayer"
 	],
 	"injectors": {
 		"defaultRequire": 1
