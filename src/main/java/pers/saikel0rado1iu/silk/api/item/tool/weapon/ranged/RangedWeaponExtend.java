@@ -15,7 +15,7 @@ import net.minecraft.item.ItemStack;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用与扩展远程武器特性的方法接口</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">用于扩展远程武器特性的方法接口</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>

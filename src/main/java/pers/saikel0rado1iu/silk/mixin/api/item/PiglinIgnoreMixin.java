@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.mixin.api.item.armor;
+package pers.saikel0rado1iu.silk.mixin.api.item;
 
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import pers.saikel0rado1iu.silk.api.item.PiglinIgnoreItem;
+import pers.saikel0rado1iu.silk.api.item.PiglinIgnore;
 
 import static net.minecraft.entity.player.PlayerInventory.MAIN_SIZE;
 
@@ -32,12 +32,12 @@ import static net.minecraft.entity.player.PlayerInventory.MAIN_SIZE;
  * @since 0.1.0
  */
 @Mixin(PiglinBrain.class)
-abstract class PiglinIgnoreItemMixin {
+abstract class PiglinIgnoreMixin {
 	@Inject(method = "wearsGoldArmor", at = @At("RETURN"), cancellable = true)
 	private static void hasPiglinIgnoreItem(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
 		boolean notAllSlot = false;
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			if (!(entity.getEquippedStack(slot).getItem() instanceof PiglinIgnoreItem item)) continue;
+			if (!(entity.getEquippedStack(slot).getItem() instanceof PiglinIgnore item)) continue;
 			if ((notAllSlot = item.getEffectiveEquipmentSlot().isEmpty()) || item.getEffectiveEquipmentSlot()
 					.get().stream().allMatch(equipmentSlot -> equipmentSlot != slot)) continue;
 			cir.setReturnValue(true);
@@ -47,7 +47,7 @@ abstract class PiglinIgnoreItemMixin {
 		if (!(entity instanceof PlayerEntity player)) return;
 		for (int count = 0; count < MAIN_SIZE; count++) {
 			ItemStack stack = player.getInventory().getStack(count);
-			if (!(stack.getItem() instanceof PiglinIgnoreItem item)) continue;
+			if (!(stack.getItem() instanceof PiglinIgnore item)) continue;
 			if (item.getEffectiveEquipmentSlot().isPresent()) continue;
 			cir.setReturnValue(true);
 			return;

@@ -5,9 +5,10 @@
 	"mixins": [
 		"api.item.CustomEnchantmentMixin$SetAcceptEnchantment",
 		"api.item.CustomEnchantmentMixin$SetTableEnchantment",
-		"api.item.armor.PiglinIgnoreItemMixin",
-		"api.item.armor.ProjectileProtectionItemMixin$SetMob",
-		"api.item.armor.ProjectileProtectionItemMixin$SetPlayer"
+		"api.item.PiglinIgnoreMixin",
+		"api.item.WithProjectileProtectionMixin$SetMob",
+		"api.item.WithProjectileProtectionMixin$SetPlayer",
+		"api.item.WithStatusEffectsMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -50,7 +50,8 @@ final class CustomEnchantmentMixin {
 		@SuppressWarnings("EqualsBetweenInconvertibleTypes")
 		@Inject(method = "isAcceptableItem", at = @At("RETURN"), cancellable = true)
 		private void acceptEnchantment(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-			if (stack.getItem() instanceof CustomEnchantment item && item.getEnchantments().stream().anyMatch(enchantment -> enchantment.equals(this))) {
+			if (stack.getItem() instanceof CustomEnchantment item && item.getEnchantments().stream()
+					.anyMatch(enchantment -> enchantment.equals(this))) {
 				cir.setReturnValue(true);
 			}
 		}
@@ -69,8 +70,10 @@ final class CustomEnchantmentMixin {
 			ArrayList<EnchantmentLevelEntry> enchantments = Lists.newArrayList();
 			nextEnchantment:
 			for (Enchantment enchantment : Registries.ENCHANTMENT) {
-				if (enchantment.isTreasure() && !treasureAllowed || !enchantment.isAvailableForRandomSelection() || !enchantment.isAcceptableItem(stack) && !stack.isOf(Items.BOOK))
+				if (enchantment.isTreasure() && !treasureAllowed || !enchantment.isAvailableForRandomSelection()
+						|| !enchantment.isAcceptableItem(stack) && !stack.isOf(Items.BOOK)) {
 					continue;
+				}
 				for (int level = enchantment.getMaxLevel(); level > enchantment.getMinLevel() - 1; level--) {
 					if (power < enchantment.getMinPower(level) || power > enchantment.getMaxPower(level)) continue;
 					enchantments.add(new EnchantmentLevelEntry(enchantment, level));
@@ -84,6 +87,5 @@ final class CustomEnchantmentMixin {
 		private static void test(Random random, ItemStack stack, int level, boolean treasureAllowed, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir) {
 			SilkData.INSTANCE.getLogger().info(stack.getItem().toString());
 		}
-		
 	}
 }

@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.mixin.api.item.armor;
+package pers.saikel0rado1iu.silk.mixin.api.item;
 
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
@@ -26,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import pers.saikel0rado1iu.silk.api.item.ProjectileProtectionItem;
+import pers.saikel0rado1iu.silk.api.item.WithProjectileProtection;
 import pers.saikel0rado1iu.silk.util.AmountType;
 
 import java.util.HashMap;
@@ -41,7 +41,7 @@ import static net.minecraft.entity.player.PlayerInventory.MAIN_SIZE;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-final class ProjectileProtectionItemMixin {
+final class WithProjectileProtectionMixin {
 	/**
 	 * 设置 {@link PlayerEntity} 的效果设置
 	 */
@@ -72,31 +72,29 @@ final class ProjectileProtectionItemMixin {
 			boolean notAllSlot = false;
 			Map<Class<?>, Integer> map = new HashMap<>();
 			for (EquipmentSlot slot : EquipmentSlot.values()) {
-				if (!(getEquippedStack(slot).getItem() instanceof ProjectileProtectionItem item)) continue;
+				if (!(getEquippedStack(slot).getItem() instanceof WithProjectileProtection item)) continue;
 				if ((notAllSlot = item.getEffectiveEquipmentSlot().isEmpty()) || item.getEffectiveEquipmentSlot()
 						.get().stream().allMatch(equipmentSlot -> equipmentSlot != slot)) continue;
-				if (item.getPrPrStackNumber().isPresent()) {
-					int stackNum = item.getPrPrStackNumber().get();
-					int mapNum = map.get(item.getClass()) == null ? 0 : map.get(item.getClass());
-					if (mapNum > stackNum) continue;
-					map.put(item.getClass(), mapNum + 1);
+				if (item.getPrPrStackingCount().isPresent()) {
+					int stackingCount = item.getPrPrStackingCount().get();
+					int mapCount = map.get(item.getClass()) == null ? 0 : map.get(item.getClass());
+					if (mapCount > stackingCount) continue;
+					map.put(item.getClass(), mapCount + 1);
 				}
-				if (item.getPrPrType() == AmountType.VALUE)
-					amount -= Math.min(amount, item.getPrPrAmount());
+				if (item.getPrPrType() == AmountType.VALUE) amount -= Math.min(amount, item.getPrPrAmount());
 				else amount *= Math.min(1, item.getPrPrAmount());
 			}
 			if (notAllSlot) return amount;
 			for (int count = 0; count < MAIN_SIZE; count++) {
-				if (!(getInventory().getStack(count).getItem() instanceof ProjectileProtectionItem item)) continue;
+				if (!(getInventory().getStack(count).getItem() instanceof WithProjectileProtection item)) continue;
 				if (item.getEffectiveEquipmentSlot().isPresent()) continue;
-				if (item.getPrPrStackNumber().isPresent()) {
-					int stackNum = item.getPrPrStackNumber().get();
-					int mapNum = map.get(item.getClass()) == null ? 0 : map.get(item.getClass());
-					if (mapNum > stackNum) continue;
-					map.put(item.getClass(), mapNum + 1);
+				if (item.getPrPrStackingCount().isPresent()) {
+					int stackingCount = item.getPrPrStackingCount().get();
+					int mapCount = map.get(item.getClass()) == null ? 0 : map.get(item.getClass());
+					if (mapCount > stackingCount) continue;
+					map.put(item.getClass(), mapCount + 1);
 				}
-				if (item.getPrPrType() == AmountType.VALUE)
-					amount -= Math.min(amount, item.getPrPrAmount());
+				if (item.getPrPrType() == AmountType.VALUE) amount -= Math.min(amount, item.getPrPrAmount());
 				else amount *= Math.min(1, item.getPrPrAmount());
 			}
 			return amount;
@@ -129,17 +127,16 @@ final class ProjectileProtectionItemMixin {
 			if (!(((LivingEntity) (Object) this) instanceof MobEntity mob)) return amount;
 			Map<Class<?>, Integer> map = new HashMap<>();
 			for (EquipmentSlot slot : EquipmentSlot.values()) {
-				if (!(mob.getEquippedStack(slot).getItem() instanceof ProjectileProtectionItem item)) continue;
+				if (!(mob.getEquippedStack(slot).getItem() instanceof WithProjectileProtection item)) continue;
 				if (item.getEffectiveEquipmentSlot().isEmpty() || item.getEffectiveEquipmentSlot()
 						.get().stream().allMatch(equipmentSlot -> equipmentSlot != slot)) continue;
-				if (item.getPrPrStackNumber().isPresent()) {
-					int stackNum = item.getPrPrStackNumber().get();
-					int mapNum = map.get(item.getClass()) == null ? 0 : map.get(item.getClass());
-					if (mapNum > stackNum) continue;
-					map.put(item.getClass(), mapNum + 1);
+				if (item.getPrPrStackingCount().isPresent()) {
+					int stackingCount = item.getPrPrStackingCount().get();
+					int mapCount = map.get(item.getClass()) == null ? 0 : map.get(item.getClass());
+					if (mapCount > stackingCount) continue;
+					map.put(item.getClass(), mapCount + 1);
 				}
-				if (item.getPrPrType() == AmountType.VALUE)
-					amount -= Math.min(amount, item.getPrPrAmount());
+				if (item.getPrPrType() == AmountType.VALUE) amount -= Math.min(amount, item.getPrPrAmount());
 				else amount *= Math.min(1, item.getPrPrAmount());
 			}
 			return amount;

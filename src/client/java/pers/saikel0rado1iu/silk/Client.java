@@ -13,6 +13,9 @@ package pers.saikel0rado1iu.silk;
 
 import net.fabricmc.api.ClientModInitializer;
 
+/**
+ * @author Saike
+ */
 public class Client implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
