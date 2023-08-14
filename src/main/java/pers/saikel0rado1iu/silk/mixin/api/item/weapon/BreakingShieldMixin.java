@@ -62,8 +62,8 @@ abstract class BreakingShieldMixin {
 	@ModifyVariable(method = "damage", at = @At("HEAD"), ordinal = 0, argsOnly = true)
 	private float setDamage(float amount) {
 		if (!(getActiveItem().isOf(Items.SHIELD) && damageSource.getAttacker() instanceof LivingEntity living
-				&& living.getEquippedStack(EquipmentSlot.MAINHAND).getItem() instanceof BreakingShield breakingShield && breakingShield.canBreaking(damageSource)))
-			return amount;
+				&& living.getEquippedStack(EquipmentSlot.MAINHAND).getItem() instanceof BreakingShield breakingShield
+				&& breakingShield.canBreaking(damageSource))) return amount;
 		damageShield(breakingShield.getShieldDamage(amount));
 		if (breakingShield.throughShield()) {
 			takeShieldHit((LivingEntity) damageSource.getAttacker());

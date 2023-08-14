@@ -2,7 +2,7 @@
 	"schemaVersion": 1,
 	"id": "silk-api",
 	"version": "${version}",
-	"name": "Silk API | 丝绸编程接口",
+	"name": "Silk API | 丝绸开发库",
 	"authors": [
 		"§6Saikel Orado"
 	],

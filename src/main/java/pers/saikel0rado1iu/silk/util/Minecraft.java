@@ -9,10 +9,11 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.api;
+package pers.saikel0rado1iu.silk.util;
 
 import org.jetbrains.annotations.NotNull;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.api.ModBasicData;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">独立的 Minecraft 数据集</font></b></p>
