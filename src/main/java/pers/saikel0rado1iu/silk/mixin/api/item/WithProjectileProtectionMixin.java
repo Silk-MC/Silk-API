@@ -27,7 +27,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import pers.saikel0rado1iu.silk.api.item.WithProjectileProtection;
-import pers.saikel0rado1iu.silk.util.AmountType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -81,8 +80,7 @@ final class WithProjectileProtectionMixin {
 					if (mapCount > stackingCount) continue;
 					map.put(item.getClass(), mapCount + 1);
 				}
-				if (item.getPrPrType() == AmountType.VALUE) amount -= Math.min(amount, item.getPrPrAmount());
-				else amount *= Math.min(1, item.getPrPrAmount());
+				amount = item.getPrPrAmount(amount);
 			}
 			if (notAllSlot) return amount;
 			for (int count = 0; count < MAIN_SIZE; count++) {
@@ -94,8 +92,7 @@ final class WithProjectileProtectionMixin {
 					if (mapCount > stackingCount) continue;
 					map.put(item.getClass(), mapCount + 1);
 				}
-				if (item.getPrPrType() == AmountType.VALUE) amount -= Math.min(amount, item.getPrPrAmount());
-				else amount *= Math.min(1, item.getPrPrAmount());
+				amount = item.getPrPrAmount(amount);
 			}
 			return amount;
 		}
@@ -136,8 +133,7 @@ final class WithProjectileProtectionMixin {
 					if (mapCount > stackingCount) continue;
 					map.put(item.getClass(), mapCount + 1);
 				}
-				if (item.getPrPrType() == AmountType.VALUE) amount -= Math.min(amount, item.getPrPrAmount());
-				else amount *= Math.min(1, item.getPrPrAmount());
+				amount = item.getPrPrAmount(amount);
 			}
 			return amount;
 		}

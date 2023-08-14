@@ -12,7 +12,6 @@
 package pers.saikel0rado1iu.silk.api.item;
 
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.util.AmountType;
 
 import java.util.Optional;
 
@@ -25,16 +24,8 @@ import java.util.Optional;
  */
 @SilkApi
 public interface WithProjectileProtection extends EffectiveEquipmentSlot {
-	/**
-	 * @return 如果 {@link WithProjectileProtection#getPrPrType()}
-	 * 的返回值为 {@link AmountType#VALUE}，则此方法返回减少的伤害值；
-	 * 如果返回值为 {@link AmountType#RATIO}，则此方法返回减少的伤害比例
-	 */
 	@SilkApi
-	float getPrPrAmount();
-	
-	@SilkApi
-	AmountType getPrPrType();
+	float getPrPrAmount(float originalAmount);
 	
 	/**
 	 * 设置此效果的可叠加次数
