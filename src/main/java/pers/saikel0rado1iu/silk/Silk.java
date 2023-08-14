@@ -24,28 +24,28 @@ import java.util.Optional;
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  */
-final public class SilkData implements ModBasicData {
-	public static final SilkData INSTANCE = new SilkData();
+final public class Silk implements ModBasicData {
+	public static final Silk DATA = new Silk();
 	
 	@Override
-	public @NotNull String getModId() {
+	public @NotNull String getId() {
 		return "silk-api";
 	}
 	
 	@Override
 	public Optional<URL> getCommunityLink() throws MalformedURLException {
-		String url = getModInstance().getMetadata().getCustomValue("modmenu").getAsObject().get("links").getAsObject().get("modmenu.discord").getAsString();
+		String url = getMod().getMetadata().getCustomValue("modmenu").getAsObject().get("links").getAsObject().get("modmenu.discord").getAsString();
 		return Optional.of(new URL(url));
 	}
 	
 	@Override
 	public Optional<URL> getSupportLink() throws MalformedURLException {
-		String url = getModInstance().getMetadata().getCustomValue("modmenu").getAsObject().get("links").getAsObject().get("modmenu.support.patreon").getAsString();
+		String url = getMod().getMetadata().getCustomValue("modmenu").getAsObject().get("links").getAsObject().get("modmenu.support.patreon").getAsString();
 		return Optional.of(new URL(url));
 	}
 	
 	public URL getAfdianLink() {
-		String url = getModInstance().getMetadata().getCustomValue("modmenu").getAsObject().get("links").getAsObject().get("modmenu.support.afdian").getAsString();
+		String url = getMod().getMetadata().getCustomValue("modmenu").getAsObject().get("links").getAsObject().get("modmenu.support.afdian").getAsString();
 		try {
 			return new URL(url);
 		} catch (MalformedURLException e) {

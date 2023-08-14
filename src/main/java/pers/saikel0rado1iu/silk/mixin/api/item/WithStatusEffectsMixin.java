@@ -17,7 +17,8 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -96,63 +97,54 @@ abstract class WithStatusEffectsMixin extends Entity implements Attackable {
 		});
 		if (hasWith.isEmpty()) return;
 		// 获取所有套装效果组
-		Map<Set<Item>, Integer> kitsMap = Maps.newHashMapWithExpectedSize(45);
+		Map<Map<Item, Optional<Set<EquipmentSlot>>>, Integer> kitsMap = Maps.newHashMapWithExpectedSize(45);
 		hasWith.forEach(with -> with.getStatusEffects().keySet().forEach(effect -> {
-			Set<Item> set = with.getStatusEffectsKit().get(effect).isPresent()
-					? with.getStatusEffectsKit().get(effect).get() : new HashSet<>(1);
-			set.add((Item) with);
-			kitsMap.put(set, 0);
+			Map<Item, Optional<Set<EquipmentSlot>>> map = with.getStatusEffectsKit().get(effect).isPresent()
+					? with.getStatusEffectsKit().get(effect).get() : new HashMap<>(1);
+			map.put((Item) with, with.getEffectiveEquipmentSlot());
+			kitsMap.put(map, 0);
 		}));
 		// 获取所有套装效果组触发物品数
-		kitsMap.forEach((itemSet, integer) -> {
+		kitsMap.forEach((itemMap, integer) -> {
 			final int[] triggerCount = {integer};
 			hasStack.forEach(stack -> {
 				Item item = stack.getItem();
 				int num = stack.getCount();
-				if (!itemSet.contains(item)) return;
+				if (!itemMap.containsKey(item)) return;
 				Set<EquipmentSlot> slots = null;
-				if (item instanceof WithStatusEffects with && with.getEffectiveEquipmentSlot().isPresent())
-					slots = with.getEffectiveEquipmentSlot().get();
-				if (item instanceof Equipment) {
-					if (item instanceof ArmorItem) {
-						triggerCount[0] += getEquippedStack(EquipmentSlot.HEAD).equals(stack)
-								|| getEquippedStack(EquipmentSlot.CHEST).equals(stack)
-								|| getEquippedStack(EquipmentSlot.LEGS).equals(stack)
-								|| getEquippedStack(EquipmentSlot.FEET).equals(stack)
-								? num : 0;
-					} else {
-						triggerCount[0] += getEquippedStack(EquipmentSlot.MAINHAND).equals(stack)
-								|| getEquippedStack(EquipmentSlot.OFFHAND).equals(stack)
-								? num : 0;
-					}
-				} else if (item instanceof ToolItem) {
-					triggerCount[0] += getEquippedStack(EquipmentSlot.MAINHAND).equals(stack)
-							|| getEquippedStack(EquipmentSlot.OFFHAND).equals(stack)
-							? num : 0;
-				} else if (slots != null) {
-					triggerCount[0] += slots.stream().anyMatch(slot -> getEquippedStack(slot).equals(stack))
-							? num : 0;
+				if (item instanceof WithStatusEffects with) {
+					if (with.getEffectiveEquipmentSlot().isPresent())
+						slots = with.getEffectiveEquipmentSlot().get();
+				} else {
+					if (itemMap.get(item).isPresent())
+						slots = itemMap.get(item).get();
 				}
+				triggerCount[0] += slots != null
+						? (slots.stream().anyMatch(slot -> getEquippedStack(slot).getItem().equals(item))
+						? num : 0) : num;
 			});
-			kitsMap.put(itemSet, triggerCount[0]);
+			kitsMap.put(itemMap, triggerCount[0]);
 		});
+		// 转换为 kitsSet
+		Map<Set<Item>, Integer> kitsSet = Maps.newHashMapWithExpectedSize(45);
+		kitsMap.forEach((itemMap, integer) -> kitsSet.put(itemMap.keySet(), integer));
 		// 设置状态效果
 		hasWith.forEach(with -> {
 			Map<StatusEffect, Integer> maxLevels = with.getStatusEffects();
 			Map<StatusEffect, Float> stackingLevels = with.getStatusEffectsStackingLevel();
-			Map<StatusEffect, Optional<Set<Item>>> kits = with.getStatusEffectsKit();
+			Map<StatusEffect, Optional<Map<Item, Optional<Set<EquipmentSlot>>>>> kits = with.getStatusEffectsKit();
 			Map<StatusEffect, Optional<Integer>> thresholds = with.getKitTriggerThreshold();
 			for (StatusEffect effect : maxLevels.keySet()) {
 				int maxLevel = maxLevels.get(effect);
 				float stackingLevel = stackingLevels.get(effect);
-				Set<Item> kit = kits.get(effect).isEmpty() ? new HashSet<>(1) : kits.get(effect).get();
+				Set<Item> kit = kits.get(effect).isEmpty() ? new HashSet<>(1) : kits.get(effect).get().keySet();
 				kit.add((Item) with);
 				int threshold = thresholds.get(effect).isPresent()
 						? (kit.size() == 1 ? Math.max(1, thresholds.get(effect).get()) : Math.min(kit.size(), Math.max(1, thresholds.get(effect).get())))
 						: (kit.size() == 1 ? 1 : thresholds.get(effect).get());
 				// 是否能触发效果
-				if (kitsMap.get(kit) >= threshold) {
-					int level = (int) Math.min(maxLevel, stackingLevel * (kitsMap.get(kit) - threshold));
+				if (kitsSet.get(kit) >= threshold) {
+					int level = (int) Math.min(maxLevel, stackingLevel * (kitsSet.get(kit) - threshold));
 					StatusEffectInstance e = new StatusEffectInstance(effect, INFINITE, level);
 					StatusEffectInstance i = getStatusEffect(effect);
 					if (i != null) {

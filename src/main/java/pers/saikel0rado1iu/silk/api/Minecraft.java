@@ -9,33 +9,28 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.api.item;
+package pers.saikel0rado1iu.silk.api;
 
-import net.minecraft.entity.EquipmentSlot;
-import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
-import java.util.Optional;
-import java.util.Set;
-
 /**
- * <p><b style="color:FFC800"><font size="+1">用于有特殊属性的物品能够生效的装备槽</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">独立的 Minecraft 数据集</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-@ApiStatus.Internal
-interface EffectiveEquipmentSlot {
+@SilkApi
+public final class Minecraft implements ModBasicData {
 	@SilkApi
-	Set<EquipmentSlot> ARMOR_SLOT = Set.of(EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET);
-	@SilkApi
-	Set<EquipmentSlot> HAND_SLOT = Set.of(EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND);
+	public static final Minecraft DATA = new Minecraft();
 	
-	/**
-	 * 返回有效的装备槽位集合
-	 *
-	 * @return 如果值为 {@link Optional#empty()}，则意味着在任意物品栏内皆能生效
-	 */
-	Optional<Set<EquipmentSlot>> getEffectiveEquipmentSlot();
+	private Minecraft() {
+	}
+	
+	@Override
+	public @NotNull String getId() {
+		return "minecraft";
+	}
 }

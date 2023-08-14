@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import pers.saikel0rado1iu.silk.SilkData;
+import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.api.item.CustomEnchantment;
 
 import java.util.ArrayList;
@@ -85,7 +85,7 @@ final class CustomEnchantmentMixin {
 		
 		@Inject(method = "enchant", at = @At("HEAD"))
 		private static void test(Random random, ItemStack stack, int level, boolean treasureAllowed, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir) {
-			SilkData.INSTANCE.getLogger().info(stack.getItem().toString());
+			Silk.DATA.logger().info(stack.getItem().toString());
 		}
 	}
 }

@@ -11,6 +11,7 @@
 
 package pers.saikel0rado1iu.silk.api.item;
 
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.item.Item;
 import org.jetbrains.annotations.NotNull;
@@ -51,10 +52,12 @@ public interface WithStatusEffects extends EffectiveEquipmentSlot {
 	 *
 	 * @return {@link Map} 中的 {@link StatusEffect} 为添加的状态效果；
 	 * {@link Optional} 为 {@link Optional#empty()} 则说明没有套装效果，
-	 * {@link Set} 为当前效果的套装物品组，包括自身或不包括自身都会将自身包括到此物品组
+	 * {@link Map} 为当前效果的套装物品组，包括自身或不包括自身都会将自身包括到此物品组。
+	 * {@link Item} 为套装物品，如果 {@link Item} 为 {@link WithStatusEffects} 则忽略 {@link Set} 内容，
+	 * 否则 {@link Set} 含义请参阅 {@link EffectiveEquipmentSlot#getEffectiveEquipmentSlot()}
 	 */
 	@SilkApi
-	@NotNull Map<StatusEffect, Optional<Set<Item>>> getStatusEffectsKit();
+	@NotNull Map<StatusEffect, Optional<Map<Item, Optional<Set<EquipmentSlot>>>>> getStatusEffectsKit();
 	
 	/**
 	 * 获取套装触发阈值，套装效果意味着玩家需要集齐一套物品才能触发状态效果
@@ -62,8 +65,7 @@ public interface WithStatusEffects extends EffectiveEquipmentSlot {
 	 * @return {@link Map} 中的 {@link StatusEffect} 为添加的状态效果，
 	 * 如果 {@link WithStatusEffects#getStatusEffectsKit()} 中不存在效果套装则为需要多少个自己；
 	 * {@link Optional} 为 {@link Optional#empty()} 则说明需要集齐套装中所有物品，
-	 * {@link Integer} 为最少需要的套装中物品数量，如果大于套装数量则为需要一整套套装，
-	 * 如果物品是盔甲则必须装备在装备栏，工具则必须要装备在手上才算触发，小于 1 则视为需要 1 个物品
+	 * {@link Integer} 为最少需要的套装中物品数量，如果大于套装数量则为需要一套套装，小于 1 则视为需要 1 个物品
 	 */
 	@SilkApi
 	@NotNull Map<StatusEffect, Optional<Integer>> getKitTriggerThreshold();

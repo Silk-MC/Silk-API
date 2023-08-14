@@ -14,13 +14,12 @@ package pers.saikel0rado1iu.silk.api;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.Person;
-import net.minecraft.MinecraftVersion;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pers.saikel0rado1iu.silk.SilkData;
+import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
 import java.net.MalformedURLException;
@@ -30,6 +29,7 @@ import java.util.Optional;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于构建基础的模组数据</font></b></p>
+ * <p style="color:FFC800">推荐使用模组 ID 或模组缩写作为模组数据类名，DATA 作为实例常量名，并且私有化构造函数</p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
@@ -38,49 +38,44 @@ import java.util.Optional;
 @SilkApi
 public interface ModBasicData {
 	@SilkApi
-	static String getMinecraftVer() {
-		return MinecraftVersion.CURRENT.getName();
-	}
-	
-	@SilkApi
 	default int getThemeColor() {
 		return -1;
 	}
 	
 	@SilkApi
-	@NotNull String getModId();
+	@NotNull String getId();
 	
 	@SilkApi
 	@NotNull
-	default String getModName() {
-		return getModInstance().getMetadata().getName();
+	default String getName() {
+		return getMod().getMetadata().getName();
 	}
 	
 	@SilkApi
 	@NotNull
-	default String getModVer() {
-		return getModInstance().getMetadata().getVersion().getFriendlyString();
+	default String getVersion() {
+		return getMod().getMetadata().getVersion().getFriendlyString();
 	}
 	
 	@SilkApi
 	@NotNull
-	default String getModSlug() {
-		return getModId();
+	default String getSlug() {
+		return getId();
 	}
 	
 	@SilkApi
 	default Collection<Person> getAuthors() {
-		return getModInstance().getMetadata().getAuthors();
+		return getMod().getMetadata().getAuthors();
 	}
 	
 	@SilkApi
-	default Collection<String> getLicense() {
-		return getModInstance().getMetadata().getLicense();
+	default Collection<String> getLicenses() {
+		return getMod().getMetadata().getLicense();
 	}
 	
 	@SilkApi
-	default Optional<Identifier> getIconId() {
-		Optional<String> path = getModInstance().getMetadata().getIconPath(4);
+	default Optional<Identifier> getIcon() {
+		Optional<String> path = getMod().getMetadata().getIconPath(4);
 		return path.map(Identifier::new);
 	}
 	
@@ -101,11 +96,11 @@ public interface ModBasicData {
 	
 	@SilkApi
 	@NotNull
-	default ModContainer getModInstance() {
-		var modContainerOptional = FabricLoader.getInstance().getModContainer(getModId());
+	default ModContainer getMod() {
+		var modContainerOptional = FabricLoader.getInstance().getModContainer(getId());
 		if (modContainerOptional.isEmpty()) {
-			String msg = "Mod not found, no mod with id '" + getModId() + "' exists!";
-			SilkData.INSTANCE.getLogger().atError().log(msg);
+			String msg = "Mod not found, no mod with id '" + getId() + "' exists!";
+			Silk.DATA.logger().atError().log(msg);
 			throw new RuntimeException(msg);
 		}
 		return modContainerOptional.get();
@@ -117,8 +112,8 @@ public interface ModBasicData {
 	 */
 	@SilkApi
 	@NotNull
-	default Logger getLogger() {
-		return LoggerFactory.getLogger(getModName());
+	default Logger logger() {
+		return LoggerFactory.getLogger(getName());
 	}
 	
 	/**
@@ -126,7 +121,7 @@ public interface ModBasicData {
 	 */
 	@ApiStatus.OverrideOnly
 	default Optional<URL> getHomepage() throws MalformedURLException {
-		Optional<String> url = getModInstance().getMetadata().getContact().get("homepage");
+		Optional<String> url = getMod().getMetadata().getContact().get("homepage");
 		if (url.isEmpty()) return Optional.empty();
 		return Optional.of(new URL(url.get()));
 	}
@@ -136,7 +131,7 @@ public interface ModBasicData {
 	 */
 	@ApiStatus.OverrideOnly
 	default Optional<URL> getSourcesLink() throws MalformedURLException {
-		Optional<String> url = getModInstance().getMetadata().getContact().get("sources");
+		Optional<String> url = getMod().getMetadata().getContact().get("sources");
 		if (url.isEmpty()) return Optional.empty();
 		return Optional.of(new URL(url.get()));
 	}
@@ -146,7 +141,7 @@ public interface ModBasicData {
 	 */
 	@ApiStatus.OverrideOnly
 	default Optional<URL> getIssuesLink() throws MalformedURLException {
-		Optional<String> url = getModInstance().getMetadata().getContact().get("issues");
+		Optional<String> url = getMod().getMetadata().getContact().get("issues");
 		if (url.isEmpty()) return Optional.empty();
 		return Optional.of(new URL(url.get()));
 	}
