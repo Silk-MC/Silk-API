@@ -44,10 +44,7 @@ import static net.minecraft.entity.effect.StatusEffectInstance.INFINITE;
 @Mixin(LivingEntity.class)
 abstract class WithStatusEffectsMixin extends Entity implements Attackable {
 	@Unique
-	private int ticks = 0;
-	
-	@Unique
-	private Set<StatusEffectInstance> instances = Sets.newHashSetWithExpectedSize(5);
+	private final Set<StatusEffectInstance> instances = Sets.newHashSetWithExpectedSize(5);
 	
 	public WithStatusEffectsMixin(EntityType<?> type, World world) {
 		super(type, world);

@@ -68,7 +68,7 @@ public interface BowExtend extends RangedWeaponExtend, UsingMovementMultiplier, 
 	@Override
 	default float getUsingProgress(int useTicks, ItemStack stack) {
 		float progress = (float) useTicks / getMaxPullTicks();
-		return Math.min(1, (progress * progress + progress * 2) / 3);
+		return Math.min(1, (progress * (progress + 2)) / 3);
 	}
 	
 	@Override

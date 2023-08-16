@@ -23,6 +23,6 @@ import java.lang.annotation.*;
 @SilkApi
 @Documented
 @Retention(RetentionPolicy.SOURCE)
-@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
+@Target({ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.FIELD})
 public @interface SilkApi {
 }

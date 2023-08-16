@@ -30,7 +30,7 @@ public interface TickUtil {
 	int MC_TIME_PASSES_MAGNIFICATION = 72;
 	
 	/**
-	 * 为 {@link TickUtil#getTick(TimeType, TimeUnit, float)} 的简化版本，以自然秒作为单位
+	 * 为 {@link TickUtil#getTick(Type, TimeUnit, float)} 的简化版本，以自然秒作为单位
 	 */
 	@SilkApi
 	static int getTick(float naturalSec) {
@@ -38,7 +38,7 @@ public interface TickUtil {
 	}
 	
 	/**
-	 * 为 {@link TickUtil#getTime(TimeType, TimeUnit, float)} 的简化版本，以自然秒作为返回值
+	 * 为 {@link TickUtil#getTime(Type, TimeUnit, float)} 的简化版本，以自然秒作为返回值
 	 *
 	 * @return 自然秒
 	 */
@@ -48,7 +48,7 @@ public interface TickUtil {
 	}
 	
 	@SilkApi
-	static int getTick(TimeType type, TimeUnit unit, float time) {
+	static int getTick(Type type, TimeUnit unit, float time) {
 		return switch (type) {
 			case NATURAL -> getNaturalTick(unit, time);
 			case GAME -> getGameTick(unit, time);
@@ -56,7 +56,7 @@ public interface TickUtil {
 	}
 	
 	@SilkApi
-	static float getTime(TimeType type, TimeUnit unit, float tick) {
+	static float getTime(Type type, TimeUnit unit, float tick) {
 		return switch (type) {
 			case NATURAL -> getNaturalTime(unit, tick);
 			case GAME -> getGameTime(unit, tick);
@@ -91,7 +91,7 @@ public interface TickUtil {
 		};
 	}
 	
-	enum TimeType {
+	enum Type {
 		NATURAL, GAME
 	}
 }
