@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.internal.LinkedTreeMap;
 import com.moandjiezana.toml.Toml;
 import com.moandjiezana.toml.TomlWriter;
 import net.fabricmc.loader.api.FabricLoader;
@@ -237,7 +238,7 @@ public final class ConfigData<T extends ModBasicData> {
 				case JSON -> {
 					Path file = Paths.get(baseConfigName + ".json");
 					String data = Files.readString(file, CHARSET);
-					Gson gson = new Gson();
+					loadJsonConfigs(data);
 				}
 				case TOML -> {
 					Path file = Paths.get(baseConfigName + ".toml");
@@ -263,7 +264,7 @@ public final class ConfigData<T extends ModBasicData> {
 					JsonObject jsonObject = JsonParser.parseString(new Gson().toJson(getSaveConfigs())).getAsJsonObject();
 					Gson gson = new GsonBuilder().setPrettyPrinting().create();
 					List<String> info = getAdditionalInfo();
-					info.replaceAll(s -> "  \"//\": \"" + s + "\",");
+					for (int count = 0; count < info.size(); count++) info.set(count, "  \"//" + count + "\": \"" + info.get(count) + "\",");
 					info.add("  ");
 					List<String> data = new ArrayList<>(List.of(gson.toJson(jsonObject).split("\n")));
 					data.addAll(1, info);
@@ -301,7 +302,7 @@ public final class ConfigData<T extends ModBasicData> {
 				JsonObject jsonObject = JsonParser.parseString(new Gson().toJson(getSaveConfigs())).getAsJsonObject();
 				Gson gson = new GsonBuilder().setPrettyPrinting().create();
 				List<String> info = getAdditionalInfo();
-				info.replaceAll(s -> "  \"//\": \"" + s + "\",");
+				for (int count = 0; count < info.size(); count++) info.set(count, "  \"//" + count + "\": \"" + info.get(count) + "\",");
 				info.add("  ");
 				List<String> data = new ArrayList<>(List.of(gson.toJson(jsonObject).split("\n")));
 				data.addAll(1, info);
@@ -319,37 +320,64 @@ public final class ConfigData<T extends ModBasicData> {
 	}
 	
 	/**
+	 * 加载 JSON 配置
+	 */
+	private ConfigData<?> loadJsonConfigs(String string) {
+		Gson gson = new Gson();
+		LinkedHashMap<?, ?> configMap = gson.fromJson(string, LinkedHashMap.class);
+		configs.forEach((s, object) -> {
+			if (object instanceof Boolean && configMap.get(s) instanceof Boolean bool) {
+				setConfig(s, bool);
+				return;
+			} else if (object instanceof Enum<?> e && configMap.get(s) instanceof String str) {
+				try {
+					var data = Enum.valueOf(e.getDeclaringClass(), str);
+					setConfig(s, data);
+					return;
+				} catch (IllegalArgumentException ignored) {
+				}
+			} else if (object instanceof List<?> list && configMap.get(s) instanceof Double d) {
+				if (list.get(2) instanceof Integer) setConfig(s, d.intValue());
+				else setConfig(s, d.floatValue());
+				return;
+			} else if (object instanceof ConfigData<?> cd && configMap.get(s) instanceof LinkedTreeMap<?, ?> map) {
+				configs.put(s, cd.loadJsonConfigs(gson.toJson(map)));
+				return;
+			}
+			mod.logger().warn("Illegal data error occurred while loading configuration file! -- by " + Silk.DATA.getName());
+		});
+		return this;
+	}
+	
+	/**
 	 * 加载 TOML 配置
 	 */
 	private ConfigData<?> loadTomlConfigs(Toml toml) {
-		if (toml.isEmpty()) return new ConfigData<>(Silk.DATA);
 		configs.forEach((s, object) -> {
-			if (object instanceof Boolean) {
-				var data = toml.getBoolean(s);
-				if (data == null) return;
-				setConfig(s, data);
-			} else if (object instanceof Enum<?> e) {
-				try {
-					var data = Enum.valueOf(e.getDeclaringClass(), toml.getString(s));
-					setConfig(s, data);
-				} catch (IllegalArgumentException ignored) {
+			try {
+				if (object instanceof Boolean) {
+					var data = toml.getBoolean(s);
+					if (data != null) setConfig(s, data);
+				} else if (object instanceof Enum<?> e) {
+					try {
+						var data = Enum.valueOf(e.getDeclaringClass(), toml.getString(s));
+						setConfig(s, data);
+					} catch (IllegalArgumentException ignored) {
+					}
+				} else if (object instanceof List<?> list) {
+					if (list.get(2) instanceof Integer) {
+						var data = toml.getLong(s);
+						if (data != null) setConfig(s, data.intValue());
+					} else {
+						var data = toml.getDouble(s);
+						if (data != null) setConfig(s, data.floatValue());
+					}
+				} else if (object instanceof ConfigData<?> cd) {
+					var data = toml.getTable(s);
+					if (data != null) configs.put(s, cd.loadTomlConfigs(data));
 				}
-			} else if (object instanceof List<?> list) {
-				if (list.get(2) instanceof Integer) {
-					var data = toml.getLong(s);
-					if (data == null) return;
-					setConfig(s, data);
-				} else {
-					var data = toml.getDouble(s);
-					if (data == null) return;
-					setConfig(s, data);
-				}
-			} else if (object instanceof ConfigData<?> cd) {
-				var data = toml.getTable(s);
-				if (data == null) return;
-				configs.put(s, cd.loadTomlConfigs(data));
-			} else {
-				mod.logger().warn("Illegal type error occurred while loading configuration file! -- by " + Silk.DATA.getName());
+			} catch (Exception e) {
+				mod.logger().warn("Illegal data error occurred while loading configuration file! -- by " + Silk.DATA.getName());
 			}
 		});
 		return this;
