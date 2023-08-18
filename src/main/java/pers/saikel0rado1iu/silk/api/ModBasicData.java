@@ -13,7 +13,6 @@ package pers.saikel0rado1iu.silk.api;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
-import net.fabricmc.loader.api.metadata.Person;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +23,9 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -64,8 +65,18 @@ public interface ModBasicData {
 	}
 	
 	@SilkApi
-	default Collection<Person> getAuthors() {
-		return getMod().getMetadata().getAuthors();
+	default Collection<String> getAuthors() {
+		List<String> authors = new ArrayList<>(2);
+		getMod().getMetadata().getAuthors().stream().toList().forEach(person -> {
+			String name = person.getName();
+			if (name.contains("§")) {
+				List<String> strings = new ArrayList<>(List.of(name.split("§")));
+				strings.replaceAll(s -> !s.isEmpty() ? s.substring(1) : s);
+				name = String.join("", strings);
+			}
+			authors.add(name);
+		});
+		return authors;
 	}
 	
 	@SilkApi
