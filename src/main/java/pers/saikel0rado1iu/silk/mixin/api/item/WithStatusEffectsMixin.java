@@ -96,8 +96,7 @@ abstract class WithStatusEffectsMixin extends Entity implements Attackable {
 		// 获取所有套装效果组
 		Map<Map<Item, Optional<Set<EquipmentSlot>>>, Integer> kitsMap = Maps.newHashMapWithExpectedSize(45);
 		hasWith.forEach(with -> with.getStatusEffects().keySet().forEach(effect -> {
-			Map<Item, Optional<Set<EquipmentSlot>>> map = with.getStatusEffectsKit().get(effect).isPresent()
-					? with.getStatusEffectsKit().get(effect).get() : new HashMap<>(1);
+			Map<Item, Optional<Set<EquipmentSlot>>> map = with.getStatusEffectsKit().get(effect).orElse(new HashMap<>(1));
 			map.put((Item) with, with.getEffectiveEquipmentSlot());
 			kitsMap.put(map, 0);
 		}));
@@ -108,14 +107,9 @@ abstract class WithStatusEffectsMixin extends Entity implements Attackable {
 				Item item = stack.getItem();
 				int num = stack.getCount();
 				if (!itemMap.containsKey(item)) return;
-				Set<EquipmentSlot> slots = null;
-				if (item instanceof WithStatusEffects with) {
-					if (with.getEffectiveEquipmentSlot().isPresent())
-						slots = with.getEffectiveEquipmentSlot().get();
-				} else {
-					if (itemMap.get(item).isPresent())
-						slots = itemMap.get(item).get();
-				}
+				Set<EquipmentSlot> slots;
+				if (item instanceof WithStatusEffects with) slots = with.getEffectiveEquipmentSlot().orElse(null);
+				else slots = itemMap.get(item).orElse(null);
 				triggerCount[0] += slots != null
 						? (slots.stream().anyMatch(slot -> getEquippedStack(slot).getItem().equals(item))
 						? num : 0) : num;

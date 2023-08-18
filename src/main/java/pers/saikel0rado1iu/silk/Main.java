@@ -29,7 +29,7 @@ public class Main implements ModInitializer {
 	 */
 	@Override
 	public void onInitialize() {
-		ConfigData<Silk> configData = new ConfigData<>(Silk.DATA)
+		ConfigData<Silk> configData = new ConfigData<>(Silk.DATA, ConfigData.Type.JSON)
 				.addSwitch("switch", true)
 				.addOption("option", ConfigData.Type.TOML)
 				.addIntSlider("int_slider", 0, 50, 25)

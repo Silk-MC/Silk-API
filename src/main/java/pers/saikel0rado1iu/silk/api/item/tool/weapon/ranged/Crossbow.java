@@ -270,12 +270,9 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 			if (itemStack.isEmpty()) continue;
 			// 设置“多重射击”的不同角度弹药发射
 			switch (count) {
-				case 0 ->
-						shootProjectile(world, entity, hand, stack, itemStack, soundPitches[count], isPlayerAndInCreative, speed, divergence, 0.0f);
-				case 1 ->
-						shootProjectile(world, entity, hand, stack, itemStack, soundPitches[count], isPlayerAndInCreative, speed, divergence, -10.0f);
-				case 2 ->
-						shootProjectile(world, entity, hand, stack, itemStack, soundPitches[count], isPlayerAndInCreative, speed, divergence, 10.0f);
+				case 0 -> shootProjectile(world, entity, hand, stack, itemStack, soundPitches[count], isPlayerAndInCreative, speed, divergence, 0.0f);
+				case 1 -> shootProjectile(world, entity, hand, stack, itemStack, soundPitches[count], isPlayerAndInCreative, speed, divergence, -10.0f);
+				case 2 -> shootProjectile(world, entity, hand, stack, itemStack, soundPitches[count], isPlayerAndInCreative, speed, divergence, 10.0f);
 			}
 		}
 		// 射击后操作

@@ -12,6 +12,10 @@
 package pers.saikel0rado1iu.silk.util;
 
 import com.google.common.collect.Maps;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.moandjiezana.toml.Toml;
 import com.moandjiezana.toml.TomlWriter;
 import net.fabricmc.loader.api.FabricLoader;
@@ -21,6 +25,7 @@ import pers.saikel0rado1iu.silk.api.ModBasicData;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -40,10 +45,12 @@ import java.util.*;
 @SilkApi
 public final class ConfigData<T extends ModBasicData> {
 	public static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir();
+	public static final Charset CHARSET = StandardCharsets.UTF_8;
 	
 	private final T mod;
 	private final Type saveMode;
 	private final LinkedHashMap<String, Object> configs;
+	private final String baseConfigName;
 	
 	/**
 	 * 创建一个 {@link ModBasicData} 模组的空配置文件，默认的保存模式为 {@link Type#TOML}
@@ -92,6 +99,7 @@ public final class ConfigData<T extends ModBasicData> {
 	public ConfigData(T mod, Type saveMode, ConfigData<?> defaults) {
 		this.mod = mod;
 		this.saveMode = saveMode;
+		this.baseConfigName = Paths.get(CONFIG_PATH.toString(), mod.getId()).toString();
 		this.configs = defaults == null ? Maps.newLinkedHashMapWithExpectedSize(10) : defaults.configs;
 	}
 	
@@ -200,18 +208,20 @@ public final class ConfigData<T extends ModBasicData> {
 	}
 	
 	/**
-	 * 获取已添加的配置，返回 {@link Object} 以便可保持通用
+	 * 获取已添加的配置，返回 {@link O} 以便可保持通用
 	 *
-	 * @param Id 配置 ID
+	 * @param Id  配置 ID
+	 * @param c   将要转换的类
+	 * @param <O> 转换出的类类型
 	 * @return 如果返回 {@link Optional#empty()} 则表明获取数值失败
 	 */
 	@SilkApi
-	public Optional<Object> getConfig(String Id) {
-		if (configs.get(Id) instanceof Boolean bool) return Optional.of(bool);
-		else if (configs.get(Id) instanceof Enum<?> e) return Optional.of(e);
-		else if (configs.get(Id) instanceof List<?> list) return Optional.of(list.get(2));
-		else if (configs.get(Id) instanceof ConfigData<?> data) return Optional.of(data);
-		else mod.logger().warn("Illegal type error occurred while loading configuration file! -- by " + Silk.DATA.getName());
+	public <O> Optional<O> getConfig(String Id, Class<O> c) {
+		if (configs.get(Id) instanceof Boolean bool) return Optional.of(c.cast(bool));
+		else if (configs.get(Id) instanceof Enum<?> e) return Optional.of(c.cast(e));
+		else if (configs.get(Id) instanceof List<?> list) return Optional.of(c.cast(list.get(2)));
+		else if (configs.get(Id) instanceof ConfigData<?> data) return Optional.of(c.cast(data));
+		else mod.logger().warn("No configuration data was found with ID as '" + Id + "'! -- by " + Silk.DATA.getName());
 		return Optional.empty();
 	}
 	
@@ -224,9 +234,13 @@ public final class ConfigData<T extends ModBasicData> {
 			switch (saveMode) {
 				case PROPERTIES -> Silk.DATA.logger().info("ppt");
 				case XML -> Silk.DATA.logger().info("xml");
-				case JSON -> Silk.DATA.logger().info("json");
+				case JSON -> {
+					Path file = Paths.get(baseConfigName + ".json");
+					String data = Files.readString(file, CHARSET);
+					Gson gson = new Gson();
+				}
 				case TOML -> {
-					Path file = Paths.get(CONFIG_PATH.toString(), mod.getId() + ".toml");
+					Path file = Paths.get(baseConfigName + ".toml");
 					Toml toml = new Toml().read(file.toFile());
 					loadTomlConfigs(toml);
 				}
@@ -245,18 +259,28 @@ public final class ConfigData<T extends ModBasicData> {
 			switch (saveMode) {
 				case PROPERTIES -> Silk.DATA.logger().info("ppt");
 				case XML -> Silk.DATA.logger().info("xml");
-				case JSON -> Silk.DATA.logger().info("json");
+				case JSON -> {
+					JsonObject jsonObject = JsonParser.parseString(new Gson().toJson(getSaveConfigs())).getAsJsonObject();
+					Gson gson = new GsonBuilder().setPrettyPrinting().create();
+					List<String> info = getAdditionalInfo();
+					info.replaceAll(s -> "  \"//\": \"" + s + "\",");
+					info.add("  ");
+					List<String> data = new ArrayList<>(List.of(gson.toJson(jsonObject).split("\n")));
+					data.addAll(1, info);
+					Path file = Paths.get(baseConfigName + ".json");
+					Files.write(file, data, CHARSET);
+				}
 				case TOML -> {
 					TomlWriter tomlWriter = new TomlWriter.Builder().indentValuesBy(2).build();
-					Path file = Paths.get(CONFIG_PATH.toString(), mod.getId() + ".toml");
+					Path file = Paths.get(baseConfigName + ".toml");
 					tomlWriter.write(getSaveConfigs(), file.toFile());
-					List<String> configList;
-					List<String> infoList = getAdditionalInfo();
-					infoList.replaceAll(s -> "# " + s);
-					infoList.add("");
-					configList = Files.readAllLines(file, StandardCharsets.UTF_8);
-					Files.write(file, infoList, StandardCharsets.UTF_8);
-					Files.write(file, configList, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+					List<String> data;
+					List<String> info = getAdditionalInfo();
+					info.replaceAll(s -> "# " + s);
+					info.add("");
+					data = Files.readAllLines(file, CHARSET);
+					Files.write(file, info, CHARSET);
+					Files.write(file, data, CHARSET, StandardOpenOption.APPEND);
 				}
 			}
 		} catch (IOException e) {
@@ -273,13 +297,22 @@ public final class ConfigData<T extends ModBasicData> {
 		switch (saveMode) {
 			case PROPERTIES -> Silk.DATA.logger().info("ppt");
 			case XML -> Silk.DATA.logger().info("xml");
-			case JSON -> Silk.DATA.logger().info("json");
+			case JSON -> {
+				JsonObject jsonObject = JsonParser.parseString(new Gson().toJson(getSaveConfigs())).getAsJsonObject();
+				Gson gson = new GsonBuilder().setPrettyPrinting().create();
+				List<String> info = getAdditionalInfo();
+				info.replaceAll(s -> "  \"//\": \"" + s + "\",");
+				info.add("  ");
+				List<String> data = new ArrayList<>(List.of(gson.toJson(jsonObject).split("\n")));
+				data.addAll(1, info);
+				data.forEach(s -> mod.logger().info(s));
+			}
 			case TOML -> {
 				TomlWriter tomlWriter = new TomlWriter.Builder().indentValuesBy(2).build();
-				List<String> infoList = getAdditionalInfo();
-				infoList.replaceAll(s -> "# " + s);
-				infoList.add("");
-				infoList.forEach(s -> mod.logger().info(s));
+				List<String> info = getAdditionalInfo();
+				info.replaceAll(s -> "# " + s);
+				info.add("");
+				info.forEach(s -> mod.logger().info(s));
 				Arrays.asList(tomlWriter.write(getSaveConfigs()).split("\n")).forEach(s -> mod.logger().info(s));
 			}
 		}
@@ -294,28 +327,22 @@ public final class ConfigData<T extends ModBasicData> {
 			if (object instanceof Boolean) {
 				var data = toml.getBoolean(s);
 				if (data == null) return;
-				configs.put(s, data);
+				setConfig(s, data);
 			} else if (object instanceof Enum<?> e) {
 				try {
 					var data = Enum.valueOf(e.getDeclaringClass(), toml.getString(s));
-					configs.put(s, data);
+					setConfig(s, data);
 				} catch (IllegalArgumentException ignored) {
 				}
 			} else if (object instanceof List<?> list) {
 				if (list.get(2) instanceof Integer) {
 					var data = toml.getLong(s);
 					if (data == null) return;
-					List<Integer> result = new ArrayList<>(3);
-					list.forEach(obj -> result.add((Integer) obj));
-					result.set(2, Math.max(result.get(0), Math.min(result.get(1), data.intValue())));
-					configs.put(s, result);
+					setConfig(s, data);
 				} else {
 					var data = toml.getDouble(s);
 					if (data == null) return;
-					List<Float> result = new ArrayList<>(3);
-					list.forEach(obj -> result.add((Float) obj));
-					result.set(2, Math.max(result.get(0), Math.min(result.get(1), data.floatValue())));
-					configs.put(s, result);
+					setConfig(s, data);
 				}
 			} else if (object instanceof ConfigData<?> cd) {
 				var data = toml.getTable(s);
@@ -356,7 +383,7 @@ public final class ConfigData<T extends ModBasicData> {
 		list.add("Mod Authors:  " + String.join(", ", mod.getAuthors()));
 		list.add("Mod Licenses: " + String.join(", ", mod.getLicenses()));
 		if (mod.getLink(ModBasicData.LinkType.HOMEPAGE).isPresent()) list.add("Mod HomePage: " + mod.getLink(ModBasicData.LinkType.HOMEPAGE).get());
-		list.add("Stored in " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd, HH:mm:ss")));
+		list.add("Stored in " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd-HH:mm:ss")));
 		return list;
 	}
 	
