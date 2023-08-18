@@ -110,9 +110,6 @@ final class WithProjectileProtectionMixin {
 			super(entityType, world);
 		}
 		
-		@Shadow
-		public abstract ItemStack getEquippedStack(EquipmentSlot slot);
-		
 		@Inject(method = "applyDamage", at = @At("HEAD"))
 		private void getSource(DamageSource source, float amount, CallbackInfo ci) {
 			damageSource = source;
