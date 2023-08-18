@@ -179,20 +179,24 @@ public final class ConfigData<T extends ModBasicData> {
 	public void setConfig(String Id, Object value) {
 		if (value instanceof Boolean && configs.get(Id) instanceof Boolean) {
 			configs.put(Id, value);
+			return;
 		} else if (value instanceof Enum<?> && configs.get(Id).getClass().equals(value.getClass())) {
 			configs.put(Id, value);
+			return;
 		} else if (value instanceof Integer i && configs.get(Id) instanceof List<?> list && list.get(2) instanceof Integer) {
 			List<Integer> result = new ArrayList<>(3);
 			list.forEach(obj -> result.add((Integer) obj));
 			result.set(2, Math.max(result.get(0), Math.min(result.get(1), i)));
 			configs.put(Id, result);
+			return;
 		} else if (value instanceof Float f && configs.get(Id) instanceof List<?> list && list.get(2) instanceof Float) {
 			List<Float> result = new ArrayList<>(3);
 			list.forEach(obj -> result.add((Float) obj));
 			result.set(2, Math.max(result.get(0), Math.min(result.get(1), f)));
-		} else {
-			mod.logger().warn("Illegal type error occurred while setting configuration file! -- by " + Silk.DATA.getName());
+			configs.put(Id, result);
+			return;
 		}
+		mod.logger().warn("Illegal type error occurred while setting configuration file! -- by " + Silk.DATA.getName());
 	}
 	
 	/**
