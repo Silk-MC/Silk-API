@@ -9,32 +9,22 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.util;
+package pers.saikel0rado1iu.silk.util.config;
 
 import com.google.common.collect.Maps;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.internal.LinkedTreeMap;
-import com.moandjiezana.toml.Toml;
-import com.moandjiezana.toml.TomlWriter;
 import net.fabricmc.loader.api.FabricLoader;
 import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于创建模组配置数据</font></b></p>
@@ -48,10 +38,10 @@ public final class ConfigData<T extends ModBasicData> {
 	public static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir();
 	public static final Charset CHARSET = StandardCharsets.UTF_8;
 	
-	private final T mod;
-	private final Type saveMode;
-	private final LinkedHashMap<String, Object> configs;
-	private final String baseConfigName;
+	final T mod;
+	final Type saveMode;
+	final LinkedHashMap<String, Object> configs;
+	final String baseConfigName;
 	
 	/**
 	 * 创建一个 {@link ModBasicData} 模组的空配置文件，默认的保存模式为 {@link Type#TOML}
@@ -224,195 +214,6 @@ public final class ConfigData<T extends ModBasicData> {
 		else if (configs.get(Id) instanceof ConfigData<?> data) return Optional.of(c.cast(data));
 		else mod.logger().warn("No configuration data was found with ID as '" + Id + "'! -- by " + Silk.DATA.getName());
 		return Optional.empty();
-	}
-	
-	/**
-	 * 加载配置文件
-	 */
-	@SilkApi
-	public void load() {
-		try {
-			switch (saveMode) {
-				case PROPERTIES -> Silk.DATA.logger().info("ppt");
-				case XML -> Silk.DATA.logger().info("xml");
-				case JSON -> {
-					Path file = Paths.get(baseConfigName + ".json");
-					String data = Files.readString(file, CHARSET);
-					loadJsonConfigs(data);
-				}
-				case TOML -> {
-					Path file = Paths.get(baseConfigName + ".toml");
-					Toml toml = new Toml().read(file.toFile());
-					loadTomlConfigs(toml);
-				}
-			}
-		} catch (Exception e) {
-			save();
-		}
-	}
-	
-	/**
-	 * 保存配置文件
-	 */
-	@SilkApi
-	public void save() {
-		try {
-			switch (saveMode) {
-				case PROPERTIES -> Silk.DATA.logger().info("ppt");
-				case XML -> Silk.DATA.logger().info("xml");
-				case JSON -> {
-					JsonObject jsonObject = JsonParser.parseString(new Gson().toJson(getSaveConfigs())).getAsJsonObject();
-					Gson gson = new GsonBuilder().setPrettyPrinting().create();
-					List<String> info = getAdditionalInfo();
-					for (int count = 0; count < info.size(); count++) info.set(count, "  \"//" + count + "\": \"" + info.get(count) + "\",");
-					info.add("  ");
-					List<String> data = new ArrayList<>(List.of(gson.toJson(jsonObject).split("\n")));
-					data.addAll(1, info);
-					Path file = Paths.get(baseConfigName + ".json");
-					Files.write(file, data, CHARSET);
-				}
-				case TOML -> {
-					TomlWriter tomlWriter = new TomlWriter.Builder().indentValuesBy(2).build();
-					Path file = Paths.get(baseConfigName + ".toml");
-					tomlWriter.write(getSaveConfigs(), file.toFile());
-					List<String> data;
-					List<String> info = getAdditionalInfo();
-					info.replaceAll(s -> "# " + s);
-					info.add("");
-					data = Files.readAllLines(file, CHARSET);
-					Files.write(file, info, CHARSET);
-					Files.write(file, data, CHARSET, StandardOpenOption.APPEND);
-				}
-			}
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-	
-	/**
-	 * 将此配置列表输出到调试列表，对调试有极大帮助
-	 */
-	@SilkApi
-	public void debug() {
-		mod.logger().info("-- configs debug --");
-		switch (saveMode) {
-			case PROPERTIES -> Silk.DATA.logger().info("ppt");
-			case XML -> Silk.DATA.logger().info("xml");
-			case JSON -> {
-				JsonObject jsonObject = JsonParser.parseString(new Gson().toJson(getSaveConfigs())).getAsJsonObject();
-				Gson gson = new GsonBuilder().setPrettyPrinting().create();
-				List<String> info = getAdditionalInfo();
-				for (int count = 0; count < info.size(); count++) info.set(count, "  \"//" + count + "\": \"" + info.get(count) + "\",");
-				info.add("  ");
-				List<String> data = new ArrayList<>(List.of(gson.toJson(jsonObject).split("\n")));
-				data.addAll(1, info);
-				data.forEach(s -> mod.logger().info(s));
-			}
-			case TOML -> {
-				TomlWriter tomlWriter = new TomlWriter.Builder().indentValuesBy(2).build();
-				List<String> info = getAdditionalInfo();
-				info.replaceAll(s -> "# " + s);
-				info.add("");
-				info.forEach(s -> mod.logger().info(s));
-				Arrays.asList(tomlWriter.write(getSaveConfigs()).split("\n")).forEach(s -> mod.logger().info(s));
-			}
-		}
-	}
-	
-	/**
-	 * 加载 JSON 配置
-	 */
-	private ConfigData<?> loadJsonConfigs(String string) {
-		Gson gson = new Gson();
-		LinkedHashMap<?, ?> configMap = gson.fromJson(string, LinkedHashMap.class);
-		configs.forEach((s, object) -> {
-			if (object instanceof Boolean && configMap.get(s) instanceof Boolean bool) {
-				setConfig(s, bool);
-				return;
-			} else if (object instanceof Enum<?> e && configMap.get(s) instanceof String str) {
-				try {
-					var data = Enum.valueOf(e.getDeclaringClass(), str);
-					setConfig(s, data);
-					return;
-				} catch (IllegalArgumentException ignored) {
-				}
-			} else if (object instanceof List<?> list && configMap.get(s) instanceof Double d) {
-				if (list.get(2) instanceof Integer) setConfig(s, d.intValue());
-				else setConfig(s, d.floatValue());
-				return;
-			} else if (object instanceof ConfigData<?> cd && configMap.get(s) instanceof LinkedTreeMap<?, ?> map) {
-				configs.put(s, cd.loadJsonConfigs(gson.toJson(map)));
-				return;
-			}
-			mod.logger().warn("Illegal data error occurred while loading configuration file! -- by " + Silk.DATA.getName());
-		});
-		return this;
-	}
-	
-	/**
-	 * 加载 TOML 配置
-	 */
-	private ConfigData<?> loadTomlConfigs(Toml toml) {
-		configs.forEach((s, object) -> {
-			try {
-				if (object instanceof Boolean) {
-					var data = toml.getBoolean(s);
-					if (data != null) setConfig(s, data);
-				} else if (object instanceof Enum<?> e) {
-					try {
-						var data = Enum.valueOf(e.getDeclaringClass(), toml.getString(s));
-						setConfig(s, data);
-					} catch (IllegalArgumentException ignored) {
-					}
-				} else if (object instanceof List<?> list) {
-					if (list.get(2) instanceof Integer) {
-						var data = toml.getLong(s);
-						if (data != null) setConfig(s, data.intValue());
-					} else {
-						var data = toml.getDouble(s);
-						if (data != null) setConfig(s, data.floatValue());
-					}
-				} else if (object instanceof ConfigData<?> cd) {
-					var data = toml.getTable(s);
-					if (data != null) configs.put(s, cd.loadTomlConfigs(data));
-				}
-			} catch (Exception e) {
-				mod.logger().warn("Illegal data error occurred while loading configuration file! -- by " + Silk.DATA.getName());
-			}
-		});
-		return this;
-	}
-	
-	/**
-	 * 获取保存配置应保存信息
-	 */
-	private LinkedHashMap<String, Object> getSaveConfigs() {
-		LinkedHashMap<String, Object> saveConfigs = Maps.newLinkedHashMapWithExpectedSize(10);
-		configs.forEach((s, object) -> {
-			if (object instanceof ConfigData<?> data) saveConfigs.put(s, data.getSaveConfigs());
-			else if (object instanceof List<?> list) saveConfigs.put(s, list.get(2));
-			else saveConfigs.put(s, object);
-		});
-		return saveConfigs;
-	}
-	
-	/**
-	 * 用于添加附加信息
-	 */
-	private List<String> getAdditionalInfo() {
-		List<String> list = new ArrayList<>(8);
-		list.add("This configuration file is generated by '" + mod.getName() + "' calling Silk API.");
-		String separator = File.separator.contains("\\") ? "\\\\" : File.separator;
-		String[] paths = mod.getMod().getOrigin().getPaths().get(0).toString().split(separator);
-		list.add("Mod Jar:      " + paths[paths.length - 1]);
-		list.add("Mod Name:     " + mod.getName());
-		list.add("Mod ID:       " + mod.getId());
-		list.add("Mod Version:  " + mod.getVersion());
-		list.add("Mod Authors:  " + String.join(", ", mod.getAuthors()));
-		list.add("Mod Licenses: " + String.join(", ", mod.getLicenses()));
-		if (mod.getLink(ModBasicData.LinkType.HOMEPAGE).isPresent()) list.add("Mod HomePage: " + mod.getLink(ModBasicData.LinkType.HOMEPAGE).get());
-		list.add("Stored in " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd-HH:mm:ss")));
-		return list;
 	}
 	
 	/**

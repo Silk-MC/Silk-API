@@ -12,7 +12,9 @@
 package pers.saikel0rado1iu.silk;
 
 import net.fabricmc.api.ModInitializer;
-import pers.saikel0rado1iu.silk.util.ConfigData;
+import pers.saikel0rado1iu.silk.util.config.ConfigData;
+import pers.saikel0rado1iu.silk.util.config.ConfigReader;
+import pers.saikel0rado1iu.silk.util.config.ConfigWriter;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">Fabric Loader 最先调用的类，通常用于进行最终注册和模组最先操作</font></b></p>
@@ -29,7 +31,7 @@ public class Main implements ModInitializer {
 	 */
 	@Override
 	public void onInitialize() {
-		ConfigData<Silk> configData = new ConfigData<>(Silk.DATA, ConfigData.Type.JSON)
+		ConfigData<Silk> configData = new ConfigData<>(Silk.DATA)
 				.addSwitch("switch", true)
 				.addOption("option", ConfigData.Type.TOML)
 				.addIntSlider("int_slider", 0, 50, 25)
@@ -40,8 +42,10 @@ public class Main implements ModInitializer {
 				.addSwitch("switch2", false)
 				.addSwitch("switch3", false);
 		configData.addSubConfigs("sub", configData1);
-		configData.load();
-		configData.debug();
-		configData.save();
+		ConfigReader configReader = new ConfigReader(configData);
+		configReader.load();
+		ConfigWriter configWriter = new ConfigWriter(configData);
+		configWriter.debug();
+		configWriter.save();
 	}
 }
