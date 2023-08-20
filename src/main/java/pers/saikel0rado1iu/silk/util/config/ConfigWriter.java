@@ -43,6 +43,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static pers.saikel0rado1iu.silk.util.config.ConfigData.CHARSET;
+import static pers.saikel0rado1iu.silk.util.config.ConfigData.CONFIG_PATH;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于配置数据写入</font></b></p>
@@ -116,11 +117,33 @@ public final class ConfigWriter {
 	}
 	
 	/**
-	 * 保存配置文件
+	 * 将以模组 ID 为名的配置文件保存在默认路径中
 	 */
 	@SilkApi
 	public void save() {
+		save(CONFIG_PATH);
+	}
+	
+	/**
+	 * 将以模组 ID 为名的配置文件保存在自定义保存路径中
+	 */
+	@SilkApi
+	public void save(Path customPath) {
+		switch (configData.saveMode) {
+			case PROPERTIES -> save(customPath, configData.mod.getId() + ".properties");
+			case XML -> save(customPath, configData.mod.getId() + ".xml");
+			case JSON -> save(customPath, configData.mod.getId() + ".json");
+			case TOML -> save(customPath, configData.mod.getId() + ".toml");
+		}
+	}
+	
+	/**
+	 * 将特定名称的配置文件保存在自定义保存路径中
+	 */
+	@SilkApi
+	public void save(Path customPath, String fileName) {
 		try {
+			Path file = Paths.get(customPath.toString(), fileName);
 			switch (configData.saveMode) {
 				case PROPERTIES -> {
 					LinkedProperties ppt = new LinkedProperties();
@@ -130,7 +153,6 @@ public final class ConfigWriter {
 					info.add("");
 					List<String> data = new ArrayList<>(ppt.linkedSet.size());
 					for (String key : ppt.linkedSet) data.add(key + " = " + ppt.getProperty(key));
-					Path file = Paths.get(configData.baseConfigName + ".properties");
 					Files.write(file, info, CHARSET);
 					Files.write(file, data, CHARSET, StandardOpenOption.APPEND);
 				}
@@ -157,7 +179,6 @@ public final class ConfigWriter {
 						List<String> data = Arrays.asList(baos.toString().split("><"));
 						data.replaceAll(s -> s.toCharArray()[0] != '<' ? "<" + s : s);
 						data.replaceAll(s -> (s.toCharArray()[s.length() - 1] != '>' && s.toCharArray()[s.length() - 1] != '\n') ? s + ">" : s);
-						Path file = Paths.get(configData.baseConfigName + ".xml");
 						Files.write(file, data, CHARSET);
 					} catch (TransformerConfigurationException | SAXException e) {
 						Silk.DATA.logger().error(e.getLocalizedMessage());
@@ -171,12 +192,10 @@ public final class ConfigWriter {
 					info.add("  ");
 					List<String> data = new ArrayList<>(List.of(gson.toJson(jsonObject).split("\n")));
 					data.addAll(1, info);
-					Path file = Paths.get(configData.baseConfigName + ".json");
 					Files.write(file, data, CHARSET);
 				}
 				case TOML -> {
 					TomlWriter tomlWriter = new TomlWriter.Builder().indentValuesBy(2).build();
-					Path file = Paths.get(configData.baseConfigName + ".toml");
 					tomlWriter.write(getSaveConfigs(configData), file.toFile());
 					List<String> info = getAdditionalInfo(configData);
 					info.replaceAll(s -> "# " + s);
@@ -192,11 +211,19 @@ public final class ConfigWriter {
 	}
 	
 	/**
-	 * 将此配置列表输出到调试列表，对调试有极大帮助
+	 * 将此配置列表输出到模组日志中，对调试有极大帮助
 	 */
 	@SilkApi
 	public void debug() {
-		configData.mod.logger().info("-- configs debug --");
+		debug(configData.mod);
+	}
+	
+	/**
+	 * 将此配置列表输出到指定的模组日志中，对调试有极大帮助
+	 */
+	@SilkApi
+	public void debug(ModBasicData mod) {
+		mod.logger().info("-- configs debug --");
 		switch (configData.saveMode) {
 			case PROPERTIES -> {
 				LinkedProperties ppt = new LinkedProperties();
@@ -204,8 +231,8 @@ public final class ConfigWriter {
 				List<String> info = getAdditionalInfo(configData);
 				info.replaceAll(s -> "# " + s);
 				info.add("");
-				info.forEach(s -> configData.mod.logger().info(s));
-				for (String key : ppt.linkedSet) configData.mod.logger().info(key + " = " + ppt.getProperty(key));
+				info.forEach(s -> mod.logger().info(s));
+				for (String key : ppt.linkedSet) mod.logger().info(key + " = " + ppt.getProperty(key));
 			}
 			case XML -> {
 				try {
@@ -232,7 +259,7 @@ public final class ConfigWriter {
 					baseData.replaceAll(s -> (s.toCharArray()[s.length() - 1] != '>' && s.toCharArray()[s.length() - 1] != '\n') ? s + ">" : s);
 					List<String> data = new ArrayList<>(8);
 					baseData.forEach(s -> data.addAll(Arrays.asList(s.split("\n"))));
-					data.forEach(s -> configData.mod.logger().info(s));
+					data.forEach(s -> mod.logger().info(s));
 				} catch (TransformerConfigurationException | SAXException e) {
 					Silk.DATA.logger().error(e.getLocalizedMessage());
 				}
@@ -245,15 +272,15 @@ public final class ConfigWriter {
 				info.add("  ");
 				List<String> data = new ArrayList<>(List.of(gson.toJson(jsonObject).split("\n")));
 				data.addAll(1, info);
-				data.forEach(s -> configData.mod.logger().info(s));
+				data.forEach(s -> mod.logger().info(s));
 			}
 			case TOML -> {
 				TomlWriter tomlWriter = new TomlWriter.Builder().indentValuesBy(2).build();
 				List<String> info = getAdditionalInfo(configData);
 				info.replaceAll(s -> "# " + s);
 				info.add("");
-				info.forEach(s -> configData.mod.logger().info(s));
-				Arrays.asList(tomlWriter.write(getSaveConfigs(configData)).split("\n")).forEach(s -> configData.mod.logger().info(s));
+				info.forEach(s -> mod.logger().info(s));
+				Arrays.asList(tomlWriter.write(getSaveConfigs(configData)).split("\n")).forEach(s -> mod.logger().info(s));
 			}
 		}
 	}

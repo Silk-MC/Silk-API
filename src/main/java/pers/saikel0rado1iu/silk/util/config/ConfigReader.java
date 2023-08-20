@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Properties;
 
 import static pers.saikel0rado1iu.silk.util.config.ConfigData.CHARSET;
+import static pers.saikel0rado1iu.silk.util.config.ConfigData.CONFIG_PATH;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于配置数据读取</font></b></p>
@@ -146,14 +147,35 @@ public final class ConfigReader {
 	}
 	
 	/**
-	 * 加载配置文件
+	 * 加载默认路径中以模组 ID 为名的配置文件
 	 */
 	@SilkApi
 	public void load() {
+		load(CONFIG_PATH);
+	}
+	
+	/**
+	 * 加载在自定义保存路径中以模组 ID 为名的配置文件
+	 */
+	@SilkApi
+	public void load(Path customPath) {
+		switch (configData.saveMode) {
+			case PROPERTIES -> load(customPath, configData.mod.getId() + ".properties");
+			case XML -> load(customPath, configData.mod.getId() + ".xml");
+			case JSON -> load(customPath, configData.mod.getId() + ".json");
+			case TOML -> load(customPath, configData.mod.getId() + ".toml");
+		}
+	}
+	
+	/**
+	 * 加载在自定义保存路径中特定名称的配置文件
+	 */
+	@SilkApi
+	public void load(Path customPath, String fileName) {
 		try {
+			Path file = Paths.get(customPath.toString(), fileName);
 			switch (configData.saveMode) {
 				case PROPERTIES -> {
-					Path file = Paths.get(configData.baseConfigName + ".properties");
 					Properties data = new Properties();
 					data.load(Files.newInputStream(file));
 					loadPropertiesConfigs(configData, data, "");
@@ -161,17 +183,14 @@ public final class ConfigReader {
 				case XML -> {
 					SAXParserFactory spf = SAXParserFactory.newInstance();
 					SAXParser sp = spf.newSAXParser();
-					Path file = Paths.get(configData.baseConfigName + ".xml");
 					SAXParse sax = new SAXParse(configData);
 					sp.parse(Files.newInputStream(file), sax);
 				}
 				case JSON -> {
-					Path file = Paths.get(configData.baseConfigName + ".json");
 					String data = Files.readString(file, CHARSET);
 					loadJsonConfigs(configData, data);
 				}
 				case TOML -> {
-					Path file = Paths.get(configData.baseConfigName + ".toml");
 					Toml toml = new Toml().read(file.toFile());
 					loadTomlConfigs(configData, toml);
 				}

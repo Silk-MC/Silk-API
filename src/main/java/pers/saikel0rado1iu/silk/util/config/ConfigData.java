@@ -20,7 +20,6 @@ import pers.saikel0rado1iu.silk.api.ModBasicData;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -41,7 +40,6 @@ public final class ConfigData<T extends ModBasicData> {
 	final T mod;
 	final Type saveMode;
 	final LinkedHashMap<String, Object> configs;
-	final String baseConfigName;
 	
 	/**
 	 * 创建一个 {@link ModBasicData} 模组的空配置文件，默认的保存模式为 {@link Type#TOML}
@@ -90,7 +88,6 @@ public final class ConfigData<T extends ModBasicData> {
 	public ConfigData(T mod, Type saveMode, ConfigData<?> defaults) {
 		this.mod = mod;
 		this.saveMode = saveMode;
-		this.baseConfigName = Paths.get(CONFIG_PATH.toString(), mod.getId()).toString();
 		this.configs = defaults == null ? Maps.newLinkedHashMapWithExpectedSize(10) : defaults.configs;
 	}
 	
