@@ -189,13 +189,13 @@ public final class ConfigData {
 	 * @return 如果返回 {@link Optional#empty()} 则表明获取数值失败
 	 */
 	@SilkApi
-	public <O> Optional<O> getConfig(String id, Class<O> c) {
-		if (configs.get(id) instanceof Boolean bool) return Optional.of(c.cast(bool));
-		else if (configs.get(id) instanceof Enum<?> e) return Optional.of(c.cast(e));
-		else if (configs.get(id) instanceof List<?> list) return Optional.of(c.cast(list.get(2)));
-		else if (configs.get(id) instanceof ConfigData data) return Optional.of(c.cast(data));
-		else mod.logger().warn("No configuration data was found with ID as '" + id + "'! -- by " + Silk.DATA.getName());
-		return Optional.empty();
+	public <O> O getConfig(String id, Class<O> c) {
+		if (configs.get(id) instanceof Boolean bool) return c.cast(bool);
+		else if (configs.get(id) instanceof Enum<?> e) return c.cast(e);
+		else if (configs.get(id) instanceof List<?> list) return c.cast(list.get(2));
+		else if (configs.get(id) instanceof ConfigData data) return c.cast(data);
+		else mod.logger().error("No configuration data was found with ID as '" + id + "'! -- by " + Silk.DATA.getName());
+		throw new RuntimeException("No configuration data was found with ID as '" + id + "'! -- by " + Silk.DATA.getName());
 	}
 	
 	/**

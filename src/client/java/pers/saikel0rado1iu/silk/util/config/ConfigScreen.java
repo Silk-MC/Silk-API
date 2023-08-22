@@ -68,24 +68,10 @@ public final class ConfigScreen extends Screen {
 		this.configData = configData;
 	}
 	
-	/**
-	 * 获取模组配置文本翻译键
-	 *
-	 * @param mod 模组数据
-	 * @param key 翻译键
-	 * @return 模组配置文本翻译键
-	 */
 	public static String getModConfigText(ModBasicData mod, String key) {
 		return "config." + mod.getId() + '.' + key + ("".equals(key) ? "text" : ".text");
 	}
 	
-	/**
-	 * 获取模组配置提示翻译键
-	 *
-	 * @param mod 模组数据
-	 * @param key 翻译键
-	 * @return 模组配置提示翻译键
-	 */
 	public static String getModConfigTip(ModBasicData mod, String key) {
 		return "config." + mod.getId() + '.' + key + ("".equals(key) ? "tip" : ".tip");
 	}
