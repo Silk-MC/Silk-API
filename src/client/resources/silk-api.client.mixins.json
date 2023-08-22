@@ -3,6 +3,7 @@
 	"package": "pers.saikel0rado1iu.silk.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"client": [
+		"CMixin",
 		"api.item.HoldingFovZoomMixin$RenderHudOverlay",
 		"api.item.HoldingFovZoomMixin$SetMouseMoveMultiplier",
 		"api.item.HoldingFovZoomMixin$SetUsingFovZoom",

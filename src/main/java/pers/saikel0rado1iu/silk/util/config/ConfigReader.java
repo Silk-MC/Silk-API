@@ -41,18 +41,18 @@ import static pers.saikel0rado1iu.silk.util.config.ConfigData.CONFIG_PATH;
  * @since 0.1.0
  */
 public final class ConfigReader {
-	private final ConfigData<?> configData;
+	private final ConfigData configData;
 	
-	public ConfigReader(ConfigData<?> configData) {
+	public ConfigReader(ConfigData configData) {
 		this.configData = configData;
 	}
 	
 	/**
 	 * 加载 Properties 配置
 	 */
-	private static ConfigData<?> loadPropertiesConfigs(ConfigData<?> configData, Properties ppt, String keyPrefix) {
+	private static ConfigData loadPropertiesConfigs(ConfigData configData, Properties ppt, String keyPrefix) {
 		configData.configs.forEach((s, object) -> {
-			if (object instanceof ConfigData<?> cd) {
+			if (object instanceof ConfigData cd) {
 				configData.configs.put(s, loadPropertiesConfigs(cd, ppt, keyPrefix + s + "."));
 				return;
 			}
@@ -84,7 +84,7 @@ public final class ConfigReader {
 	/**
 	 * 加载 JSON 配置
 	 */
-	private static ConfigData<?> loadJsonConfigs(ConfigData<?> configData, String configs) {
+	private static ConfigData loadJsonConfigs(ConfigData configData, String configs) {
 		Gson gson = new Gson();
 		LinkedHashMap<?, ?> configMap = gson.fromJson(configs, LinkedHashMap.class);
 		configData.configs.forEach((s, object) -> {
@@ -103,7 +103,7 @@ public final class ConfigReader {
 				if (list.get(2) instanceof Integer) configData.setConfig(s, d.intValue());
 				else configData.setConfig(s, d.floatValue());
 				return;
-			} else if (object instanceof ConfigData<?> cd && configMap.get(s) instanceof LinkedTreeMap<?, ?> map) {
+			} else if (object instanceof ConfigData cd && configMap.get(s) instanceof LinkedTreeMap<?, ?> map) {
 				configData.configs.put(s, loadJsonConfigs(cd, gson.toJson(map)));
 				return;
 			}
@@ -115,7 +115,7 @@ public final class ConfigReader {
 	/**
 	 * 加载 TOML 配置
 	 */
-	private static ConfigData<?> loadTomlConfigs(ConfigData<?> configData, Toml toml) {
+	private static ConfigData loadTomlConfigs(ConfigData configData, Toml toml) {
 		configData.configs.forEach((s, object) -> {
 			try {
 				if (object instanceof Boolean) {
@@ -135,7 +135,7 @@ public final class ConfigReader {
 						var data = toml.getDouble(s);
 						if (data != null) configData.setConfig(s, data.floatValue());
 					}
-				} else if (object instanceof ConfigData<?> cd) {
+				} else if (object instanceof ConfigData cd) {
 					var data = toml.getTable(s);
 					if (data != null) configData.configs.put(s, loadTomlConfigs(cd, data));
 				}
@@ -159,7 +159,7 @@ public final class ConfigReader {
 	 */
 	@SilkApi
 	public void load(Path customPath) {
-		switch (configData.saveMode) {
+		switch (configData.mode) {
 			case PROPERTIES -> load(customPath, configData.mod.getId() + ".properties");
 			case XML -> load(customPath, configData.mod.getId() + ".xml");
 			case JSON -> load(customPath, configData.mod.getId() + ".json");
@@ -174,7 +174,7 @@ public final class ConfigReader {
 	public void load(Path customPath, String fileName) {
 		try {
 			Path file = Paths.get(customPath.toString(), fileName);
-			switch (configData.saveMode) {
+			switch (configData.mode) {
 				case PROPERTIES -> {
 					Properties data = new Properties();
 					data.load(Files.newInputStream(file));
@@ -204,11 +204,11 @@ public final class ConfigReader {
 	 * 解析 XML 配置文件
 	 */
 	private static final class SAXParse extends DefaultHandler {
-		private final LinkedHashMap<String, ConfigData<?>> superCdList = Maps.newLinkedHashMapWithExpectedSize(8);
-		private ConfigData<?> configData;
+		private final LinkedHashMap<String, ConfigData> superCdList = Maps.newLinkedHashMapWithExpectedSize(8);
+		private ConfigData configData;
 		private String key;
 		
-		private SAXParse(ConfigData<?> configData) {
+		private SAXParse(ConfigData configData) {
 			this.configData = configData;
 		}
 		
@@ -217,7 +217,7 @@ public final class ConfigReader {
 			super.startElement(uri, localName, qName, attributes);
 			if (qName.equals(configData.mod.getId())) return;
 			key = qName;
-			if (configData.configs.get(key) instanceof ConfigData<?> cd) {
+			if (configData.configs.get(key) instanceof ConfigData cd) {
 				superCdList.put(key, configData);
 				configData = cd;
 			}

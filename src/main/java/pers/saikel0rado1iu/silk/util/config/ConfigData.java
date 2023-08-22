@@ -13,6 +13,7 @@ package pers.saikel0rado1iu.silk.util.config;
 
 import com.google.common.collect.Maps;
 import net.fabricmc.loader.api.FabricLoader;
+import org.jetbrains.annotations.NotNull;
 import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
@@ -33,163 +34,147 @@ import java.util.Optional;
  * @since 0.1.0
  */
 @SilkApi
-public final class ConfigData<T extends ModBasicData> {
+public final class ConfigData {
 	public static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir();
 	public static final Charset CHARSET = StandardCharsets.UTF_8;
 	
-	final T mod;
-	final Type saveMode;
+	final ModBasicData mod;
+	final Mode mode;
+	final Type type;
 	final LinkedHashMap<String, Object> configs;
-	
-	/**
-	 * 创建一个 {@link ModBasicData} 模组的空配置文件，默认的保存模式为 {@link Type#TOML}
-	 */
-	@SilkApi
-	public ConfigData(T mod) {
-		this(mod, Type.TOML, null);
-	}
-	
-	/**
-	 * 创建 {@link ConfigData<T>} 模组配置文件的副本
-	 */
-	@SilkApi
-	public ConfigData(ConfigData<T> defaults) {
-		this(defaults.mod, defaults);
-	}
-	
-	/**
-	 * 创建一个 {@link ModBasicData} 模组的空配置文件，通过自定义 {@link Type} 自定义保存模式
-	 */
-	@SilkApi
-	public ConfigData(T mod, Type saveMode) {
-		this(mod, saveMode, null);
-	}
-	
-	/**
-	 * 创建一个模组的配置文件的副本，但作为 {@link T} 模组的配置数据
-	 */
-	@SilkApi
-	public ConfigData(T mod, ConfigData<?> defaults) {
-		this(mod, defaults.saveMode, defaults);
-	}
-	
-	/**
-	 * 创建 {@link ConfigData<T>} 模组配置文件的副本，但使用自定义的保存模式
-	 */
-	@SilkApi
-	public ConfigData(Type saveMode, ConfigData<T> defaults) {
-		this(defaults.mod, saveMode, defaults);
-	}
+	final LinkedHashMap<String, Object> defaults;
 	
 	/**
 	 * 在 {@link ModBasicData} 模组中创建一个 {@link ConfigData} 模组配置文件的副本，并使用自定义的保存模式
 	 */
 	@SilkApi
-	public ConfigData(T mod, Type saveMode, ConfigData<?> defaults) {
+	private ConfigData(ModBasicData mod, Type type, Mode mode, LinkedHashMap<String, Object> configs, LinkedHashMap<String, Object> defaults) {
 		this.mod = mod;
-		this.saveMode = saveMode;
-		this.configs = defaults == null ? Maps.newLinkedHashMapWithExpectedSize(10) : defaults.configs;
+		this.type = type;
+		this.mode = mode;
+		this.configs = configs;
+		this.defaults = defaults;
 	}
 	
 	/**
 	 * 添加一个开关配置，只能储存开或关
 	 *
-	 * @param Id           配置 ID
+	 * @param id           配置 ID
 	 * @param defaultValue 默认值
 	 * @return 返回自身以便可以连续添加配置
 	 */
 	@SilkApi
-	public ConfigData<T> addSwitch(String Id, Boolean defaultValue) {
-		if (configs.get(Id) == null) configs.put(Id, defaultValue);
-		else Silk.DATA.logger().error("'" + mod.getId() + "' attempts to replace an existing configuration '" + Id + "'!");
+	public ConfigData addSwitch(String id, Boolean defaultValue) {
+		if (configs.get(id) == null) {
+			defaults.put(id, defaultValue);
+			configs.put(id, defaultValue);
+		} else {
+			Silk.DATA.logger().error("'" + mod.getId() + "' attempts to replace an existing configuration '" + id + "'!");
+		}
 		return this;
 	}
 	
 	/**
 	 * 添加一个选项配置，用于保存有多个状态的配置
 	 *
-	 * @param Id           配置 ID
+	 * @param id           配置 ID
 	 * @param defaultValue 默认值
 	 * @return 返回自身以便可以连续添加配置
 	 */
 	@SilkApi
-	public ConfigData<T> addOption(String Id, Enum<?> defaultValue) {
-		if (configs.get(Id) == null) configs.put(Id, defaultValue);
-		else Silk.DATA.logger().error("'" + mod.getId() + "' attempts to replace an existing configuration '" + Id + "'!");
+	public ConfigData addOption(String id, Enum<?> defaultValue) {
+		if (configs.get(id) == null) {
+			defaults.put(id, defaultValue);
+			configs.put(id, defaultValue);
+		} else {
+			Silk.DATA.logger().error("'" + mod.getId() + "' attempts to replace an existing configuration '" + id + "'!");
+		}
 		return this;
 	}
 	
 	/**
 	 * 添加一个整数滑块配置，用于保存一个有范围的整数配置
 	 *
-	 * @param Id           配置 ID
+	 * @param id           配置 ID
 	 * @param minValue     可配置的最小值
 	 * @param maxValue     可配置的最大值
 	 * @param defaultValue 默认值
 	 * @return 返回自身以便可以连续添加配置
 	 */
 	@SilkApi
-	public ConfigData<T> addIntSlider(String Id, Integer minValue, Integer maxValue, Integer defaultValue) {
-		if (configs.get(Id) == null) configs.put(Id, List.of(minValue, maxValue, defaultValue));
-		else Silk.DATA.logger().error("'" + mod.getId() + "' attempts to replace an existing configuration '" + Id + "'!");
+	public ConfigData addIntSlider(String id, Integer minValue, Integer maxValue, Integer defaultValue) {
+		if (configs.get(id) == null) {
+			defaults.put(id, defaultValue);
+			configs.put(id, List.of(minValue, maxValue, defaultValue));
+		} else {
+			Silk.DATA.logger().error("'" + mod.getId() + "' attempts to replace an existing configuration '" + id + "'!");
+		}
 		return this;
 	}
 	
 	/**
 	 * 添加一个浮点数滑块配置，用于保存一个有范围的浮点数配置
 	 *
-	 * @param Id           配置 ID
+	 * @param id           配置 ID
 	 * @param minValue     可配置的最小值
 	 * @param maxValue     可配置的最大值
 	 * @param defaultValue 默认值
 	 * @return 返回自身以便可以连续添加配置
 	 */
 	@SilkApi
-	public ConfigData<T> addFloatSlider(String Id, Float minValue, Float maxValue, Float defaultValue) {
-		if (configs.get(Id) == null) configs.put(Id, List.of(minValue, maxValue, defaultValue));
-		else Silk.DATA.logger().error("'" + mod.getId() + "' attempts to replace an existing configuration '" + Id + "'!");
+	public ConfigData addFloatSlider(String id, Float minValue, Float maxValue, Float defaultValue) {
+		if (configs.get(id) == null) {
+			defaults.put(id, defaultValue);
+			configs.put(id, List.of(minValue, maxValue, defaultValue));
+		} else {
+			Silk.DATA.logger().error("'" + mod.getId() + "' attempts to replace an existing configuration '" + id + "'!");
+		}
 		return this;
 	}
 	
 	/**
 	 * 添加一个子配置组，用于保存作为一个配置的子配置组
 	 *
-	 * @param Id         配置 ID
+	 * @param id         配置 ID
 	 * @param subConfigs 子配置组
 	 * @return 返回自身以便可以连续添加配置
 	 */
 	@SilkApi
-	public ConfigData<T> addSubConfigs(String Id, ConfigData<T> subConfigs) {
-		if (configs.get(Id) == null) configs.put(Id, subConfigs);
-		else Silk.DATA.logger().error("'" + mod.getId() + "' attempts to replace an existing configuration '" + Id + "'!");
+	public ConfigData addSubConfigs(String id, ConfigData subConfigs) {
+		if (configs.get(id) == null) {
+			defaults.put(id, subConfigs);
+			configs.put(id, subConfigs);
+		} else {
+			Silk.DATA.logger().error("'" + mod.getId() + "' attempts to replace an existing configuration '" + id + "'!");
+		}
 		return this;
 	}
 	
 	/**
 	 * 设置已保存配置数据的值，但不能设置子配置的值
 	 *
-	 * @param Id    配置 ID
+	 * @param id    配置 ID
 	 * @param value 配置值
 	 */
 	@SilkApi
-	public void setConfig(String Id, Object value) {
-		if (value instanceof Boolean && configs.get(Id) instanceof Boolean) {
-			configs.put(Id, value);
+	public void setConfig(String id, Object value) {
+		if (value instanceof Boolean && configs.get(id) instanceof Boolean) {
+			configs.put(id, value);
 			return;
-		} else if (value instanceof Enum<?> && configs.get(Id).getClass().equals(value.getClass())) {
-			configs.put(Id, value);
+		} else if (value instanceof Enum<?> && configs.get(id).getClass().equals(value.getClass())) {
+			configs.put(id, value);
 			return;
-		} else if (value instanceof Integer i && configs.get(Id) instanceof List<?> list && list.get(2) instanceof Integer) {
+		} else if (value instanceof Integer i && configs.get(id) instanceof List<?> list && list.get(2) instanceof Integer) {
 			List<Integer> result = new ArrayList<>(3);
 			list.forEach(obj -> result.add((Integer) obj));
 			result.set(2, Math.max(result.get(0), Math.min(result.get(1), i)));
-			configs.put(Id, result);
+			configs.put(id, result);
 			return;
-		} else if (value instanceof Float f && configs.get(Id) instanceof List<?> list && list.get(2) instanceof Float) {
+		} else if (value instanceof Float f && configs.get(id) instanceof List<?> list && list.get(2) instanceof Float) {
 			List<Float> result = new ArrayList<>(3);
 			list.forEach(obj -> result.add((Float) obj));
 			result.set(2, Math.max(result.get(0), Math.min(result.get(1), f)));
-			configs.put(Id, result);
+			configs.put(id, result);
 			return;
 		}
 		mod.logger().warn("Illegal type error occurred while setting configuration file! -- by " + Silk.DATA.getName());
@@ -198,25 +183,118 @@ public final class ConfigData<T extends ModBasicData> {
 	/**
 	 * 获取已添加的配置，返回 {@link O} 以便可保持通用
 	 *
-	 * @param Id  配置 ID
+	 * @param id  配置 ID
 	 * @param c   将要转换的类
 	 * @param <O> 转换出的类类型
 	 * @return 如果返回 {@link Optional#empty()} 则表明获取数值失败
 	 */
 	@SilkApi
-	public <O> Optional<O> getConfig(String Id, Class<O> c) {
-		if (configs.get(Id) instanceof Boolean bool) return Optional.of(c.cast(bool));
-		else if (configs.get(Id) instanceof Enum<?> e) return Optional.of(c.cast(e));
-		else if (configs.get(Id) instanceof List<?> list) return Optional.of(c.cast(list.get(2)));
-		else if (configs.get(Id) instanceof ConfigData<?> data) return Optional.of(c.cast(data));
-		else mod.logger().warn("No configuration data was found with ID as '" + Id + "'! -- by " + Silk.DATA.getName());
+	public <O> Optional<O> getConfig(String id, Class<O> c) {
+		if (configs.get(id) instanceof Boolean bool) return Optional.of(c.cast(bool));
+		else if (configs.get(id) instanceof Enum<?> e) return Optional.of(c.cast(e));
+		else if (configs.get(id) instanceof List<?> list) return Optional.of(c.cast(list.get(2)));
+		else if (configs.get(id) instanceof ConfigData data) return Optional.of(c.cast(data));
+		else mod.logger().warn("No configuration data was found with ID as '" + id + "'! -- by " + Silk.DATA.getName());
 		return Optional.empty();
+	}
+	
+	/**
+	 * @return 配置类型
+	 */
+	@SilkApi
+	public Type getType() {
+		return type;
+	}
+	
+	/**
+	 * 配置文件类型
+	 */
+	public enum Type {
+		/**
+		 * 玩家可更改配置，会显示在配置屏幕上
+		 */
+		GAMER,
+		/**
+		 * 开发用配置选项，不会显示在配置屏幕上
+		 */
+		DEV,
+		/**
+		 * 已经弃用了的配置选项，会以黄色斜体字体显示，并且玩家无法点击，只能通过模组或配置文件修改
+		 */
+		DEPRECATED,
+		/**
+		 * 实验性的配置选项，会以红色字体显示在配置屏幕上
+		 */
+		EXPERIMENTAL
 	}
 	
 	/**
 	 * 保存配置文件保存格式
 	 */
-	public enum Type {
+	public enum Mode {
 		PROPERTIES, XML, JSON, TOML
+	}
+	
+	/**
+	 * 构建配置数据
+	 */
+	@SilkApi
+	public static final class Builder {
+		private ModBasicData mod;
+		private Type type;
+		private Mode mode;
+		private LinkedHashMap<String, Object> configs;
+		private LinkedHashMap<String, Object> defaults;
+		
+		@SilkApi
+		public Builder(@NotNull ModBasicData mod) {
+			this.mod = mod;
+			this.type = Type.GAMER;
+			this.mode = Mode.TOML;
+			this.configs = Maps.newLinkedHashMapWithExpectedSize(10);
+			this.defaults = Maps.newLinkedHashMapWithExpectedSize(10);
+		}
+		
+		@SilkApi
+		public Builder(@NotNull ConfigData defaults) {
+			this.mod = defaults.mod;
+			this.type = defaults.type;
+			this.mode = defaults.mode;
+			this.configs = defaults.configs;
+			this.defaults = defaults.defaults;
+		}
+		
+		@SilkApi
+		public Builder mod(ModBasicData mod) {
+			this.mod = mod;
+			return this;
+		}
+		
+		@SilkApi
+		public Builder type(Type type) {
+			this.type = type;
+			return this;
+		}
+		
+		@SilkApi
+		public Builder mode(Mode mode) {
+			this.mode = mode;
+			return this;
+		}
+		
+		@SilkApi
+		public Builder defaults(ConfigData defaults) {
+			this.mod = defaults.mod;
+			this.type = defaults.type;
+			this.mode = defaults.mode;
+			this.configs = defaults.configs;
+			this.defaults = defaults.defaults;
+			return this;
+		}
+		
+		@SilkApi
+		public ConfigData create() {
+			return new ConfigData(mod, type, mode, configs, defaults);
+		}
 	}
 }

@@ -24,6 +24,12 @@ import pers.saikel0rado1iu.silk.util.config.ConfigWriter;
  * @since 0.1.0
  */
 public class Main implements ModInitializer {
+	public static final ConfigData CONFIG_DATA = new ConfigData.Builder(Silk.DATA).create()
+			.addSwitch("switch", true)
+			.addOption("option", ConfigData.Mode.TOML)
+			.addIntSlider("int_slider", 0, 50, 25)
+			.addFloatSlider("float_slider", -1F, 1F, 0F);
+	
 	/**
 	 * <p>只要 Minecraft 处于 mod-load-ready(模组-加载-准备) 状态, 此代码就会运行.</p>
 	 * <p>但是, 有些东西（比如资源）可能仍然未初始化.</p>
@@ -31,20 +37,16 @@ public class Main implements ModInitializer {
 	 */
 	@Override
 	public void onInitialize() {
-		ConfigData<Silk> configData = new ConfigData<>(Silk.DATA)
-				.addSwitch("switch", true)
-				.addOption("option", ConfigData.Type.TOML)
-				.addIntSlider("int_slider", 0, 50, 25)
-				.addFloatSlider("float_slider", -1F, 1F, 0F);
-		ConfigData<Silk> configData1 = new ConfigData<>(Silk.DATA)
+		ConfigData configData1 = new ConfigData.Builder(Silk.DATA).type(ConfigData.Type.EXPERIMENTAL).create()
 				.addFloatSlider("float_slider", -1F, 1F, 0F)
 				.addSwitch("switch1", false)
 				.addSwitch("switch2", false)
 				.addSwitch("switch3", false);
-		configData.addSubConfigs("sub", configData1);
-		ConfigReader configReader = new ConfigReader(configData);
+		CONFIG_DATA.addSubConfigs("sub", configData1);
+		CONFIG_DATA.addSwitch("switch2", false);
+		ConfigReader configReader = new ConfigReader(CONFIG_DATA);
 		configReader.load();
-		ConfigWriter configWriter = new ConfigWriter(configData);
+		ConfigWriter configWriter = new ConfigWriter(CONFIG_DATA);
 		configWriter.debug();
 		configWriter.save();
 	}
