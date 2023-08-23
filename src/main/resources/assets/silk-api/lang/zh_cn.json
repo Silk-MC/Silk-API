@@ -1,7 +1,7 @@
 {
 	"// title": "原生语言",
 	"// modmenu": "Mod Menu 上可翻译的模组描述与摘要",
-	"modmenu.nameTranslation.silk-api": "丝绸编程接口",
+	"modmenu.nameTranslation.silk-api": "丝绸开发库",
 	"modmenu.summaryTranslation.silk-api": "用于制作具有牛逼哄哄功能的 Fabric API 扩展",
 	"modmenu.descriptionTranslation.silk-api": "用于添加牛逼哄哄的模组物品、方块、实体与特性的高级-Fabric-API-扩展。其目的在于方便-fabric-模组开发者进行各种高级操作",
 	"modmenu.support.afdian": "支持作者: 爱发电",

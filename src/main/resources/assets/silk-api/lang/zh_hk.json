@@ -1,7 +1,7 @@
 {
 	"// title": "原生語言為簡體中文(zh_cn)",
 	"// modmenu": "Mod Menu 上可翻譯嘅模組描述與摘要",
-	"modmenu.nameTranslation.silk-api": "絲綢編程接口",
+	"modmenu.nameTranslation.silk-api": "絲綢開發庫",
 	"modmenu.summaryTranslation.silk-api": "用於製作具有牛逼哄哄功能嘅 Fabric API 擴展",
 	"modmenu.descriptionTranslation.silk-api": "用於添加牛逼哄哄嘅模組物品、方塊、實體與特性嘅高級-Fabric-API-擴展。其目嘅在於方便-fabric-模組開發者進行各種高級操作",
 	"modmenu.support.afdian": "支持作者: 愛發電",
