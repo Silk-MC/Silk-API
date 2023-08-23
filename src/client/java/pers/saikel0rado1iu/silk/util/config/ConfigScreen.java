@@ -17,14 +17,13 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.OptionListWidget;
 import net.minecraft.client.option.SimpleOption;
-import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.util.screen.BaseScreen;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,11 +38,10 @@ import static pers.saikel0rado1iu.silk.util.ScreenUtil.*;
  * @since 0.1.0
  */
 @SilkApi
-public class ConfigScreen extends Screen {
+public class ConfigScreen extends BaseScreen {
 	private final boolean notSub;
 	private final boolean isDouble;
 	private final String keyPrefix;
-	private final Screen parent;
 	private final ConfigData configData;
 	private OptionListWidget optionListWidget;
 	private List<SimpleOption<?>> simpleOptionList;
@@ -59,10 +57,9 @@ public class ConfigScreen extends Screen {
 	}
 	
 	private ConfigScreen(Screen parent, boolean notSub, boolean isDouble, ConfigData configData, String keyPrefix, Text title) {
-		super(configData.type == ConfigData.Type.EXPERIMENTAL ? title.copy().formatted(Formatting.RED) : (configData.type == ConfigData.Type.DEPRECATED) ? title.copy().formatted(Formatting.YELLOW, Formatting.ITALIC) : title);
+		super(parent, configData.type == ConfigData.Type.EXPERIMENTAL ? title.copy().formatted(Formatting.RED) : (configData.type == ConfigData.Type.DEPRECATED) ? title.copy().formatted(Formatting.YELLOW, Formatting.ITALIC) : title);
 		this.notSub = notSub;
 		this.isDouble = isDouble;
-		this.parent = parent;
 		this.keyPrefix = keyPrefix;
 		this.configData = configData;
 		this.configData.reader().load();
@@ -97,9 +94,8 @@ public class ConfigScreen extends Screen {
 	
 	@Override
 	public void close() {
-		if (client == null) return;
-		configData.writer().save();
-		client.setScreen(parent);
+		if (notSub) configData.writer().save();
+		super.close();
 	}
 	
 	@Override
@@ -117,10 +113,7 @@ public class ConfigScreen extends Screen {
 		// 添加"支持我们"按钮
 		addDrawableChild(supportButton(this, configData.mod, getLinkTrusted()).dimensions(width - 75, 6, 70, 20).build());
 		// 添加完成按钮
-		addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, (button) -> {
-			if (notSub) configData.writer().save();
-			close();
-		}).dimensions(width / 2 - 100, height - 26, 200, 20).build());
+		addDrawableChild(doneButton(this).dimensions(width / 2 - 100, height - 26, 200, 20).build());
 		// 添加所有配置选项按钮
 		Object prev = null;
 		for (String key : configData.configs.keySet()) {

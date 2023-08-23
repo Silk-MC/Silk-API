@@ -14,8 +14,6 @@ package pers.saikel0rado1iu.silk.util.screen;
 import net.minecraft.client.font.MultilineText;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
@@ -32,14 +30,12 @@ import java.util.Objects;
  * @since 0.1.0
  */
 @SilkApi
-public class PlaceholderScreen extends Screen {
-	protected final Screen parent;
+public class PlaceholderScreen extends BaseScreen {
 	protected final ModBasicData mod;
 	protected MultilineText messageText;
 	
 	public PlaceholderScreen(Screen parent, ModBasicData mod) {
-		super(Text.of(""));
-		this.parent = parent;
+		super(parent, Text.of(""));
 		this.mod = mod;
 	}
 	
@@ -61,7 +57,7 @@ public class PlaceholderScreen extends Screen {
 		// 添加支持按钮
 		addDrawableChild(ScreenUtil.supportButton(this, mod, getLinkTrusted()).dimensions((int) (width / 2 - buttonWidth * 0.5 + 2), height / 2 + 12, buttonWidth - 4, 20).build());
 		// 添加返回按钮
-		addDrawableChild(ButtonWidget.builder(ScreenTexts.CANCEL, (button) -> close()).dimensions((int) (width / 2 + buttonWidth * 0.5 + 4), height / 2 + 12, buttonWidth - 4, 20).build());
+		addDrawableChild(ScreenUtil.backButton(this).dimensions((int) (width / 2 + buttonWidth * 0.5 + 4), height / 2 + 12, buttonWidth - 4, 20).build());
 	}
 	
 	/**
@@ -69,11 +65,5 @@ public class PlaceholderScreen extends Screen {
 	 */
 	protected boolean getLinkTrusted() {
 		return false;
-	}
-	
-	@Override
-	public void close() {
-		if (client == null) return;
-		client.setScreen(parent);
 	}
 }

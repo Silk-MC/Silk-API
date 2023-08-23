@@ -14,6 +14,7 @@ package pers.saikel0rado1iu.silk.util;
 import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
@@ -41,6 +42,21 @@ public interface ScreenUtil {
 	@SilkApi
 	static String widgetText(ModBasicData mod, String key) {
 		return "text." + mod.getId() + '.' + key;
+	}
+	
+	@SilkApi
+	static ButtonWidget.Builder backButton(Screen screen) {
+		return ButtonWidget.builder(ScreenTexts.BACK, (button) -> screen.close());
+	}
+	
+	@SilkApi
+	static ButtonWidget.Builder cancelButton(Screen screen) {
+		return ButtonWidget.builder(ScreenTexts.CANCEL, (button) -> screen.close());
+	}
+	
+	@SilkApi
+	static ButtonWidget.Builder doneButton(Screen screen) {
+		return ButtonWidget.builder(ScreenTexts.DONE, (button) -> screen.close());
 	}
 	
 	@SilkApi
