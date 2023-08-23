@@ -93,9 +93,8 @@ public class ConfigScreen extends BaseScreen {
 	}
 	
 	@Override
-	public void close() {
+	protected void onCloseScreen() {
 		if (notSub) configData.writer().save();
-		super.close();
 	}
 	
 	@Override

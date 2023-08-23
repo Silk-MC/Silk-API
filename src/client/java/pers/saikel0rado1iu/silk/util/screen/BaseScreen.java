@@ -39,6 +39,13 @@ public abstract class BaseScreen extends Screen {
 	@Override
 	public void close() {
 		if (client == null) return;
+		onCloseScreen();
 		client.setScreen(parent);
+	}
+	
+	/**
+	 * 在关闭屏幕时的操作
+	 */
+	protected void onCloseScreen() {
 	}
 }
