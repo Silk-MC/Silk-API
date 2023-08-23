@@ -59,7 +59,7 @@ public class PlaceholderScreen extends Screen {
 		// 添加官网跳转按钮
 		addDrawableChild(ScreenUtil.linkButton(this, Text.translatable(ScreenUtil.widgetText(mod, ModBasicData.LinkType.HOMEPAGE.toString().toLowerCase())), mod, getLinkTrusted()).dimensions((int) (width / 2 - buttonWidth * 1.5), height / 2 + 12, buttonWidth - 4, 20).build());
 		// 添加支持按钮
-		addDrawableChild(ScreenUtil.supportButton(this, mod).dimensions((int) (width / 2 - buttonWidth * 0.5 + 2), height / 2 + 12, buttonWidth - 4, 20).build());
+		addDrawableChild(ScreenUtil.supportButton(this, mod, getLinkTrusted()).dimensions((int) (width / 2 - buttonWidth * 0.5 + 2), height / 2 + 12, buttonWidth - 4, 20).build());
 		// 添加返回按钮
 		addDrawableChild(ButtonWidget.builder(ScreenTexts.CANCEL, (button) -> close()).dimensions((int) (width / 2 + buttonWidth * 0.5 + 4), height / 2 + 12, buttonWidth - 4, 20).build());
 	}
