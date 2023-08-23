@@ -24,7 +24,7 @@ import pers.saikel0rado1iu.silk.util.config.ConfigWriter;
  * @since 0.1.0
  */
 public class Main implements ModInitializer {
-	public static final ConfigData CONFIG_DATA = new ConfigData.Builder(Silk.DATA).create()
+	public static final ConfigData CONFIG_DATA = ConfigData.builder(Silk.DATA).build()
 			.addSwitch("switch", true)
 			.addOption("option", ConfigData.Mode.TOML)
 			.addIntSlider("int_slider", 0, 50, 25)
@@ -37,7 +37,7 @@ public class Main implements ModInitializer {
 	 */
 	@Override
 	public void onInitialize() {
-		ConfigData configData1 = new ConfigData.Builder(Silk.DATA).type(ConfigData.Type.EXPERIMENTAL).create()
+		ConfigData configData1 = ConfigData.builder(Silk.DATA).type(ConfigData.Type.EXPERIMENTAL).build()
 				.addFloatSlider("float_slider", -1F, 1F, 0F)
 				.addSwitch("switch1", false)
 				.addSwitch("switch2", false)

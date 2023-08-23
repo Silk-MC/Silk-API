@@ -15,6 +15,7 @@ import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -24,6 +25,7 @@ import net.minecraft.client.option.SimpleOption;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 
@@ -38,7 +40,7 @@ import java.util.List;
  * @since 0.1.0
  */
 @SilkApi
-public final class ConfigScreen extends Screen {
+public class ConfigScreen extends Screen {
 	private final boolean notSub;
 	private final boolean isDouble;
 	private final String keyPrefix;
@@ -58,9 +60,7 @@ public final class ConfigScreen extends Screen {
 	}
 	
 	private ConfigScreen(Screen parent, boolean notSub, boolean isDouble, ConfigData configData, String keyPrefix, Text title) {
-		super(configData.type == ConfigData.Type.EXPERIMENTAL ? title.copy().formatted(Formatting.RED)
-				: (configData.type == ConfigData.Type.DEPRECATED) ? title.copy().formatted(Formatting.YELLOW, Formatting.ITALIC)
-				: title);
+		super(configData.type == ConfigData.Type.EXPERIMENTAL ? title.copy().formatted(Formatting.RED) : (configData.type == ConfigData.Type.DEPRECATED) ? title.copy().formatted(Formatting.YELLOW, Formatting.ITALIC) : title);
 		this.notSub = notSub;
 		this.isDouble = isDouble;
 		this.parent = parent;
@@ -68,12 +68,33 @@ public final class ConfigScreen extends Screen {
 		this.configData = configData;
 	}
 	
-	public static String getModConfigText(ModBasicData mod, String key) {
+	private static String getModConfigText(ModBasicData mod, String key) {
 		return "config." + mod.getId() + '.' + key + ("".equals(key) ? "text" : ".text");
 	}
 	
-	public static String getModConfigTip(ModBasicData mod, String key) {
+	private static String getModConfigTip(ModBasicData mod, String key) {
 		return "config." + mod.getId() + '.' + key + ("".equals(key) ? "tip" : ".tip");
+	}
+	
+	@SilkApi
+	public static ButtonWidget getSupportButton(Screen screen, ModBasicData mod) {
+		return mod.getLink(ModBasicData.LinkType.SUPPORT).isPresent()
+				? ButtonWidget.builder(Text.translatable(getModConfigText(mod, ModBasicData.LinkType.SUPPORT.toString().toLowerCase())),
+						ConfirmLinkScreen.opening(mod.getLink(ModBasicData.LinkType.SUPPORT).get().toString(), screen, false))
+				.dimensions(screen.width - 75, 6, 70, 20).build()
+				: ButtonWidget.builder(Text.translatable(getModConfigText(mod, ModBasicData.LinkType.SUPPORT.toString().toLowerCase())),
+						ConfirmLinkScreen.opening(Silk.DATA.getLink(ModBasicData.LinkType.SUPPORT).orElseThrow().toString(), screen, true))
+				.dimensions(screen.width - 75, 6, 70, 20).build();
+	}
+	
+	private ButtonWidget getSupportButton(Screen screen) {
+		return configData.mod.getLink(ModBasicData.LinkType.SUPPORT).isPresent()
+				? ButtonWidget.builder(Text.translatable(getModConfigText(configData.mod, ModBasicData.LinkType.SUPPORT.toString().toLowerCase())),
+						ConfirmLinkScreen.opening(configData.mod.getLink(ModBasicData.LinkType.SUPPORT).get().toString(), screen, false))
+				.dimensions(screen.width - 75, 6, 70, 20).build()
+				: ButtonWidget.builder(Text.translatable(getModConfigText(configData.mod, ModBasicData.LinkType.SUPPORT.toString().toLowerCase())),
+						ConfirmLinkScreen.opening(Silk.DATA.getLink(ModBasicData.LinkType.SUPPORT).orElseThrow().toString(), screen, true))
+				.dimensions(screen.width - 75, 6, 70, 20).build();
 	}
 	
 	@Override
@@ -122,7 +143,7 @@ public final class ConfigScreen extends Screen {
 	private List<SimpleOption<?>> addSimpleOption() {
 		List<SimpleOption<?>> simpleOptionList = Lists.newArrayListWithExpectedSize(8);
 		// 添加"支持我们"按钮
-		//addDrawableChild(getSupportUsButton(this));
+		addDrawableChild(getSupportButton(this));
 		// 添加完成按钮
 		addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, (button) -> {
 			if (notSub) new ConfigWriter(configData).save();
@@ -184,8 +205,7 @@ public final class ConfigScreen extends Screen {
 					});
 				}
 			} else if (object instanceof ConfigData cd) {
-				simpleOption = SimpleOption.ofBoolean(getModConfigText(configData.mod, realKey), SimpleOption.constantTooltip(Text.of(getModConfigTip(configData.mod, realKey))),
-						(optionText, value) -> Text.of(""), false, (value) -> MinecraftClient.getInstance().setScreen(new ConfigScreen(this, false, isDouble, cd, realKey + '.', Text.translatable(getModConfigText(configData.mod, realKey)))));
+				simpleOption = SimpleOption.ofBoolean(getModConfigText(configData.mod, realKey), SimpleOption.constantTooltip(Text.of(getModConfigTip(configData.mod, realKey))), (optionText, value) -> Text.of(""), false, (value) -> MinecraftClient.getInstance().setScreen(new ConfigScreen(this, false, isDouble, cd, realKey + '.', Text.translatable(getModConfigText(configData.mod, realKey)))));
 			}
 			simpleOptionList.add(simpleOption);
 			if (!isDouble) {

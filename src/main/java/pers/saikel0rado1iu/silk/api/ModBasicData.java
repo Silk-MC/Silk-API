@@ -53,6 +53,11 @@ public interface ModBasicData {
 	}
 	
 	@SilkApi
+	default String getDescription() {
+		return getMod().getMetadata().getDescription();
+	}
+	
+	@SilkApi
 	@NotNull
 	default String getVersion() {
 		return getMod().getMetadata().getVersion().getFriendlyString();
@@ -69,7 +74,8 @@ public interface ModBasicData {
 		List<String> authors = new ArrayList<>(2);
 		getMod().getMetadata().getAuthors().stream().toList().forEach(person -> {
 			String name = person.getName();
-			if (name.contains("§")) {
+			String magic = "§";
+			if (name.contains(magic)) {
 				List<String> strings = new ArrayList<>(List.of(name.split("§")));
 				strings.replaceAll(s -> !s.isEmpty() ? s.substring(1) : s);
 				name = String.join("", strings);

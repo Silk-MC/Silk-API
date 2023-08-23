@@ -12,7 +12,8 @@
 package pers.saikel0rado1iu.silk;
 
 import org.jetbrains.annotations.NotNull;
-import pers.saikel0rado1iu.silk.api.ModBasicData;
+import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.api.ModExpansionData;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -24,7 +25,7 @@ import java.util.Optional;
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  */
-final public class Silk implements ModBasicData {
+final public class Silk implements ModExpansionData {
 	public static final Silk DATA = new Silk();
 	
 	@Override
@@ -44,6 +45,7 @@ final public class Silk implements ModBasicData {
 		return Optional.of(new URL(url));
 	}
 	
+	@SilkApi
 	public URL getAfdianLink() {
 		String url = getMod().getMetadata().getCustomValue("modmenu").getAsObject().get("links").getAsObject().get("modmenu.support.afdian").getAsString();
 		try {

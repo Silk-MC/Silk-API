@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.api;
+package pers.saikel0rado1iu.silk.api.item;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
@@ -23,6 +23,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.api.ModBasicData;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于方便快速的构建物品组集</font></b></p>
@@ -37,7 +38,7 @@ public abstract class ItemGroupCreator {
 	 * 使用自带的物品作为标志生成物品组，物品组 ID 为 itemGroup.namespace.id
 	 */
 	@SilkApi
-	protected static RegistryKey<ItemGroup> getItemGroup(Item icon, ModBasicData namespace, String id) {
+	protected static RegistryKey<ItemGroup> create(Item icon, ModBasicData namespace, String id) {
 		Registry.register(Registries.ITEM_GROUP, new Identifier(namespace.getId(), id),
 				FabricItemGroup.builder().icon(() -> new ItemStack(icon)).displayName(getGroupText(namespace, id)).build());
 		return RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(namespace.getId(), id));
@@ -48,7 +49,7 @@ public abstract class ItemGroupCreator {
 	 * 物品组 ID 为 itemGroup.namespace.id
 	 */
 	@SilkApi
-	protected static RegistryKey<ItemGroup> getItemGroup(ModBasicData namespace, String id) {
+	protected static RegistryKey<ItemGroup> create(ModBasicData namespace, String id) {
 		Item icon = new Item(new FabricItemSettings());
 		Registry.register(Registries.ITEM, new Identifier(namespace.getId(), getIconId(id)), icon);
 		Registry.register(Registries.ITEM_GROUP, new Identifier(namespace.getId(), id),

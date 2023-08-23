@@ -47,13 +47,28 @@ public final class ConfigData {
 	/**
 	 * 在 {@link ModBasicData} 模组中创建一个 {@link ConfigData} 模组配置文件的副本，并使用自定义的保存模式
 	 */
-	@SilkApi
 	private ConfigData(ModBasicData mod, Type type, Mode mode, LinkedHashMap<String, Object> configs, LinkedHashMap<String, Object> defaults) {
 		this.mod = mod;
 		this.type = type;
 		this.mode = mode;
 		this.configs = configs;
 		this.defaults = defaults;
+	}
+	
+	/**
+	 * 创建一个 {@link ModBasicData} 模组的空配置
+	 */
+	@SilkApi
+	public static Builder builder(@NotNull ModBasicData mod) {
+		return new Builder(mod);
+	}
+	
+	/**
+	 * 使用 {@link ConfigData} 作为原始配置创建一份配置副本
+	 */
+	@SilkApi
+	public static Builder builder(@NotNull ConfigData defaults) {
+		return new Builder(defaults);
 	}
 	
 	/**
@@ -246,8 +261,7 @@ public final class ConfigData {
 		private LinkedHashMap<String, Object> configs;
 		private LinkedHashMap<String, Object> defaults;
 		
-		@SilkApi
-		public Builder(@NotNull ModBasicData mod) {
+		private Builder(@NotNull ModBasicData mod) {
 			this.mod = mod;
 			this.type = Type.GAMER;
 			this.mode = Mode.TOML;
@@ -255,8 +269,7 @@ public final class ConfigData {
 			this.defaults = Maps.newLinkedHashMapWithExpectedSize(10);
 		}
 		
-		@SilkApi
-		public Builder(@NotNull ConfigData defaults) {
+		private Builder(@NotNull ConfigData defaults) {
 			this.mod = defaults.mod;
 			this.type = defaults.type;
 			this.mode = defaults.mode;
@@ -284,16 +297,13 @@ public final class ConfigData {
 		
 		@SilkApi
 		public Builder defaults(ConfigData defaults) {
-			this.mod = defaults.mod;
-			this.type = defaults.type;
-			this.mode = defaults.mode;
 			this.configs = defaults.configs;
 			this.defaults = defaults.defaults;
 			return this;
 		}
 		
 		@SilkApi
-		public ConfigData create() {
+		public ConfigData build() {
 			return new ConfigData(mod, type, mode, configs, defaults);
 		}
 	}
