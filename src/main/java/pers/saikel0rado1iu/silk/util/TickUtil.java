@@ -16,7 +16,7 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import java.util.concurrent.TimeUnit;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">有关刻的所有实用类</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">有关刻的所有实用方法</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>

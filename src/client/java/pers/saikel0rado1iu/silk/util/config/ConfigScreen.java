@@ -15,7 +15,6 @@ import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -25,12 +24,12 @@ import net.minecraft.client.option.SimpleOption;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.api.ModBasicData;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static pers.saikel0rado1iu.silk.util.ScreenUtil.*;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于构建配置屏幕</font></b></p>
@@ -51,12 +50,12 @@ public class ConfigScreen extends Screen {
 	
 	@SilkApi
 	public ConfigScreen(Screen parent, ConfigData configData) {
-		this(parent, true, false, configData, "", Text.translatable(getModConfigText(configData.mod, "")));
+		this(parent, true, false, configData, "", Text.translatable(configText(configData.mod, "")));
 	}
 	
 	@SilkApi
 	public ConfigScreen(Screen parent, ConfigData configData, boolean isDouble) {
-		this(parent, true, isDouble, configData, "", Text.translatable(getModConfigText(configData.mod, "")));
+		this(parent, true, isDouble, configData, "", Text.translatable(configText(configData.mod, "")));
 	}
 	
 	private ConfigScreen(Screen parent, boolean notSub, boolean isDouble, ConfigData configData, String keyPrefix, Text title) {
@@ -66,35 +65,7 @@ public class ConfigScreen extends Screen {
 		this.parent = parent;
 		this.keyPrefix = keyPrefix;
 		this.configData = configData;
-	}
-	
-	private static String getModConfigText(ModBasicData mod, String key) {
-		return "config." + mod.getId() + '.' + key + ("".equals(key) ? "text" : ".text");
-	}
-	
-	private static String getModConfigTip(ModBasicData mod, String key) {
-		return "config." + mod.getId() + '.' + key + ("".equals(key) ? "tip" : ".tip");
-	}
-	
-	@SilkApi
-	public static ButtonWidget getSupportButton(Screen screen, ModBasicData mod) {
-		return mod.getLink(ModBasicData.LinkType.SUPPORT).isPresent()
-				? ButtonWidget.builder(Text.translatable(getModConfigText(mod, ModBasicData.LinkType.SUPPORT.toString().toLowerCase())),
-						ConfirmLinkScreen.opening(mod.getLink(ModBasicData.LinkType.SUPPORT).get().toString(), screen, false))
-				.dimensions(screen.width - 75, 6, 70, 20).build()
-				: ButtonWidget.builder(Text.translatable(getModConfigText(mod, ModBasicData.LinkType.SUPPORT.toString().toLowerCase())),
-						ConfirmLinkScreen.opening(Silk.DATA.getLink(ModBasicData.LinkType.SUPPORT).orElseThrow().toString(), screen, true))
-				.dimensions(screen.width - 75, 6, 70, 20).build();
-	}
-	
-	private ButtonWidget getSupportButton(Screen screen) {
-		return configData.mod.getLink(ModBasicData.LinkType.SUPPORT).isPresent()
-				? ButtonWidget.builder(Text.translatable(getModConfigText(configData.mod, ModBasicData.LinkType.SUPPORT.toString().toLowerCase())),
-						ConfirmLinkScreen.opening(configData.mod.getLink(ModBasicData.LinkType.SUPPORT).get().toString(), screen, false))
-				.dimensions(screen.width - 75, 6, 70, 20).build()
-				: ButtonWidget.builder(Text.translatable(getModConfigText(configData.mod, ModBasicData.LinkType.SUPPORT.toString().toLowerCase())),
-						ConfirmLinkScreen.opening(Silk.DATA.getLink(ModBasicData.LinkType.SUPPORT).orElseThrow().toString(), screen, true))
-				.dimensions(screen.width - 75, 6, 70, 20).build();
+		this.configData.reader().load();
 	}
 	
 	@Override
@@ -127,6 +98,7 @@ public class ConfigScreen extends Screen {
 	@Override
 	public void close() {
 		if (client == null) return;
+		configData.writer().save();
 		client.setScreen(parent);
 	}
 	
@@ -143,10 +115,10 @@ public class ConfigScreen extends Screen {
 	private List<SimpleOption<?>> addSimpleOption() {
 		List<SimpleOption<?>> simpleOptionList = Lists.newArrayListWithExpectedSize(8);
 		// 添加"支持我们"按钮
-		addDrawableChild(getSupportButton(this));
+		addDrawableChild(supportButton(this, configData.mod, getLinkTrusted()).dimensions(width - 75, 6, 70, 20).build());
 		// 添加完成按钮
 		addDrawableChild(ButtonWidget.builder(ScreenTexts.DONE, (button) -> {
-			if (notSub) new ConfigWriter(configData).save();
+			if (notSub) configData.writer().save();
 			close();
 		}).dimensions(width / 2 - 100, height - 26, 200, 20).build());
 		// 添加所有配置选项按钮
@@ -157,55 +129,54 @@ public class ConfigScreen extends Screen {
 			Object defaultConfig = configData.defaults.get(key);
 			Object object = configData.configs.get(key);
 			if (object instanceof Boolean bool) {
-				simpleOption = SimpleOption.ofBoolean(getModConfigText(configData.mod, realKey), value -> Tooltip.of(Text.translatable(getModConfigTip(configData.mod, realKey + (value ? ".on" : ".off")))), bool, (value) -> {
+				simpleOption = SimpleOption.ofBoolean(configText(configData.mod, realKey), value -> Tooltip.of(Text.translatable(configTip(configData.mod, realKey + (value ? ".on" : ".off")))), bool, (value) -> {
 					configData.setConfig(key, value);
-					if (notSub) new ConfigWriter(configData).save();
+					if (notSub) configData.writer().save();
 				});
 			} else if (object instanceof Enum<?> e) {
 				List<Object> enums = List.of(Arrays.stream(e.getDeclaringClass().getEnumConstants()).toArray());
-				simpleOption = new SimpleOption<>(getModConfigText(configData.mod, realKey), value -> {
+				simpleOption = new SimpleOption<>(configText(configData.mod, realKey), value -> {
 					for (Object o : enums)
-						if (o == e)
-							return Tooltip.of(Text.translatable(getModConfigTip(configData.mod, realKey + '.' + enums.get(value).toString().toLowerCase())));
-					return Tooltip.of(Text.translatable(getModConfigTip(configData.mod, realKey)));
-				}, (optionText, value) -> Text.translatable(getModConfigText(configData.mod, realKey + '.' + enums.get(value).toString().toLowerCase())), new SimpleOption.MaxSuppliableIntCallbacks(0, () -> enums.size() - 1, enums.size() - 1), enums.indexOf(e), value -> {
+						if (o == e) return Tooltip.of(Text.translatable(configTip(configData.mod, realKey + '.' + enums.get(value).toString().toLowerCase())));
+					return Tooltip.of(Text.translatable(configTip(configData.mod, realKey)));
+				}, (optionText, value) -> Text.translatable(configText(configData.mod, realKey + '.' + enums.get(value).toString().toLowerCase())), new SimpleOption.MaxSuppliableIntCallbacks(0, () -> enums.size() - 1, enums.size() - 1), enums.indexOf(e), value -> {
 					configData.setConfig(key, enums.get(value));
-					if (notSub) new ConfigWriter(configData).save();
+					if (notSub) configData.writer().save();
 				});
 			} else if (object instanceof List<?> list) {
 				if (list.get(2) instanceof Integer i) {
-					simpleOption = new SimpleOption<>(getModConfigText(configData.mod, realKey), value -> {
-						if (value == list.get(0)) return Tooltip.of(Text.translatable(getModConfigTip(configData.mod, realKey + ".min")));
-						else if (value == list.get(1)) return Tooltip.of(Text.translatable(getModConfigTip(configData.mod, realKey + ".max")));
-						else if (value == defaultConfig) return Tooltip.of(Text.translatable(getModConfigTip(configData.mod, realKey + ".default")));
-						else return Tooltip.of(Text.translatable(getModConfigTip(configData.mod, realKey)));
+					simpleOption = new SimpleOption<>(configText(configData.mod, realKey), value -> {
+						if (value == list.get(0)) return Tooltip.of(Text.translatable(configTip(configData.mod, realKey + ".min"), value));
+						else if (value == list.get(1)) return Tooltip.of(Text.translatable(configTip(configData.mod, realKey + ".max"), value));
+						else if (value == defaultConfig) return Tooltip.of(Text.translatable(configTip(configData.mod, realKey + ".default"), value));
+						else return Tooltip.of(Text.translatable(configTip(configData.mod, realKey), value));
 					}, (optionText, value) -> {
-						if (value == list.get(0)) return Text.translatable(getModConfigText(configData.mod, realKey + ".min"));
-						else if (value == list.get(1)) return Text.translatable(getModConfigText(configData.mod, realKey + ".max"));
-						else if (value == defaultConfig) return Text.translatable(getModConfigText(configData.mod, realKey + ".default"));
-						else return Text.translatable(getModConfigText(configData.mod, realKey));
+						if (value == list.get(0)) return Text.translatable(configText(configData.mod, realKey + ".min"), value);
+						else if (value == list.get(1)) return Text.translatable(configText(configData.mod, realKey + ".max"), value);
+						else if (value == defaultConfig) return Text.translatable(configText(configData.mod, realKey + ".default"), value);
+						else return Text.translatable(configText(configData.mod, realKey), value);
 					}, new SimpleOption.ValidatingIntSliderCallbacks((int) list.get(0), (int) list.get(1)), Codec.intRange((int) list.get(0), (int) list.get(1)), i, value -> {
 						configData.setConfig(key, value);
-						if (notSub) new ConfigWriter(configData).save();
+						if (notSub) configData.writer().save();
 					});
 				} else if (list.get(2) instanceof Float f) {
-					simpleOption = new SimpleOption<>(getModConfigText(configData.mod, realKey), value -> {
-						if (value == list.get(0)) return Tooltip.of(Text.translatable(getModConfigTip(configData.mod, realKey + ".min")));
-						else if (value == list.get(1)) return Tooltip.of(Text.translatable(getModConfigTip(configData.mod, realKey + ".max")));
-						else if (value == defaultConfig) return Tooltip.of(Text.translatable(getModConfigTip(configData.mod, realKey + ".default")));
-						else return Tooltip.of(Text.translatable(getModConfigTip(configData.mod, realKey)));
+					simpleOption = new SimpleOption<>(configText(configData.mod, realKey), value -> {
+						if (value == list.get(0)) return Tooltip.of(Text.translatable(configTip(configData.mod, realKey + ".min"), value));
+						else if (value == list.get(1)) return Tooltip.of(Text.translatable(configTip(configData.mod, realKey + ".max"), value));
+						else if (value == defaultConfig) return Tooltip.of(Text.translatable(configTip(configData.mod, realKey + ".default"), value));
+						else return Tooltip.of(Text.translatable(configTip(configData.mod, realKey), value));
 					}, (optionText, value) -> {
-						if (value == list.get(0)) return Text.translatable(getModConfigText(configData.mod, realKey + ".min"));
-						else if (value == list.get(1)) return Text.translatable(getModConfigText(configData.mod, realKey + ".max"));
-						else if (value == defaultConfig) return Text.translatable(getModConfigText(configData.mod, realKey + ".default"));
-						else return Text.translatable(getModConfigText(configData.mod, realKey));
+						if (value == list.get(0)) return Text.translatable(configText(configData.mod, realKey + ".min"), value);
+						else if (value == list.get(1)) return Text.translatable(configText(configData.mod, realKey + ".max"), value);
+						else if (value == defaultConfig) return Text.translatable(configText(configData.mod, realKey + ".default"), value);
+						else return Text.translatable(configText(configData.mod, realKey), value);
 					}, new SimpleOption.ValidatingIntSliderCallbacks((int) ((float) list.get(0) * 100), (int) ((float) list.get(1) * 100)).withModifier(sliderProgressValue -> (float) sliderProgressValue / 100.0, value -> (int) (value * 100)), Codec.doubleRange((float) list.get(0), (float) list.get(1)), Double.valueOf(f), value -> {
 						configData.setConfig(key, value.floatValue());
-						if (notSub) new ConfigWriter(configData).save();
+						if (notSub) configData.writer().save();
 					});
 				}
 			} else if (object instanceof ConfigData cd) {
-				simpleOption = SimpleOption.ofBoolean(getModConfigText(configData.mod, realKey), SimpleOption.constantTooltip(Text.of(getModConfigTip(configData.mod, realKey))), (optionText, value) -> Text.of(""), false, (value) -> MinecraftClient.getInstance().setScreen(new ConfigScreen(this, false, isDouble, cd, realKey + '.', Text.translatable(getModConfigText(configData.mod, realKey)))));
+				simpleOption = SimpleOption.ofBoolean(configText(configData.mod, realKey), SimpleOption.constantTooltip(Text.of(configTip(configData.mod, realKey))), (optionText, value) -> Text.of(""), false, (value) -> MinecraftClient.getInstance().setScreen(new ConfigScreen(this, false, isDouble, cd, realKey + '.', Text.translatable(configText(configData.mod, realKey)))));
 			}
 			simpleOptionList.add(simpleOption);
 			if (!isDouble) {
@@ -235,5 +206,12 @@ public class ConfigScreen extends Screen {
 		}
 		if (isDouble && simpleOptionList.size() % 2 == 1) optionListWidget.addOptionEntry(simpleOptionList.get(simpleOptionList.size() - 1), null);
 		return simpleOptionList;
+	}
+	
+	/**
+	 * 重写此方法以信任链接
+	 */
+	protected boolean getLinkTrusted() {
+		return false;
 	}
 }

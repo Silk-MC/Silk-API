@@ -18,6 +18,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.moandjiezana.toml.TomlWriter;
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import pers.saikel0rado1iu.silk.Silk;
@@ -41,6 +42,9 @@ import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import static pers.saikel0rado1iu.silk.util.config.ConfigData.CHARSET;
 import static pers.saikel0rado1iu.silk.util.config.ConfigData.CONFIG_PATH;
@@ -53,9 +57,11 @@ import static pers.saikel0rado1iu.silk.util.config.ConfigData.CONFIG_PATH;
  * @since 0.1.0
  */
 public final class ConfigWriter {
+	private static final ScheduledExecutorService CONFIG_STORE_POOL = new ScheduledThreadPoolExecutor(0,
+			new BasicThreadFactory.Builder().daemon(true).build());
 	private final ConfigData configData;
 	
-	public ConfigWriter(ConfigData configData) {
+	ConfigWriter(ConfigData configData) {
 		this.configData = configData;
 	}
 	
@@ -142,72 +148,7 @@ public final class ConfigWriter {
 	 */
 	@SilkApi
 	public void save(Path customPath, String fileName) {
-		try {
-			Path file = Paths.get(customPath.toString(), fileName);
-			switch (configData.mode) {
-				case PROPERTIES -> {
-					LinkedProperties ppt = new LinkedProperties();
-					setPropertiesConfigs(getSaveConfigs(configData), ppt, "");
-					List<String> info = getAdditionalInfo(configData);
-					info.replaceAll(s -> "# " + s);
-					info.add("");
-					List<String> data = new ArrayList<>(ppt.linkedSet.size());
-					for (String key : ppt.linkedSet) data.add(key + " = " + ppt.getProperty(key));
-					Files.write(file, info, CHARSET);
-					Files.write(file, data, CHARSET, StandardOpenOption.APPEND);
-				}
-				case XML -> {
-					try {
-						SAXTransformerFactory xtf = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
-						TransformerHandler handler = xtf.newTransformerHandler();
-						Transformer transformer = handler.getTransformer();
-						transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-						transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-						transformer.setOutputProperty(OutputKeys.ENCODING, "utf-8");
-						ByteArrayOutputStream baos = new ByteArrayOutputStream();
-						Result result = new StreamResult(baos);
-						handler.setResult(result);
-						AttributesImpl attr = new AttributesImpl();
-						StringBuilder info = new StringBuilder("\n");
-						for (String s : getAdditionalInfo(configData)) info.append(s).append("\n");
-						handler.startDocument();
-						handler.comment(info.toString().toCharArray(), 0, info.length());
-						handler.startElement("", "", configData.mod.getId(), attr);
-						setXmlConfigs(getSaveConfigs(configData), handler, attr);
-						handler.endElement("", "", configData.mod.getId());
-						handler.endDocument();
-						List<String> data = Arrays.asList(baos.toString().split("><"));
-						data.replaceAll(s -> s.toCharArray()[0] != '<' ? "<" + s : s);
-						data.replaceAll(s -> (s.toCharArray()[s.length() - 1] != '>' && s.toCharArray()[s.length() - 1] != '\n') ? s + ">" : s);
-						Files.write(file, data, CHARSET);
-					} catch (TransformerConfigurationException | SAXException e) {
-						Silk.DATA.logger().error(e.getLocalizedMessage());
-					}
-				}
-				case JSON -> {
-					JsonObject jsonObject = JsonParser.parseString(new Gson().toJson(getSaveConfigs(configData))).getAsJsonObject();
-					Gson gson = new GsonBuilder().setPrettyPrinting().create();
-					List<String> info = getAdditionalInfo(configData);
-					for (int count = 0; count < info.size(); count++) info.set(count, "  \"//" + count + "\": \"" + info.get(count) + "\",");
-					info.add("  ");
-					List<String> data = new ArrayList<>(List.of(gson.toJson(jsonObject).split("\n")));
-					data.addAll(1, info);
-					Files.write(file, data, CHARSET);
-				}
-				case TOML -> {
-					TomlWriter tomlWriter = new TomlWriter.Builder().indentValuesBy(2).build();
-					tomlWriter.write(getSaveConfigs(configData), file.toFile());
-					List<String> info = getAdditionalInfo(configData);
-					info.replaceAll(s -> "# " + s);
-					info.add("");
-					List<String> data = Files.readAllLines(file, CHARSET);
-					Files.write(file, info, CHARSET);
-					Files.write(file, data, CHARSET, StandardOpenOption.APPEND);
-				}
-			}
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		CONFIG_STORE_POOL.schedule(new ConfigStoreThread(configData, customPath, fileName), 0, TimeUnit.SECONDS);
 	}
 	
 	/**
@@ -295,6 +236,91 @@ public final class ConfigWriter {
 		public synchronized Object put(Object key, Object value) {
 			linkedSet.add((String) key);
 			return super.put(key, value);
+		}
+	}
+	
+	/**
+	 * 单独开辟线程减少主线程损耗
+	 */
+	private static class ConfigStoreThread extends Thread {
+		private final ConfigData configData;
+		private final Path customPath;
+		private final String fileName;
+		
+		private ConfigStoreThread(ConfigData configData, Path customPath, String fileName) {
+			this.configData = configData;
+			this.customPath = customPath;
+			this.fileName = fileName;
+		}
+		
+		@Override
+		public void run() {
+			try {
+				Path file = Paths.get(customPath.toString(), fileName);
+				switch (configData.mode) {
+					case PROPERTIES -> {
+						LinkedProperties ppt = new LinkedProperties();
+						setPropertiesConfigs(getSaveConfigs(configData), ppt, "");
+						List<String> info = getAdditionalInfo(configData);
+						info.replaceAll(s -> "# " + s);
+						info.add("");
+						List<String> data = new ArrayList<>(ppt.linkedSet.size());
+						for (String key : ppt.linkedSet) data.add(key + " = " + ppt.getProperty(key));
+						Files.write(file, info, CHARSET);
+						Files.write(file, data, CHARSET, StandardOpenOption.APPEND);
+					}
+					case XML -> {
+						try {
+							SAXTransformerFactory xtf = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
+							TransformerHandler handler = xtf.newTransformerHandler();
+							Transformer transformer = handler.getTransformer();
+							transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+							transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+							transformer.setOutputProperty(OutputKeys.ENCODING, "utf-8");
+							ByteArrayOutputStream baos = new ByteArrayOutputStream();
+							Result result = new StreamResult(baos);
+							handler.setResult(result);
+							AttributesImpl attr = new AttributesImpl();
+							StringBuilder info = new StringBuilder("\n");
+							for (String s : getAdditionalInfo(configData)) info.append(s).append("\n");
+							handler.startDocument();
+							handler.comment(info.toString().toCharArray(), 0, info.length());
+							handler.startElement("", "", configData.mod.getId(), attr);
+							setXmlConfigs(getSaveConfigs(configData), handler, attr);
+							handler.endElement("", "", configData.mod.getId());
+							handler.endDocument();
+							List<String> data = Arrays.asList(baos.toString().split("><"));
+							data.replaceAll(s -> s.toCharArray()[0] != '<' ? "<" + s : s);
+							data.replaceAll(s -> (s.toCharArray()[s.length() - 1] != '>' && s.toCharArray()[s.length() - 1] != '\n') ? s + ">" : s);
+							Files.write(file, data, CHARSET);
+						} catch (TransformerConfigurationException | SAXException e) {
+							Silk.DATA.logger().error(e.getLocalizedMessage());
+						}
+					}
+					case JSON -> {
+						JsonObject jsonObject = JsonParser.parseString(new Gson().toJson(getSaveConfigs(configData))).getAsJsonObject();
+						Gson gson = new GsonBuilder().setPrettyPrinting().create();
+						List<String> info = getAdditionalInfo(configData);
+						for (int count = 0; count < info.size(); count++) info.set(count, "  \"//" + count + "\": \"" + info.get(count) + "\",");
+						info.add("  ");
+						List<String> data = new ArrayList<>(List.of(gson.toJson(jsonObject).split("\n")));
+						data.addAll(1, info);
+						Files.write(file, data, CHARSET);
+					}
+					case TOML -> {
+						TomlWriter tomlWriter = new TomlWriter.Builder().indentValuesBy(2).build();
+						tomlWriter.write(getSaveConfigs(configData), file.toFile());
+						List<String> info = getAdditionalInfo(configData);
+						info.replaceAll(s -> "# " + s);
+						info.add("");
+						List<String> data = Files.readAllLines(file, CHARSET);
+						Files.write(file, info, CHARSET);
+						Files.write(file, data, CHARSET, StandardOpenOption.APPEND);
+					}
+				}
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 }

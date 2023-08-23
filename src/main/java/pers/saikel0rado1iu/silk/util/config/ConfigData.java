@@ -37,12 +37,13 @@ import java.util.Optional;
 public final class ConfigData {
 	public static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir();
 	public static final Charset CHARSET = StandardCharsets.UTF_8;
-	
 	final ModBasicData mod;
 	final Mode mode;
 	final Type type;
 	final LinkedHashMap<String, Object> configs;
 	final LinkedHashMap<String, Object> defaults;
+	private final ConfigReader reader;
+	private final ConfigWriter writer;
 	
 	/**
 	 * 在 {@link ModBasicData} 模组中创建一个 {@link ConfigData} 模组配置文件的副本，并使用自定义的保存模式
@@ -53,6 +54,8 @@ public final class ConfigData {
 		this.mode = mode;
 		this.configs = configs;
 		this.defaults = defaults;
+		this.reader = new ConfigReader(this);
+		this.writer = new ConfigWriter(this);
 	}
 	
 	/**
@@ -211,6 +214,22 @@ public final class ConfigData {
 		else if (configs.get(id) instanceof ConfigData data) return c.cast(data);
 		else mod.logger().error("No configuration data was found with ID as '" + id + "'! -- by " + Silk.DATA.getName());
 		throw new RuntimeException("No configuration data was found with ID as '" + id + "'! -- by " + Silk.DATA.getName());
+	}
+	
+	/**
+	 * @return 配置读取器
+	 */
+	@SilkApi
+	public ConfigReader reader() {
+		return reader;
+	}
+	
+	/**
+	 * @return 配置写入器
+	 */
+	@SilkApi
+	public ConfigWriter writer() {
+		return writer;
 	}
 	
 	/**

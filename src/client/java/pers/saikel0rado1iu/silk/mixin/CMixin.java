@@ -42,7 +42,7 @@ abstract class CMixin extends Screen {
 		// 添加 自然更替 按钮
 		ConfigScreen configScreen = new ConfigScreen(this, CONFIG_DATA);
 		addDrawableChild(ButtonWidget.builder(configScreen.getTitle(),
-						(button) -> MinecraftClient.getInstance().setScreen(configScreen))
+						(button) -> MinecraftClient.getInstance().setScreen(configScreen /*new PlaceholderScreen(this, Silk.DATA)*/))
 				.dimensions(width / 2 - 100,
 						y - (spacingY * 2),
 						200, 20)

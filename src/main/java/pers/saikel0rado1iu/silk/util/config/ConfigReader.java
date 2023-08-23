@@ -15,6 +15,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import com.moandjiezana.toml.Toml;
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -29,6 +30,9 @@ import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import static pers.saikel0rado1iu.silk.util.config.ConfigData.CHARSET;
 import static pers.saikel0rado1iu.silk.util.config.ConfigData.CONFIG_PATH;
@@ -41,9 +45,12 @@ import static pers.saikel0rado1iu.silk.util.config.ConfigData.CONFIG_PATH;
  * @since 0.1.0
  */
 public final class ConfigReader {
+	private static final ScheduledExecutorService CONFIG_LOAD_POOL = new ScheduledThreadPoolExecutor(0,
+			new BasicThreadFactory.Builder().daemon(true).build());
+	
 	private final ConfigData configData;
 	
-	public ConfigReader(ConfigData configData) {
+	ConfigReader(ConfigData configData) {
 		this.configData = configData;
 	}
 	
@@ -172,32 +179,7 @@ public final class ConfigReader {
 	 */
 	@SilkApi
 	public void load(Path customPath, String fileName) {
-		try {
-			Path file = Paths.get(customPath.toString(), fileName);
-			switch (configData.mode) {
-				case PROPERTIES -> {
-					Properties data = new Properties();
-					data.load(Files.newInputStream(file));
-					loadPropertiesConfigs(configData, data, "");
-				}
-				case XML -> {
-					SAXParserFactory spf = SAXParserFactory.newInstance();
-					SAXParser sp = spf.newSAXParser();
-					SAXParse sax = new SAXParse(configData);
-					sp.parse(Files.newInputStream(file), sax);
-				}
-				case JSON -> {
-					String data = Files.readString(file, CHARSET);
-					loadJsonConfigs(configData, data);
-				}
-				case TOML -> {
-					Toml toml = new Toml().read(file.toFile());
-					loadTomlConfigs(configData, toml);
-				}
-			}
-		} catch (Exception e) {
-			new ConfigWriter(configData).save();
-		}
+		CONFIG_LOAD_POOL.schedule(new ConfigLoadThread(configData, customPath, fileName), 0, TimeUnit.SECONDS);
 	}
 	
 	/**
@@ -259,6 +241,51 @@ public final class ConfigReader {
 				}
 			}
 			configData.mod.logger().warn("Illegal data error occurred while loading configuration file! -- by " + Silk.DATA.getName());
+		}
+	}
+	
+	/**
+	 * 单独开辟线程减少主线程损耗
+	 */
+	private static class ConfigLoadThread extends Thread {
+		private final ConfigData configData;
+		private final Path customPath;
+		private final String fileName;
+		
+		private ConfigLoadThread(ConfigData configData, Path customPath, String fileName) {
+			this.configData = configData;
+			this.customPath = customPath;
+			this.fileName = fileName;
+		}
+		
+		@Override
+		public void run() {
+			try {
+				Path file = Paths.get(customPath.toString(), fileName);
+				switch (configData.mode) {
+					case PROPERTIES -> {
+						Properties data = new Properties();
+						data.load(Files.newInputStream(file));
+						loadPropertiesConfigs(configData, data, "");
+					}
+					case XML -> {
+						SAXParserFactory spf = SAXParserFactory.newInstance();
+						SAXParser sp = spf.newSAXParser();
+						SAXParse sax = new SAXParse(configData);
+						sp.parse(Files.newInputStream(file), sax);
+					}
+					case JSON -> {
+						String data = Files.readString(file, CHARSET);
+						loadJsonConfigs(configData, data);
+					}
+					case TOML -> {
+						Toml toml = new Toml().read(file.toFile());
+						loadTomlConfigs(configData, toml);
+					}
+				}
+			} catch (Exception e) {
+				configData.writer().save();
+			}
 		}
 	}
 }
