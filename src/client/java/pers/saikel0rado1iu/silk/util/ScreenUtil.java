@@ -20,6 +20,11 @@ import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 /**
  * <p><b style="color:FFC800"><font size="+1">有关屏幕的所有实用方法</font></b></p>
  * <style="color:FFC800">
@@ -37,6 +42,11 @@ public interface ScreenUtil {
 	@SilkApi
 	static String configTip(ModBasicData mod, String key) {
 		return "config." + mod.getId() + '.' + key + ("".equals(key) ? "tip" : ".tip");
+	}
+	
+	@SilkApi
+	static String widgetTitle(ModBasicData mod, String key) {
+		return "title." + mod.getId() + '.' + key;
 	}
 	
 	@SilkApi
@@ -60,23 +70,37 @@ public interface ScreenUtil {
 	}
 	
 	@SilkApi
-	static ButtonWidget.Builder linkButton(Screen parent, Text text, ModBasicData mod) {
-		return linkButton(parent, text, mod, false);
+	static ButtonWidget.Builder linkButton(Screen parent, Text text, String url) {
+		return linkButton(parent, text, url, false);
 	}
 	
 	@SilkApi
-	static ButtonWidget.Builder linkButton(Screen parent, Text text, ModBasicData mod, boolean canTrust) {
-		return ButtonWidget.builder(text, ConfirmLinkScreen.opening(mod.getLink(ModBasicData.LinkType.SUPPORT).orElseThrow().toString(), parent, canTrust));
+	static ButtonWidget.Builder linkButton(Screen parent, Text text, String url, boolean canTrust) {
+		return ButtonWidget.builder(text, ConfirmLinkScreen.opening(url, parent, canTrust));
 	}
 	
 	@SilkApi
-	static ButtonWidget.Builder supportButton(Screen parent, ModBasicData mod) {
-		return supportButton(parent, mod, false);
+	static ButtonWidget.Builder linkButton(Screen parent, ModBasicData mod, ModBasicData.LinkType linkType) {
+		return linkButton(parent, mod, linkType, false);
 	}
 	
 	@SilkApi
-	static ButtonWidget.Builder supportButton(Screen parent, ModBasicData mod, boolean canTrust) {
-		Text text = Text.translatable(configText(mod, ModBasicData.LinkType.SUPPORT.toString().toLowerCase()));
-		return mod.getLink(ModBasicData.LinkType.SUPPORT).isPresent() ? linkButton(parent, text, mod, canTrust) : linkButton(parent, text, Silk.DATA, true);
+	static ButtonWidget.Builder linkButton(Screen parent, ModBasicData mod, ModBasicData.LinkType linkType, boolean canTrust) {
+		Text text = Text.translatable(configText(mod, linkType.toString().toLowerCase()));
+		return mod.getLink(linkType).isPresent() ? linkButton(parent, text, mod.getLink(linkType).get().toString(), canTrust) : linkButton(parent, text, Silk.DATA.getLink(linkType).orElseThrow().toString(), true);
+	}
+	
+	@SilkApi
+	static String readChangelog(Path logPath, boolean isChinese) {
+		try {
+			StringBuilder log = new StringBuilder().append(Files.readString(logPath, StandardCharsets.UTF_8));
+			log = new StringBuilder(log.toString().replaceAll("\r", "\n"));
+			log = new StringBuilder(log.toString().replaceAll("\n\n", "\n"));
+			if (isChinese) log = new StringBuilder(log.toString().replaceAll("\t", "—"));
+			else log = new StringBuilder(log.toString().replaceAll("\t", "  "));
+			return log.toString();
+		} catch (IOException e) {
+			return "Changelog does not exist! -- by " + Silk.DATA.getName();
+		}
 	}
 }

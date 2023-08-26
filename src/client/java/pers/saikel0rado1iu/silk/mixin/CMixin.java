@@ -22,7 +22,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.util.config.ConfigScreen;
-import pers.saikel0rado1iu.silk.util.screen.PlaceholderScreen;
+import pers.saikel0rado1iu.silk.util.config.ConfigTab;
+import pers.saikel0rado1iu.silk.util.screen.mod.ModScreen;
+import pers.saikel0rado1iu.silk.util.screen.mod.ModTab;
+import pers.saikel0rado1iu.silk.util.screen.mod.SynopsisTab;
+
+import java.nio.file.Paths;
 
 import static pers.saikel0rado1iu.silk.Main.CONFIG_DATA;
 
@@ -43,11 +48,12 @@ abstract class CMixin extends Screen {
 	private void initWidgetsNormal(int y, int spacingY, CallbackInfo ci) {
 		// 添加 自然更替 按钮
 		ConfigScreen configScreen = new ConfigScreen(this, CONFIG_DATA);
-		addDrawableChild(ButtonWidget.builder(configScreen.getTitle(),
-						(button) -> MinecraftClient.getInstance().setScreen(new PlaceholderScreen(this, Silk.DATA)))
-				.dimensions(width / 2 - 100,
-						y - (spacingY * 2),
-						200, 20)
-				.build());
+		addDrawableChild(ButtonWidget.builder(configScreen.getTitle(), (button) -> MinecraftClient.getInstance().setScreen(
+				new ModScreen(this, Screen.OPTIONS_BACKGROUND_TEXTURE, 1,
+						new SynopsisTab(Silk.DATA),
+						new ConfigTab(Silk.DATA, CONFIG_DATA),
+						new ModTab(Silk.DATA, Paths.get("dsa"))
+						//configScreen
+				))).dimensions(width / 2 - 100, y - (spacingY * 2), 200, 20).build());
 	}
 }

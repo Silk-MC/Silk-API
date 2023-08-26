@@ -23,6 +23,8 @@ import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.api.ModBasicData;
+import pers.saikel0rado1iu.silk.util.ScreenUtil;
 import pers.saikel0rado1iu.silk.util.screen.BaseScreen;
 
 import java.util.Arrays;
@@ -56,7 +58,7 @@ public class ConfigScreen extends BaseScreen {
 		this(parent, true, isDouble, configData, "", Text.translatable(configText(configData.mod, "")));
 	}
 	
-	private ConfigScreen(Screen parent, boolean notSub, boolean isDouble, ConfigData configData, String keyPrefix, Text title) {
+	ConfigScreen(Screen parent, boolean notSub, boolean isDouble, ConfigData configData, String keyPrefix, Text title) {
 		super(parent, configData.type == ConfigData.Type.EXPERIMENTAL ? title.copy().formatted(Formatting.RED) : (configData.type == ConfigData.Type.DEPRECATED) ? title.copy().formatted(Formatting.YELLOW, Formatting.ITALIC) : title);
 		this.notSub = notSub;
 		this.isDouble = isDouble;
@@ -110,7 +112,7 @@ public class ConfigScreen extends BaseScreen {
 	private List<SimpleOption<?>> addSimpleOption() {
 		List<SimpleOption<?>> simpleOptionList = Lists.newArrayListWithExpectedSize(8);
 		// 添加"支持我们"按钮
-		addDrawableChild(supportButton(this, configData.mod, getLinkTrusted()).dimensions(width - 75, 6, 70, 20).build());
+		addDrawableChild(ScreenUtil.linkButton(this, configData.mod, ModBasicData.LinkType.SUPPORT, getLinkTrusted()).dimensions(width - 75, 6, 70, 20).build());
 		// 添加完成按钮
 		addDrawableChild(doneButton(this).dimensions(width / 2 - 100, height - 26, 200, 20).build());
 		// 添加所有配置选项按钮

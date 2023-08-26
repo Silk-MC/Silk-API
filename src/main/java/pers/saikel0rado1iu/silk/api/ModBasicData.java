@@ -93,7 +93,7 @@ public interface ModBasicData {
 	@SilkApi
 	default Optional<Identifier> getIcon() {
 		Optional<String> path = getMod().getMetadata().getIconPath(4);
-		return path.map(Identifier::new);
+		return path.map(id -> new Identifier(getId(), "icon.png"));
 	}
 	
 	@SilkApi
