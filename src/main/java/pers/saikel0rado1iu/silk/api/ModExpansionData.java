@@ -17,10 +17,9 @@ import net.minecraft.text.Text;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于构建扩展的模组数据</font></b></p>
@@ -32,10 +31,25 @@ import java.util.Optional;
 @SilkApi
 public interface ModExpansionData extends ModBasicData {
 	@SilkApi
-	default String getJar() {
+	default String getJarName() {
 		String separator = File.separator.contains("\\") ? "\\\\" : File.separator;
-		String[] paths = getMod().getOrigin().getPaths().get(0).toString().split(separator);
+		String[] paths = getJar().toString().split(separator);
 		return paths[paths.length - 1];
+	}
+	
+	@SilkApi
+	default Path getPath() {
+		String separator = File.separator.contains("\\") ? "\\\\" : File.separator;
+		List<String> paths = new ArrayList<>(Arrays.stream(getJar().toString().split(separator)).toList());
+		String head = paths.get(0);
+		paths.remove(0);
+		paths.remove(paths.size() - 1);
+		return Paths.get(head, paths.toArray(new String[0]));
+	}
+	
+	@SilkApi
+	default Path getJar() {
+		return getMod().getOrigin().getPaths().get(0);
 	}
 	
 	@SilkApi

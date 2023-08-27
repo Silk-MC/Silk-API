@@ -11,7 +11,6 @@
 
 package pers.saikel0rado1iu.silk.util.config;
 
-import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -26,6 +25,7 @@ import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.util.screen.mod.ScreenTab;
 import pers.saikel0rado1iu.silk.util.screen.widget.ConfigListWidget;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -67,7 +67,7 @@ public class ConfigTab extends ScreenTab {
 	}
 	
 	private List<SimpleOption<?>> addSimpleOption() {
-		List<SimpleOption<?>> simpleOptionList = Lists.newArrayListWithExpectedSize(8);
+		List<SimpleOption<?>> simpleOptionList = new ArrayList<>(8);
 		// 添加所有配置选项按钮
 		Object prev = null;
 		for (String key : configData.configs.keySet()) {

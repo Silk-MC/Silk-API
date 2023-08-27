@@ -42,8 +42,8 @@ public abstract class ScreenTab extends GridScreenTab {
 	@SilkApi
 	public static final int TAP_BOTTOM = 37;
 	protected final ModBasicData mod;
-	protected final List<ClickableWidget> drawableWidgetList = Lists.newArrayListWithExpectedSize(4);
-	protected final List<Object> selectableWidgetList = Lists.newArrayListWithExpectedSize(4);
+	protected final List<ClickableWidget> drawableWidgetList = new ArrayList<>(4);
+	protected final List<Object> selectableWidgetList = new ArrayList<>(4);
 	protected Screen parent;
 	protected Identifier background;
 	

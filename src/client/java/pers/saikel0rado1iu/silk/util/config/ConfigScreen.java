@@ -11,7 +11,6 @@
 
 package pers.saikel0rado1iu.silk.util.config;
 
-import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -27,6 +26,7 @@ import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.util.ScreenUtil;
 import pers.saikel0rado1iu.silk.util.screen.BaseScreen;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -110,7 +110,7 @@ public class ConfigScreen extends BaseScreen {
 	}
 	
 	private List<SimpleOption<?>> addSimpleOption() {
-		List<SimpleOption<?>> simpleOptionList = Lists.newArrayListWithExpectedSize(8);
+		List<SimpleOption<?>> simpleOptionList = new ArrayList<>(8);
 		// 添加"支持我们"按钮
 		addDrawableChild(ScreenUtil.linkButton(this, configData.mod, ModBasicData.LinkType.SUPPORT, getLinkTrusted()).dimensions(width - 75, 6, 70, 20).build());
 		// 添加完成按钮
