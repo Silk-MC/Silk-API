@@ -11,7 +11,6 @@
 
 package pers.saikel0rado1iu.silk.util.screen.mod;
 
-import com.google.common.collect.Lists;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -26,6 +25,7 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.util.ScreenUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
