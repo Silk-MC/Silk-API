@@ -27,13 +27,13 @@ public class CheckUpdateThread extends Thread {
 	
 	@Override
 	public void run() {
-		if (data.canCheckUpdate) {
+		if (data.getCanCheckUpdate()) {
 			UpdateData.State state;
 			state = data.checkUpdate();
 			data.setUpdateModVersion();
 			data.setUpdateMinecraftVersion();
 			
-			data.state = state;
+			data.setState(state);
 		}
 	}
 }

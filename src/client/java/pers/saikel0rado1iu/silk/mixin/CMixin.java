@@ -26,6 +26,9 @@ import pers.saikel0rado1iu.silk.util.config.ConfigTab;
 import pers.saikel0rado1iu.silk.util.screen.mod.ModScreen;
 import pers.saikel0rado1iu.silk.util.screen.mod.ModTab;
 import pers.saikel0rado1iu.silk.util.screen.mod.SynopsisTab;
+import pers.saikel0rado1iu.silk.util.screen.update.NewMcVerNotifyScreen;
+import pers.saikel0rado1iu.silk.util.screen.update.UpdateFailWarningScreen;
+import pers.saikel0rado1iu.silk.util.update.UpdateData;
 
 import java.nio.file.Paths;
 
@@ -49,11 +52,12 @@ abstract class CMixin extends Screen {
 		// 添加 自然更替 按钮
 		ConfigScreen configScreen = new ConfigScreen(this, CONFIG_DATA);
 		addDrawableChild(ButtonWidget.builder(configScreen.getTitle(), (button) -> MinecraftClient.getInstance().setScreen(
-				new ModScreen(this, Screen.OPTIONS_BACKGROUND_TEXTURE, 1,
+				//new UpdateFailWarningScreen(this,new UpdateData(Silk.DATA,CONFIG_DATA),false)
+/*				new ModScreen(this, Screen.OPTIONS_BACKGROUND_TEXTURE, 1,
 						new SynopsisTab(Silk.DATA),
 						new ConfigTab(Silk.DATA, CONFIG_DATA),
-						new ModTab(Silk.DATA, Paths.get("dsa"))
-						//configScreen
-				))).dimensions(width / 2 - 100, y - (spacingY * 2), 200, 20).build());
+						new ModTab(Silk.DATA, Paths.get("dsa"))*/
+						configScreen
+				)).dimensions(width / 2 - 100, y - (spacingY * 2), 200, 20).build());
 	}
 }

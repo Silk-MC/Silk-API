@@ -59,8 +59,7 @@ public class ModDownloadThread extends Thread {
 			byte[] bytes = new byte[1024];
 			// 读取到的数据长度
 			int length;
-			outputStream = Files.newOutputStream(Path.of(data.getMod().getPath() + FileSystems.getDefault().getSeparator()
-					+ downloadLink.getPath().substring(downloadLink.getPath().lastIndexOf('/'))));
+			outputStream = Files.newOutputStream(Path.of(data.getMod().getPath() + FileSystems.getDefault().getSeparator() + downloadLink.getPath().substring(downloadLink.getPath().lastIndexOf('/'))));
 			// 读取
 			int fileSize = 0;
 			while ((length = inputStream.read(bytes)) != -1) {
@@ -72,8 +71,7 @@ public class ModDownloadThread extends Thread {
 			inputStream.close();
 			outputStream.close();
 		} catch (IOException e) {
-			data.updatingFail = true;
-			throw new RuntimeException(e);
+			data.setUpdatingFail(true);
 		}
 	}
 }

@@ -20,6 +20,7 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.util.ScreenUtil;
+import pers.saikel0rado1iu.silk.util.screen.BaseScreen;
 import pers.saikel0rado1iu.silk.util.update.UpdateData;
 
 import java.util.Objects;
@@ -31,36 +32,30 @@ import java.util.Objects;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-public abstract class UpdateScreen extends Screen {
-	public static final Text UPDATE_TEXT = Text.translatable("text.spontaneous_replace.update_now");
-	public static final Text RETURN_TEXT = Text.translatable("text.spontaneous_replace.not_update");
-	public static final Text AUTO_DOWNLOAD_DONE_TEXT = Text.translatable("text.spontaneous_replace.auto_download_done").setStyle(Style.EMPTY.withBold(true));
-	public static final Text AUTO_UPDATE_DONE_TEXT = Text.translatable("text.spontaneous_replace.auto_update_done").setStyle(Style.EMPTY.withBold(true));
-	public static final Text UPDATING_FAIL_TEXT = Text.translatable(ScreenUtil.widgetText(Silk.DATA, "updating_fail")).setStyle(Style.EMPTY.withBold(true));
-	protected final Screen parent;
+public abstract class UpdateScreen extends BaseScreen {
+	public final Text updateText;
+	public final Text returnText;
+	public final Text autoDownloadDoneText;
+	public final Text autoUpdateDoneText;
+	public final Text updatingFailText;
 	protected final Text title;
 	protected final UpdateData data;
-	public int screenWidth;
-	public int screenHeight;
+	protected int screenWidth;
+	protected int screenHeight;
 	protected ButtonWidget updateButton;
 	protected MultilineText messageText;
 	
 	protected UpdateScreen(Screen parent, UpdateData data, Text title) {
-		super(Text.of(""));
-		this.parent = parent;
+		super(parent, Text.of(""));
 		this.data = data;
 		this.title = title;
-		data.setCanCheckUpdate();
+		updateText = Text.translatable(ScreenUtil.widgetText(data.getMod(), "update_now"));
+		returnText = Text.translatable(ScreenUtil.widgetText(data.getMod(), "not_update"));
+		autoDownloadDoneText = Text.translatable(ScreenUtil.widgetText(data.getMod(), "auto_download_done")).setStyle(Style.EMPTY.withBold(true));
+		autoUpdateDoneText = Text.translatable(ScreenUtil.widgetText(data.getMod(), "auto_update_done")).setStyle(Style.EMPTY.withBold(true));
+		updatingFailText = Text.translatable(ScreenUtil.widgetText(data.getMod(), "updating_fail")).setStyle(Style.EMPTY.withBold(true));
+		data.setCanCheckUpdate(false);
 		data.setShowScreen();
-	}
-	
-	/**
-	 * 返回父屏幕
-	 */
-	@SuppressWarnings("DataFlowIssue")
-	@Override
-	public void close() {
-		client.setScreen(parent);
 	}
 	
 	/**

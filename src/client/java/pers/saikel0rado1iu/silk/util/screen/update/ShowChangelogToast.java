@@ -13,6 +13,7 @@ package pers.saikel0rado1iu.silk.util.screen.update;
 
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import pers.saikel0rado1iu.silk.util.ScreenUtil;
 import pers.saikel0rado1iu.silk.util.update.UpdateData;
 
 /**
@@ -24,8 +25,8 @@ import pers.saikel0rado1iu.silk.util.update.UpdateData;
  */
 public class ShowChangelogToast extends UpdateToast {
 	public ShowChangelogToast(UpdateData data) {
-		super(Text.translatable("title.spontaneous_replace.log")
+		super(Text.translatable(ScreenUtil.widgetText(data.getMod(), "log"))
 						.setStyle(Style.EMPTY.withBold(true).withColor(data.getMod().getThemeColor())),
-				data, Text.translatable("text.spontaneous_replace.log").setStyle(Style.EMPTY));
+				data, Text.translatable(ScreenUtil.widgetText(data.getMod(), "log")).setStyle(Style.EMPTY));
 	}
 }

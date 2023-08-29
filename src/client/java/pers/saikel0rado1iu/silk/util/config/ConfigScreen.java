@@ -41,7 +41,6 @@ import static pers.saikel0rado1iu.silk.util.ScreenUtil.*;
  */
 @SilkApi
 public class ConfigScreen extends BaseScreen {
-	private final boolean notSub;
 	private final boolean isDouble;
 	private final String keyPrefix;
 	private final ConfigData configData;
@@ -50,21 +49,20 @@ public class ConfigScreen extends BaseScreen {
 	
 	@SilkApi
 	public ConfigScreen(Screen parent, ConfigData configData) {
-		this(parent, true, false, configData, "", Text.translatable(configText(configData.mod, "")));
+		this(parent, false, configData, "", Text.translatable(configText(configData.mod, "")));
 	}
 	
 	@SilkApi
 	public ConfigScreen(Screen parent, ConfigData configData, boolean isDouble) {
-		this(parent, true, isDouble, configData, "", Text.translatable(configText(configData.mod, "")));
+		this(parent, isDouble, configData, "", Text.translatable(configText(configData.mod, "")));
 	}
 	
-	ConfigScreen(Screen parent, boolean notSub, boolean isDouble, ConfigData configData, String keyPrefix, Text title) {
+	ConfigScreen(Screen parent, boolean isDouble, ConfigData configData, String keyPrefix, Text title) {
 		super(parent, configData.type == ConfigData.Type.EXPERIMENTAL ? title.copy().formatted(Formatting.RED) : (configData.type == ConfigData.Type.DEPRECATED) ? title.copy().formatted(Formatting.YELLOW, Formatting.ITALIC) : title);
-		this.notSub = notSub;
 		this.isDouble = isDouble;
 		this.keyPrefix = keyPrefix;
 		this.configData = configData;
-		this.configData.reader().load();
+		this.configData.getMainConfig().reader().load();
 	}
 	
 	@Override
@@ -96,7 +94,7 @@ public class ConfigScreen extends BaseScreen {
 	
 	@Override
 	protected void onCloseScreen() {
-		if (notSub) configData.writer().save();
+		configData.getMainConfig().writer().save();
 	}
 	
 	@Override
@@ -125,7 +123,7 @@ public class ConfigScreen extends BaseScreen {
 			if (object instanceof Boolean bool) {
 				simpleOption = SimpleOption.ofBoolean(configText(configData.mod, realKey), value -> Tooltip.of(Text.translatable(configTip(configData.mod, realKey + (value ? ".on" : ".off")))), bool, (value) -> {
 					configData.setConfig(key, value);
-					if (notSub) configData.writer().save();
+					configData.getMainConfig().writer().save();
 				});
 			} else if (object instanceof Enum<?> e) {
 				List<Object> enums = List.of(Arrays.stream(e.getDeclaringClass().getEnumConstants()).toArray());
@@ -135,7 +133,7 @@ public class ConfigScreen extends BaseScreen {
 					return Tooltip.of(Text.translatable(configTip(configData.mod, realKey)));
 				}, (optionText, value) -> Text.translatable(configText(configData.mod, realKey + '.' + enums.get(value).toString().toLowerCase())), new SimpleOption.MaxSuppliableIntCallbacks(0, () -> enums.size() - 1, enums.size() - 1), enums.indexOf(e), value -> {
 					configData.setConfig(key, enums.get(value));
-					if (notSub) configData.writer().save();
+					configData.getMainConfig().writer().save();
 				});
 			} else if (object instanceof List<?> list) {
 				if (list.get(2) instanceof Integer i) {
@@ -151,7 +149,7 @@ public class ConfigScreen extends BaseScreen {
 						else return Text.translatable(configText(configData.mod, realKey), value);
 					}, new SimpleOption.ValidatingIntSliderCallbacks((int) list.get(0), (int) list.get(1)), Codec.intRange((int) list.get(0), (int) list.get(1)), i, value -> {
 						configData.setConfig(key, value);
-						if (notSub) configData.writer().save();
+						configData.getMainConfig().writer().save();
 					});
 				} else if (list.get(2) instanceof Float f) {
 					simpleOption = new SimpleOption<>(configText(configData.mod, realKey), value -> {
@@ -166,11 +164,11 @@ public class ConfigScreen extends BaseScreen {
 						else return Text.translatable(configText(configData.mod, realKey), value);
 					}, new SimpleOption.ValidatingIntSliderCallbacks((int) ((float) list.get(0) * 100), (int) ((float) list.get(1) * 100)).withModifier(sliderProgressValue -> (float) sliderProgressValue / 100.0, value -> (int) (value * 100)), Codec.doubleRange((float) list.get(0), (float) list.get(1)), Double.valueOf(f), value -> {
 						configData.setConfig(key, value.floatValue());
-						if (notSub) configData.writer().save();
+						configData.getMainConfig().writer().save();
 					});
 				}
 			} else if (object instanceof ConfigData cd) {
-				simpleOption = SimpleOption.ofBoolean(configText(configData.mod, realKey), SimpleOption.constantTooltip(Text.of(configTip(configData.mod, realKey))), (optionText, value) -> Text.of(""), false, (value) -> MinecraftClient.getInstance().setScreen(new ConfigScreen(this, false, isDouble, cd, realKey + '.', Text.translatable(configText(configData.mod, realKey)))));
+				simpleOption = SimpleOption.ofBoolean(configText(configData.mod, realKey), SimpleOption.constantTooltip(Text.of(configTip(configData.mod, realKey))), (optionText, value) -> Text.of(""), false, (value) -> MinecraftClient.getInstance().setScreen(new ConfigScreen(this, isDouble, cd, realKey + '.', Text.translatable(configText(configData.mod, realKey)))));
 			}
 			simpleOptionList.add(simpleOption);
 			if (!isDouble) {

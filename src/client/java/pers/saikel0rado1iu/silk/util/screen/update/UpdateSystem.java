@@ -40,17 +40,17 @@ public class UpdateSystem {
 				case NEW_MC_VER -> MinecraftClient.getInstance().setScreen(new NewMcVerNotifyScreen(parent, updateData, getLinkTrusted()));
 				case THIS_MC_VER -> MinecraftClient.getInstance().setScreen(new ThisMcVerNotifyScreen(parent, updateData, getLinkTrusted()));
 				case MOD_LOG -> {
-					if (updateData.getConfigs().getConfig(SHOW_CHANGELOG, Boolean.class))
+					if (updateData.getData().getConfig(SHOW_CHANGELOG, Boolean.class))
 						MinecraftClient.getInstance().setScreen(new ShowChangelogScreen(parent, updateData, getLinkTrusted()));
 					else UpdateToast.setToast(new ShowChangelogToast(updateData));
 				}
 				case STOP_UPDATE -> {
-					if (updateData.getConfigs().getConfig(STOP_UPDATING_WARNING, Boolean.class))
+					if (updateData.getData().getConfig(STOP_UPDATING_WARNING, Boolean.class))
 						MinecraftClient.getInstance().setScreen(new StopUpdateWarningScreen(parent, updateData, getLinkTrusted()));
 					else UpdateToast.setToast(new StopUpdateWarningToast(updateData));
 				}
 				case UPDATE_FAIL -> {
-					if (updateData.getConfigs().getConfig(UPDATE_SYS_FAIL_WARNING, Boolean.class))
+					if (updateData.getData().getConfig(UPDATE_SYS_FAIL_WARNING, Boolean.class))
 						MinecraftClient.getInstance().setScreen(new UpdateFailWarningScreen(parent, updateData, getLinkTrusted()));
 					else UpdateToast.setToast(new UpdateFailWarningToast(updateData));
 				}

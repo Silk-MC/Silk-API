@@ -14,22 +14,28 @@ package pers.saikel0rado1iu.silk.util.screen.update;
 import net.minecraft.client.font.MultilineText;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.util.ScreenUtil;
+import pers.saikel0rado1iu.silk.util.config.ConfigScreen;
 import pers.saikel0rado1iu.silk.util.update.UpdateData;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Objects;
 
 import static net.minecraft.screen.ScreenTexts.composeGenericOptionText;
+import static net.minecraft.util.Util.OperatingSystem.WINDOWS;
 import static pers.saikel0rado1iu.silk.util.update.UpdateData.Mode.AUTO_DOWNLOAD;
 import static pers.saikel0rado1iu.silk.util.update.UpdateData.Mode.MANUAL_DOWNLOAD;
+import static pers.saikel0rado1iu.silk.util.update.UpdateData.UPDATE_CONFIG;
 import static pers.saikel0rado1iu.silk.util.update.UpdateData.UPDATE_MODE;
 
 /**
@@ -50,7 +56,7 @@ public class ThisMcVerNotifyScreen extends UpdateScreen {
 	 * 构造更新屏幕类
 	 */
 	public ThisMcVerNotifyScreen(Screen parent, UpdateData data, boolean canTrust) {
-		super(parent, data, Text.translatable("title.spontaneous_replace.this_mc_ver_update_notification")
+		super(parent, data, Text.translatable(ScreenUtil.widgetText(data.getMod(), "this_mc_ver_update_notify"))
 				.setStyle(Style.EMPTY.withBold(true).withColor(data.getMod().getThemeColor())));
 		this.canTrust = canTrust;
 	}
@@ -78,7 +84,7 @@ public class ThisMcVerNotifyScreen extends UpdateScreen {
 		if (data.getUpdatingFail()) {
 			clearChildren();
 			addDrawableChild(ButtonWidget.builder(Text.translatable("menu.returnToGame"), (button) -> {
-						data.resetCanCheckUpdate();
+						data.setCanCheckUpdate(true);
 						close();
 					})
 					.dimensions(fullButtonX, buttonY - buttonSpacing, fullButtonWidth, buttonHeight).build());
@@ -88,48 +94,49 @@ public class ThisMcVerNotifyScreen extends UpdateScreen {
 						.dimensions(fullButtonX, buttonY - buttonSpacing * 4, halfButtonWidth, buttonHeight).build());
 				addDrawableChild(ScreenUtil.linkButton(parent, data.getMod(), ModBasicData.LinkType.COMMUNITY, canTrust)
 						.dimensions(halfButtonX, buttonY - buttonSpacing * 4, halfButtonWidth, buttonHeight).build());
-/*				addDrawableChild(ButtonWidget.builder(Text.of(""), (button) -> {
+				addDrawableChild(ButtonWidget.builder(Text.of(""), (button) -> {
 							// 使用断言消除 setScreen NullPointerException警告
 							assert client != null;
-							client.setScreen(new ConfigScreen.Update(this));
+							client.setScreen(new ConfigScreen(this, data.getData()));
 						})
 						.dimensions(fullButtonX, buttonY - buttonSpacing * 3, fullButtonWidth, buttonHeight).build());
-				addDrawableChild(ButtonWidget.builder(Text.of(""), (button) -> {
-							if (data.getConfigs().getConfig(UPDATE_MODE, UpdateData.Mode.class) == (Util.getOperatingSystem().equals(WINDOWS) ? 2 : 1))
-								updateMode = 0;
-							else updateMode++;
-							writeConfig();
-						})
-						.dimensions(fullButtonX, buttonY - buttonSpacing * 2, fullButtonWidth, buttonHeight).build());*/
-				addDrawableChild(updateButton = ButtonWidget.builder(UPDATE_TEXT.copy().setStyle(Style.EMPTY.withBold(true)), (button) -> {
+				addDrawableChild(new SimpleOption<>("", value -> Tooltip.of(Text.translatable("")),
+						(optionText, value) -> Text.translatable(""),
+						new SimpleOption.MaxSuppliableIntCallbacks(0, () -> Util.getOperatingSystem().equals(WINDOWS) ? 2 : 1, Util.getOperatingSystem().equals(WINDOWS) ? 2 : 1),
+						Arrays.stream(UpdateData.Mode.values()).toList().indexOf(data.getData().getConfig(UPDATE_MODE, UpdateData.Mode.class)),
+						value -> {
+							data.getData().setConfig(UPDATE_MODE, UpdateData.Mode.values()[value]);
+							data.getData().getMainConfig().writer().save();
+						}).createWidget(null, fullButtonX, buttonY - buttonSpacing * 2, fullButtonWidth));
+				addDrawableChild(updateButton = ButtonWidget.builder(updateText.copy().setStyle(Style.EMPTY.withBold(true)), (button) -> {
 							clearChildren();
 							updating = data.updateMod(data.getUpdateLink());
-							if (data.getConfigs().getConfig(UPDATE_MODE, UpdateData.Mode.class) == MANUAL_DOWNLOAD) close();
+							if (data.getData().getConfig(UPDATE_MODE, UpdateData.Mode.class) == MANUAL_DOWNLOAD) close();
 						})
 						.dimensions(fullButtonX, buttonY - buttonSpacing, halfButtonWidth, buttonHeight).build());
-				addDrawableChild(ButtonWidget.builder(RETURN_TEXT.copy().formatted(Formatting.GRAY), (button) -> {
-							data.resetCanCheckUpdate();
+				addDrawableChild(ButtonWidget.builder(returnText.copy().formatted(Formatting.GRAY), (button) -> {
+							data.setCanCheckUpdate(true);
 							close();
 						})
 						.dimensions(halfButtonX, buttonY - buttonSpacing, halfButtonWidth, buttonHeight).build());
 			} else if (data.getUpdateProgress() == 100) {
-				if (data.getConfigs().getConfig(UPDATE_MODE, UpdateData.Mode.class) == AUTO_DOWNLOAD) {
-					addDrawableChild(ButtonWidget.builder(AUTO_DOWNLOAD_DONE_TEXT, (button) -> {
+				if (data.getData().getConfig(UPDATE_MODE, UpdateData.Mode.class) == AUTO_DOWNLOAD) {
+					addDrawableChild(ButtonWidget.builder(autoDownloadDoneText, (button) -> {
 								Util.getOperatingSystem().open(new File(data.getMod().getPath().toString()));
 								Objects.requireNonNull(client).scheduleStop();
 							})
 							.dimensions(fullButtonX, buttonY - buttonSpacing * 2, fullButtonWidth, buttonHeight).build());
-					addDrawableChild(ButtonWidget.builder(RETURN_TEXT.copy().formatted(Formatting.GRAY), (button) -> {
-								data.resetCanCheckUpdate();
+					addDrawableChild(ButtonWidget.builder(returnText.copy().formatted(Formatting.GRAY), (button) -> {
+								data.setCanCheckUpdate(true);
 								close();
 							})
 							.dimensions(fullButtonX, buttonY - buttonSpacing, fullButtonWidth, buttonHeight).build());
 				} else
-					addDrawableChild(ButtonWidget.builder(AUTO_UPDATE_DONE_TEXT, (button) -> {
+					addDrawableChild(ButtonWidget.builder(autoUpdateDoneText, (button) -> {
 								// 使用断言消除 setScreen NullPointerException警告
 								try {
 									Runtime.getRuntime().exec("cmd /A /C start \"\" /D \""
-											+ data.getMod().getPath() + "\" \"" + data.BAT_NAME + "\" CHCP 65001 ");
+											+ data.getMod().getPath() + "\" \"" + data.batName + "\" CHCP 65001 ");
 									assert client != null;
 									client.scheduleStop();
 								} catch (IOException e) {
@@ -166,7 +173,7 @@ public class ThisMcVerNotifyScreen extends UpdateScreen {
 		if (data.getUpdatingFail()) {
 			init();
 			context.drawCenteredTextWithShadow(textRenderer,
-					UPDATING_FAIL_TEXT,
+					updatingFailText,
 					width / 2,
 					(height - screenHeight) / 2 + 20 + 72 + (height - (height - screenHeight + 20 + 72) - buttonHeight - 3) / 2 - 6,
 					0xFFFFFF);
@@ -176,21 +183,21 @@ public class ThisMcVerNotifyScreen extends UpdateScreen {
 				messageText.drawWithShadow(context, (width - screenWidth) / 2 + 3, height / 2 - 9, 10, 0xFFFFFF);
 				// 修改循环按钮颜色
 				int color = transColor[0] << 16 | transColor[1] << 8 | transColor[2];
-				updateButton.setMessage(UPDATE_TEXT.copy().setStyle(Style.EMPTY.withBold(true).withColor(color)));
+				updateButton.setMessage(updateText.copy().setStyle(Style.EMPTY.withBold(true).withColor(color)));
 				// 更新配置按钮文本
 				int buttonSpacing = buttonHeight + 3;
 				int buttonY = (height - (height - screenHeight) / 2);
-				Text updateConfigButtonText = composeGenericOptionText(Text.translatable("UPDATE_CONFIG_BUTTON_TEXT"), Text.of(""));
+				Text updateConfigButtonText = composeGenericOptionText(Text.translatable(ScreenUtil.widgetText(data.getMod(), UPDATE_CONFIG)), Text.of(""));
 				context.drawTextWithShadow(textRenderer, updateConfigButtonText,
 						(width - (textRenderer.getWidth(updateConfigButtonText))) / 2,
 						buttonY - buttonSpacing * 3 + 6, 0xFFFFFF);
 				// 更新方式按钮文本
 				Text updateModeOptionText;
-				switch (data.getConfigs().getConfig(UPDATE_MODE, UpdateData.Mode.class)) {
+				switch (data.getData().getConfig(UPDATE_MODE, UpdateData.Mode.class)) {
 					case MANUAL_DOWNLOAD -> updateModeOptionText = Text.translatable(("update_mode.manual_download"));
 					case AUTO_DOWNLOAD -> updateModeOptionText = Text.translatable(("update_mode.auto_download"));
 					case AUTO_UPDATE -> updateModeOptionText = Text.translatable(("update_mode.auto_update"));
-					default -> updateModeOptionText = Text.literal(data.getConfigs().getConfig(UPDATE_MODE, UpdateData.Mode.class).toString());
+					default -> updateModeOptionText = Text.literal(data.getData().getConfig(UPDATE_MODE, UpdateData.Mode.class).toString());
 				}
 				Text updateModeText = composeGenericOptionText(Text.translatable(("update_mode")), updateModeOptionText);
 				context.drawTextWithShadow(textRenderer, updateModeText,
@@ -199,13 +206,13 @@ public class ThisMcVerNotifyScreen extends UpdateScreen {
 			} else {
 				if (data.getUpdateProgress() < 100) {
 					context.drawCenteredTextWithShadow(textRenderer,
-							Text.translatable("text.spontaneous_replace.updating", String.format("%.2f", data.getUpdateProgress())),
+							Text.translatable(ScreenUtil.widgetText(data.getMod(), "updating"), String.format("%.2f", data.getUpdateProgress())),
 							width / 2,
 							(height - screenHeight) / 2 + 20 + 72 + (height - (height - screenHeight + 20 + 72)) / 2 - 6,
 							0xFFFFFF);
 				} else {
 					init();
-					if (data.getConfigs().getConfig(UPDATE_MODE, UpdateData.Mode.class) == MANUAL_DOWNLOAD)
+					if (data.getData().getConfig(UPDATE_MODE, UpdateData.Mode.class) == MANUAL_DOWNLOAD)
 						autoDownloadMessage.drawCenterWithShadow(context, width / 2,
 								(height - screenHeight) / 2 + 20 + 72 + (height - (height - screenHeight + 20 + 72) - buttonHeight * 2 - 3) / 2 - 12, 10, 0xFFFFFF);
 					else autoUpdateMessage.drawCenterWithShadow(context, width / 2,

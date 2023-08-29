@@ -42,7 +42,7 @@ public abstract class UpdateToast implements Toast {
 		this.title = title;
 		this.data = data;
 		this.message = message;
-		data.setCanCheckUpdate();
+		data.setCanCheckUpdate(false);
 		data.setShowScreen();
 	}
 	

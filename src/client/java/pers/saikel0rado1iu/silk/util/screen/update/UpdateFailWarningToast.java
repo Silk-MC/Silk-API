@@ -14,6 +14,7 @@ package pers.saikel0rado1iu.silk.util.screen.update;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import pers.saikel0rado1iu.silk.util.ScreenUtil;
 import pers.saikel0rado1iu.silk.util.update.UpdateData;
 
 /**
@@ -25,9 +26,9 @@ import pers.saikel0rado1iu.silk.util.update.UpdateData;
  */
 public class UpdateFailWarningToast extends UpdateToast {
 	public UpdateFailWarningToast(UpdateData data) {
-		super(Text.translatable("title.spontaneous_replace.update_fail_warning")
+		super(Text.translatable(ScreenUtil.widgetText(data.getMod(), "update_fail_warning"))
 						.setStyle(Style.EMPTY.withBold(true).withColor(data.getMod().getThemeColor())),
-				data, Text.translatable("text.spontaneous_replace.update_fail_warning")
+				data, Text.translatable(ScreenUtil.widgetText(data.getMod(), "update_fail_warning"))
 						.setStyle(Style.EMPTY.withBold(true).withColor(Formatting.RED)));
 	}
 }

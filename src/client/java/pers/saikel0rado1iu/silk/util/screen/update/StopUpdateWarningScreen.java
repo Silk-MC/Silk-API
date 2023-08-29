@@ -36,7 +36,7 @@ public class StopUpdateWarningScreen extends UpdateScreen {
 	 * 构造更新屏幕类
 	 */
 	public StopUpdateWarningScreen(Screen parent, UpdateData data, boolean canTrust) {
-		super(parent, data, Text.translatable("title.spontaneous_replace.stop_update_warning")
+		super(parent, data, Text.translatable(ScreenUtil.widgetText(data.getMod(), "stop_update_warning"))
 				.setStyle(Style.EMPTY.withBold(true).withColor(data.getMod().getThemeColor())));
 		this.canTrust = canTrust;
 	}
@@ -49,7 +49,7 @@ public class StopUpdateWarningScreen extends UpdateScreen {
 		// 赞助按钮、官网按钮、关闭更新按钮、关闭新MC更新按钮、立即更新按钮、暂时不用按钮
 		super.init();
 		// 添加提示消息文本
-		messageText = MultilineText.create(textRenderer, Text.translatable("text.spontaneous_replace.stop_update_warning")
+		messageText = MultilineText.create(textRenderer, Text.translatable(ScreenUtil.widgetText(data.getMod(), "stop_update_warning"))
 				.setStyle(Style.EMPTY.withBold(true).withColor(Formatting.RED)), screenWidth - 6);
 		int fullButtonWidth = screenWidth - 6;
 		int buttonHeight = 20;
@@ -64,7 +64,7 @@ public class StopUpdateWarningScreen extends UpdateScreen {
 		addDrawableChild(ScreenUtil.linkButton(parent, data.getMod(), ModBasicData.LinkType.COMMUNITY, canTrust)
 				.dimensions(halfButtonX, (height - screenHeight) / 2 + 20 + 72 + buttonSpacing - buttonHeight, halfButtonWidth, buttonHeight).build());
 		addDrawableChild(ButtonWidget.builder(Text.translatable("menu.returnToGame"), (button) -> {
-					data.resetCanCheckUpdate();
+					data.setCanCheckUpdate(true);
 					close();
 				})
 				.dimensions(fullButtonX, buttonY - buttonSpacing, fullButtonWidth, buttonHeight).build());

@@ -77,7 +77,7 @@ public class ConfigTab extends ScreenTab {
 			if (object instanceof Boolean bool) {
 				simpleOption = SimpleOption.ofBoolean(configText(configData.mod, key), value -> Tooltip.of(Text.translatable(configTip(configData.mod, key + (value ? ".on" : ".off")))), bool, (value) -> {
 					configData.setConfig(key, value);
-					configData.writer().save();
+					configData.getMainConfig().writer().save();
 				});
 			} else if (object instanceof Enum<?> e) {
 				List<Object> enums = List.of(Arrays.stream(e.getDeclaringClass().getEnumConstants()).toArray());
@@ -87,7 +87,7 @@ public class ConfigTab extends ScreenTab {
 					return Tooltip.of(Text.translatable(configTip(configData.mod, key)));
 				}, (optionText, value) -> Text.translatable(configText(configData.mod, key + '.' + enums.get(value).toString().toLowerCase())), new SimpleOption.MaxSuppliableIntCallbacks(0, () -> enums.size() - 1, enums.size() - 1), enums.indexOf(e), value -> {
 					configData.setConfig(key, enums.get(value));
-					configData.writer().save();
+					configData.getMainConfig().writer().save();
 				});
 			} else if (object instanceof List<?> list) {
 				if (list.get(2) instanceof Integer i) {
@@ -103,7 +103,7 @@ public class ConfigTab extends ScreenTab {
 						else return Text.translatable(configText(configData.mod, key), value);
 					}, new SimpleOption.ValidatingIntSliderCallbacks((int) list.get(0), (int) list.get(1)), Codec.intRange((int) list.get(0), (int) list.get(1)), i, value -> {
 						configData.setConfig(key, value);
-						configData.writer().save();
+						configData.getMainConfig().writer().save();
 					});
 				} else if (list.get(2) instanceof Float f) {
 					simpleOption = new SimpleOption<>(configText(configData.mod, key), value -> {
@@ -118,11 +118,11 @@ public class ConfigTab extends ScreenTab {
 						else return Text.translatable(configText(configData.mod, key), value);
 					}, new SimpleOption.ValidatingIntSliderCallbacks((int) ((float) list.get(0) * 100), (int) ((float) list.get(1) * 100)).withModifier(sliderProgressValue -> (float) sliderProgressValue / 100.0, value -> (int) (value * 100)), Codec.doubleRange((float) list.get(0), (float) list.get(1)), Double.valueOf(f), value -> {
 						configData.setConfig(key, value.floatValue());
-						configData.writer().save();
+						configData.getMainConfig().writer().save();
 					});
 				}
 			} else if (object instanceof ConfigData cd) {
-				simpleOption = SimpleOption.ofBoolean(configText(configData.mod, key), SimpleOption.constantTooltip(Text.of(configTip(configData.mod, key))), (optionText, value) -> Text.of(""), false, (value) -> MinecraftClient.getInstance().setScreen(new ConfigScreen(parent, false, isDouble, cd, key + '.', Text.translatable(configText(configData.mod, key)))));
+				simpleOption = SimpleOption.ofBoolean(configText(configData.mod, key), SimpleOption.constantTooltip(Text.of(configTip(configData.mod, key))), (optionText, value) -> Text.of(""), false, (value) -> MinecraftClient.getInstance().setScreen(new ConfigScreen(parent, isDouble, cd, key + '.', Text.translatable(configText(configData.mod, key)))));
 			}
 			simpleOptionList.add(simpleOption);
 			if (!isDouble) {

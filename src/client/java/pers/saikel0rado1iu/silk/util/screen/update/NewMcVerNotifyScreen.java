@@ -14,15 +14,26 @@ package pers.saikel0rado1iu.silk.util.screen.update;
 import net.minecraft.client.font.MultilineText;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Util;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.util.ScreenUtil;
+import pers.saikel0rado1iu.silk.util.config.ConfigScreen;
 import pers.saikel0rado1iu.silk.util.update.UpdateData;
 
+import java.util.Arrays;
+
 import static net.minecraft.screen.ScreenTexts.composeGenericOptionText;
+import static net.minecraft.util.Util.OperatingSystem.WINDOWS;
+import static pers.saikel0rado1iu.silk.util.update.UpdateData.Mode.MANUAL_DOWNLOAD;
+import static pers.saikel0rado1iu.silk.util.update.UpdateData.UPDATE_CONFIG;
+import static pers.saikel0rado1iu.silk.util.update.UpdateData.UPDATE_MODE;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">新 MC 版本模组更新提示界面</font></b></p>
@@ -42,7 +53,7 @@ public class NewMcVerNotifyScreen extends UpdateScreen {
 	 * 构造更新屏幕类
 	 */
 	public NewMcVerNotifyScreen(Screen parent, UpdateData data, boolean canTrust) {
-		super(parent, data, Text.translatable("title.spontaneous_replace.new_mc_ver_update_notification", data.getUpdateMinecraftVersion())
+		super(parent, data, Text.translatable(ScreenUtil.widgetText(data.getMod(), "new_mc_ver_update_notify"), data.getUpdateMinecraftVersion())
 				.setStyle(Style.EMPTY.withBold(true).withColor(data.getMod().getThemeColor())));
 		this.canTrust = canTrust;
 	}
@@ -70,7 +81,7 @@ public class NewMcVerNotifyScreen extends UpdateScreen {
 		if (data.getUpdatingFail()) {
 			clearChildren();
 			addDrawableChild(ButtonWidget.builder(Text.translatable("menu.returnToGame"), (button) -> {
-						data.resetCanCheckUpdate();
+						data.setCanCheckUpdate(true);
 						close();
 					})
 					.dimensions(fullButtonX, buttonY - buttonSpacing, fullButtonWidth, buttonHeight).build());
@@ -80,32 +91,40 @@ public class NewMcVerNotifyScreen extends UpdateScreen {
 						.dimensions(fullButtonX, buttonY - buttonSpacing * 4, halfButtonWidth, buttonHeight).build());
 				addDrawableChild(ScreenUtil.linkButton(parent, data.getMod(), ModBasicData.LinkType.HOMEPAGE, canTrust)
 						.dimensions(halfButtonX, buttonY - buttonSpacing * 4, halfButtonWidth, buttonHeight).build());
-/*				addDrawableChild(ButtonWidget.builder(Text.of(""), (button) -> {
+				addDrawableChild(ButtonWidget.builder(Text.of(""), (button) -> {
 							// 使用断言消除 setScreen NullPointerException警告
 							assert client != null;
-							client.setScreen(new ConfigScreen.Update(this));
+							client.setScreen(new ConfigScreen(this, data.getData()));
 						})
 						.dimensions(fullButtonX, buttonY - buttonSpacing * 3, fullButtonWidth, buttonHeight).build());
-				ButtonWidget test;
-				addDrawableChild(test = ButtonWidget.builder(Text.of(""), (button) -> {
-							if (updateMode == (Util.getOperatingSystem().equals(WINDOWS) ? 2 : 1))
-								updateMode = 0;
+				ClickableWidget test;
+				if (data.getData().getConfig(UPDATE_MODE, UpdateData.Mode.class) == UpdateData.Mode.AUTO_UPDATE && !Util.getOperatingSystem().equals(WINDOWS))
+					data.getData().setConfig(UPDATE_MODE, MANUAL_DOWNLOAD);
+				addDrawableChild(test = new SimpleOption<>("", value -> Tooltip.of(Text.translatable("")),
+						(optionText, value) -> Text.translatable(""),
+						new SimpleOption.MaxSuppliableIntCallbacks(0, () -> Util.getOperatingSystem().equals(WINDOWS) ? 2 : 1, Util.getOperatingSystem().equals(WINDOWS) ? 2 : 1),
+						Arrays.stream(UpdateData.Mode.values()).toList().indexOf(data.getData().getConfig(UPDATE_MODE, UpdateData.Mode.class)),
+						value -> {
+							data.getData().setConfig(UPDATE_MODE, UpdateData.Mode.values()[value]);
+							data.getData().getMainConfig().writer().save();
+						}).createWidget(null, fullButtonX, buttonY - buttonSpacing * 2, fullButtonWidth));
+/*				addDrawableChild(test = ButtonWidget.builder(Text.of(""), (button) -> {
 							else updateMode++;
 							writeConfig();
 						})
-						.dimensions(fullButtonX, buttonY - buttonSpacing * 2, fullButtonWidth, buttonHeight).build());
+						.dimensions(fullButtonX, buttonY - buttonSpacing * 2, fullButtonWidth, buttonHeight).build());*/
 				test.active = false;
-				addDrawableChild(updateButton = ButtonWidget.builder(UPDATE_TEXT.copy().setStyle(Style.EMPTY.withBold(true)), (button) -> {
+				addDrawableChild(updateButton = ButtonWidget.builder(updateText.copy().setStyle(Style.EMPTY.withBold(true)), (button) -> {
 							clearChildren();
-							int tempUpdateMode = updateMode;
-							updateMode = 0;
-							updating = updateMod(getUpdateLink());
-							updateMode = tempUpdateMode;
+							UpdateData.Mode tempUpdateMode = data.getData().getConfig(UPDATE_MODE, UpdateData.Mode.class);
+							data.getData().setConfig(UPDATE_MODE, MANUAL_DOWNLOAD);
+							updating = data.updateMod(data.getUpdateLink());
+							data.getData().setConfig(UPDATE_MODE, tempUpdateMode);
 							close();
 						})
-						.dimensions(fullButtonX, buttonY - buttonSpacing, halfButtonWidth, buttonHeight).build());*/
-				addDrawableChild(ButtonWidget.builder(RETURN_TEXT.copy().formatted(Formatting.GRAY), (button) -> {
-							data.resetCanCheckUpdate();
+						.dimensions(fullButtonX, buttonY - buttonSpacing, halfButtonWidth, buttonHeight).build());
+				addDrawableChild(ButtonWidget.builder(returnText.copy().formatted(Formatting.GRAY), (button) -> {
+							data.setCanCheckUpdate(true);
 							close();
 						})
 						.dimensions(halfButtonX, buttonY - buttonSpacing, halfButtonWidth, buttonHeight).build());
@@ -138,7 +157,7 @@ public class NewMcVerNotifyScreen extends UpdateScreen {
 		if (data.getUpdatingFail()) {
 			init();
 			context.drawCenteredTextWithShadow(textRenderer,
-					UPDATING_FAIL_TEXT,
+					updatingFailText,
 					width / 2,
 					(height - screenHeight) / 2 + 20 + 72 + (height - (height - screenHeight + 20 + 72) - buttonHeight - 3) / 2 - 6,
 					0xFFFFFF);
@@ -148,11 +167,11 @@ public class NewMcVerNotifyScreen extends UpdateScreen {
 				messageText.drawWithShadow(context, (width - screenWidth) / 2 + 3, height / 2 - 9, 10, 0xFFFFFF);
 				// 修改循环按钮颜色
 				int color = transColor[0] << 16 | transColor[1] << 8 | transColor[2];
-				updateButton.setMessage(UPDATE_TEXT.copy().setStyle(Style.EMPTY.withBold(true).withColor(color)));
+				updateButton.setMessage(updateText.copy().setStyle(Style.EMPTY.withBold(true).withColor(color)));
 				// 更新配置按钮文本
 				int buttonSpacing = buttonHeight + 3;
 				int buttonY = (height - (height - screenHeight) / 2);
-				Text updateConfigButtonText = composeGenericOptionText(Text.translatable("UPDATE_CONFIG_BUTTON_TEXT"), Text.of(""));
+				Text updateConfigButtonText = composeGenericOptionText(Text.translatable(ScreenUtil.widgetText(data.getMod(), UPDATE_CONFIG)), Text.of(""));
 				context.drawTextWithShadow(textRenderer, updateConfigButtonText,
 						(width - (textRenderer.getWidth(updateConfigButtonText))) / 2,
 						buttonY - buttonSpacing * 3 + 6, 0xFFFFFF);

@@ -15,6 +15,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import pers.saikel0rado1iu.silk.Silk;
@@ -78,30 +79,29 @@ public final class UpdateData {
 	 * 更新配置子配置
 	 */
 	public static final String UPDATE_CONFIG = "update";
-	public final String BAT_NAME;
-	public final ScheduledExecutorService UPDATE_THREAD_POOL = new ScheduledThreadPoolExecutor(0,
-			new BasicThreadFactory.Builder().daemon(true).build());
-	public final Path BAT_PATH;
-	private final String UPDATE_BASIC_LINK;
+	public final ScheduledExecutorService UPDATE_THREAD_POOL = new ScheduledThreadPoolExecutor(0, new BasicThreadFactory.Builder().daemon(true).build());
+	public final String batName;
+	public final Path batPath;
+	private final String updateBasicLink;
 	private final ModExpansionData mod;
-	private final ConfigData configs;
+	private final ConfigData data;
 	private final boolean stopUpdating;
-	boolean updatingFail = false;
-	State state = State.UPDATE_FAIL;
+	private State state = State.UPDATE_FAIL;
+	private boolean updatingFail = false;
+	private boolean canCheckUpdate = true;
 	private boolean showScreen = true;
-	boolean canCheckUpdate = true;
 	private ModDownloadThread thread;
-	private URL updateBasicLink;
+	private URL updateLink;
 	private String updateModVer;
-	private String updateMinecraftVer;
+	private String updateMcVer;
 	
-	public UpdateData(ModExpansionData mod, ConfigData configs) {
-		this(mod, configs, false);
+	public UpdateData(ModExpansionData mod, ConfigData data) {
+		this(mod, data, false);
 	}
 	
-	public UpdateData(ModExpansionData mod, ConfigData configs, boolean stopUpdating) {
+	public UpdateData(ModExpansionData mod, ConfigData data, boolean stopUpdating) {
 		this.mod = mod;
-		this.configs = ConfigData.builder(mod).build()
+		this.data = ConfigData.builder(mod).build()
 				.addSwitch(UPDATE_NOTIFY, true)
 				.addSwitch(SHOW_CHANGELOG, true)
 				.addSwitch(CHECK_NEW_MC_VER_MOD, true)
@@ -111,11 +111,11 @@ public final class UpdateData {
 				.addOption(UPDATE_CHANNEL, Channel.RELEASE)
 				.addSubConfigs("changelog", ConfigData.builder(mod).type(ConfigData.Type.DEV).build()
 						.addSwitch("show", false));
-		configs.addSubConfigs("", this.configs);
+		data.addSubConfigs(UPDATE_CONFIG, this.data);
 		this.stopUpdating = stopUpdating;
-		BAT_NAME = mod.getName() + ".bat";
-		BAT_PATH = Paths.get(mod.getPath().toString(), BAT_NAME);
-		UPDATE_BASIC_LINK = "https://api.modrinth.com/v2/project/" + mod.getSlug() + "/version?loaders=[%22fabric%22]";
+		this.batName = mod.getId() + ".bat";
+		this.batPath = Paths.get(mod.getPath().toString(), batName);
+		this.updateBasicLink = "https://api.modrinth.com/v2/project/" + mod.getSlug() + "/version?loaders=[%22fabric%22]";
 	}
 	
 	public static String getFileSha1(Path path) {
@@ -134,26 +134,27 @@ public final class UpdateData {
 		}
 	}
 	
-	public ModExpansionData getMod() {
-		return mod;
+	public void setState(State state) {
+		this.state = state;
 	}
 	
-	public ConfigData getConfigs() {
-		return configs;
-	}
-	
-	/**
-	 * 重置能检查更新
-	 */
-	public void resetCanCheckUpdate() {
-		canCheckUpdate = true;
+	public boolean getCanCheckUpdate() {
+		return canCheckUpdate;
 	}
 	
 	/**
 	 * 设置能检查更新
 	 */
-	public void setCanCheckUpdate() {
-		canCheckUpdate = false;
+	public void setCanCheckUpdate(boolean canCheckUpdate) {
+		this.canCheckUpdate = canCheckUpdate;
+	}
+	
+	public ModExpansionData getMod() {
+		return mod;
+	}
+	
+	public ConfigData getData() {
+		return data;
 	}
 	
 	/**
@@ -167,7 +168,7 @@ public final class UpdateData {
 	 * 获取更新 MC 版本
 	 */
 	public String getUpdateMinecraftVersion() {
-		return updateMinecraftVer;
+		return updateMcVer;
 	}
 	
 	/**
@@ -191,11 +192,15 @@ public final class UpdateData {
 		return updatingFail;
 	}
 	
+	public void setUpdatingFail(boolean updatingFail) {
+		this.updatingFail = updatingFail;
+	}
+	
 	/**
 	 * 获取更新链接
 	 */
 	public URL getUpdateLink() {
-		return switch (configs.getConfig(UPDATE_MODE, Mode.class)) {
+		return switch (data.getConfig(UPDATE_MODE, Mode.class)) {
 			case MANUAL_DOWNLOAD -> getManualDownloadUpdateLink();
 			case AUTO_DOWNLOAD -> getAutoDownloadUpdateLink();
 			case AUTO_UPDATE -> getAutoUpdateLink();
@@ -210,7 +215,7 @@ public final class UpdateData {
 			updatingFail = true;
 			return true;
 		}
-		return switch (configs.getConfig(UPDATE_MODE, Mode.class)) {
+		return switch (data.getConfig(UPDATE_MODE, Mode.class)) {
 			case MANUAL_DOWNLOAD -> manualDownload(downloadLink);
 			case AUTO_DOWNLOAD -> autoDownload(downloadLink);
 			case AUTO_UPDATE -> autoUpdate(downloadLink);
@@ -241,13 +246,6 @@ public final class UpdateData {
 	 */
 	public void setShowScreen() {
 		showScreen = false;
-	}
-	
-	/**
-	 * 复位已经显示更新屏幕
-	 */
-	public void resetShowScreen() {
-		showScreen = true;
 	}
 	
 	/**
@@ -289,7 +287,7 @@ public final class UpdateData {
 		// 检查是否已停止更新
 		if (stopUpdating) return State.STOP_UPDATE;
 		State state;
-		return switch (configs.getConfig(UPDATE_CHANNEL, Channel.class)) {
+		return switch (data.getConfig(UPDATE_CHANNEL, Channel.class)) {
 			case ALPHA: {
 				state = checkAlphaUpdate();
 				if (state != State.UPDATE_FAIL)
@@ -322,11 +320,11 @@ public final class UpdateData {
 		
 		// 判断是否有更新
 		try {
-			String checkUpdateBasic = UPDATE_BASIC_LINK + "&version_type=release";
+			String checkUpdateBasic = updateBasicLink + "&version_type=release";
 			URL checkUpdateLink;
-			if (configs.getConfig(CHECK_NEW_MC_VER_MOD, Boolean.class)) {
+			if (data.getConfig(CHECK_NEW_MC_VER_MOD, Boolean.class)) {
 				checkUpdateLink = new URL(checkUpdateBasic);
-				updateBasicLink = checkUpdateLink;
+				updateLink = checkUpdateLink;
 				checkUpdateLink.openConnection().setConnectTimeout(100);
 				// 通过 URL 的 openStream 方法获取 URL 对象所表示的自愿字节输入流
 				InputStream is = checkUpdateLink.openStream();
@@ -345,7 +343,7 @@ public final class UpdateData {
 				}
 			} else {
 				checkUpdateLink = new URL(checkUpdateBasic + "&game_versions=[%22" + Minecraft.DATA.getVersion() + "%22]");
-				updateBasicLink = checkUpdateLink;
+				updateLink = checkUpdateLink;
 				checkUpdateLink.openConnection().setConnectTimeout(100);
 				// 通过 URL 的 openStream 方法获取 URL 对象所表示的自愿字节输入流
 				InputStream is = checkUpdateLink.openStream();
@@ -357,10 +355,10 @@ public final class UpdateData {
 				if (getFileSha1(mod.getJar()).equals(sha1Code))
 					return State.THIS_MC_VER;
 			}
-			configs.reader().load();
-			if (configs.getConfig("changelog", ConfigData.class).getConfig("show", Boolean.class)) {
-				configs.getConfig("changelog", ConfigData.class).setConfig("show", false);
-				configs.writer().save();
+			data.reader().load();
+			if (data.getConfig("changelog", ConfigData.class).getConfig("show", Boolean.class)) {
+				data.getConfig("changelog", ConfigData.class).setConfig("show", false);
+				data.writer().save();
 				return State.MOD_LOG;
 			}
 			return State.UPDATE_FAIL;
@@ -382,11 +380,11 @@ public final class UpdateData {
 		
 		// 判断是否有更新
 		try {
-			String checkUpdateBasic = UPDATE_BASIC_LINK + "&version_type=beta";
+			String checkUpdateBasic = updateBasicLink + "&version_type=beta";
 			URL checkUpdateLink;
-			if (configs.getConfig(CHECK_NEW_MC_VER_MOD, Boolean.class)) {
+			if (data.getConfig(CHECK_NEW_MC_VER_MOD, Boolean.class)) {
 				checkUpdateLink = new URL(checkUpdateBasic);
-				updateBasicLink = checkUpdateLink;
+				updateLink = checkUpdateLink;
 				checkUpdateLink.openConnection().setConnectTimeout(100);
 				// 通过 URL 的 openStream 方法获取 URL 对象所表示的自愿字节输入流
 				InputStream is = checkUpdateLink.openStream();
@@ -404,7 +402,7 @@ public final class UpdateData {
 				}
 			} else {
 				checkUpdateLink = new URL(checkUpdateBasic + "&game_versions=[%22" + Minecraft.DATA.getVersion() + "%22]");
-				updateBasicLink = checkUpdateLink;
+				updateLink = checkUpdateLink;
 				checkUpdateLink.openConnection().setConnectTimeout(100);
 				// 通过 URL 的 openStream 方法获取 URL 对象所表示的自愿字节输入流
 				InputStream is = checkUpdateLink.openStream();
@@ -416,10 +414,10 @@ public final class UpdateData {
 				if (getFileSha1(mod.getJar()).equals(sha1Code))
 					return State.THIS_MC_VER;
 			}
-			configs.reader().load();
-			if (configs.getConfig("changelog", ConfigData.class).getConfig("show", Boolean.class)) {
-				configs.getConfig("changelog", ConfigData.class).setConfig("show", false);
-				configs.writer().save();
+			data.reader().load();
+			if (data.getConfig("changelog", ConfigData.class).getConfig("show", Boolean.class)) {
+				data.getConfig("changelog", ConfigData.class).setConfig("show", false);
+				data.writer().save();
 				return State.MOD_LOG;
 			}
 			return State.UPDATE_FAIL;
@@ -441,11 +439,11 @@ public final class UpdateData {
 		
 		// 判断是否有更新
 		try {
-			String checkUpdateBasic = UPDATE_BASIC_LINK + "&version_type=alpha";
+			String checkUpdateBasic = updateBasicLink + "&version_type=alpha";
 			URL checkUpdateLink;
-			if (configs.getConfig(CHECK_NEW_MC_VER_MOD, Boolean.class)) {
+			if (data.getConfig(CHECK_NEW_MC_VER_MOD, Boolean.class)) {
 				checkUpdateLink = new URL(checkUpdateBasic);
-				updateBasicLink = checkUpdateLink;
+				updateLink = checkUpdateLink;
 				checkUpdateLink.openConnection().setConnectTimeout(100);
 				// 通过 URL 的 openStream 方法获取 URL 对象所表示的自愿字节输入流
 				InputStream is = checkUpdateLink.openStream();
@@ -463,7 +461,7 @@ public final class UpdateData {
 				}
 			} else {
 				checkUpdateLink = new URL(checkUpdateBasic + "&game_versions=[%22" + Minecraft.DATA.getVersion() + "%22]");
-				updateBasicLink = checkUpdateLink;
+				updateLink = checkUpdateLink;
 				checkUpdateLink.openConnection().setConnectTimeout(100);
 				// 通过 URL 的 openStream 方法获取 URL 对象所表示的自愿字节输入流
 				InputStream is = checkUpdateLink.openStream();
@@ -475,10 +473,10 @@ public final class UpdateData {
 				if (getFileSha1(mod.getJar()).equals(sha1Code))
 					return State.THIS_MC_VER;
 			}
-			configs.reader().load();
-			if (configs.getConfig("changelog", ConfigData.class).getConfig("show", Boolean.class)) {
-				configs.getConfig("changelog", ConfigData.class).setConfig("show", false);
-				configs.writer().save();
+			data.reader().load();
+			if (data.getConfig("changelog", ConfigData.class).getConfig("show", Boolean.class)) {
+				data.getConfig("changelog", ConfigData.class).setConfig("show", false);
+				data.writer().save();
 				return State.MOD_LOG;
 			}
 			return State.UPDATE_FAIL;
@@ -497,25 +495,15 @@ public final class UpdateData {
 	
 	private URL getAutoDownloadUpdateLink() {
 		try {
-			updateBasicLink.openConnection().setConnectTimeout(100);
+			updateLink.openConnection().setConnectTimeout(100);
 			// 通过 URL 的 openStream 方法获取 URL 对象所表示的自愿字节输入流
-			InputStream is = updateBasicLink.openStream();
+			InputStream is = updateLink.openStream();
 			InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
-			// 为字符输入流添加缓冲
-			BufferedReader br = new BufferedReader(isr);
-			String data = br.readLine();//读取数据
-			
-			String[] strings = data.split(",");
-			for (String string : strings) {
-				if (string.contains("\"url\"")) {
-					data = string;
-					break;
-				}
-			}
-			
-			data = StringUtils.substringAfter(data, ":");
-			data = data.replaceAll("\"", "");
-			return new URL(data);
+			JsonObject data = (JsonObject) JsonParser.parseReader(new BufferedReader(isr)).getAsJsonArray().get(0);
+			// 判断更新
+			JsonObject jsonObject = (JsonObject) data.getAsJsonArray("files").get(0);
+			String url = jsonObject.get("url").getAsString();
+			return new URL(url);
 		} catch (IOException e) {
 			return null;
 		}
@@ -527,7 +515,8 @@ public final class UpdateData {
 	
 	private boolean manualDownload(URL downloadLink) {
 		// 使用默认浏览器打开模组官网
-		// ConfirmLinkScreen.opening(downloadLink.toString(), null, true);
+		//noinspection ResultOfMethodCallIgnored
+		ConfirmLinkScreen.opening(downloadLink.toString(), null, true);
 		// 返回 false 表示不下载
 		return false;
 	}
@@ -546,15 +535,15 @@ public final class UpdateData {
 			boolean hasFile = false;
 			// 遍历 config 文件夹查询
 			for (Path child : children) {
-				if (child.equals(BAT_PATH)) {
+				if (child.equals(batPath)) {
 					hasFile = true;
 					break;
 				}
 			}
 			// 如果不存在配置文件则读取模组配置
-			if (!hasFile) Files.createFile(BAT_PATH);
+			if (!hasFile) Files.createFile(batPath);
 			
-			try (BufferedWriter bufferedWriter = Files.newBufferedWriter(BAT_PATH, StandardCharsets.UTF_8, StandardOpenOption.TRUNCATE_EXISTING);
+			try (BufferedWriter bufferedWriter = Files.newBufferedWriter(batPath, StandardCharsets.UTF_8, StandardOpenOption.TRUNCATE_EXISTING);
 			     PrintWriter printWriter = new PrintWriter(bufferedWriter)) {
 				printWriter.println("chcp 65001");
 				printWriter.println("@echo off");
@@ -575,7 +564,7 @@ public final class UpdateData {
 				printWriter.println("\t\techo Successfully updated Spontaneous-Replace, please start the game and start playing");
 				printWriter.println("\t\techo.");
 				printWriter.println("\t\tchoice /t 5 /d y /n >nul");
-				printWriter.println("\t\tdel /q \"" + BAT_NAME + "\"");
+				printWriter.println("\t\tdel /q \"" + batName + "\"");
 				printWriter.println("\t\texit");
 				printWriter.println("\t)");
 				printWriter.println(")");
@@ -587,10 +576,10 @@ public final class UpdateData {
 				printWriter.println("echo.");
 				printWriter.println("pause");
 				printWriter.println("start explorer \"" + mod.getPath() + "\"");
-				printWriter.println("del /q \"" + BAT_NAME + "\"");
+				printWriter.println("del /q \"" + batName + "\"");
 				printWriter.println("exit");
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -600,47 +589,34 @@ public final class UpdateData {
 	}
 	
 	void setUpdateModVersion() {
-		if (updateBasicLink == null) {
+		if (updateLink == null) {
 			updateModVer = "";
 			return;
 		}
 		try {
-			updateBasicLink.openConnection().setConnectTimeout(100);
+			updateLink.openConnection().setConnectTimeout(100);
 			// 通过 URL 的 openStream 方法获取 URL 对象所表示的自愿字节输入流
-			InputStream is = updateBasicLink.openStream();
+			InputStream is = updateLink.openStream();
 			InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
-			// 为字符输入流添加缓冲
-			BufferedReader br = new BufferedReader(isr);
-			String data = br.readLine();//读取数据
-			
-			String[] strings = data.split(",");
-			for (String string : strings) {
-				if (string.contains("\"version_number\"")) {
-					data = string;
-					break;
-				}
-			}
-			
-			data = StringUtils.substringAfter(data, ":");
-			data = data.replaceAll("\"", "");
-			updateModVer = data;
+			JsonObject data = (JsonObject) JsonParser.parseReader(new BufferedReader(isr)).getAsJsonArray().get(0);
+			updateModVer = data.get("version_number").getAsString();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 	
 	void setUpdateMinecraftVersion() {
-		if (updateBasicLink == null) {
-			updateMinecraftVer = "";
+		if (updateLink == null) {
+			updateMcVer = "";
 			return;
 		}
 		try {
-			updateBasicLink.openConnection().setConnectTimeout(100);
+			updateLink.openConnection().setConnectTimeout(100);
 			// 通过 URL 的 openStream 方法获取 URL 对象所表示的自愿字节输入流
-			InputStream is = updateBasicLink.openStream();
+			InputStream is = updateLink.openStream();
 			InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
 			JsonObject data = (JsonObject) JsonParser.parseReader(new BufferedReader(isr)).getAsJsonArray().get(0);
-			updateMinecraftVer = getLatestMcVer(data);
+			updateMcVer = getLatestMcVer(data);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

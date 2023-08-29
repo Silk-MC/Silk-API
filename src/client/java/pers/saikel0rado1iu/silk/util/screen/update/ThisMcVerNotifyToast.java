@@ -13,6 +13,7 @@ package pers.saikel0rado1iu.silk.util.screen.update;
 
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import pers.saikel0rado1iu.silk.util.ScreenUtil;
 import pers.saikel0rado1iu.silk.util.update.UpdateData;
 
 /**
@@ -24,9 +25,9 @@ import pers.saikel0rado1iu.silk.util.update.UpdateData;
  */
 public class ThisMcVerNotifyToast extends UpdateToast {
 	public ThisMcVerNotifyToast(UpdateData data) {
-		super(Text.translatable("title.spontaneous_replace.this_mc_ver_update_notification")
+		super(Text.translatable(ScreenUtil.widgetText(data.getMod(), "this_mc_ver_update_notify"))
 						.setStyle(Style.EMPTY.withBold(true).withColor(data.getMod().getThemeColor())),
-				data, Text.translatable("text.spontaneous_replace.mod_update_notification",
+				data, Text.translatable(ScreenUtil.widgetText(data.getMod(), "mod_update_notify"),
 						data.getUpdateModVersion().substring(data.getUpdateModVersion().indexOf("-") + 1)));
 	}
 }

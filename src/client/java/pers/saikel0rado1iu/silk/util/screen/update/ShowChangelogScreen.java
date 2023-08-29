@@ -36,7 +36,7 @@ public class ShowChangelogScreen extends UpdateScreen {
 	 * 构造更新屏幕类
 	 */
 	public ShowChangelogScreen(Screen parent, UpdateData data, boolean canTrust) {
-		super(parent, data, Text.translatable("title.spontaneous_replace.log")
+		super(parent, data, Text.translatable(ScreenUtil.widgetText(data.getMod(), "log"))
 				.setStyle(Style.EMPTY.withBold(true).withColor(data.getMod().getThemeColor())));
 		this.canTrust = canTrust;
 	}
@@ -68,7 +68,7 @@ public class ShowChangelogScreen extends UpdateScreen {
 		addDrawableChild(ScreenUtil.linkButton(parent, data.getMod(), ModBasicData.LinkType.COMMUNITY, canTrust)
 				.dimensions(halfButtonX, (height - screenHeight) / 2 + 20 + 72 + buttonSpacing - buttonHeight, halfButtonWidth, buttonHeight).build());
 		addDrawableChild(ButtonWidget.builder(Text.translatable("menu.returnToGame"), (button) -> {
-					data.resetCanCheckUpdate();
+					data.setCanCheckUpdate(true);
 					close();
 				})
 				.dimensions(fullButtonX, buttonY - buttonSpacing, fullButtonWidth, buttonHeight).build());

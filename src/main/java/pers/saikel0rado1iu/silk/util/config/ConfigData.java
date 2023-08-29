@@ -44,6 +44,7 @@ public final class ConfigData {
 	final LinkedHashMap<String, Object> defaults;
 	private final ConfigReader reader;
 	private final ConfigWriter writer;
+	private ConfigData mainConfig;
 	
 	/**
 	 * 在 {@link ModBasicData} 模组中创建一个 {@link ConfigData} 模组配置文件的副本，并使用自定义的保存模式
@@ -56,6 +57,7 @@ public final class ConfigData {
 		this.defaults = defaults;
 		this.reader = new ConfigReader(this);
 		this.writer = new ConfigWriter(this);
+		this.mainConfig = this;
 	}
 	
 	/**
@@ -111,6 +113,22 @@ public final class ConfigData {
 	}
 	
 	/**
+	 * 获取主配置用于读取或保存
+	 */
+	@SilkApi
+	public ConfigData getMainConfig() {
+		return mainConfig;
+	}
+	
+	/**
+	 * 设置主配置用于读取或保存
+	 */
+	@SilkApi
+	private void setMainConfig(ConfigData mainConfig) {
+		this.mainConfig = mainConfig;
+	}
+	
+	/**
 	 * 添加一个整数滑块配置，用于保存一个有范围的整数配置
 	 *
 	 * @param id           配置 ID
@@ -162,6 +180,7 @@ public final class ConfigData {
 		if (configs.get(id) == null) {
 			defaults.put(id, subConfigs);
 			configs.put(id, subConfigs);
+			subConfigs.setMainConfig(getMainConfig());
 		} else {
 			Silk.DATA.logger().error("'" + mod.getId() + "' attempts to replace an existing configuration '" + id + "'!");
 		}
