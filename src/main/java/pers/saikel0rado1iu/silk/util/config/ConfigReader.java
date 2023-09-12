@@ -83,7 +83,7 @@ public final class ConfigReader {
 				} catch (NumberFormatException ignored) {
 				}
 			}
-			configData.mod.logger().warn("Illegal data error occurred while loading configuration file! — by " + Silk.DATA.getName());
+			configData.mod.logger().warn("Illegal data error occurred while loading configuration file!" + Silk.DATA.getInfo());
 		});
 		return configData;
 	}
@@ -114,7 +114,7 @@ public final class ConfigReader {
 				configData.configs.put(s, loadJsonConfigs(cd, gson.toJson(map)));
 				return;
 			}
-			configData.mod.logger().warn("Illegal data error occurred while loading configuration file! — by " + Silk.DATA.getName());
+			configData.mod.logger().warn("Illegal data error occurred while loading configuration file!" + Silk.DATA.getInfo());
 		});
 		return configData;
 	}
@@ -147,7 +147,7 @@ public final class ConfigReader {
 					if (data != null) configData.configs.put(s, loadTomlConfigs(cd, data));
 				}
 			} catch (Exception e) {
-				configData.mod.logger().warn("Illegal data error occurred while loading configuration file! — by " + Silk.DATA.getName());
+				configData.mod.logger().warn("Illegal data error occurred while loading configuration file!" + Silk.DATA.getInfo());
 			}
 		});
 		return configData;
@@ -240,7 +240,7 @@ public final class ConfigReader {
 				} catch (NumberFormatException ignored) {
 				}
 			}
-			configData.mod.logger().warn("Illegal data error occurred while loading configuration file! — by " + Silk.DATA.getName());
+			configData.mod.logger().warn("Illegal data error occurred while loading configuration file!" + Silk.DATA.getInfo());
 		}
 	}
 	

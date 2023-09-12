@@ -21,6 +21,7 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
+import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.util.ScreenUtil;
 import pers.saikel0rado1iu.silk.util.config.ConfigScreen;
@@ -67,6 +68,7 @@ public class ThisMcVerNotifyScreen extends UpdateScreen {
      */
     @Override
     protected void init() {
+        Silk.DATA.logger().error("testtest");
         // 赞助按钮、官网按钮、关闭更新按钮、关闭新MC更新按钮、立即更新按钮、暂时不用按钮
         super.init();
         // 添加提示消息文本

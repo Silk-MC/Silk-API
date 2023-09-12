@@ -214,7 +214,7 @@ public final class ConfigData {
 			configs.put(id, result);
 			return;
 		}
-		mod.logger().warn("Illegal type error occurred while setting configuration file! — by " + Silk.DATA.getName());
+		mod.logger().warn("Illegal type error occurred while setting configuration file!" + Silk.DATA.getInfo());
 	}
 	
 	/**
@@ -231,8 +231,8 @@ public final class ConfigData {
 		else if (configs.get(id) instanceof Enum<?> e) return c.cast(e);
 		else if (configs.get(id) instanceof List<?> list) return c.cast(list.get(2));
 		else if (configs.get(id) instanceof ConfigData data) return c.cast(data);
-		else mod.logger().error("No configuration data was found with ID as '" + id + "'! — by " + Silk.DATA.getName());
-		throw new RuntimeException("No configuration data was found with ID as '" + id + "'! — by " + Silk.DATA.getName());
+		else mod.logger().error("No configuration data was found with ID as '" + id + "'!" + Silk.DATA.getInfo());
+		throw new RuntimeException("No configuration data was found with ID as '" + id + "'!" + Silk.DATA.getInfo());
 	}
 	
 	/**

@@ -11,6 +11,7 @@
 
 package pers.saikel0rado1iu.silk;
 
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModExpansionData;
@@ -27,6 +28,11 @@ import java.util.Optional;
  */
 final public class Silk implements ModExpansionData {
 	public static final Silk DATA = new Silk();
+	
+	@ApiStatus.Internal
+	public String getInfo() {
+		return " — by " + Silk.DATA.getName();
+	}
 	
 	@Override
 	public @NotNull String getId() {

@@ -99,7 +99,7 @@ public interface ScreenUtil {
 	static String readChangelog(ModBasicData mod) {
 		try {
 			URL path = ScreenUtil.class.getResource("/assets/" + mod.getId() + "/log/" + LocalizationUtil.getLanguage() + ".txt");
-			if (path == null) return "Changelog does not exist! — by " + Silk.DATA.getName();
+			if (path == null) return "Changelog does not exist!" + Silk.DATA.getInfo();
 			Path logPath = Path.of(path.toURI());
 			StringBuilder log = new StringBuilder().append(Files.readString(logPath, StandardCharsets.UTF_8));
 			log = new StringBuilder(log.toString().replaceAll("\r", "\n"));
@@ -108,7 +108,7 @@ public interface ScreenUtil {
 			else log = new StringBuilder(log.toString().replaceAll("\t", "  "));
 			return log.toString();
 		} catch (IOException | URISyntaxException e) {
-			return "Changelog does not exist! — by " + Silk.DATA.getName();
+			return "Changelog does not exist!" + Silk.DATA.getInfo();
 		}
 	}
 }
