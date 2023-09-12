@@ -164,7 +164,7 @@ public final class ConfigWriter {
 	 */
 	@SilkApi
 	public void debug(ModBasicData mod) {
-		mod.logger().info("-- configs debug --");
+		mod.logger().info("— configs debug —");
 		switch (configData.mode) {
 			case PROPERTIES -> {
 				LinkedProperties ppt = new LinkedProperties();

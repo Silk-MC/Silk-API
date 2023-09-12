@@ -9,12 +9,12 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.util.screen.update;
+package pers.saikel0rado1iu.silk.util.update.toast;
 
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import pers.saikel0rado1iu.silk.util.ScreenUtil;
-import pers.saikel0rado1iu.silk.util.update.UpdateData;
+import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.util.update.UpdateShow;
+
+import static pers.saikel0rado1iu.silk.util.update.CheckUpdateThread.State.THIS_MC_VER;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">此 MC 版本模组更新提示</font></b></p>
@@ -23,11 +23,11 @@ import pers.saikel0rado1iu.silk.util.update.UpdateData;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
+@SilkApi
 public class ThisMcVerNotifyToast extends UpdateToast {
-	public ThisMcVerNotifyToast(UpdateData data) {
-		super(Text.translatable(ScreenUtil.widgetText(data.getMod(), "this_mc_ver_update_notify"))
-						.setStyle(Style.EMPTY.withBold(true).withColor(data.getMod().getThemeColor())),
-				data, Text.translatable(ScreenUtil.widgetText(data.getMod(), "mod_update_notify"),
-						data.getUpdateModVersion().substring(data.getUpdateModVersion().indexOf("-") + 1)));
-	}
+    private static final String KEY = THIS_MC_VER.toString().toLowerCase();
+
+    public ThisMcVerNotifyToast(UpdateShow show) {
+        super(show.getTitle(KEY), show, show.getVerText(KEY));
+    }
 }

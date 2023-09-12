@@ -11,7 +11,10 @@
 		"api.item.UsingFovZoomMixin$RenderHudOverlay",
 		"api.item.UsingFovZoomMixin$SetFovZoom",
 		"api.item.UsingFovZoomMixin$SetMouseMoveMultiplier",
-		"api.item.UsingMovementMultiplierMixin"
+		"api.item.UsingMovementMultiplierMixin",
+		"util.LocalizationUtilMixin",
+		"util.update.UpdateInGame",
+		"util.update.UpdateInTitle"
 	],
 	"injectors": {
 		"defaultRequire": 1

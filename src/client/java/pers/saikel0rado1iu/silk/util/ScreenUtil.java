@@ -21,6 +21,8 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -90,17 +92,23 @@ public interface ScreenUtil {
 		return mod.getLink(linkType).isPresent() ? linkButton(parent, text, mod.getLink(linkType).get().toString(), canTrust) : linkButton(parent, text, Silk.DATA.getLink(linkType).orElseThrow().toString(), true);
 	}
 	
+	/**
+	 * 读取的更新日志位置于资源包根目录下的 log 文件夹内
+	 */
 	@SilkApi
-	static String readChangelog(Path logPath, boolean isChinese) {
+	static String readChangelog(ModBasicData mod) {
 		try {
+			URL path = ScreenUtil.class.getResource("/assets/" + mod.getId() + "/log/" + LocalizationUtil.getLanguage() + ".txt");
+			if (path == null) return "Changelog does not exist! — by " + Silk.DATA.getName();
+			Path logPath = Path.of(path.toURI());
 			StringBuilder log = new StringBuilder().append(Files.readString(logPath, StandardCharsets.UTF_8));
 			log = new StringBuilder(log.toString().replaceAll("\r", "\n"));
 			log = new StringBuilder(log.toString().replaceAll("\n\n", "\n"));
-			if (isChinese) log = new StringBuilder(log.toString().replaceAll("\t", "—"));
+			if (LocalizationUtil.isChinese()) log = new StringBuilder(log.toString().replaceAll("\t", "—").replaceAll(" ", "-"));
 			else log = new StringBuilder(log.toString().replaceAll("\t", "  "));
 			return log.toString();
-		} catch (IOException e) {
-			return "Changelog does not exist! -- by " + Silk.DATA.getName();
+		} catch (IOException | URISyntaxException e) {
+			return "Changelog does not exist! — by " + Silk.DATA.getName();
 		}
 	}
 }

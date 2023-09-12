@@ -72,7 +72,7 @@ public interface TickUtil {
 	}
 	
 	private static float getNaturalTime(TimeUnit unit, float tick) {
-		return Math.max(1, (float) (tick / getTimeRatio(unit)));
+		return Math.max(0, (float) (tick / getTimeRatio(unit)));
 	}
 	
 	private static float getGameTime(TimeUnit unit, float tick) {

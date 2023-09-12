@@ -9,26 +9,29 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.util.screen.update;
+package pers.saikel0rado1iu.silk.mixin.util.update;
 
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import pers.saikel0rado1iu.silk.util.ScreenUtil;
-import pers.saikel0rado1iu.silk.util.update.UpdateData;
+import net.minecraft.client.render.GameRenderer;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import pers.saikel0rado1iu.silk.util.update.UpdateShow;
+import pers.saikel0rado1iu.silk.util.update.UpdateSystem;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">更新系统失效警告提示</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">用于游戏中更新</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-public class UpdateFailWarningToast extends UpdateToast {
-	public UpdateFailWarningToast(UpdateData data) {
-		super(Text.translatable(ScreenUtil.widgetText(data.getMod(), "update_fail_warning"))
-						.setStyle(Style.EMPTY.withBold(true).withColor(data.getMod().getThemeColor())),
-				data, Text.translatable(ScreenUtil.widgetText(data.getMod(), "update_fail_warning"))
-						.setStyle(Style.EMPTY.withBold(true).withColor(Formatting.RED)));
-	}
+@Mixin(GameRenderer.class)
+abstract class UpdateInGame {
+    @Inject(method = "tick", at = @At("RETURN"))
+    private void tick(CallbackInfo ci) {
+        for (UpdateShow updateShow : UpdateSystem.getUpdateShowSet()) {
+            updateShow.showUpdate(null);
+        }
+    }
 }

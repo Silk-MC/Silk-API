@@ -9,24 +9,21 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.util.screen.update;
+package pers.saikel0rado1iu.silk.util.update.screen;
 
-import net.minecraft.text.Style;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
-import pers.saikel0rado1iu.silk.util.ScreenUtil;
-import pers.saikel0rado1iu.silk.util.update.UpdateData;
+import pers.saikel0rado1iu.silk.util.update.UpdateShow;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">模组日志展示提示</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">下载中屏幕</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-public class ShowChangelogToast extends UpdateToast {
-	public ShowChangelogToast(UpdateData data) {
-		super(Text.translatable(ScreenUtil.widgetText(data.getMod(), "log"))
-						.setStyle(Style.EMPTY.withBold(true).withColor(data.getMod().getThemeColor())),
-				data, Text.translatable(ScreenUtil.widgetText(data.getMod(), "log")).setStyle(Style.EMPTY));
-	}
+public class DownloadingScreen extends UpdateScreen {
+    protected DownloadingScreen(Screen parent, UpdateShow updateShow, Text title) {
+        super(parent, updateShow, title);
+    }
 }

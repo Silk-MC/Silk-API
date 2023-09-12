@@ -20,17 +20,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.util.config.ConfigScreen;
-import pers.saikel0rado1iu.silk.util.config.ConfigTab;
-import pers.saikel0rado1iu.silk.util.screen.mod.ModScreen;
-import pers.saikel0rado1iu.silk.util.screen.mod.ModTab;
-import pers.saikel0rado1iu.silk.util.screen.mod.SynopsisTab;
-import pers.saikel0rado1iu.silk.util.screen.update.NewMcVerNotifyScreen;
-import pers.saikel0rado1iu.silk.util.screen.update.UpdateFailWarningScreen;
-import pers.saikel0rado1iu.silk.util.update.UpdateData;
-
-import java.nio.file.Paths;
 
 import static pers.saikel0rado1iu.silk.Main.CONFIG_DATA;
 

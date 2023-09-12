@@ -9,25 +9,38 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.util.screen.update;
+package pers.saikel0rado1iu.silk.util;
 
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import pers.saikel0rado1iu.silk.util.ScreenUtil;
-import pers.saikel0rado1iu.silk.util.update.UpdateData;
+import org.jetbrains.annotations.ApiStatus;
+import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">新 MC 版本模组更新提示</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">有关本地化语言的所有实用方法</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-public class NewMcVerNotifyToast extends UpdateToast {
-	public NewMcVerNotifyToast(UpdateData data) {
-		super(Text.translatable(ScreenUtil.widgetText(data.getMod(), "new_mc_ver_update_notify"), data.getUpdateMinecraftVersion())
-						.setStyle(Style.EMPTY.withBold(true).withColor(data.getMod().getThemeColor())),
-				data, Text.translatable(ScreenUtil.widgetText(data.getMod(), "mod_update_notify"),
-						data.getUpdateModVersion().substring(data.getUpdateModVersion().indexOf("-") + 1)));
+@SilkApi
+public final class LocalizationUtil {
+	@SilkApi
+	public static final String DEFAULT_LANGUAGE = "en_us";
+	@ApiStatus.Internal
+	public static final LocalizationUtil UTIL = new LocalizationUtil();
+	private String language = DEFAULT_LANGUAGE;
+	
+	@SilkApi
+	public static String getLanguage() {
+		return UTIL.language;
+	}
+	
+	@ApiStatus.Internal
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+	
+	@SilkApi
+	public static boolean isChinese() {
+		return UTIL.language.contains("zh");
 	}
 }
