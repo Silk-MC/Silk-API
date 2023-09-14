@@ -93,12 +93,12 @@ public class UpdateShow {
 	@ApiStatus.Internal
 	public void runUpdateThread() {
 		UPDATE_THREAD_POOL.scheduleAtFixedRate(updateThread, 0, 1, TimeUnit.MINUTES);
-		while (updateThread.getUpdateModVer() == null) Silk.DATA.logger().info("check " + getMod().getName() + " update...");
 	}
 	
 	@ApiStatus.Internal
 	public void showUpdate(Screen parent) {
 		if (!canShowScreen) return;
+		if (updateThread.getUpdateModVer() == null) return;
 		if (updateThread.getData().getUpdateNotify()) showUpdateScreen(parent);
 		else showUpdateToast();
 	}

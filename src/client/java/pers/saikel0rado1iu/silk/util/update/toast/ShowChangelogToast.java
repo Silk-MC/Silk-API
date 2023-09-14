@@ -25,9 +25,9 @@ import static pers.saikel0rado1iu.silk.util.update.CheckUpdateThread.State.MOD_L
  */
 @SilkApi
 public class ShowChangelogToast extends UpdateToast {
-    private static final String KEY = MOD_LOG.toString().toLowerCase();
-
-    public ShowChangelogToast(UpdateShow show) {
-        super(show.getTitle(KEY), show, show.getToastText(KEY));
-    }
+	private static final String KEY = MOD_LOG.toString().toLowerCase();
+	
+	public ShowChangelogToast(UpdateShow show) {
+		super(show.getTitle(KEY), show, show.getToastText(KEY));
+	}
 }

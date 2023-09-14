@@ -24,22 +24,22 @@ import static pers.saikel0rado1iu.silk.Main.CONFIG_DATA;
  * @author Saike
  */
 public class Client implements ClientModInitializer {
-    @Override
-    public void onInitializeClient() {
-        // 此入口点适用于设置客户端特定的逻辑，例如渲染。
-        ModExpansionData sr = new ModExpansionData() {
-            @Override
-            public @NotNull String getId() {
-                return "spontaneous_replace";
-            }
-
-            @Override
-            public @NotNull String getSlug() {
-                return "spontaneous-replace";
-            }
-        };
-        ConfigData configData = ConfigData.builder(sr).build();
-        CONFIG_DATA.addSubConfigs(sr.getId(), configData);
-        UpdateSystem.registryUpdate(new UpdateData(sr, configData));
-    }
+	@Override
+	public void onInitializeClient() {
+		// 此入口点适用于设置客户端特定的逻辑，例如渲染。
+		ModExpansionData sr = new ModExpansionData() {
+			@Override
+			public @NotNull String getId() {
+				return "spontaneous_replace";
+			}
+			
+			@Override
+			public @NotNull String getSlug() {
+				return "spontaneous-replace";
+			}
+		};
+		ConfigData configData = ConfigData.builder(sr).build();
+		CONFIG_DATA.addSubConfigs("update", configData);
+		UpdateSystem.registryUpdate(new UpdateData(sr, configData, "update"));
+	}
 }

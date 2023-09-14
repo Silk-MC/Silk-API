@@ -57,6 +57,16 @@ public class ConfigScreen extends BaseScreen {
 		this(parent, isDouble, configData, "", Text.translatable(configText(configData.mod, "")));
 	}
 	
+	@SilkApi
+	public ConfigScreen(Screen parent, ConfigData configData, String keyPrefix) {
+		this(parent, false, configData, keyPrefix, Text.translatable(configText(configData.mod, keyPrefix)));
+	}
+	
+	@SilkApi
+	public ConfigScreen(Screen parent, ConfigData configData, String keyPrefix, boolean isDouble) {
+		this(parent, isDouble, configData, keyPrefix, Text.translatable(configText(configData.mod, keyPrefix)));
+	}
+	
 	ConfigScreen(Screen parent, boolean isDouble, ConfigData configData, String keyPrefix, Text title) {
 		super(parent, configData.type == ConfigData.Type.EXPERIMENTAL ? title.copy().formatted(Formatting.RED) : (configData.type == ConfigData.Type.DEPRECATED) ? title.copy().formatted(Formatting.YELLOW, Formatting.ITALIC) : title);
 		this.isDouble = isDouble;

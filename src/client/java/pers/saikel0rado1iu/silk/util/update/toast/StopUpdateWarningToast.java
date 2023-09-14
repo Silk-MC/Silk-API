@@ -25,9 +25,9 @@ import static pers.saikel0rado1iu.silk.util.update.CheckUpdateThread.State.STOP_
  */
 @SilkApi
 public class StopUpdateWarningToast extends UpdateToast {
-    private static final String KEY = STOP_UPDATE.toString().toLowerCase();
-
-    public StopUpdateWarningToast(UpdateShow show) {
-        super(show.getTitle(KEY), show, show.getWarText(KEY));
-    }
+	private static final String KEY = STOP_UPDATE.toString().toLowerCase();
+	
+	public StopUpdateWarningToast(UpdateShow show) {
+		super(show.getTitle(KEY), show, show.getWarText(KEY));
+	}
 }

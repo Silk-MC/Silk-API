@@ -23,7 +23,7 @@ import pers.saikel0rado1iu.silk.util.update.UpdateShow;
  * @since 0.1.0
  */
 public class UpdatedScreen extends UpdateScreen {
-    protected UpdatedScreen(Screen parent, UpdateShow updateShow, Text title) {
-        super(parent, updateShow, title);
-    }
+	protected UpdatedScreen(Screen parent, UpdateShow updateShow, Text title) {
+		super(parent, updateShow, title);
+	}
 }

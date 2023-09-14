@@ -47,7 +47,7 @@ abstract class CMixin extends Screen {
 						new SynopsisTab(Silk.DATA),
 						new ConfigTab(Silk.DATA, CONFIG_DATA),
 						new ModTab(Silk.DATA, Paths.get("dsa"))*/
-						configScreen
-				)).dimensions(width / 2 - 100, y - (spacingY * 2), 200, 20).build());
+				configScreen
+		)).dimensions(width / 2 - 100, y - (spacingY * 2), 200, 20).build());
 	}
 }

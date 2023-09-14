@@ -28,10 +28,10 @@ import pers.saikel0rado1iu.silk.util.update.UpdateSystem;
  */
 @Mixin(GameRenderer.class)
 abstract class UpdateInGame {
-    @Inject(method = "tick", at = @At("RETURN"))
-    private void tick(CallbackInfo ci) {
-        for (UpdateShow updateShow : UpdateSystem.getUpdateShowSet()) {
-            updateShow.showUpdate(null);
-        }
-    }
+	@Inject(method = "tick", at = @At("RETURN"))
+	private void tick(CallbackInfo ci) {
+		for (UpdateShow updateShow : UpdateSystem.getUpdateShowSet()) {
+			updateShow.showUpdate(null);
+		}
+	}
 }

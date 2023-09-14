@@ -93,6 +93,21 @@ public interface ScreenUtil {
 	}
 	
 	/**
+	 * 设置彩色 RGB 颜色循环
+	 */
+	@SilkApi
+	static int colorCycling(int originValue) {
+		int[] transColor = {(originValue & 0xFF0000) >> 16, (originValue & 0x00FF00) >> 8, originValue & 0x0000FF};
+		if (transColor[0] == 0xFF && transColor[2] == 0 && transColor[1] != 0xFF) transColor[1] += 17;
+		else if (transColor[1] == 0xFF && transColor[2] == 0 && transColor[0] != 0) transColor[0] -= 17;
+		else if (transColor[0] == 0 && transColor[1] == 0xFF && transColor[2] != 0xFF) transColor[2] += 17;
+		else if (transColor[0] == 0 && transColor[2] == 0xFF && transColor[1] != 0) transColor[1] -= 17;
+		else if (transColor[1] == 0 && transColor[2] == 0xFF && transColor[0] != 0xFF) transColor[0] += 17;
+		else transColor[2] -= 17;
+		return transColor[0] << 16 | transColor[1] << 8 | transColor[2];
+	}
+	
+	/**
 	 * 读取的更新日志位置于资源包根目录下的 log 文件夹内
 	 */
 	@SilkApi

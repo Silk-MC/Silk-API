@@ -32,17 +32,11 @@ public class ShowChangelogScreen extends UpdateScreen {
 	protected final boolean canTrust;
 	protected TextListWidget changelogWidget;
 	
-	/**
-	 * 构造更新屏幕类
-	 */
 	public ShowChangelogScreen(Screen parent, UpdateShow show, boolean canTrust) {
 		super(parent, show, show.getTitle(KEY));
 		this.canTrust = canTrust;
 	}
 	
-	/**
-	 * 配置函数, 所以要用到的按钮等都需要在此函数中注册
-	 */
 	@Override
 	protected void init() {
 		// 赞助按钮、官网按钮、关闭更新按钮、关闭新MC更新按钮、立即更新按钮、暂时不用按钮
@@ -65,7 +59,7 @@ public class ShowChangelogScreen extends UpdateScreen {
 				.dimensions(fullButtonX, (height - screenHeight) / 2 + BUTTON_HEIGHT + ICON_SIZE + buttonSpacing - BUTTON_HEIGHT, halfButtonWidth, BUTTON_HEIGHT).build());
 		addDrawableChild(ScreenUtil.linkButton(this, updateShow.getMod(), ModBasicData.LinkType.COMMUNITY, canTrust)
 				.dimensions(halfButtonX, (height - screenHeight) / 2 + BUTTON_HEIGHT + ICON_SIZE + buttonSpacing - BUTTON_HEIGHT, halfButtonWidth, BUTTON_HEIGHT).build());
-		addDrawableChild(returnToGameButton.dimensions(fullButtonX, buttonY - buttonSpacing, fullButtonWidth, BUTTON_HEIGHT).build());
+		addDrawableChild(returnToGameButton().dimensions(fullButtonX, buttonY - buttonSpacing, fullButtonWidth, BUTTON_HEIGHT).build());
 	}
 	
 	@Override

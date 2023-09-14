@@ -23,7 +23,7 @@ import pers.saikel0rado1iu.silk.util.update.UpdateShow;
  * @since 0.1.0
  */
 public class DownloadingScreen extends UpdateScreen {
-    protected DownloadingScreen(Screen parent, UpdateShow updateShow, Text title) {
-        super(parent, updateShow, title);
-    }
+	protected DownloadingScreen(Screen parent, UpdateShow updateShow, Text title) {
+		super(parent, updateShow, title);
+	}
 }

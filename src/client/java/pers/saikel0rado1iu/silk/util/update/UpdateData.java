@@ -28,191 +28,192 @@ import java.nio.file.Paths;
  */
 @SilkApi
 public final class UpdateData {
-    /**
-     * 是否开启更新提示
-     */
-    public static final String UPDATE_NOTIFY = "update_notify";
-    /**
-     * 是否显示更新日志
-     */
-    public static final String SHOW_CHANGELOG = "show_changelog";
-    /**
-     * 是否检查新 MC 版本模组更新
-     */
-    public static final String CHECK_NEW_MC_VER_MOD = "check_new_mc_ver_mod";
-    /**
-     * 是否关闭停止更新警告
-     */
-    public static final String STOP_UPDATING_WARNING = "stop_updating_warning";
-    /**
-     * 是否关闭更新系统失效警告
-     */
-    public static final String UPDATE_SYS_FAIL_WARNING = "update_sys_fail_warning";
-    /**
-     * 选择更新方式：手动下载、自动下载、自动更新
-     */
-    public static final String UPDATE_MODE = "update_mode";
-    /**
-     * 选择更新通道：正式版、测试版、开发版
-     */
-    public static final String UPDATE_CHANNEL = "update_channel";
-    /**
-     * 更新配置子配置
-     */
-    public static final String UPDATE_CONFIG = "update";
-    private final ModExpansionData mod;
-    private final ConfigData data;
-    private final boolean updating;
-    private final String batName;
-    private final Path batPath;
-    private final String updateBasicLink;
-
-    @SilkApi
-    public UpdateData(ModExpansionData mod, ConfigData data) {
-        this(mod, data, true);
-    }
-
-    @SilkApi
-    public UpdateData(ModExpansionData mod, ConfigData data, boolean updating) {
-        this.mod = mod;
-        this.data = ConfigData.builder(mod).build()
-                .addSwitch(UPDATE_NOTIFY, true)
-                .addSwitch(SHOW_CHANGELOG, true)
-                .addSwitch(CHECK_NEW_MC_VER_MOD, true)
-                .addSwitch(STOP_UPDATING_WARNING, true)
-                .addSwitch(UPDATE_SYS_FAIL_WARNING, true)
-                .addOption(UPDATE_MODE, Mode.MANUAL_DOWNLOAD)
-                .addOption(UPDATE_CHANNEL, Channel.RELEASE)
-                .addSubConfigs("changelog", ConfigData.builder(mod).type(ConfigData.Type.DEV).build()
-                        .addSwitch("show", false));
-        data.addSubConfigs(UPDATE_CONFIG, this.data);
-        this.updating = updating;
-        this.batName = mod.getId() + ".bat";
-        this.batPath = Paths.get(mod.getPath().toString(), batName);
-        this.updateBasicLink = "https://api.modrinth.com/v2/project/" + mod.getSlug() + "/version?loaders=[%22fabric%22]";
-    }
-
-    @ApiStatus.Internal
-    public ConfigData getData() {
-        return data;
-    }
-
-    @ApiStatus.Internal
-    public void load() {
-        data.getMainConfig().reader().load();
-    }
-
-    @ApiStatus.Internal
-    public void save() {
-        data.getMainConfig().writer().save();
-    }
-
-    @ApiStatus.Internal
-    public ModExpansionData getMod() {
-        return mod;
-    }
-
-    @ApiStatus.Internal
-    public String getUpdateBasicLink() {
-        return updateBasicLink;
-    }
-
-    @ApiStatus.Internal
-    public boolean getUpdating() {
-        return updating;
-    }
-
-    @ApiStatus.Internal
-    public String getBatName() {
-        return batName;
-    }
-
-    @ApiStatus.Internal
-    public Path getBatPath() {
-        return batPath;
-    }
-
-    @ApiStatus.Internal
-    public boolean getCanShowChangelog() {
-        return data.getConfig("changelog", ConfigData.class).getConfig("show", Boolean.class);
-    }
-
-    @ApiStatus.Internal
-    public void setCanShowChangelog(boolean value) {
-        data.getConfig("changelog", ConfigData.class).setConfig("show", value);
-    }
-
-    @ApiStatus.Internal
-    public boolean getUpdateNotify() {
-        return data.getConfig(UPDATE_NOTIFY, Boolean.class);
-    }
-
-    @ApiStatus.Internal
-    public void setUpdateNotify(boolean value) {
-        data.setConfig(UPDATE_NOTIFY, value);
-    }
-
-    @ApiStatus.Internal
-    public boolean getShowChangelog() {
-        return data.getConfig(SHOW_CHANGELOG, Boolean.class);
-    }
-
-    @ApiStatus.Internal
-    public void setShowChangelog(boolean value) {
-        data.setConfig(SHOW_CHANGELOG, value);
-    }
-
-    @ApiStatus.Internal
-    public boolean getCheckNewMcVerMod() {
-        return data.getConfig(CHECK_NEW_MC_VER_MOD, Boolean.class);
-    }
-
-    @ApiStatus.Internal
-    public void setCheckNewMcVerMod(boolean value) {
-        data.setConfig(CHECK_NEW_MC_VER_MOD, value);
-    }
-
-    @ApiStatus.Internal
-    public boolean getStopUpdatingWarning() {
-        return data.getConfig(STOP_UPDATING_WARNING, Boolean.class);
-    }
-
-    @ApiStatus.Internal
-    public void setStopUpdatingWarning(boolean value) {
-        data.setConfig(STOP_UPDATING_WARNING, value);
-    }
-
-    @ApiStatus.Internal
-    public boolean getUpdateSysFailWarning() {
-        return data.getConfig(UPDATE_SYS_FAIL_WARNING, Boolean.class);
-    }
-
-    @ApiStatus.Internal
-    public void setUpdateSysFailWarning(boolean value) {
-        data.setConfig(UPDATE_SYS_FAIL_WARNING, value);
-    }
-
-    @ApiStatus.Internal
-    public Mode getUpdateMode() {
-        return data.getConfig(UPDATE_MODE, Mode.class);
-    }
-
-    @ApiStatus.Internal
-    public void setUpdateMode(Mode value) {
-        data.setConfig(UPDATE_MODE, value);
-    }
-
-    @ApiStatus.Internal
-    public Channel getUpdateChannel() {
-        return data.getConfig(UPDATE_CHANNEL, Channel.class);
-    }
-
-    @ApiStatus.Internal
-    public void setUpdateChannel(Channel value) {
-        data.setConfig(UPDATE_CHANNEL, value);
-    }
-
-    public enum Mode {MANUAL_DOWNLOAD, AUTO_DOWNLOAD, AUTO_UPDATE}
-
-    public enum Channel {RELEASE, BETA, ALPHA}
+	/**
+	 * 是否开启更新提示
+	 */
+	public static final String UPDATE_NOTIFY = "update_notify";
+	/**
+	 * 是否显示更新日志
+	 */
+	public static final String SHOW_CHANGELOG = "show_changelog";
+	/**
+	 * 是否检查新 MC 版本模组更新
+	 */
+	public static final String CHECK_NEW_MC_VER_MOD = "check_new_mc_ver_mod";
+	/**
+	 * 是否关闭停止更新警告
+	 */
+	public static final String STOP_UPDATING_WARNING = "stop_updating_warning";
+	/**
+	 * 是否关闭更新系统失效警告
+	 */
+	public static final String UPDATE_SYS_FAIL_WARNING = "update_sys_fail_warning";
+	/**
+	 * 选择更新方式：手动下载、自动下载、自动更新
+	 */
+	public static final String UPDATE_MODE = "update_mode";
+	/**
+	 * 选择更新通道：正式版、测试版、开发版
+	 */
+	public static final String UPDATE_CHANNEL = "update_channel";
+	private final String key;
+	private final ModExpansionData mod;
+	private final ConfigData data;
+	private final boolean updating;
+	private final String batName;
+	private final Path batPath;
+	private final String updateBasicLink;
+	
+	@SilkApi
+	public UpdateData(ModExpansionData mod, ConfigData data, String key) {
+		this(mod, data, key, true);
+	}
+	
+	@SilkApi
+	public UpdateData(ModExpansionData mod, ConfigData data, String key, boolean updating) {
+		this.mod = mod;
+		this.data = data.addSwitch(UPDATE_NOTIFY, true)
+				.addSwitch(SHOW_CHANGELOG, true)
+				.addSwitch(CHECK_NEW_MC_VER_MOD, true)
+				.addSwitch(STOP_UPDATING_WARNING, true)
+				.addSwitch(UPDATE_SYS_FAIL_WARNING, true)
+				.addOption(UPDATE_MODE, Mode.MANUAL_DOWNLOAD)
+				.addOption(UPDATE_CHANNEL, Channel.RELEASE)
+				.addSubConfigs("changelog", ConfigData.builder(mod).type(ConfigData.Type.DEV).build()
+						.addSwitch("show", false));
+		this.key = key;
+		this.updating = updating;
+		this.batName = mod.getId() + ".bat";
+		this.batPath = Paths.get(mod.getPath().toString(), batName);
+		this.updateBasicLink = "https://api.modrinth.com/v2/project/" + mod.getSlug() + "/version?loaders=[%22fabric%22]";
+	}
+	
+	@ApiStatus.Internal
+	public ConfigData getData() {
+		return data;
+	}
+	
+	@ApiStatus.Internal
+	public void load() {
+		data.getMainConfig().reader().load();
+	}
+	
+	@ApiStatus.Internal
+	public void save() {
+		data.getMainConfig().writer().save();
+	}
+	
+	@ApiStatus.Internal
+	public ModExpansionData getMod() {
+		return mod;
+	}
+	
+	@ApiStatus.Internal
+	public String getKey() {
+		return key;
+	}
+	
+	@ApiStatus.Internal
+	public String getUpdateBasicLink() {
+		return updateBasicLink;
+	}
+	
+	@ApiStatus.Internal
+	public boolean getUpdating() {
+		return updating;
+	}
+	
+	@ApiStatus.Internal
+	public String getBatName() {
+		return batName;
+	}
+	
+	@ApiStatus.Internal
+	public Path getBatPath() {
+		return batPath;
+	}
+	
+	@ApiStatus.Internal
+	public boolean getCanShowChangelog() {
+		return data.getConfig("changelog", ConfigData.class).getConfig("show", Boolean.class);
+	}
+	
+	@ApiStatus.Internal
+	public void setCanShowChangelog(boolean value) {
+		data.getConfig("changelog", ConfigData.class).setConfig("show", value);
+	}
+	
+	@ApiStatus.Internal
+	public boolean getUpdateNotify() {
+		return data.getConfig(UPDATE_NOTIFY, Boolean.class);
+	}
+	
+	@ApiStatus.Internal
+	public void setUpdateNotify(boolean value) {
+		data.setConfig(UPDATE_NOTIFY, value);
+	}
+	
+	@ApiStatus.Internal
+	public boolean getShowChangelog() {
+		return data.getConfig(SHOW_CHANGELOG, Boolean.class);
+	}
+	
+	@ApiStatus.Internal
+	public void setShowChangelog(boolean value) {
+		data.setConfig(SHOW_CHANGELOG, value);
+	}
+	
+	@ApiStatus.Internal
+	public boolean getCheckNewMcVerMod() {
+		return data.getConfig(CHECK_NEW_MC_VER_MOD, Boolean.class);
+	}
+	
+	@ApiStatus.Internal
+	public void setCheckNewMcVerMod(boolean value) {
+		data.setConfig(CHECK_NEW_MC_VER_MOD, value);
+	}
+	
+	@ApiStatus.Internal
+	public boolean getStopUpdatingWarning() {
+		return data.getConfig(STOP_UPDATING_WARNING, Boolean.class);
+	}
+	
+	@ApiStatus.Internal
+	public void setStopUpdatingWarning(boolean value) {
+		data.setConfig(STOP_UPDATING_WARNING, value);
+	}
+	
+	@ApiStatus.Internal
+	public boolean getUpdateSysFailWarning() {
+		return data.getConfig(UPDATE_SYS_FAIL_WARNING, Boolean.class);
+	}
+	
+	@ApiStatus.Internal
+	public void setUpdateSysFailWarning(boolean value) {
+		data.setConfig(UPDATE_SYS_FAIL_WARNING, value);
+	}
+	
+	@ApiStatus.Internal
+	public Mode getUpdateMode() {
+		return data.getConfig(UPDATE_MODE, Mode.class);
+	}
+	
+	@ApiStatus.Internal
+	public void setUpdateMode(Mode value) {
+		data.setConfig(UPDATE_MODE, value);
+	}
+	
+	@ApiStatus.Internal
+	public Channel getUpdateChannel() {
+		return data.getConfig(UPDATE_CHANNEL, Channel.class);
+	}
+	
+	@ApiStatus.Internal
+	public void setUpdateChannel(Channel value) {
+		data.setConfig(UPDATE_CHANNEL, value);
+	}
+	
+	public enum Mode {MANUAL_DOWNLOAD, AUTO_DOWNLOAD, AUTO_UPDATE}
+	
+	public enum Channel {RELEASE, BETA, ALPHA}
 }

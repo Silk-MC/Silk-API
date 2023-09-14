@@ -26,17 +26,17 @@ import java.util.Set;
  */
 @SilkApi
 public class UpdateSystem {
-    private static final UpdateSystem UPDATE_SYSTEM = new UpdateSystem();
-    private final Set<UpdateShow> updateShowSet = Sets.newHashSetWithExpectedSize(4);
-
-    @ApiStatus.Internal
-    public static Set<UpdateShow> getUpdateShowSet() {
-        return UPDATE_SYSTEM.updateShowSet;
-    }
-
-    @SilkApi
-    public static void registryUpdate(UpdateData updateData) {
-        UpdateShow updateShow = new UpdateShow(new CheckUpdateThread(updateData));
-        if (UPDATE_SYSTEM.updateShowSet.add(updateShow)) updateShow.runUpdateThread();
-    }
+	private static final UpdateSystem UPDATE_SYSTEM = new UpdateSystem();
+	private final Set<UpdateShow> updateShowSet = Sets.newHashSetWithExpectedSize(4);
+	
+	@ApiStatus.Internal
+	public static Set<UpdateShow> getUpdateShowSet() {
+		return UPDATE_SYSTEM.updateShowSet;
+	}
+	
+	@SilkApi
+	public static void registryUpdate(UpdateData updateData) {
+		UpdateShow updateShow = new UpdateShow(new CheckUpdateThread(updateData));
+		if (UPDATE_SYSTEM.updateShowSet.add(updateShow)) updateShow.runUpdateThread();
+	}
 }

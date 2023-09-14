@@ -25,9 +25,9 @@ import static pers.saikel0rado1iu.silk.util.update.CheckUpdateThread.State.THIS_
  */
 @SilkApi
 public class ThisMcVerNotifyToast extends UpdateToast {
-    private static final String KEY = THIS_MC_VER.toString().toLowerCase();
-
-    public ThisMcVerNotifyToast(UpdateShow show) {
-        super(show.getTitle(KEY), show, show.getVerText(KEY));
-    }
+	private static final String KEY = THIS_MC_VER.toString().toLowerCase();
+	
+	public ThisMcVerNotifyToast(UpdateShow show) {
+		super(show.getTitle(KEY), show, show.getVerText(KEY));
+	}
 }

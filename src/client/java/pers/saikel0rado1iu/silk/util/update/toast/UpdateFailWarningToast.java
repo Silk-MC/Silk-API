@@ -25,9 +25,9 @@ import static pers.saikel0rado1iu.silk.util.update.CheckUpdateThread.State.UPDAT
  */
 @SilkApi
 public class UpdateFailWarningToast extends UpdateToast {
-    private static final String KEY = UPDATE_FAIL.toString().toLowerCase();
-
-    public UpdateFailWarningToast(UpdateShow show) {
-        super(show.getTitle(KEY), show, show.getWarText(KEY));
-    }
+	private static final String KEY = UPDATE_FAIL.toString().toLowerCase();
+	
+	public UpdateFailWarningToast(UpdateShow show) {
+		super(show.getTitle(KEY), show, show.getWarText(KEY));
+	}
 }
