@@ -18,6 +18,7 @@ import net.minecraft.client.gui.widget.MultilineTextWidget;
 import net.minecraft.text.Text;
 import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.util.ScreenUtil;
+import pers.saikel0rado1iu.silk.util.update.UpdateData;
 import pers.saikel0rado1iu.silk.util.update.UpdateShow;
 
 /**
@@ -41,7 +42,7 @@ public class DownloadingScreen extends UpdateScreen {
 		int fullButtonX = (width - (screenWidth - INTERVAL)) / 2;
 		int buttonY = (height - (height - screenHeight) / 2);
 		// 添加信息
-		messageText = new MultilineTextWidget(0, 0, Text.of(""), textRenderer).setMaxWidth(screenWidth - INTERVAL);
+		messageText = new MultilineTextWidget(0, 0, Text.of(""), textRenderer).setMaxWidth(screenWidth - INTERVAL).setCentered(true);
 		int height1 = height - (height - screenHeight) / 2 - BUTTON_SPACING;
 		int height2 = (height - screenHeight) / 2 + textRenderer.fontHeight + ICON_SIZE + INTERVAL * 2 - messageText.getHeight();
 		int height3 = height1 - height2;
@@ -54,13 +55,17 @@ public class DownloadingScreen extends UpdateScreen {
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 		super.render(context, mouseX, mouseY, delta);
-		messageText.setMessage(Text.translatable(ScreenUtil.widgetText(Silk.DATA, "updating"), updateShow.getMod().getLocalizedName(), updateShow.getUpdateProgress()));
+		messageText.setMessage(Text.translatable(ScreenUtil.widgetText(Silk.DATA, "downloading"), updateShow.getMod().getLocalizedName(), updateShow.getUpdateProgress()));
 		messageText.setPosition((width - messageText.getWidth()) / 2, messageText.getY());
 	}
 	
 	@Override
 	public void tick() {
 		super.tick();
-		if (Double.parseDouble(updateShow.getUpdateProgress()) == 100) MinecraftClient.getInstance().setScreen(new DownloadedScreen(parent, updateShow, title));
+		if (Double.parseDouble(updateShow.getUpdateProgress()) == 100) {
+			if (updateShow.getUpdateData().getUpdateMode() == UpdateData.Mode.AUTO_DOWNLOAD)
+				MinecraftClient.getInstance().setScreen(new DownloadedScreen(parent, updateShow, title));
+			else MinecraftClient.getInstance().setScreen(new UpdatedScreen(parent, updateShow, title));
+		}
 	}
 }

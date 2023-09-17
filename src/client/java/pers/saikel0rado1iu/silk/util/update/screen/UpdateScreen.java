@@ -63,9 +63,6 @@ public abstract class UpdateScreen extends BaseScreen {
 		super(parent, Text.of(""));
 		this.updateShow = updateShow;
 		this.title = title;
-		//this.autoDownloadDoneText = Text.translatable(ScreenUtil.widgetText(updateShow.getMod(), "auto_download_done")).setStyle(Style.EMPTY.withBold(true));
-		//this.autoUpdateDoneText = Text.translatable(ScreenUtil.widgetText(updateShow.getMod(), "auto_update_done")).setStyle(Style.EMPTY.withBold(true));
-		//this.updatingFailText = Text.translatable(ScreenUtil.widgetText(updateShow.getMod(), "updating_fail")).setStyle(Style.EMPTY.withBold(true));
 		this.updateShow.getUpdateThread().setCanCheckUpdate(false);
 		this.updateShow.setCanShowScreen(false);
 	}
@@ -153,16 +150,18 @@ public abstract class UpdateScreen extends BaseScreen {
 	
 	@SilkApi
 	protected ButtonWidget updateNowButton() {
-		return updateButton = ButtonWidget.builder(Text.translatable(ScreenUtil.widgetText(updateShow.getMod(), "update_now")), button -> {
+		return updateButton = ButtonWidget.builder(Text.translatable(ScreenUtil.configText(Silk.DATA, "update_now")), button -> {
 			close();
 			if (updateShow.getUpdateData().getUpdateMode() != MANUAL_DOWNLOAD)
 				MinecraftClient.getInstance().setScreen(new ConfirmDownloadScreen(parent, updateShow, title));
+			else
+				Util.getOperatingSystem().open("https://modrinth.com/mod/" + updateShow.getMod().getSlug() + "/version/" + updateShow.getUpdateThread().getUpdateModVer());
 		}).dimensions(0, 0, 0, BUTTON_HEIGHT).build();
 	}
 	
 	@SilkApi
 	protected ButtonWidget.Builder notUpdateButton() {
-		return ButtonWidget.builder(Text.translatable(ScreenUtil.widgetText(updateShow.getMod(), "not_update")).copy().formatted(Formatting.GRAY), button -> {
+		return ButtonWidget.builder(Text.translatable(ScreenUtil.configText(Silk.DATA, "not_update")).copy().formatted(Formatting.GRAY), button -> {
 			updateShow.getUpdateThread().setCanCheckUpdate(true);
 			close();
 		});

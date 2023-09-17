@@ -53,8 +53,9 @@ public interface ModExpansionData extends ModBasicData {
 	}
 	
 	@SilkApi
-	default Text getLocalizedName() {
-		return Text.translatable("modmenu.nameTranslation." + getId());
+	default String getLocalizedName() {
+		String str = "modmenu.nameTranslation." + getId();
+		return str.equals(Text.translatable(str).getString()) ? getName() : Text.translatable(str).getString();
 	}
 	
 	@SilkApi

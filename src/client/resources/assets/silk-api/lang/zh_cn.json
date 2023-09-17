@@ -7,6 +7,12 @@
 	"modmenu.support.afdian": "支持作者: 爱发电",
 	"modmenu.support.patreon": "支持作者: Patreon",
 	"text.silk-api.confirm_update": "　　为了维护模组作者的利益，在自动下载前会跳转到模组官网以确保作者获得应有的广告收益。",
+	"text.silk-api.downloading": "%s下载中: %s%%",
+	"text.silk-api.downloaded": "　　%s·已安装至·mods·文件夹，请尽快删除旧版本文件。",
+	"text.silk-api.updated": "　　%s·已安装至·mods·文件夹，请关闭游戏进行文件清理。",
+	"config.silk-api.update_now.text": "立即更新",
+	"config.silk-api.not_update.text": "暂时不用",
 	"config.silk-api.confirm_update.text": "确认更新",
-	"text.silk-api.updating": "更新%s中: %s%%"
+	"config.silk-api.downloaded.text": "删除文件",
+	"config.silk-api.updated.text": "清理更新"
 }

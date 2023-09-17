@@ -7,6 +7,12 @@
 	"modmenu.support.afdian": "Support: Afdian",
 	"modmenu.support.patreon": "Support: Patreon",
 	"text.silk-api.confirm_update": "  In order to protect the interests of mod authors, they will jump to the mod website before automatic download to ensure that the authors get the advertising revenue they deserve.",
+	"text.silk-api.downloading": "Downloading %s: %s%%",
+	"text.silk-api.downloaded": "  %s has been installed in the mods folder. Please delete the old version quickly.",
+	"text.silk-api.updated": "  %s has been installed in the mods folder. Please close the game to clean the files.",
+	"config.silk-api.update_now.text": "Update Now",
+	"config.silk-api.not_update.text": "Not Yet",
 	"config.silk-api.confirm_update.text": "Confirm Update",
-	"text.silk-api.updating": "Updating %s: %s%%"
+	"config.silk-api.downloaded.text": "Delete Files",
+	"config.silk-api.updated.text": "Clean Update"
 }

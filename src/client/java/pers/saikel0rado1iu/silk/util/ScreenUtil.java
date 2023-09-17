@@ -11,6 +11,7 @@
 
 package pers.saikel0rado1iu.silk.util;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -72,6 +73,16 @@ public interface ScreenUtil {
 	}
 	
 	@SilkApi
+	static ButtonWidget.Builder returnButton(Screen screen) {
+		return ButtonWidget.builder(Text.translatable("menu.returnToGame"), (button) -> screen.close());
+	}
+	
+	@SilkApi
+	static ButtonWidget.Builder quitButton(MinecraftClient client) {
+		return ButtonWidget.builder(Text.translatable("menu.quit"), (button) -> client.scheduleStop());
+	}
+	
+	@SilkApi
 	static ButtonWidget.Builder linkButton(Screen parent, Text text, String url) {
 		return linkButton(parent, text, url, false);
 	}
@@ -119,7 +130,7 @@ public interface ScreenUtil {
 			StringBuilder log = new StringBuilder().append(Files.readString(logPath, StandardCharsets.UTF_8));
 			log = new StringBuilder(log.toString().replaceAll("\r", "\n"));
 			log = new StringBuilder(log.toString().replaceAll("\n\n", "\n"));
-			if (LocalizationUtil.isChinese()) log = new StringBuilder(log.toString().replaceAll("\t", "　").replaceAll(" ", "　"));
+			if (LocalizationUtil.isChinese()) log = new StringBuilder(log.toString().replaceAll("\t", "　").replaceAll(" ", "·"));
 			else log = new StringBuilder(log.toString().replaceAll("\t", "  "));
 			return log.toString();
 		} catch (IOException | URISyntaxException e) {

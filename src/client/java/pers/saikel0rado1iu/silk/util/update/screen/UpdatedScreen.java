@@ -12,8 +12,15 @@
 package pers.saikel0rado1iu.silk.util.update.screen;
 
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.MultilineTextWidget;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import pers.saikel0rado1iu.silk.Silk;
+import pers.saikel0rado1iu.silk.util.ScreenUtil;
 import pers.saikel0rado1iu.silk.util.update.UpdateShow;
+
+import java.io.IOException;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">更新完成屏幕</font></b></p>
@@ -25,5 +32,32 @@ import pers.saikel0rado1iu.silk.util.update.UpdateShow;
 public class UpdatedScreen extends UpdateScreen {
 	protected UpdatedScreen(Screen parent, UpdateShow updateShow, Text title) {
 		super(parent, updateShow, title);
+	}
+	
+	@Override
+	protected void init() {
+		super.init();
+		// 添加信息
+		MultilineTextWidget messageText = new MultilineTextWidget(0, 0,
+				Text.translatable(ScreenUtil.widgetText(Silk.DATA, "updated"), updateShow.getMod().getJarName()),
+				textRenderer).setMaxWidth(screenWidth - INTERVAL);
+		int height1 = (int) (height - (height - screenHeight) / 2 - BUTTON_SPACING * 1.5);
+		int height2 = (height - screenHeight) / 2 + textRenderer.fontHeight + ICON_SIZE + INTERVAL * 2 - messageText.getHeight();
+		int height3 = height1 - height2;
+		messageText.setPosition((width - messageText.getWidth()) / 2, height2 + height3 / 2);
+		addDrawableChild(messageText);
+		int fullButtonWidth = screenWidth - INTERVAL;
+		int fullButtonX = (width - (screenWidth - INTERVAL)) / 2;
+		int buttonY = (height - (height - screenHeight) / 2);
+		addDrawableChild(ButtonWidget.builder(Text.translatable(ScreenUtil.configText(Silk.DATA, "updated")).setStyle(Style.EMPTY.withBold(true)), (button) -> {
+			// 使用断言消除 setScreen NullPointerException警告
+			try {
+				Runtime.getRuntime().exec("cmd /A /C start \"\" /D \""
+						+ updateShow.getMod().getPath() + "\" \"" + updateShow.getUpdateData().getBatName() + "\" CHCP 65001 ");
+				if (client != null) client.scheduleStop();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}).dimensions(fullButtonX, (int) (buttonY - BUTTON_SPACING * 1.5), fullButtonWidth, BUTTON_HEIGHT).build());
 	}
 }
