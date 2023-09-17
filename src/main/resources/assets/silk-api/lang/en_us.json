@@ -5,5 +5,8 @@
 	"modmenu.summaryTranslation.silk-api": "Fabric API extensions for making fancy functionality.",
 	"modmenu.descriptionTranslation.silk-api": "Advanced Fabric API extensions for adding fancy mod items, blocks, mobs and features. The goal is to make it easy for fabric mod developers to produce a variety of advanced operations.",
 	"modmenu.support.afdian": "Support: Afdian",
-	"modmenu.support.patreon": "Support: Patreon"
+	"modmenu.support.patreon": "Support: Patreon",
+	"text.silk-api.confirm_update": "  In order to protect the interests of mod authors, they will jump to the mod website before automatic download to ensure that the authors get the advertising revenue they deserve.",
+	"config.silk-api.confirm_update.text": "Confirm Update",
+	"text.silk-api.updating": "Updating %s: %s%%"
 }

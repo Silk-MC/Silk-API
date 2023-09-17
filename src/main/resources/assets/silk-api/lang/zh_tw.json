@@ -5,5 +5,8 @@
 	"modmenu.summaryTranslation.silk-api": "用於製作具有牛逼哄哄功能的 Fabric API 擴充套件",
 	"modmenu.descriptionTranslation.silk-api": "用於新增牛逼哄哄的模組物品、方塊、實體與特性的高階-Fabric-API-擴充套件。其目的在於方便-fabric-模組開發者進行各種高階操作",
 	"modmenu.support.afdian": "支援作者: 愛發電",
-	"modmenu.support.patreon": "支援作者: Patreon"
+	"modmenu.support.patreon": "支援作者: Patreon",
+	"text.silk-api.confirm_update": "　　為了維護模組作者的利益，在自動下載前會跳轉到模組官網以確保作者獲得應有的廣告收益。",
+	"config.silk-api.confirm_update.text": "確認更新",
+	"text.silk-api.updating": "更新%s中: %s%%"
 }

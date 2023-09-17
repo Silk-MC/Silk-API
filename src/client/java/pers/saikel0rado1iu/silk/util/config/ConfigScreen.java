@@ -49,7 +49,7 @@ public class ConfigScreen extends BaseScreen {
 	
 	@SilkApi
 	public ConfigScreen(Screen parent, ConfigData configData) {
-		this(parent, false, configData, "", Text.translatable(configText(configData.mod, "")));
+		this(parent, configData, false);
 	}
 	
 	@SilkApi
@@ -59,12 +59,12 @@ public class ConfigScreen extends BaseScreen {
 	
 	@SilkApi
 	public ConfigScreen(Screen parent, ConfigData configData, String keyPrefix) {
-		this(parent, false, configData, keyPrefix, Text.translatable(configText(configData.mod, keyPrefix)));
+		this(parent, configData, keyPrefix, false);
 	}
 	
 	@SilkApi
 	public ConfigScreen(Screen parent, ConfigData configData, String keyPrefix, boolean isDouble) {
-		this(parent, isDouble, configData, keyPrefix, Text.translatable(configText(configData.mod, keyPrefix)));
+		this(parent, isDouble, configData, keyPrefix + '.', Text.translatable(configText(configData.mod, keyPrefix)));
 	}
 	
 	ConfigScreen(Screen parent, boolean isDouble, ConfigData configData, String keyPrefix, Text title) {
@@ -178,6 +178,7 @@ public class ConfigScreen extends BaseScreen {
 					});
 				}
 			} else if (object instanceof ConfigData cd) {
+				if (cd.getType() == ConfigData.Type.DEV) continue;
 				simpleOption = SimpleOption.ofBoolean(configText(configData.mod, realKey), SimpleOption.constantTooltip(Text.of(configTip(configData.mod, realKey))), (optionText, value) -> Text.of(""), false, (value) -> MinecraftClient.getInstance().setScreen(new ConfigScreen(this, isDouble, cd, realKey + '.', Text.translatable(configText(configData.mod, realKey)))));
 			}
 			simpleOptionList.add(simpleOption);

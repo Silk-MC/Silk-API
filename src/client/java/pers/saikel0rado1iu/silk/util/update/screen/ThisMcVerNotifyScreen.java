@@ -42,15 +42,15 @@ public class ThisMcVerNotifyScreen extends UpdateScreen {
 		super.init();
 		if (updateShow.getUpdateThread().getUpdatingFail()) MinecraftClient.getInstance().setScreen(new UpdateFailWarningScreen(parent, updateShow, canTrust));
 		// 添加信息
-		MultilineTextWidget messageText = new MultilineTextWidget(0, 0, updateShow.getVerText(KEY), textRenderer).setMaxWidth(screenWidth - INTERVAL).setCentered(true);
-		int height1 = height - (height - screenHeight) - BUTTON_SPACING * 4;
-		int height2 = (height - screenHeight) / 2 + textRenderer.fontHeight + ICON_SIZE + INTERVAL;
+		MultilineTextWidget messageText = new MultilineTextWidget(0, 0, updateShow.getVerText(KEY), textRenderer).setMaxWidth(screenWidth - INTERVAL);
+		int height1 = height - (height - screenHeight) / 2 - BUTTON_SPACING * 4;
+		int height2 = (height - screenHeight) / 2 + textRenderer.fontHeight + ICON_SIZE + INTERVAL * 2 - messageText.getHeight();
 		int height3 = height1 - height2;
-		messageText.setPosition((width - messageText.getWidth()) / 2, height2 + (height3) / 2);
+		messageText.setPosition((width - messageText.getWidth()) / 2, height2 + height3 / 2);
 		addDrawableChild(messageText);
 		// 按钮
-		int fullButtonWidth = screenWidth - 6;
-		int fullButtonX = (width - (screenWidth - 6)) / 2;
+		int fullButtonWidth = screenWidth - INTERVAL;
+		int fullButtonX = (width - (screenWidth - INTERVAL)) / 2;
 		int buttonY = (height - (height - screenHeight) / 2);
 		int halfButtonWidth = fullButtonWidth / 2 - 1;
 		int halfButtonX = fullButtonX + halfButtonWidth + 2;
@@ -59,7 +59,7 @@ public class ThisMcVerNotifyScreen extends UpdateScreen {
 		addDrawableChild(ScreenUtil.linkButton(parent, updateShow.getMod(), ModBasicData.LinkType.COMMUNITY, canTrust)
 				.dimensions(halfButtonX, buttonY - BUTTON_SPACING * 4, halfButtonWidth, BUTTON_HEIGHT).build());
 		addDrawableChild(updateConfigButton().dimensions(fullButtonX, buttonY - BUTTON_SPACING * 3, fullButtonWidth, BUTTON_HEIGHT).build());
-		addDrawableChild(updateModeButton().createWidget(null, fullButtonX, buttonY - BUTTON_SPACING * 2, fullButtonWidth));
+		addDrawableChild(updateModeButton(fullButtonX, buttonY - BUTTON_SPACING * 2, fullButtonWidth, BUTTON_HEIGHT));
 		ButtonWidget updateNowButton = updateNowButton();
 		updateNowButton.setPosition(fullButtonX, buttonY - BUTTON_SPACING);
 		updateNowButton.setWidth(halfButtonWidth);

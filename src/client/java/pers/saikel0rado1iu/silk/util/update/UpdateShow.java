@@ -114,14 +114,13 @@ public class UpdateShow {
 	}
 	
 	@ApiStatus.Internal
-	public final boolean updateMod() {
+	public final void updateMod() {
 		UPDATE_THREAD_POOL.execute(modUpdateThread);
-		return modUpdateThread.isUpdating();
 	}
 	
 	@ApiStatus.Internal
-	public float getUpdateProgress() {
-		return modUpdateThread.getUpdateProgress();
+	public String getUpdateProgress() {
+		return String.format("%.2f", modUpdateThread.getUpdateProgress());
 	}
 	
 	/**
@@ -132,8 +131,7 @@ public class UpdateShow {
 			case NEW_MC_VER -> MinecraftClient.getInstance().setScreen(new NewMcVerNotifyScreen(parent, this, getLinkTrusted()));
 			case THIS_MC_VER -> MinecraftClient.getInstance().setScreen(new ThisMcVerNotifyScreen(parent, this, getLinkTrusted()));
 			case MOD_LOG -> {
-				if (updateThread.getData().getShowChangelog())
-					MinecraftClient.getInstance().setScreen(new ShowChangelogScreen(parent, this, getLinkTrusted()));
+				if (updateThread.getData().getShowChangelog()) MinecraftClient.getInstance().setScreen(new ShowChangelogScreen(parent, this, getLinkTrusted()));
 				else UpdateToast.setToast(new ShowChangelogToast(this));
 			}
 			case STOP_UPDATE -> {

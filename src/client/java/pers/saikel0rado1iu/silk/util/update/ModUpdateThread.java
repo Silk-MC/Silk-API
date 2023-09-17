@@ -20,6 +20,7 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 
@@ -34,7 +35,6 @@ import java.nio.file.*;
 public final class ModUpdateThread extends Thread {
 	private final CheckUpdateThread data;
 	private float updateProgress;
-	private boolean isUpdating;
 	
 	public ModUpdateThread(CheckUpdateThread data) {
 		this.data = data;
@@ -46,19 +46,13 @@ public final class ModUpdateThread extends Thread {
 		URL downloadLink = getUpdateLink();
 		if (downloadLink == null) {
 			data.setUpdatingFail(true);
-			isUpdating = true;
 			return;
 		}
 		switch (data.getData().getUpdateMode()) {
-			case MANUAL_DOWNLOAD -> isUpdating = manualDownload(downloadLink);
-			case AUTO_DOWNLOAD -> isUpdating = autoDownload(downloadLink);
-			case AUTO_UPDATE -> isUpdating = autoUpdate(downloadLink);
+			case MANUAL_DOWNLOAD -> manualDownload(downloadLink);
+			case AUTO_DOWNLOAD -> autoDownload(downloadLink);
+			case AUTO_UPDATE -> autoUpdate(downloadLink);
 		}
-	}
-	
-	@ApiStatus.Internal
-	public boolean isUpdating() {
-		return isUpdating;
 	}
 	
 	@ApiStatus.Internal
@@ -82,7 +76,8 @@ public final class ModUpdateThread extends Thread {
 			byte[] bytes = new byte[1024];
 			// 读取到的数据长度
 			int length;
-			outputStream = Files.newOutputStream(Path.of(data.getMod().getPath() + FileSystems.getDefault().getSeparator() + downloadLink.getPath().substring(downloadLink.getPath().lastIndexOf('/'))));
+			String fileName = data.getMod().getPath() + FileSystems.getDefault().getSeparator() + downloadLink.getPath().substring(downloadLink.getPath().lastIndexOf('/'));
+			outputStream = Files.newOutputStream(Path.of(URLDecoder.decode(fileName, StandardCharsets.UTF_8)));
 			// 读取
 			int fileSize = 0;
 			while ((length = inputStream.read(bytes)) != -1) {
@@ -135,21 +130,17 @@ public final class ModUpdateThread extends Thread {
 		return getAutoDownloadUpdateLink();
 	}
 	
-	private boolean manualDownload(URL downloadLink) {
+	private void manualDownload(URL downloadLink) {
 		// 使用默认浏览器打开模组官网
 		//noinspection ResultOfMethodCallIgnored
 		ConfirmLinkScreen.opening(downloadLink.toString(), null, true);
-		// 返回 false 表示不下载
-		return false;
 	}
 	
-	private boolean autoDownload(URL downloadLink) {
+	private void autoDownload(URL downloadLink) {
 		download(downloadLink);
-		
-		return true;
 	}
 	
-	private boolean autoUpdate(URL downloadLink) {
+	private void autoUpdate(URL downloadLink) {
 		// 下载文件
 		autoDownload(downloadLink);
 		// 创建自动删除旧文件的批处理文件
@@ -206,6 +197,5 @@ public final class ModUpdateThread extends Thread {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		return true;
 	}
 }
