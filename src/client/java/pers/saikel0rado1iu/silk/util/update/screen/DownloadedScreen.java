@@ -33,6 +33,8 @@ import java.io.File;
 public class DownloadedScreen extends UpdateScreen {
 	protected DownloadedScreen(Screen parent, UpdateShow updateShow, Text title) {
 		super(parent, updateShow, title);
+		this.updateShow.getUpdateData().setCanShowChangelog(true);
+		this.updateShow.getUpdateData().save();
 	}
 	
 	@Override

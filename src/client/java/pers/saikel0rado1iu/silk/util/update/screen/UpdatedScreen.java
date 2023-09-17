@@ -32,6 +32,8 @@ import java.io.IOException;
 public class UpdatedScreen extends UpdateScreen {
 	protected UpdatedScreen(Screen parent, UpdateShow updateShow, Text title) {
 		super(parent, updateShow, title);
+		this.updateShow.getUpdateData().setCanShowChangelog(true);
+		this.updateShow.getUpdateData().save();
 	}
 	
 	@Override

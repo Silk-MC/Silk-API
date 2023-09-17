@@ -254,11 +254,7 @@ public final class CheckUpdateThread extends Thread {
 				if (getFileSha1(data.getMod().getJar()).equals(sha1Code)) return THIS_MC_VER;
 			}
 			data.load();
-			if (data.getShowChangelog()) {
-				data.setShowChangelog(false);
-				data.save();
-				return MOD_LOG;
-			}
+			if (data.getShowChangelog() && data.getCanShowChangelog()) return MOD_LOG;
 			return UPDATE_FAIL;
 		} catch (IOException e) {
 			return UPDATE_FAIL;

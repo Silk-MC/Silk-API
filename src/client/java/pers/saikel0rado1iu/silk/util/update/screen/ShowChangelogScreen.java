@@ -35,6 +35,8 @@ public class ShowChangelogScreen extends UpdateScreen {
 	public ShowChangelogScreen(Screen parent, UpdateShow show, boolean canTrust) {
 		super(parent, show, show.getTitle(KEY));
 		this.canTrust = canTrust;
+		this.updateShow.getUpdateData().setCanShowChangelog(false);
+		this.updateShow.getUpdateData().save();
 	}
 	
 	@Override
