@@ -53,8 +53,12 @@ public class StopUpdateWarningScreen extends UpdateScreen {
 				.dimensions(halfButtonX, (height - screenHeight) / 2 + BUTTON_HEIGHT + ICON_SIZE + buttonSpacing - BUTTON_HEIGHT, halfButtonWidth, BUTTON_HEIGHT).build());
 		addDrawableChild(returnToGameButton().dimensions(fullButtonX, buttonY - buttonSpacing, fullButtonWidth, BUTTON_HEIGHT).build());
 		// 添加信息
-		MultilineTextWidget messageText = new MultilineTextWidget(0, 0, updateShow.getWarText(KEY), textRenderer).setMaxWidth(screenWidth - INTERVAL);
-		messageText.setPosition((width - messageText.getWidth()) / 2, (height - screenHeight) / 2 + BUTTON_HEIGHT + ICON_SIZE + (height - (height - screenHeight + BUTTON_HEIGHT + ICON_SIZE)) / 2 - INTERVAL);
+		MultilineTextWidget messageText = new MultilineTextWidget(0, 0, updateShow.getWarText(KEY), textRenderer)
+				.setMaxWidth(screenWidth - INTERVAL);
+		int height1 = height - (height - screenHeight) / 2 - BUTTON_SPACING;
+		int height2 = (height - screenHeight) / 2 + textRenderer.fontHeight + ICON_SIZE + INTERVAL * 2 + BUTTON_SPACING - messageText.getHeight();
+		int height3 = height1 - height2;
+		messageText.setPosition((width - messageText.getWidth()) / 2, height2 + height3 / 2);
 		addDrawableChild(messageText);
 	}
 }

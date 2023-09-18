@@ -11,7 +11,6 @@
 
 package pers.saikel0rado1iu.silk.util.update;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -23,7 +22,6 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModExpansionData;
 import pers.saikel0rado1iu.silk.util.ScreenUtil;
 import pers.saikel0rado1iu.silk.util.config.ConfigData;
-import pers.saikel0rado1iu.silk.util.update.screen.*;
 import pers.saikel0rado1iu.silk.util.update.toast.*;
 
 import java.util.concurrent.ScheduledExecutorService;
@@ -41,6 +39,7 @@ import java.util.concurrent.TimeUnit;
 @SilkApi
 public class UpdateShow {
 	public static final ScheduledExecutorService UPDATE_THREAD_POOL = new ScheduledThreadPoolExecutor(0, new BasicThreadFactory.Builder().daemon(true).build());
+	public static final String KEY = "update.";
 	private final CheckUpdateThread updateThread;
 	private final ModUpdateThread modUpdateThread;
 	private boolean canShowScreen = true;
@@ -67,27 +66,27 @@ public class UpdateShow {
 	
 	@ApiStatus.Internal
 	public Text getTitle(String key) {
-		return Text.translatable(ScreenUtil.widgetTitle(updateThread.getMod(), key)).setStyle(Style.EMPTY.withBold(true).withColor(updateThread.getMod().getThemeColor()));
+		return Text.translatable(ScreenUtil.widgetTitle(Silk.DATA, KEY + key), updateThread.getMod().getLocalizedName()).setStyle(Style.EMPTY.withBold(true).withColor(updateThread.getMod().getThemeColor()));
 	}
 	
 	@ApiStatus.Internal
 	public Text getTitle(String key, String value) {
-		return Text.translatable(ScreenUtil.widgetTitle(updateThread.getMod(), key), value).setStyle(Style.EMPTY.withBold(true).withColor(updateThread.getMod().getThemeColor()));
+		return Text.translatable(ScreenUtil.widgetTitle(Silk.DATA, KEY + key), updateThread.getMod().getLocalizedName(), value).setStyle(Style.EMPTY.withBold(true).withColor(updateThread.getMod().getThemeColor()));
 	}
 	
 	@ApiStatus.Internal
 	public Text getToastText(String key) {
-		return Text.translatable(ScreenUtil.widgetText(updateThread.getMod(), key)).setStyle(Style.EMPTY);
+		return Text.translatable(ScreenUtil.widgetText(Silk.DATA, KEY + key), updateThread.getMod().getLocalizedName()).setStyle(Style.EMPTY);
 	}
 	
 	@ApiStatus.Internal
 	public Text getWarText(String key) {
-		return Text.translatable(ScreenUtil.widgetText(updateThread.getMod(), key)).setStyle(Style.EMPTY.withBold(true).withColor(Formatting.RED));
+		return Text.translatable(ScreenUtil.widgetText(Silk.DATA, KEY + key), updateThread.getMod().getLocalizedName()).setStyle(Style.EMPTY.withBold(true).withColor(Formatting.RED));
 	}
 	
 	@ApiStatus.Internal
 	public Text getVerText(String key) {
-		return Text.translatable(ScreenUtil.widgetText(updateThread.getMod(), key), getUpdateThread().getUpdateModVer().substring(getUpdateThread().getUpdateModVer().indexOf("-") + 1));
+		return Text.translatable(ScreenUtil.widgetText(Silk.DATA, KEY + key), updateThread.getMod().getLocalizedName(), getUpdateThread().getUpdateModVer().substring(getUpdateThread().getUpdateModVer().indexOf("-") + 1));
 	}
 	
 	@ApiStatus.Internal
@@ -127,7 +126,8 @@ public class UpdateShow {
 	 * 设置更新屏幕
 	 */
 	private void showUpdateScreen(Screen parent) {
-		switch (updateThread.getUpdateState()) {
+		UpdateToast.setToast(new ShowChangelogToast(this));
+		/*switch (updateThread.getUpdateState()) {
 			case NEW_MC_VER -> MinecraftClient.getInstance().setScreen(new NewMcVerNotifyScreen(parent, this, getLinkTrusted()));
 			case THIS_MC_VER -> MinecraftClient.getInstance().setScreen(new ThisMcVerNotifyScreen(parent, this, getLinkTrusted()));
 			case MOD_LOG -> {
@@ -145,8 +145,7 @@ public class UpdateShow {
 				else UpdateToast.setToast(new UpdateFailWarningToast(this));
 			}
 			case NONE -> getMod().logger().info("There is currently no new version of mod." + Silk.DATA.getInfo());
-		}
-		//MinecraftClient.getInstance().setScreen(new ThisMcVerNotifyScreen(parent, this, getLinkTrusted()));
+		}*/
 	}
 	
 	/**

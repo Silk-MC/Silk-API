@@ -18,6 +18,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.IconWidget;
+import net.minecraft.client.gui.widget.MultilineTextWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -75,8 +76,9 @@ public abstract class UpdateScreen extends BaseScreen {
 		super.init();
 		screenWidth = (int) (width / 2.5);
 		screenHeight = (int) (height * 0.9);
-		addDrawableChild(new TextWidget((width - textRenderer.getWidth(title)) / 2, (height - screenHeight) / 2 + INTERVAL,
-				textRenderer.getWidth(title), textRenderer.fontHeight, title, textRenderer));
+		MultilineTextWidget messageText = new MultilineTextWidget(0, 0, title, textRenderer).setMaxWidth(screenWidth - INTERVAL).setCentered(true);
+		messageText.setPosition((width - messageText.getWidth()) / 2, (height - screenHeight) / 2 + INTERVAL);
+		addDrawableChild(messageText);
 		addDrawableChild(ButtonWidget.builder(Text.of(""), button -> {
 		}).dimensions(width / 2 - ICON_SIZE / 2 - 1, (int) ((height - screenHeight) / 2 + textRenderer.fontHeight + INTERVAL * 1.5F) - 1, ICON_SIZE + 2, ICON_SIZE + 2).build());
 		addDrawableChild(new IconWidget(width / 2 - ICON_SIZE / 2, (int) ((height - screenHeight) / 2 + textRenderer.fontHeight + INTERVAL * 1.5F), ICON_SIZE, ICON_SIZE,

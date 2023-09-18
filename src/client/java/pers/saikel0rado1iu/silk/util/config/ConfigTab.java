@@ -46,6 +46,7 @@ public class ConfigTab extends ScreenTab {
 	public ConfigListWidget configListWidget;
 	protected List<SimpleOption<?>> simpleOptionList;
 	
+	@SilkApi
 	public ConfigTab(ModBasicData mod, ConfigData configData) {
 		this(mod, configData, false);
 	}

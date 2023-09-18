@@ -29,5 +29,7 @@ public class StopUpdateWarningToast extends UpdateToast {
 	
 	public StopUpdateWarningToast(UpdateShow show) {
 		super(show.getTitle(KEY), show, show.getWarText(KEY));
+		this.updateShow.getUpdateData().setCanShowChangelog(false);
+		this.updateShow.getUpdateData().save();
 	}
 }

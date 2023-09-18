@@ -88,132 +88,159 @@ public final class UpdateData {
 		this.updateBasicLink = "https://api.modrinth.com/v2/project/" + mod.getSlug() + "/version?loaders=[%22fabric%22]";
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public ConfigData getData() {
 		return data;
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public void load() {
 		data.getMainConfig().reader().load();
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public void save() {
 		data.getMainConfig().writer().save();
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public ModExpansionData getMod() {
 		return mod;
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public String getKey() {
 		return key;
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public String getUpdateBasicLink() {
 		return updateBasicLink;
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public boolean getUpdating() {
 		return updating;
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public String getBatName() {
 		return batName;
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public Path getBatPath() {
 		return batPath;
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public boolean getCanShowChangelog() {
 		return data.getConfig("changelog", ConfigData.class).getConfig("show", Boolean.class);
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public void setCanShowChangelog(boolean value) {
 		data.getConfig("changelog", ConfigData.class).setConfig("show", value);
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public boolean getUpdateNotify() {
 		return data.getConfig(UPDATE_NOTIFY, Boolean.class);
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public void setUpdateNotify(boolean value) {
 		data.setConfig(UPDATE_NOTIFY, value);
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public boolean getShowChangelog() {
 		return data.getConfig(SHOW_CHANGELOG, Boolean.class);
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public void setShowChangelog(boolean value) {
 		data.setConfig(SHOW_CHANGELOG, value);
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public boolean getCheckNewMcVerMod() {
 		return data.getConfig(CHECK_NEW_MC_VER_MOD, Boolean.class);
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public void setCheckNewMcVerMod(boolean value) {
 		data.setConfig(CHECK_NEW_MC_VER_MOD, value);
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public boolean getStopUpdatingWarning() {
 		return data.getConfig(STOP_UPDATING_WARNING, Boolean.class);
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public void setStopUpdatingWarning(boolean value) {
 		data.setConfig(STOP_UPDATING_WARNING, value);
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public boolean getUpdateSysFailWarning() {
 		return data.getConfig(UPDATE_SYS_FAIL_WARNING, Boolean.class);
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public void setUpdateSysFailWarning(boolean value) {
 		data.setConfig(UPDATE_SYS_FAIL_WARNING, value);
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public Mode getUpdateMode() {
 		return data.getConfig(UPDATE_MODE, Mode.class);
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public void setUpdateMode(Mode value) {
 		data.setConfig(UPDATE_MODE, value);
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public Channel getUpdateChannel() {
 		return data.getConfig(UPDATE_CHANNEL, Channel.class);
 	}
 	
+	@SilkApi
 	@ApiStatus.Internal
 	public void setUpdateChannel(Channel value) {
 		data.setConfig(UPDATE_CHANNEL, value);
 	}
 	
+	@SilkApi
 	public enum Mode {MANUAL_DOWNLOAD, AUTO_DOWNLOAD, AUTO_UPDATE}
 	
+	@SilkApi
 	public enum Channel {RELEASE, BETA, ALPHA}
 }
