@@ -11,6 +11,7 @@
 
 package pers.saikel0rado1iu.silk.util.update;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -22,6 +23,7 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModExpansionData;
 import pers.saikel0rado1iu.silk.util.ScreenUtil;
 import pers.saikel0rado1iu.silk.util.config.ConfigData;
+import pers.saikel0rado1iu.silk.util.update.screen.ThisMcVerNotifyScreen;
 import pers.saikel0rado1iu.silk.util.update.toast.*;
 
 import java.util.concurrent.ScheduledExecutorService;
@@ -86,7 +88,8 @@ public class UpdateShow {
 	
 	@ApiStatus.Internal
 	public Text getVerText(String key) {
-		return Text.translatable(ScreenUtil.widgetText(Silk.DATA, KEY + key), updateThread.getMod().getLocalizedName(), getUpdateThread().getUpdateModVer().substring(getUpdateThread().getUpdateModVer().indexOf("-") + 1));
+		String ver = getUpdateThread().getUpdateModVer();
+		return Text.translatable(ScreenUtil.widgetText(Silk.DATA, KEY + key), updateThread.getMod().getLocalizedName(), ver.substring(0, ver.indexOf("-")));
 	}
 	
 	@ApiStatus.Internal
@@ -96,6 +99,8 @@ public class UpdateShow {
 	
 	@ApiStatus.Internal
 	public void showUpdate(Screen parent) {
+		String str = "modmenu.nameTranslation." + Silk.DATA.getId();
+		if (str.equals(Text.translatable(str).getString())) return;
 		if (!canShowScreen) return;
 		if (updateThread.getUpdateModVer() == null) return;
 		if (updateThread.getData().getUpdateNotify()) showUpdateScreen(parent);
@@ -126,7 +131,7 @@ public class UpdateShow {
 	 * 设置更新屏幕
 	 */
 	private void showUpdateScreen(Screen parent) {
-		UpdateToast.setToast(new ShowChangelogToast(this));
+		MinecraftClient.getInstance().setScreen(new ThisMcVerNotifyScreen(parent, this, getLinkTrusted()));
 		/*switch (updateThread.getUpdateState()) {
 			case NEW_MC_VER -> MinecraftClient.getInstance().setScreen(new NewMcVerNotifyScreen(parent, this, getLinkTrusted()));
 			case THIS_MC_VER -> MinecraftClient.getInstance().setScreen(new ThisMcVerNotifyScreen(parent, this, getLinkTrusted()));

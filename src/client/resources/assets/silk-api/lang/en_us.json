@@ -13,6 +13,8 @@
 	"text.silk-api.update.stop_update": "  %s is no longer updated in the current minecraft version, please update the minecraft version in time for the best experience.",
 	"title.silk-api.update.mod_log": "Changelog: %s",
 	"text.silk-api.update.mod_log": "  Has been updated to the latest version, please check the changelog.",
+	"title.silk-api.update.this_mc_ver": "%s Has Updated",
+	"text.silk-api.update.this_mc_ver": "  %s %s has updated, please update quickly!",
 	"text.silk-api.confirm_update": "  In order to protect the interests of mod authors, they will jump to the mod website before automatic download to ensure that the authors get the advertising revenue they deserve.",
 	"text.silk-api.downloading": "Downloading %s: %s%%",
 	"text.silk-api.downloaded": "  %s has been installed in the mods folder. Please delete the old version quickly.",

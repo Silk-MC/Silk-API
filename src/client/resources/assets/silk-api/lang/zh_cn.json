@@ -13,6 +13,8 @@
 	"text.silk-api.update.stop_update": "  %s在当前·Minecraft·版本已停止更新，请及时更新·Minecraft·版本获取最佳体验。",
 	"title.silk-api.update.mod_log": "更新日志：%s",
 	"text.silk-api.update.mod_log": "　　已更新至最新版本，请查看更新日志了解最新改动与特性。",
+	"title.silk-api.update.this_mc_ver": "%s现已更新",
+	"text.silk-api.update.this_mc_ver": "　　%s已更新至%s版本，请尽快更新以获取最佳体验！",
 	"text.silk-api.confirm_update": "　　为了维护模组作者的利益，在自动下载前会跳转到模组官网以确保作者获得应有的广告收益。",
 	"text.silk-api.downloading": "%s下载中: %s%%",
 	"text.silk-api.downloaded": "　　%s·已安装至·mods·文件夹，请尽快删除旧版本文件。",
