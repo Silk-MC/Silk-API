@@ -13,7 +13,6 @@ package pers.saikel0rado1iu.silk.util.update.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.MultilineText;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -29,6 +28,7 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.util.ScreenUtil;
 import pers.saikel0rado1iu.silk.util.config.ConfigScreen;
 import pers.saikel0rado1iu.silk.util.screen.BaseScreen;
+import pers.saikel0rado1iu.silk.util.update.CheckUpdateThread;
 import pers.saikel0rado1iu.silk.util.update.UpdateData;
 import pers.saikel0rado1iu.silk.util.update.UpdateShow;
 
@@ -55,9 +55,8 @@ public abstract class UpdateScreen extends BaseScreen {
 	protected final UpdateShow updateShow;
 	protected int screenWidth;
 	protected int screenHeight;
-	protected MultilineText messageText;
-	private ButtonWidget updateButton;
 	private int transColor = 0xFF0000;
+	private ButtonWidget updateButton;
 	private TextWidget updateModeText;
 	
 	protected UpdateScreen(Screen parent, UpdateShow updateShow, Text title) {
@@ -98,8 +97,8 @@ public abstract class UpdateScreen extends BaseScreen {
 		renderBackgroundTexture(context);
 		super.render(context, mouseX, mouseY, delta);
 		if (updateModeText != null) {
-			updateModeText.setMessage(Text.translatable(ScreenUtil.configText(updateShow.getMod(), updateShow.getUpdateData().getKey() + '.' + UPDATE_MODE),
-					ScreenUtil.configText(updateShow.getMod(), updateShow.getUpdateData().getKey() + '.' + UPDATE_MODE + '.' + updateShow.getUpdateData().getUpdateMode().toString().toLowerCase())));
+			updateModeText.setMessage(Text.translatable(ScreenUtil.configText(Silk.DATA, UpdateData.KEY + '.' + UPDATE_MODE + "_"),
+					Text.translatable(ScreenUtil.configText(Silk.DATA, UpdateData.KEY + '.' + UPDATE_MODE + '.' + updateShow.getUpdateData().getUpdateMode().toString().toLowerCase()))));
 			updateModeText.render(context, mouseX, mouseY, delta);
 		}
 	}
@@ -123,19 +122,24 @@ public abstract class UpdateScreen extends BaseScreen {
 	
 	@SilkApi
 	protected ButtonWidget.Builder updateConfigButton() {
-		return ButtonWidget.builder(Text.translatable(ScreenUtil.configText(updateShow.getMod(), updateShow.getUpdateData().getKey())), (button) -> {
-			if (client != null) client.setScreen(new ConfigScreen(this, updateShow.getConfigData(), updateShow.getUpdateData().getKey()));
+		return ButtonWidget.builder(Text.translatable(ScreenUtil.configText(Silk.DATA, UpdateData.KEY)), (button) -> {
+			if (client != null) client.setScreen(new ConfigScreen(this, updateShow.getConfigData(), UpdateData.KEY) {
+				@Override
+				protected boolean linkTrusted() {
+					return true;
+				}
+			});
 		});
 	}
 	
 	@SilkApi
 	protected ButtonWidget updateModeButton(int x, int y, int width, int height) {
 		addDrawableChild(updateModeText = new TextWidget(x, y + (BUTTON_HEIGHT - textRenderer.fontHeight) / 2 + 1, width, textRenderer.fontHeight,
-				Text.translatable(ScreenUtil.configText(updateShow.getMod(), updateShow.getUpdateData().getKey() + '.' + UPDATE_MODE),
-						ScreenUtil.configText(updateShow.getMod(), updateShow.getUpdateData().getKey() + '.' + UPDATE_MODE + '.' + updateShow.getUpdateData().getUpdateMode().toString().toLowerCase())), textRenderer).alignCenter());
+				Text.of(""), textRenderer).alignCenter());
 		return ButtonWidget.builder(Text.of(""), button -> {
 			List<UpdateData.Mode> modes = new ArrayList<>(List.of(UpdateData.Mode.values()));
-			if (!Util.getOperatingSystem().equals(WINDOWS)) modes.remove(UpdateData.Mode.AUTO_UPDATE);
+			if (!Util.getOperatingSystem().equals(WINDOWS) || updateShow.getUpdateThread().getUpdateState() == CheckUpdateThread.State.NEW_MC_VER)
+				modes.remove(UpdateData.Mode.AUTO_UPDATE);
 			int index = modes.indexOf(updateShow.getUpdateData().getUpdateMode());
 			updateShow.getUpdateData().setUpdateMode(modes.get(index == modes.size() - 1 ? 0 : index + 1));
 			updateShow.getUpdateData().save();

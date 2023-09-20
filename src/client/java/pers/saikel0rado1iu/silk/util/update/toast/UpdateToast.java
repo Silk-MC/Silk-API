@@ -13,17 +13,19 @@ package pers.saikel0rado1iu.silk.util.update.toast;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.MultilineText;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.toast.Toast;
 import net.minecraft.client.toast.ToastManager;
+import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.util.TickUtil;
 import pers.saikel0rado1iu.silk.util.update.UpdateShow;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -35,6 +37,9 @@ import java.util.concurrent.TimeUnit;
  */
 @SilkApi
 public abstract class UpdateToast implements Toast {
+	private static final int SHOW_SEC = 45;
+	private static final int SHOW_TITLE_SEC = SHOW_SEC / 2;
+	private static final int SHOW_TEXT_SEC = SHOW_SEC - SHOW_TITLE_SEC;
 	protected final Text title;
 	protected final Text message;
 	protected final UpdateShow updateShow;
@@ -69,11 +74,18 @@ public abstract class UpdateToast implements Toast {
 		RenderSystem.setShaderTexture(0, updateShow.getMod().getIcon().orElse(Silk.DATA.getIcon().orElseThrow()));
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		context.drawTexture(updateShow.getMod().getIcon().orElse(Silk.DATA.getIcon().orElseThrow()), -30 + 6, 4, 0, 0, 24, 24, 24, 24);
-		if (TickUtil.getTime(time, TickUtil.Type.NATURAL, TimeUnit.SECONDS) < 15) {
-			context.drawText(manager.getClient().textRenderer, title, (getWidth() - manager.getClient().textRenderer.getWidth(title)) / 2, (getHeight() - manager.getClient().textRenderer.fontHeight) / 2, updateShow.getMod().getThemeColor(), false);
+		TextRenderer textRenderer = manager.getClient().textRenderer;
+		if (TickUtil.getTime(time, TickUtil.Type.NATURAL, TimeUnit.SECONDS) < SHOW_TITLE_SEC) {
+			List<OrderedText> list = manager.getClient().textRenderer.wrapLines(title, getWidth() - 6);
+			int perSec = SHOW_TITLE_SEC / list.size();
+			OrderedText text = list.get(Math.min(list.size() - 1, (int) (TickUtil.getTime(time, TickUtil.Type.NATURAL, TimeUnit.SECONDS) / perSec)));
+			context.drawText(textRenderer, text, (getWidth() - textRenderer.getWidth(text)) / 2, (getHeight() - textRenderer.fontHeight) / 2, updateShow.getMod().getThemeColor(), false);
 		} else {
-			MultilineText.create(manager.getClient().textRenderer, message, getWidth() - 6).draw(context, 4, getHeight() / 2 - manager.getClient().textRenderer.fontHeight, 10, 0xFFFFFF);
+			List<OrderedText> list = manager.getClient().textRenderer.wrapLines(message, getWidth() - 6);
+			int perSec = SHOW_TEXT_SEC / list.size();
+			OrderedText text = list.get(Math.min(list.size() - 1, (int) ((TickUtil.getTime(time, TickUtil.Type.NATURAL, TimeUnit.SECONDS) - SHOW_TITLE_SEC) / perSec)));
+			context.drawText(textRenderer, text, (getWidth() - textRenderer.getWidth(text)) / 2, (getHeight() - textRenderer.fontHeight) / 2, updateShow.getMod().getThemeColor(), false);
 		}
-		return TickUtil.getTime(time, TickUtil.Type.NATURAL, TimeUnit.SECONDS) < 30 ? Visibility.SHOW : Visibility.HIDE;
+		return TickUtil.getTime(time, TickUtil.Type.NATURAL, TimeUnit.SECONDS) < SHOW_SEC ? Visibility.SHOW : Visibility.HIDE;
 	}
 }

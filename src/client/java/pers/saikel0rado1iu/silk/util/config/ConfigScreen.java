@@ -110,6 +110,10 @@ public class ConfigScreen extends BaseScreen {
 	@Override
 	protected void init() {
 		super.init();
+		// 添加"支持我们"按钮
+		addDrawableChild(ScreenUtil.linkButton(this, configData.mod, ModBasicData.LinkType.SUPPORT, linkTrusted()).dimensions(width - 115, 6, 110, 20).build());
+		// 添加完成按钮
+		addDrawableChild(doneButton(this).dimensions(width / 2 - 100, height - 26, 200, 20).build());
 		// 添加黑色透明窗口
 		optionListWidget = new OptionListWidget(client, width, height, 32, height - 32, 25);
 		if (configData.type == ConfigData.Type.DEV) return;
@@ -119,10 +123,6 @@ public class ConfigScreen extends BaseScreen {
 	
 	private List<SimpleOption<?>> addSimpleOption() {
 		List<SimpleOption<?>> simpleOptionList = new ArrayList<>(8);
-		// 添加"支持我们"按钮
-		addDrawableChild(ScreenUtil.linkButton(this, configData.mod, ModBasicData.LinkType.SUPPORT, getLinkTrusted()).dimensions(width - 75, 6, 70, 20).build());
-		// 添加完成按钮
-		addDrawableChild(doneButton(this).dimensions(width / 2 - 100, height - 26, 200, 20).build());
 		// 添加所有配置选项按钮
 		Object prev = null;
 		for (String key : configData.configs.keySet()) {
@@ -214,7 +214,7 @@ public class ConfigScreen extends BaseScreen {
 	/**
 	 * 重写此方法以信任链接
 	 */
-	protected boolean getLinkTrusted() {
+	protected boolean linkTrusted() {
 		return false;
 	}
 }

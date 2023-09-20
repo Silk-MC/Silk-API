@@ -23,7 +23,7 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModExpansionData;
 import pers.saikel0rado1iu.silk.util.ScreenUtil;
 import pers.saikel0rado1iu.silk.util.config.ConfigData;
-import pers.saikel0rado1iu.silk.util.update.screen.ThisMcVerNotifyScreen;
+import pers.saikel0rado1iu.silk.util.update.screen.*;
 import pers.saikel0rado1iu.silk.util.update.toast.*;
 
 import java.util.concurrent.ScheduledExecutorService;
@@ -131,26 +131,25 @@ public class UpdateShow {
 	 * 设置更新屏幕
 	 */
 	private void showUpdateScreen(Screen parent) {
-		MinecraftClient.getInstance().setScreen(new ThisMcVerNotifyScreen(parent, this, getLinkTrusted()));
-		/*switch (updateThread.getUpdateState()) {
-			case NEW_MC_VER -> MinecraftClient.getInstance().setScreen(new NewMcVerNotifyScreen(parent, this, getLinkTrusted()));
-			case THIS_MC_VER -> MinecraftClient.getInstance().setScreen(new ThisMcVerNotifyScreen(parent, this, getLinkTrusted()));
+		switch (updateThread.getUpdateState()) {
+			case NEW_MC_VER -> MinecraftClient.getInstance().setScreen(new NewMcVerNotifyScreen(parent, this, linkTrusted()));
+			case THIS_MC_VER -> MinecraftClient.getInstance().setScreen(new ThisMcVerNotifyScreen(parent, this, linkTrusted()));
 			case MOD_LOG -> {
-				if (updateThread.getData().getShowChangelog()) MinecraftClient.getInstance().setScreen(new ShowChangelogScreen(parent, this, getLinkTrusted()));
+				if (updateThread.getData().getShowChangelog()) MinecraftClient.getInstance().setScreen(new ShowChangelogScreen(parent, this, linkTrusted()));
 				else UpdateToast.setToast(new ShowChangelogToast(this));
 			}
 			case STOP_UPDATE -> {
 				if (updateThread.getData().getStopUpdatingWarning())
-					MinecraftClient.getInstance().setScreen(new StopUpdateWarningScreen(parent, this, getLinkTrusted()));
+					MinecraftClient.getInstance().setScreen(new StopUpdateWarningScreen(parent, this, linkTrusted()));
 				else UpdateToast.setToast(new StopUpdateWarningToast(this));
 			}
 			case UPDATE_FAIL -> {
 				if (updateThread.getData().getUpdateSysFailWarning())
-					MinecraftClient.getInstance().setScreen(new UpdateFailWarningScreen(parent, this, getLinkTrusted()));
+					MinecraftClient.getInstance().setScreen(new UpdateFailWarningScreen(parent, this, linkTrusted()));
 				else UpdateToast.setToast(new UpdateFailWarningToast(this));
 			}
-			case NONE -> getMod().logger().info("There is currently no new version of mod." + Silk.DATA.getInfo());
-		}*/
+			case NONE -> getMod().logger().info("Checking the new version of mod..." + Silk.DATA.getInfo());
+		}
 	}
 	
 	/**
@@ -163,14 +162,14 @@ public class UpdateShow {
 			case MOD_LOG -> UpdateToast.setToast(new ShowChangelogToast(this));
 			case STOP_UPDATE -> UpdateToast.setToast(new StopUpdateWarningToast(this));
 			case UPDATE_FAIL -> UpdateToast.setToast(new UpdateFailWarningToast(this));
-			case NONE -> getMod().logger().info("There is currently no new version of mod." + Silk.DATA.getInfo());
+			case NONE -> getMod().logger().info("Checking the new version of mod..." + Silk.DATA.getInfo());
 		}
 	}
 	
 	/**
 	 * 重写此方法以信任链接
 	 */
-	protected boolean getLinkTrusted() {
+	protected boolean linkTrusted() {
 		return false;
 	}
 }

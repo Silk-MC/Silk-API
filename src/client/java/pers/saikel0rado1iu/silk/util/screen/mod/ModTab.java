@@ -52,9 +52,9 @@ public class ModTab extends ScreenTab {
 		addWidget(ButtonWidget.builder(Text.of(""), button -> {
 		}).dimensions(width / 60 + iconAdd, TAP_TOP + interval, logoSide, logoSide).build());
 		addWidget(new IconWidget(width / 60 + iconAdd + 1, TAP_TOP + interval + 1, logoSide - 2, logoSide - 2, mod.getIcon().orElse(Silk.DATA.getIcon().orElseThrow())));
-		addWidget(ScreenUtil.linkButton(parent, mod, ModBasicData.LinkType.HOMEPAGE, getLinkTrusted()).dimensions(buttonX, TAP_TOP + interval, width / 2 - width / 60 - buttonX - iconAdd, buttonHeight).build());
-		addWidget(ScreenUtil.linkButton(parent, mod, ModBasicData.LinkType.SUPPORT, getLinkTrusted()).dimensions(buttonX, ((TAP_TOP + interval) + (TAP_TOP + interval + logoSide - buttonHeight)) / 2, width / 2 - width / 60 - buttonX - iconAdd, buttonHeight).build());
-		addWidget(ScreenUtil.linkButton(parent, mod, ModBasicData.LinkType.COMMUNITY, getLinkTrusted()).dimensions(buttonX, TAP_TOP + interval + logoSide - buttonHeight, width / 2 - width / 60 - buttonX - iconAdd, buttonHeight).build());
+		addWidget(ScreenUtil.linkButton(parent, mod, ModBasicData.LinkType.HOMEPAGE, linkTrusted()).dimensions(buttonX, TAP_TOP + interval, width / 2 - width / 60 - buttonX - iconAdd, buttonHeight).build());
+		addWidget(ScreenUtil.linkButton(parent, mod, ModBasicData.LinkType.SUPPORT, linkTrusted()).dimensions(buttonX, ((TAP_TOP + interval) + (TAP_TOP + interval + logoSide - buttonHeight)) / 2, width / 2 - width / 60 - buttonX - iconAdd, buttonHeight).build());
+		addWidget(ScreenUtil.linkButton(parent, mod, ModBasicData.LinkType.COMMUNITY, linkTrusted()).dimensions(buttonX, TAP_TOP + interval + logoSide - buttonHeight, width / 2 - width / 60 - buttonX - iconAdd, buttonHeight).build());
 		addWidget(logTitle = new TextWidget(Text.translatable(ScreenUtil.widgetTitle(mod, "changelog")), textRenderer));
 		addWidget(targetTitle = new TextWidget(Text.translatable(ScreenUtil.widgetTitle(mod, "target")), textRenderer));
 		changelogWidget = new TextListWidget(client, width / 2 - width / 30, height, TAP_TOP + interval * 3, height - TAP_BOTTOM - interval, 12, ScreenUtil.readChangelog(mod));
@@ -74,7 +74,7 @@ public class ModTab extends ScreenTab {
 	/**
 	 * 重写此方法以信任链接
 	 */
-	protected boolean getLinkTrusted() {
+	protected boolean linkTrusted() {
 		return false;
 	}
 }

@@ -18,7 +18,7 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import java.util.Set;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用于注册更新系统</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">用于注册更新系统，只对在 Modrinth 上发布的模组有效</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>

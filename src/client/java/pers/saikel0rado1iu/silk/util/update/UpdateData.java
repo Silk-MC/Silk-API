@@ -12,6 +12,7 @@
 package pers.saikel0rado1iu.silk.util.update;
 
 import org.jetbrains.annotations.ApiStatus;
+import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModExpansionData;
 import pers.saikel0rado1iu.silk.util.config.ConfigData;
@@ -56,7 +57,7 @@ public final class UpdateData {
 	 * 选择更新通道：正式版、测试版、开发版
 	 */
 	public static final String UPDATE_CHANNEL = "update_channel";
-	private final String key;
+	public static final String KEY = "update";
 	private final ModExpansionData mod;
 	private final ConfigData data;
 	private final boolean updating;
@@ -65,14 +66,15 @@ public final class UpdateData {
 	private final String updateBasicLink;
 	
 	@SilkApi
-	public UpdateData(ModExpansionData mod, ConfigData data, String key) {
-		this(mod, data, key, true);
+	public UpdateData(ModExpansionData mod, ConfigData data) {
+		this(mod, data, true);
 	}
 	
 	@SilkApi
-	public UpdateData(ModExpansionData mod, ConfigData data, String key, boolean updating) {
+	public UpdateData(ModExpansionData mod, ConfigData data, boolean updating) {
 		this.mod = mod;
-		this.data = data.addSwitch(UPDATE_NOTIFY, true)
+		data.addSubConfigs(KEY, this.data = ConfigData.builder(Silk.DATA).build()
+				.addSwitch(UPDATE_NOTIFY, true)
 				.addSwitch(SHOW_CHANGELOG, true)
 				.addSwitch(CHECK_NEW_MC_VER_MOD, true)
 				.addSwitch(STOP_UPDATING_WARNING, true)
@@ -80,8 +82,7 @@ public final class UpdateData {
 				.addOption(UPDATE_MODE, Mode.MANUAL_DOWNLOAD)
 				.addOption(UPDATE_CHANNEL, Channel.RELEASE)
 				.addSubConfigs("changelog", ConfigData.builder(mod).type(ConfigData.Type.DEV).build()
-						.addSwitch("show", false));
-		this.key = key;
+						.addSwitch("show", false)));
 		this.updating = updating;
 		this.batName = mod.getId() + ".bat";
 		this.batPath = Paths.get(mod.getPath().toString(), batName);
@@ -110,12 +111,6 @@ public final class UpdateData {
 	@ApiStatus.Internal
 	public ModExpansionData getMod() {
 		return mod;
-	}
-	
-	@SilkApi
-	@ApiStatus.Internal
-	public String getKey() {
-		return key;
 	}
 	
 	@SilkApi

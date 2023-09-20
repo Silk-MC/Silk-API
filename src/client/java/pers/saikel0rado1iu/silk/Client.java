@@ -14,7 +14,6 @@ package pers.saikel0rado1iu.silk;
 import net.fabricmc.api.ClientModInitializer;
 import org.jetbrains.annotations.NotNull;
 import pers.saikel0rado1iu.silk.api.ModExpansionData;
-import pers.saikel0rado1iu.silk.util.config.ConfigData;
 import pers.saikel0rado1iu.silk.util.update.UpdateData;
 import pers.saikel0rado1iu.silk.util.update.UpdateSystem;
 
@@ -38,8 +37,6 @@ public class Client implements ClientModInitializer {
 				return "spontaneous-replace";
 			}
 		};
-		ConfigData configData = ConfigData.builder(sr).build();
-		CONFIG_DATA.addSubConfigs("update", configData);
-		UpdateSystem.registryUpdate(new UpdateData(sr, configData, "update"));
+		UpdateSystem.registryUpdate(new UpdateData(sr, CONFIG_DATA));
 	}
 }

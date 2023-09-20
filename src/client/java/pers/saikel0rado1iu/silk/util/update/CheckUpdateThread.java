@@ -78,9 +78,10 @@ public final class CheckUpdateThread extends Thread {
 	@Override
 	public void run() {
 		if (canCheckUpdate) {
-			updateState = checkUpdate();
+			State tempUpdateState = checkUpdate();
 			setUpdateModVer();
 			setUpdateMcVersion();
+			updateState = tempUpdateState;
 		}
 	}
 	
@@ -201,12 +202,12 @@ public final class CheckUpdateThread extends Thread {
 	}
 	
 	private String getLatestMcVer(JsonObject data) {
-		List<String> VerList = new ArrayList<>(4);
-		JsonArray VerArray = data.getAsJsonArray("game_versions");
-		for (JsonElement object : VerArray) VerList.add(object.getAsString());
+		List<String> verList = new ArrayList<>(4);
+		JsonArray verArray = data.getAsJsonArray("game_versions");
+		for (JsonElement object : verArray) verList.add(object.getAsString());
 		String latestMinecraftVer = "";
-		for (int count = 0; count < VerList.size() - 1; count++) {
-			latestMinecraftVer = compareMcVer(VerList.get(count), VerList.get(count + 1)) < 0 ? VerList.get(count) : VerList.get(count + 1);
+		for (int count = 0; count < verList.size() - 1; count++) {
+			latestMinecraftVer = compareMcVer(verList.get(count), verList.get(count + 1)) < 0 ? verList.get(count) : verList.get(count + 1);
 		}
 		return latestMinecraftVer;
 	}

@@ -11,26 +11,15 @@
 
 package pers.saikel0rado1iu.silk.util.update.screen;
 
-import net.minecraft.client.font.MultilineText;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.option.SimpleOption;
-import net.minecraft.text.Text;
-import net.minecraft.util.Util;
+import net.minecraft.client.gui.widget.MultilineTextWidget;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.util.ScreenUtil;
-import pers.saikel0rado1iu.silk.util.config.ConfigScreen;
-import pers.saikel0rado1iu.silk.util.update.UpdateData;
 import pers.saikel0rado1iu.silk.util.update.UpdateShow;
 
-import java.util.Arrays;
-
-import static net.minecraft.util.Util.OperatingSystem.WINDOWS;
 import static pers.saikel0rado1iu.silk.util.update.CheckUpdateThread.State.NEW_MC_VER;
-import static pers.saikel0rado1iu.silk.util.update.UpdateData.Mode.MANUAL_DOWNLOAD;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">新 MC 版本模组更新提示界面</font></b></p>
@@ -42,135 +31,39 @@ import static pers.saikel0rado1iu.silk.util.update.UpdateData.Mode.MANUAL_DOWNLO
 public class NewMcVerNotifyScreen extends UpdateScreen {
 	private static final String KEY = NEW_MC_VER.toString().toLowerCase();
 	protected final boolean canTrust;
-	protected final int[] transColor = {0xFF, 0, 0};
-	protected MultilineText autoDownloadMessage;
-	protected MultilineText autoUpdateMessage;
-	protected boolean updating;
-	
 	
 	public NewMcVerNotifyScreen(Screen parent, UpdateShow show, boolean canTrust) {
-		super(parent, show, show.getTitle(KEY));
+		super(parent, show, show.getTitle(KEY, show.getUpdateThread().getUpdateMcVer()));
 		this.canTrust = canTrust;
 	}
 	
 	@Override
 	protected void init() {
-		// 赞助按钮、官网按钮、关闭更新按钮、关闭新MC更新按钮、立即更新按钮、暂时不用按钮
 		super.init();
-		// 添加提示消息文本
-		String updateModVersion = updateShow.getUpdateThread().getUpdateModVer().substring(updateShow.getUpdateThread().getUpdateModVer().indexOf("-") + 1);
-		messageText = MultilineText.create(textRenderer, Text.translatable("text.spontaneous_replace.mod_update_notification", updateModVersion), screenWidth - 6);
-		autoDownloadMessage = MultilineText.create(textRenderer, Text.translatable("text.spontaneous_replace.auto_download", updateModVersion), screenWidth - 6);
-		autoUpdateMessage = MultilineText.create(textRenderer, Text.translatable("text.spontaneous_replace.auto_update", updateModVersion), screenWidth - 6);
-		int fullButtonWidth = screenWidth - 6;
-		int buttonHeight = 20;
-		int buttonSpacing = buttonHeight + 3;
-		int fullButtonX = (width - (screenWidth - 6)) / 2;
+		if (updateShow.getUpdateThread().getUpdatingFail()) MinecraftClient.getInstance().setScreen(new UpdateFailWarningScreen(parent, updateShow, canTrust));
+		// 添加信息
+		MultilineTextWidget messageText = new MultilineTextWidget(0, 0, updateShow.getVerText(KEY), textRenderer).setMaxWidth(screenWidth - INTERVAL);
+		int height1 = height - (height - screenHeight) / 2 - BUTTON_SPACING * 4;
+		int height2 = (height - screenHeight) / 2 + textRenderer.fontHeight + ICON_SIZE + INTERVAL * 2 - messageText.getHeight();
+		int height3 = height1 - height2;
+		messageText.setPosition((width - messageText.getWidth()) / 2, height2 + height3 / 2);
+		addDrawableChild(messageText);
+		// 按钮
+		int fullButtonWidth = screenWidth - INTERVAL;
+		int fullButtonX = (width - (screenWidth - INTERVAL)) / 2;
 		int buttonY = (height - (height - screenHeight) / 2);
 		int halfButtonWidth = fullButtonWidth / 2 - 1;
 		int halfButtonX = fullButtonX + halfButtonWidth + 2;
-		// 添加按钮
-		if (updateShow.getUpdateThread().getUpdatingFail()) {
-			clearChildren();
-			addDrawableChild(ButtonWidget.builder(Text.translatable("menu.returnToGame"), (button) -> {
-						updateShow.getUpdateThread().setCanCheckUpdate(true);
-						close();
-					})
-					.dimensions(fullButtonX, buttonY - buttonSpacing, fullButtonWidth, buttonHeight).build());
-		} else {
-			if (!updating) {
-				addDrawableChild(ScreenUtil.linkButton(parent, updateShow.getMod(), ModBasicData.LinkType.SUPPORT, canTrust)
-						.dimensions(fullButtonX, buttonY - buttonSpacing * 4, halfButtonWidth, buttonHeight).build());
-				addDrawableChild(ScreenUtil.linkButton(parent, updateShow.getMod(), ModBasicData.LinkType.HOMEPAGE, canTrust)
-						.dimensions(halfButtonX, buttonY - buttonSpacing * 4, halfButtonWidth, buttonHeight).build());
-				addDrawableChild(ButtonWidget.builder(Text.of(""), (button) -> {
-							// 使用断言消除 setScreen NullPointerException警告
-							assert client != null;
-							client.setScreen(new ConfigScreen(this, updateShow.getConfigData()));
-						})
-						.dimensions(fullButtonX, buttonY - buttonSpacing * 3, fullButtonWidth, buttonHeight).build());
-				ClickableWidget test;
-				if (updateShow.getUpdateData().getUpdateMode() == UpdateData.Mode.AUTO_UPDATE && !Util.getOperatingSystem().equals(WINDOWS))
-					updateShow.getUpdateData().setUpdateMode(MANUAL_DOWNLOAD);
-				addDrawableChild(test = new SimpleOption<>("", value -> Tooltip.of(Text.translatable("")),
-						(optionText, value) -> Text.translatable(""),
-						new SimpleOption.MaxSuppliableIntCallbacks(0, () -> Util.getOperatingSystem().equals(WINDOWS) ? 2 : 1, Util.getOperatingSystem().equals(WINDOWS) ? 2 : 1),
-						Arrays.stream(UpdateData.Mode.values()).toList().indexOf(updateShow.getUpdateData().getUpdateMode()),
-						value -> {
-							updateShow.getUpdateData().setUpdateMode(UpdateData.Mode.values()[value]);
-							updateShow.getUpdateData().save();
-						}).createWidget(null, fullButtonX, buttonY - buttonSpacing * 2, fullButtonWidth));
-/*				addDrawableChild(test = ButtonWidget.builder(Text.of(""), (button) -> {
-							else updateMode++;
-							writeConfig();
-						})
-						.dimensions(fullButtonX, buttonY - buttonSpacing * 2, fullButtonWidth, buttonHeight).build());*/
-				test.active = false;
-/*				addDrawableChild(updateButton = ButtonWidget.builder(updateText.copy().setStyle(Style.EMPTY.withBold(true)), (button) -> {
-							clearChildren();
-							UpdateData.Mode tempUpdateMode = updateShow.getUpdateData().getUpdateMode();
-							updateShow.getUpdateData().setUpdateMode(MANUAL_DOWNLOAD);
-							updating = updateShow.updateMod();
-							updateShow.getUpdateData().setUpdateMode(tempUpdateMode);
-							close();
-						})
-						.dimensions(fullButtonX, buttonY - buttonSpacing, halfButtonWidth, buttonHeight).build());*/
-				addDrawableChild(notUpdateButton().dimensions(halfButtonX, buttonY - buttonSpacing, halfButtonWidth, buttonHeight).build());
-			}
-		}
-	}
-	
-	/**
-	 * 每刻修改颜色循环以达到在任何界面的循环速度一致
-	 */
-	@Override
-	public void tick() {
-		super.tick();
-		// 修改循环按钮颜色
-		if (transColor[0] == 0xFF && transColor[2] == 0 && transColor[1] != 0xFF) transColor[1] += 17;
-		else if (transColor[1] == 0xFF && transColor[2] == 0 && transColor[0] != 0) transColor[0] -= 17;
-		else if (transColor[0] == 0 && transColor[1] == 0xFF && transColor[2] != 0xFF) transColor[2] += 17;
-		else if (transColor[0] == 0 && transColor[2] == 0xFF && transColor[1] != 0) transColor[1] -= 17;
-		else if (transColor[1] == 0 && transColor[2] == 0xFF && transColor[0] != 0xFF) transColor[0] += 17;
-		else transColor[2] -= 17;
-	}
-	
-	/**
-	 * 渲染提供函数, 所需要使用的所有特性都要在此函数中注册
-	 */
-	@Override
-	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-		super.render(context, mouseX, mouseY, delta);
-		/*int buttonHeight = 20;
-		if (updateShow.getUpdateThread().getUpdatingFail()) {
-			init();
-*//*			context.drawCenteredTextWithShadow(textRenderer,
-					updatingFailText,
-					width / 2,
-					(height - screenHeight) / 2 + 20 + 72 + (height - (height - screenHeight + 20 + 72) - buttonHeight - 3) / 2 - 6,
-					0xFFFFFF);*//*
-		} else {
-			if (!updating) {
-				// 渲染提示消息
-				messageText.drawWithShadow(context, (width - screenWidth) / 2 + 3, height / 2 - 9, 10, 0xFFFFFF);
-				// 修改循环按钮颜色
-				int color = transColor[0] << 16 | transColor[1] << 8 | transColor[2];
-				//updateButton.setMessage(updateText.copy().setStyle(Style.EMPTY.withBold(true).withColor(color)));
-				// 更新配置按钮文本
-				int buttonSpacing = buttonHeight + 3;
-				int buttonY = (height - (height - screenHeight) / 2);
-				Text updateConfigButtonText = composeGenericOptionText(Text.translatable(ScreenUtil.widgetText(updateShow.getMod(), UPDATE_CONFIG)), Text.of(""));
-				context.drawTextWithShadow(textRenderer, updateConfigButtonText,
-						(width - (textRenderer.getWidth(updateConfigButtonText))) / 2,
-						buttonY - buttonSpacing * 3 + 6, 0xFFFFFF);
-				// 更新方式按钮文本
-				Text updateModeOptionText = Text.translatable(("update_mode.manual_download"));
-				Text updateModeText = composeGenericOptionText(Text.translatable(("update_mode")), updateModeOptionText)
-						.setStyle(Style.EMPTY.withColor(Formatting.GRAY));
-				context.drawTextWithShadow(textRenderer, updateModeText,
-						(width - (textRenderer.getWidth(updateModeText))) / 2,
-						buttonY - buttonSpacing * 2 + 6, 0xFFFFFF);
-			}
-		}*/
+		addDrawableChild(ScreenUtil.linkButton(parent, updateShow.getMod(), ModBasicData.LinkType.SUPPORT, canTrust)
+				.dimensions(fullButtonX, buttonY - BUTTON_SPACING * 4, halfButtonWidth, BUTTON_HEIGHT).build());
+		addDrawableChild(ScreenUtil.linkButton(parent, updateShow.getMod(), ModBasicData.LinkType.COMMUNITY, canTrust)
+				.dimensions(halfButtonX, buttonY - BUTTON_SPACING * 4, halfButtonWidth, BUTTON_HEIGHT).build());
+		addDrawableChild(updateConfigButton().dimensions(fullButtonX, buttonY - BUTTON_SPACING * 3, fullButtonWidth, BUTTON_HEIGHT).build());
+		addDrawableChild(updateModeButton(fullButtonX, buttonY - BUTTON_SPACING * 2, fullButtonWidth, BUTTON_HEIGHT));
+		ButtonWidget updateNowButton = updateNowButton();
+		updateNowButton.setPosition(fullButtonX, buttonY - BUTTON_SPACING);
+		updateNowButton.setWidth(halfButtonWidth);
+		addDrawableChild(updateNowButton);
+		addDrawableChild(notUpdateButton().dimensions(halfButtonX, buttonY - BUTTON_SPACING, halfButtonWidth, BUTTON_HEIGHT).build());
 	}
 }
