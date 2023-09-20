@@ -25,6 +25,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.world.World;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.util.MathUtil;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">辅助弓的创建的数据直观和清晰</font></b></p>
@@ -83,7 +84,7 @@ public abstract class Bow extends BowItem implements BowExtend {
 			persistentProjectileEntity.setVelocity(player, player.getPitch(), player.getYaw(), 0.0F, pullProgress * getMaxProjectileSpeed(), getFiringError());
 			// 设置基础伤害增加
 			persistentProjectileEntity.setDamage(persistentProjectileEntity.getDamage() * getDamageMultiple());
-			if (pullProgress == 1.0F) persistentProjectileEntity.setCritical(true);
+			if (MathUtil.compareFloat(pullProgress, 1) == 0) persistentProjectileEntity.setCritical(true);
 			
 			// 设置“力量”效果
 			int powerLevel = EnchantmentHelper.getLevel(Enchantments.POWER, stack);

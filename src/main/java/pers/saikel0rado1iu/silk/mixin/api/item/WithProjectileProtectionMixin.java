@@ -11,6 +11,7 @@
 
 package pers.saikel0rado1iu.silk.mixin.api.item;
 
+import com.google.common.collect.Maps;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
@@ -28,7 +29,6 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import pers.saikel0rado1iu.silk.api.item.WithProjectileProtection;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static net.minecraft.entity.player.PlayerInventory.MAIN_SIZE;
@@ -69,7 +69,7 @@ final class WithProjectileProtectionMixin {
 		private float setProtect(float amount) {
 			if (!damageSource.isIn(DamageTypeTags.IS_PROJECTILE)) return amount;
 			boolean notAllSlot = false;
-			Map<Class<?>, Integer> map = new HashMap<>();
+			Map<Class<?>, Integer> map = Maps.newHashMapWithExpectedSize(8);
 			for (EquipmentSlot slot : EquipmentSlot.values()) {
 				if (!(getEquippedStack(slot).getItem() instanceof WithProjectileProtection item)) continue;
 				if ((notAllSlot = item.getEffectiveEquipmentSlot().isEmpty()) || item.getEffectiveEquipmentSlot()
@@ -119,7 +119,7 @@ final class WithProjectileProtectionMixin {
 		private float setProtect(float amount) {
 			if (!damageSource.isIn(DamageTypeTags.IS_PROJECTILE)) return amount;
 			if (!(((LivingEntity) (Object) this) instanceof MobEntity mob)) return amount;
-			Map<Class<?>, Integer> map = new HashMap<>();
+			Map<Class<?>, Integer> map = Maps.newHashMapWithExpectedSize(8);
 			for (EquipmentSlot slot : EquipmentSlot.values()) {
 				if (!(mob.getEquippedStack(slot).getItem() instanceof WithProjectileProtection item)) continue;
 				if (item.getEffectiveEquipmentSlot().isEmpty() || item.getEffectiveEquipmentSlot()

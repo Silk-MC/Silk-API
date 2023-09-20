@@ -31,8 +31,8 @@ import pers.saikel0rado1iu.silk.util.ScreenUtil;
  */
 @SilkApi
 public class SynopsisTab extends ScreenTab {
-	protected int interval = 6;
-	protected int addInterval = 15;
+	protected static final int INTERVAL = 6;
+	protected static final int ADD_INTERVAL = 15;
 	protected TextWidget introTitle;
 	protected TextWidget visionTitle;
 	protected MultilineTextWidget introText;
@@ -52,11 +52,11 @@ public class SynopsisTab extends ScreenTab {
 	
 	@Override
 	public void render(MinecraftClient client, TextRenderer textRenderer, DrawContext context, int mouseX, int mouseY, float delta, int width, int height) {
-		introTitle.setPosition(interval, TAP_TOP + interval);
-		visionTitle.setPosition(interval, height / 2);
-		introText.setMaxWidth(width - (interval + addInterval) * 2).setMaxRows((height / 2 - (TAP_TOP + interval + introTitle.getHeight() + 5)) / textRenderer.fontHeight - 1)
-				.setPosition(interval + addInterval, TAP_TOP + interval + introTitle.getHeight() + 5);
-		visionText.setMaxWidth(width - (interval + addInterval) * 2).setMaxRows((height / 2 - (TAP_TOP + interval + introTitle.getHeight() + 5)) / textRenderer.fontHeight - 1)
-				.setPosition(interval + addInterval, height / 2 + visionTitle.getHeight() + 5);
+		introTitle.setPosition(INTERVAL, TAP_TOP + INTERVAL);
+		visionTitle.setPosition(INTERVAL, height / 2);
+		introText.setMaxWidth(width - (INTERVAL + ADD_INTERVAL) * 2).setMaxRows((height / 2 - (TAP_TOP + INTERVAL + introTitle.getHeight() + 5)) / textRenderer.fontHeight - 1)
+				.setPosition(INTERVAL + ADD_INTERVAL, TAP_TOP + INTERVAL + introTitle.getHeight() + 5);
+		visionText.setMaxWidth(width - (INTERVAL + ADD_INTERVAL) * 2).setMaxRows((height / 2 - (TAP_TOP + INTERVAL + introTitle.getHeight() + 5)) / textRenderer.fontHeight - 1)
+				.setPosition(INTERVAL + ADD_INTERVAL, height / 2 + visionTitle.getHeight() + 5);
 	}
 }

@@ -41,6 +41,7 @@ import net.minecraft.world.World;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.util.MathUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -229,7 +230,7 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 			// 设置基础伤害增加
 			((PersistentProjectileEntity) projectileEntity).setDamage(((PersistentProjectileEntity) projectileEntity).getDamage() * getDamageMultiple());
 			// 如果在创造模式或不是'多重射击'弹药则设置为仅创造模式可拾起
-			if (creative || simulated != 0.0f) {
+			if (creative || MathUtil.compareFloat(simulated, 0) != 0) {
 				((PersistentProjectileEntity) projectileEntity).pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
 			}
 		}

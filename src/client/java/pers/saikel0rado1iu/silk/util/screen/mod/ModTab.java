@@ -33,12 +33,12 @@ import pers.saikel0rado1iu.silk.util.screen.widget.TextListWidget;
  */
 @SilkApi
 public class ModTab extends ScreenTab {
+	protected static final int LOGO_SIDE = 66;
+	protected static final int INTERVAL = 8;
 	protected TextListWidget changelogWidget;
 	protected TextListWidget targetWidget;
 	protected TextWidget logTitle;
 	protected TextWidget targetTitle;
-	protected int logoSide = 66;
-	protected int interval = 8;
 	
 	public ModTab(ModBasicData mod) {
 		super(mod, "mod");
@@ -47,26 +47,26 @@ public class ModTab extends ScreenTab {
 	@Override
 	public void init(MinecraftClient client, TextRenderer textRenderer, int width, int height) {
 		int iconAdd = 20;
-		int buttonX = width / 30 + logoSide + iconAdd;
+		int buttonX = width / 30 + LOGO_SIDE + iconAdd;
 		int buttonHeight = 20;
 		addWidget(ButtonWidget.builder(Text.of(""), button -> {
-		}).dimensions(width / 60 + iconAdd, TAP_TOP + interval, logoSide, logoSide).build());
-		addWidget(new IconWidget(width / 60 + iconAdd + 1, TAP_TOP + interval + 1, logoSide - 2, logoSide - 2, mod.getIcon().orElse(Silk.DATA.getIcon().orElseThrow())));
-		addWidget(ScreenUtil.linkButton(parent, mod, ModBasicData.LinkType.HOMEPAGE, linkTrusted()).dimensions(buttonX, TAP_TOP + interval, width / 2 - width / 60 - buttonX - iconAdd, buttonHeight).build());
-		addWidget(ScreenUtil.linkButton(parent, mod, ModBasicData.LinkType.SUPPORT, linkTrusted()).dimensions(buttonX, ((TAP_TOP + interval) + (TAP_TOP + interval + logoSide - buttonHeight)) / 2, width / 2 - width / 60 - buttonX - iconAdd, buttonHeight).build());
-		addWidget(ScreenUtil.linkButton(parent, mod, ModBasicData.LinkType.COMMUNITY, linkTrusted()).dimensions(buttonX, TAP_TOP + interval + logoSide - buttonHeight, width / 2 - width / 60 - buttonX - iconAdd, buttonHeight).build());
+		}).dimensions(width / 60 + iconAdd, TAP_TOP + INTERVAL, LOGO_SIDE, LOGO_SIDE).build());
+		addWidget(new IconWidget(width / 60 + iconAdd + 1, TAP_TOP + INTERVAL + 1, LOGO_SIDE - 2, LOGO_SIDE - 2, mod.getIcon().orElse(Silk.DATA.getIcon().orElseThrow())));
+		addWidget(ScreenUtil.linkButton(parent, mod, ModBasicData.LinkType.HOMEPAGE, linkTrusted()).dimensions(buttonX, TAP_TOP + INTERVAL, width / 2 - width / 60 - buttonX - iconAdd, buttonHeight).build());
+		addWidget(ScreenUtil.linkButton(parent, mod, ModBasicData.LinkType.SUPPORT, linkTrusted()).dimensions(buttonX, ((TAP_TOP + INTERVAL) + (TAP_TOP + INTERVAL + LOGO_SIDE - buttonHeight)) / 2, width / 2 - width / 60 - buttonX - iconAdd, buttonHeight).build());
+		addWidget(ScreenUtil.linkButton(parent, mod, ModBasicData.LinkType.COMMUNITY, linkTrusted()).dimensions(buttonX, TAP_TOP + INTERVAL + LOGO_SIDE - buttonHeight, width / 2 - width / 60 - buttonX - iconAdd, buttonHeight).build());
 		addWidget(logTitle = new TextWidget(Text.translatable(ScreenUtil.widgetTitle(mod, "changelog")), textRenderer));
 		addWidget(targetTitle = new TextWidget(Text.translatable(ScreenUtil.widgetTitle(mod, "target")), textRenderer));
-		changelogWidget = new TextListWidget(client, width / 2 - width / 30, height, TAP_TOP + interval * 3, height - TAP_BOTTOM - interval, 12, ScreenUtil.readChangelog(mod));
+		changelogWidget = new TextListWidget(client, width / 2 - width / 30, height, TAP_TOP + INTERVAL * 3, height - TAP_BOTTOM - INTERVAL, 12, ScreenUtil.readChangelog(mod));
 		changelogWidget.setLeftPos(width / 2 + width / 60);
-		targetWidget = new TextListWidget(client, width / 2 - width / 30, height, TAP_TOP + interval * 4 + logoSide, height - TAP_BOTTOM - interval, 12, ScreenUtil.widgetText(mod, "target"));
+		targetWidget = new TextListWidget(client, width / 2 - width / 30, height, TAP_TOP + INTERVAL * 4 + LOGO_SIDE, height - TAP_BOTTOM - INTERVAL, 12, ScreenUtil.widgetText(mod, "target"));
 		targetWidget.setLeftPos(width / 60);
 	}
 	
 	@Override
 	public void render(MinecraftClient client, TextRenderer textRenderer, DrawContext context, int mouseX, int mouseY, float delta, int width, int height) {
-		logTitle.setPosition(width - width / 4 - logTitle.getWidth() / 2, TAP_TOP + interval);
-		targetTitle.setPosition(width / 4 - targetTitle.getWidth() / 2, TAP_TOP + interval + logoSide + interval);
+		logTitle.setPosition(width - width / 4 - logTitle.getWidth() / 2, TAP_TOP + INTERVAL);
+		targetTitle.setPosition(width / 4 - targetTitle.getWidth() / 2, TAP_TOP + INTERVAL + LOGO_SIDE + INTERVAL);
 		changelogWidget.render(context, mouseX, mouseY, delta);
 		targetWidget.render(context, mouseX, mouseY, delta);
 	}

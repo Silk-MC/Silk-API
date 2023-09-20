@@ -185,12 +185,12 @@ public final class ConfigReader {
 	/**
 	 * 解析 XML 配置文件
 	 */
-	private static final class SAXParse extends DefaultHandler {
+	private static final class SaxParse extends DefaultHandler {
 		private final LinkedHashMap<String, ConfigData> superCdList = Maps.newLinkedHashMapWithExpectedSize(8);
 		private ConfigData configData;
 		private String key;
 		
-		private SAXParse(ConfigData configData) {
+		private SaxParse(ConfigData configData) {
 			this.configData = configData;
 		}
 		
@@ -271,7 +271,7 @@ public final class ConfigReader {
 					case XML -> {
 						SAXParserFactory spf = SAXParserFactory.newInstance();
 						SAXParser sp = spf.newSAXParser();
-						SAXParse sax = new SAXParse(configData);
+						SaxParse sax = new SaxParse(configData);
 						sp.parse(Files.newInputStream(file), sax);
 					}
 					case JSON -> {
