@@ -6,7 +6,7 @@
 	"modmenu.descriptionTranslation.silk-api": "Advanced Fabric API extensions for adding fancy mod items, blocks, mobs and features. The goal is to make it easy for fabric mod developers to produce a variety of advanced operations.",
 	"modmenu.support.afdian": "Support: Afdian",
 	"modmenu.support.patreon": "Support: Patreon",
-	"config.silk-api.support.text": "Support for Silk-API",
+	"config.silk-api.support.text": "Support for Silk API",
 	"// update": "Text translation of the update system",
 	"title.silk-api.update.update_fail": "Update System Fail Warning",
 	"text.silk-api.update.update_fail": "  The update system is invalid and the update request cannot be obtained. Please update the silk-api version in time.",

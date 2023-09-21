@@ -12,12 +12,6 @@
 package pers.saikel0rado1iu.silk;
 
 import net.fabricmc.api.ClientModInitializer;
-import org.jetbrains.annotations.NotNull;
-import pers.saikel0rado1iu.silk.api.ModExpansionData;
-import pers.saikel0rado1iu.silk.util.update.UpdateData;
-import pers.saikel0rado1iu.silk.util.update.UpdateSystem;
-
-import static pers.saikel0rado1iu.silk.Main.CONFIG_DATA;
 
 /**
  * @author Saike
@@ -25,18 +19,5 @@ import static pers.saikel0rado1iu.silk.Main.CONFIG_DATA;
 public class Client implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
-		// 此入口点适用于设置客户端特定的逻辑，例如渲染。
-		ModExpansionData sr = new ModExpansionData() {
-			@Override
-			public @NotNull String getId() {
-				return "spontaneous_replace";
-			}
-			
-			@Override
-			public @NotNull String getSlug() {
-				return "spontaneous-replace";
-			}
-		};
-		UpdateSystem.registryUpdate(new UpdateData(sr, CONFIG_DATA));
 	}
 }

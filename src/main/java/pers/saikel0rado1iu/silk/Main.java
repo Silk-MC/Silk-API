@@ -12,7 +12,6 @@
 package pers.saikel0rado1iu.silk;
 
 import net.fabricmc.api.ModInitializer;
-import pers.saikel0rado1iu.silk.util.config.ConfigData;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">Fabric Loader 最先调用的类，通常用于进行最终注册和模组最先操作</font></b></p>
@@ -22,12 +21,6 @@ import pers.saikel0rado1iu.silk.util.config.ConfigData;
  * @since 0.1.0
  */
 public class Main implements ModInitializer {
-	public static final ConfigData CONFIG_DATA = ConfigData.builder(Silk.DATA).build()
-			.addSwitch("switch", true)
-			.addOption("option", ConfigData.Mode.TOML)
-			.addIntSlider("int_slider", 0, 50, 25)
-			.addFloatSlider("float_slider", -1F, 1F, 0F);
-	
 	/**
 	 * <p>只要 Minecraft 处于 mod-load-ready(模组-加载-准备) 状态, 此代码就会运行.</p>
 	 * <p>但是, 有些东西（比如资源）可能仍然未初始化.</p>
@@ -35,12 +28,5 @@ public class Main implements ModInitializer {
 	 */
 	@Override
 	public void onInitialize() {
-		ConfigData configData1 = ConfigData.builder(Silk.DATA).type(ConfigData.Type.EXPERIMENTAL).build()
-				.addFloatSlider("float_slider", -1F, 1F, 0F)
-				.addSwitch("switch1", false)
-				.addSwitch("switch2", false)
-				.addSwitch("switch3", false);
-		CONFIG_DATA.addSubConfigs("sub", configData1);
-		CONFIG_DATA.addSwitch("switch2", false);
 	}
 }
