@@ -33,4 +33,35 @@ public interface MathUtil {
 	static int compareFloat(double f1, double f2) {
 		return new BigDecimal(String.valueOf(f1)).compareTo(new BigDecimal(String.valueOf(f2)));
 	}
+	
+	/**
+	 * 异或运算
+	 *
+	 * @return 异或结果
+	 */
+	@SilkApi
+	static boolean xor(boolean a, boolean b) {
+		return (a || b) && !(a && b);
+	}
+	
+	/**
+	 * 为解决大量 double 到 float 转换带来的代码难看臃肿
+	 *
+	 * @return float 类型值
+	 */
+	@SilkApi
+	static float toFloat(double value) {
+		return (float) value;
+	}
+	
+	/**
+	 * 转换弧度
+	 *
+	 * @param angle 角度
+	 * @return float 类型的弧度
+	 */
+	@SilkApi
+	static float toRadians(double angle) {
+		return toFloat(Math.toRadians(angle));
+	}
 }
