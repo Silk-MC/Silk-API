@@ -20,6 +20,7 @@ import net.minecraft.client.toast.Toast;
 import net.minecraft.client.toast.ToastManager;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.util.TickUtil;
@@ -37,6 +38,7 @@ import java.util.concurrent.TimeUnit;
  */
 @SilkApi
 public abstract class UpdateToast implements Toast {
+	private static final Identifier TEXTURE = new Identifier("toast/advancement");
 	private static final int SHOW_SEC = 45;
 	private static final int SHOW_TITLE_SEC = SHOW_SEC / 2;
 	private static final int SHOW_TEXT_SEC = SHOW_SEC - SHOW_TITLE_SEC;

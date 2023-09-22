@@ -41,7 +41,7 @@ public class PlaceholderScreen extends BaseScreen {
 	
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-		renderBackground(context);
+		renderBackground(context, mouseX, mouseY, delta);
 		messageText.drawCenterWithShadow(context, width / 2, height / 2 - 4 - 36, 8, Objects.requireNonNull(Formatting.GRAY.getColorValue()));
 		super.render(context, mouseX, mouseY, delta);
 	}

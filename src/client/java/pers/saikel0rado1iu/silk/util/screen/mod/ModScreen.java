@@ -83,7 +83,7 @@ public class ModScreen extends BaseScreen {
 	
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-		renderBackground(context);
+		renderBackground(context, mouseX, mouseY, delta);
 		context.drawTexture(FOOTER_SEPARATOR_TEXTURE, 0, MathHelper.roundUpToMultiple(height - 36 - 2, 2), 0, 0, width, 2, 32, 2);
 		for (int count = 0; count < tabs.size(); count++) {
 			if (tabNavigation.getFocused() == null) {

@@ -80,8 +80,8 @@ public abstract class UpdateScreen extends BaseScreen {
 		addDrawableChild(messageText);
 		addDrawableChild(ButtonWidget.builder(Text.of(""), button -> {
 		}).dimensions(width / 2 - ICON_SIZE / 2 - 1, (int) ((height - screenHeight) / 2 + textRenderer.fontHeight + INTERVAL * 1.5F) - 1, ICON_SIZE + 2, ICON_SIZE + 2).build());
-		addDrawableChild(new IconWidget(width / 2 - ICON_SIZE / 2, (int) ((height - screenHeight) / 2 + textRenderer.fontHeight + INTERVAL * 1.5F), ICON_SIZE, ICON_SIZE,
-				updateShow.getMod().getIcon().orElse(Silk.DATA.getIcon().orElseThrow())));
+		addDrawableChild(IconWidget.create(width / 2 - ICON_SIZE / 2, (int) ((height - screenHeight) / 2 + textRenderer.fontHeight + INTERVAL * 1.5F),
+				updateShow.getMod().getIcon().orElse(Silk.DATA.getIcon().orElseThrow()), ICON_SIZE, ICON_SIZE));
 	}
 	
 	/**
