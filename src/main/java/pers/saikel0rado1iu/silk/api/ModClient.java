@@ -54,7 +54,6 @@ public abstract class ModClient implements ClientModInitializer {
 	 *
 	 * @param mod  你的模组数据
 	 * @param type 默认包类型
-	 * @return 模组资源包，如果为 {@link Optional#empty()} 则模组资源包集成在 Fabric 中
 	 */
 	@SilkApi
 	protected Optional<ResourcesPack> modResourcesPack(ModBasicData mod, ResourcePackActivationType type) {

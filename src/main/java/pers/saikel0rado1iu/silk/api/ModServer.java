@@ -54,7 +54,6 @@ public abstract class ModServer implements DedicatedServerModInitializer {
 	 *
 	 * @param mod  你的模组数据
 	 * @param type 默认包类型
-	 * @return 模组数据包，如果为 {@link Optional#empty()} 则模组数据包集成在 Fabric 中
 	 */
 	@SilkApi
 	protected Optional<DataPack> modDataPack(ModBasicData mod, ResourcePackActivationType type) {
