@@ -11,7 +11,8 @@
 
 package pers.saikel0rado1iu.silk;
 
-import pers.saikel0rado1iu.silk.api.registry.ModMain;
+import pers.saikel0rado1iu.silk.api.ModBasicData;
+import pers.saikel0rado1iu.silk.api.ModMain;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">Fabric Loader 最先调用的类，通常用于进行最终注册和模组最先操作</font></b></p>
@@ -23,5 +24,12 @@ import pers.saikel0rado1iu.silk.api.registry.ModMain;
 public class Main extends ModMain {
 	public Main() {
 		super(Silk.DATA);
+	}
+	
+	/**
+	 * 最先运行的模组初始化函数
+	 */
+	@Override
+	protected void main(ModBasicData mod) {
 	}
 }

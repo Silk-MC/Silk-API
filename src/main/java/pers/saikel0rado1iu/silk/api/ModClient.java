@@ -9,12 +9,11 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.api.registry;
+package pers.saikel0rado1iu.silk.api;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.api.pack.ResourcesPack;
 
 import java.util.Optional;
@@ -41,16 +40,24 @@ public abstract class ModClient implements ClientModInitializer {
 	
 	@Override
 	public void onInitializeClient() {
+		client(mod);
 		modResourcesPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).ifPresent(ResourcesPack::registry);
 	}
+	
+	/**
+	 * 最先运行的模组初始化函数
+	 */
+	protected abstract void client(ModBasicData mod);
 	
 	/**
 	 * 模组自带的单独资源包，模组的资源包不是集成在 Fabric 中，而是独立资源包
 	 *
 	 * @param mod  你的模组数据
-	 * @param type 默认类型
+	 * @param type 默认包类型
 	 * @return 模组资源包，如果为 {@link Optional#empty()} 则模组资源包集成在 Fabric 中
 	 */
 	@SilkApi
-	protected abstract Optional<ResourcesPack> modResourcesPack(ModBasicData mod, ResourcePackActivationType type);
+	protected Optional<ResourcesPack> modResourcesPack(ModBasicData mod, ResourcePackActivationType type) {
+		return Optional.empty();
+	}
 }

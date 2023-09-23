@@ -9,25 +9,24 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.api.registry;
+package pers.saikel0rado1iu.silk.api;
 
-import net.fabricmc.api.DedicatedServerModInitializer;
-import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import net.fabricmc.api.ModInitializer;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.api.ModBasicData;
-import pers.saikel0rado1iu.silk.api.pack.DataPack;
+import pers.saikel0rado1iu.silk.api.registry.ModBlocks;
+import pers.saikel0rado1iu.silk.api.registry.ModItems;
 
 import java.util.Optional;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用作模组服务端主类，继承自 {@link DedicatedServerModInitializer}。所有模组注册或操作由此开始</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">用作模组主类，继承自 {@link ModInitializer}。所有模组注册或操作由此开始</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
 @SilkApi
-public abstract class ModServer implements DedicatedServerModInitializer {
+public abstract class ModMain implements ModInitializer {
 	private final ModBasicData mod;
 	
 	/**
@@ -35,22 +34,32 @@ public abstract class ModServer implements DedicatedServerModInitializer {
 	 *
 	 * @param mod 此模组的基础数据类
 	 */
-	protected ModServer(ModBasicData mod) {
+	protected ModMain(ModBasicData mod) {
 		this.mod = mod;
 	}
 	
+	/**
+	 * <p>只要 Minecraft 处于 mod-load-ready(模组-加载-准备) 状态, 此代码就会运行.</p>
+	 * <p>但是, 有些东西（比如资源）可能仍然未初始化.</p>
+	 * <p style="color:DD0000">!谨慎操作!</p>
+	 */
 	@Override
-	public void onInitializeServer() {
-		modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).ifPresent(DataPack::registry);
+	public void onInitialize() {
+		main(mod);
+		items().ifPresent(modItems -> modItems.register(mod));
+		blocks().ifPresent(modBlocks -> modBlocks.register(mod));
 	}
 	
 	/**
-	 * 模组自带的单独数据包，模组的数据包不是集成在 Fabric 中，而是独立数据包
-	 *
-	 * @param mod  你的模组数据
-	 * @param type 默认类型
-	 * @return 模组数据包，如果为 {@link Optional#empty()} 则模组数据包集成在 Fabric 中
+	 * 最先运行的模组初始化函数
 	 */
-	@SilkApi
-	protected abstract Optional<DataPack> modDataPack(ModBasicData mod, ResourcePackActivationType type);
+	protected abstract void main(ModBasicData mod);
+	
+	protected Optional<ModItems> items() {
+		return Optional.empty();
+	}
+	
+	protected Optional<ModBlocks> blocks() {
+		return Optional.empty();
+	}
 }
