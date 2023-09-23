@@ -16,8 +16,6 @@ import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.pack.ResourcesPack;
 
-import java.util.Optional;
-
 /**
  * <p><b style="color:FFC800"><font size="+1">用作模组客户端主类，继承自 {@link ClientModInitializer}。所有模组注册或操作由此开始</font></b></p>
  * <style="color:FFC800">
@@ -41,7 +39,8 @@ public abstract class ModClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		client(mod);
-		modResourcesPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).ifPresent(ResourcesPack::registry);
+		if (modResourcesPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null)
+			modResourcesPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}
 	
 	/**
@@ -56,7 +55,7 @@ public abstract class ModClient implements ClientModInitializer {
 	 * @param type 默认包类型
 	 */
 	@SilkApi
-	protected Optional<ResourcesPack> modResourcesPack(ModBasicData mod, ResourcePackActivationType type) {
-		return Optional.empty();
+	protected ResourcesPack modResourcesPack(ModBasicData mod, ResourcePackActivationType type) {
+		return null;
 	}
 }

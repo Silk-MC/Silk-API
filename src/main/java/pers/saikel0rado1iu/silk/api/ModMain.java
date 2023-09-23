@@ -16,8 +16,6 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.registry.ModBlocks;
 import pers.saikel0rado1iu.silk.api.registry.ModItems;
 
-import java.util.Optional;
-
 /**
  * <p><b style="color:FFC800"><font size="+1">用作模组主类，继承自 {@link ModInitializer}。所有模组注册或操作由此开始</font></b></p>
  * <style="color:FFC800">
@@ -46,8 +44,8 @@ public abstract class ModMain implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		main(mod);
-		items().ifPresent(modItems -> modItems.register(mod));
-		blocks().ifPresent(modBlocks -> modBlocks.register(mod));
+		if (items() != null) items().register(mod);
+		if (blocks() != null) blocks().register(mod);
 	}
 	
 	/**
@@ -55,11 +53,17 @@ public abstract class ModMain implements ModInitializer {
 	 */
 	protected abstract void main(ModBasicData mod);
 	
-	protected Optional<ModItems> items() {
-		return Optional.empty();
+	/**
+	 * 注册物品集
+	 */
+	protected ModItems items() {
+		return null;
 	}
 	
-	protected Optional<ModBlocks> blocks() {
-		return Optional.empty();
+	/**
+	 * 注册方块集
+	 */
+	protected ModBlocks blocks() {
+		return null;
 	}
 }

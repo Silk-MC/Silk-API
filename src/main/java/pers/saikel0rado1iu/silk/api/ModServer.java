@@ -16,8 +16,6 @@ import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.pack.DataPack;
 
-import java.util.Optional;
-
 /**
  * <p><b style="color:FFC800"><font size="+1">用作模组服务端主类，继承自 {@link DedicatedServerModInitializer}。所有模组注册或操作由此开始</font></b></p>
  * <style="color:FFC800">
@@ -41,7 +39,7 @@ public abstract class ModServer implements DedicatedServerModInitializer {
 	@Override
 	public void onInitializeServer() {
 		server(mod);
-		modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).ifPresent(DataPack::registry);
+		if (modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null) modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}
 	
 	/**
@@ -56,7 +54,7 @@ public abstract class ModServer implements DedicatedServerModInitializer {
 	 * @param type 默认包类型
 	 */
 	@SilkApi
-	protected Optional<DataPack> modDataPack(ModBasicData mod, ResourcePackActivationType type) {
-		return Optional.empty();
+	protected DataPack modDataPack(ModBasicData mod, ResourcePackActivationType type) {
+		return null;
 	}
 }
