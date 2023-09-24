@@ -17,7 +17,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.ApiStatus;
-import pers.saikel0rado1iu.silk.api.ModExpansionData;
+import pers.saikel0rado1iu.silk.api.ModExtendedData;
 import pers.saikel0rado1iu.silk.util.Minecraft;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -126,7 +126,7 @@ public final class CheckUpdateThread extends Thread {
 	}
 	
 	@ApiStatus.Internal
-	public ModExpansionData getMod() {
+	public ModExtendedData getMod() {
 		return data.getMod();
 	}
 	

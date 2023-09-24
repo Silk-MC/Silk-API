@@ -13,7 +13,7 @@ package pers.saikel0rado1iu.silk.util;
 
 import org.jetbrains.annotations.NotNull;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.api.ModExpansionData;
+import pers.saikel0rado1iu.silk.api.ModExtendedData;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">独立的 Minecraft 数据集</font></b></p>
@@ -23,7 +23,7 @@ import pers.saikel0rado1iu.silk.api.ModExpansionData;
  * @since 0.1.0
  */
 @SilkApi
-public final class Minecraft implements ModExpansionData {
+public final class Minecraft implements ModExtendedData {
 	@SilkApi
 	public static final Minecraft DATA = new Minecraft();
 	

@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import pers.saikel0rado1iu.silk.api.block.ExpandBlockTags;
+import pers.saikel0rado1iu.silk.api.block.ExtendedBlockTags;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -72,7 +72,7 @@ final class ExpandBlockTagsMixin {
 		
 		@ModifyVariable(method = "useOnBlock", at = @At(value = "STORE", ordinal = 0), ordinal = 0)
 		private Pair<Predicate<ItemUsageContext>, Consumer<ItemUsageContext>> set(Pair<Predicate<ItemUsageContext>, Consumer<ItemUsageContext>> pair) {
-			return context.getWorld().getBlockState(context.getBlockPos()).isIn(ExpandBlockTags.DIRT_VARIETY)
+			return context.getWorld().getBlockState(context.getBlockPos()).isIn(ExtendedBlockTags.DIRT_VARIETY)
 					? Pair.of(HoeItem::canTillFarmland, HoeItem.createTillAction(Blocks.DIRT.getDefaultState()))
 					: pair;
 		}
@@ -93,7 +93,7 @@ final class ExpandBlockTagsMixin {
 		
 		@ModifyVariable(method = "useOnBlock", at = @At(value = "STORE", ordinal = 0), ordinal = 0)
 		private Pair<Predicate<ItemUsageContext>, Consumer<ItemUsageContext>> set(Pair<Predicate<ItemUsageContext>, Consumer<ItemUsageContext>> pair) {
-			return context.getWorld().getBlockState(context.getBlockPos()).isIn(ExpandBlockTags.CAN_TILL_BLOCK)
+			return context.getWorld().getBlockState(context.getBlockPos()).isIn(ExtendedBlockTags.CAN_TILL_BLOCK)
 					? Pair.of(HoeItem::canTillFarmland, HoeItem.createTillAction(Blocks.FARMLAND.getDefaultState()))
 					: pair;
 		}

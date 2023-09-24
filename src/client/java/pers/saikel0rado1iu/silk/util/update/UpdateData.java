@@ -14,7 +14,7 @@ package pers.saikel0rado1iu.silk.util.update;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.api.ModExpansionData;
+import pers.saikel0rado1iu.silk.api.ModExtendedData;
 import pers.saikel0rado1iu.silk.util.config.ConfigData;
 
 import java.nio.file.Path;
@@ -58,7 +58,7 @@ public final class UpdateData {
 	 */
 	public static final String UPDATE_CHANNEL = "update_channel";
 	public static final String KEY = "update";
-	private final ModExpansionData mod;
+	private final ModExtendedData mod;
 	private final ConfigData data;
 	private final boolean updating;
 	private final String batName;
@@ -66,12 +66,12 @@ public final class UpdateData {
 	private final String updateBasicLink;
 	
 	@SilkApi
-	public UpdateData(ModExpansionData mod, ConfigData data) {
+	public UpdateData(ModExtendedData mod, ConfigData data) {
 		this(mod, data, true);
 	}
 	
 	@SilkApi
-	public UpdateData(ModExpansionData mod, ConfigData data, boolean updating) {
+	public UpdateData(ModExtendedData mod, ConfigData data, boolean updating) {
 		this.mod = mod;
 		data.addSubConfigs(KEY, this.data = ConfigData.builder(Silk.DATA).build()
 				.addSwitch(UPDATE_NOTIFY, true)
@@ -109,7 +109,7 @@ public final class UpdateData {
 	
 	@SilkApi
 	@ApiStatus.Internal
-	public ModExpansionData getMod() {
+	public ModExtendedData getMod() {
 		return mod;
 	}
 	

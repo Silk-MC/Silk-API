@@ -26,7 +26,7 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
  * @since 0.1.0
  */
 @SilkApi
-public interface ExpandBlockTags {
+public interface ExtendedBlockTags {
 	/**
 	 * 在此标签中的方块属于泥土的变种，可被锄犁为普通泥土
 	 */

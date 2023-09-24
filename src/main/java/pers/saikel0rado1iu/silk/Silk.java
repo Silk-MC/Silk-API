@@ -14,7 +14,7 @@ package pers.saikel0rado1iu.silk;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.api.ModExpansionData;
+import pers.saikel0rado1iu.silk.api.ModExtendedData;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -26,7 +26,7 @@ import java.util.Optional;
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  */
-final public class Silk implements ModExpansionData {
+final public class Silk implements ModExtendedData {
 	public static final Silk DATA = new Silk();
 	
 	@ApiStatus.Internal

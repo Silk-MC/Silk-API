@@ -30,7 +30,7 @@ import java.util.*;
  * @since 0.1.0
  */
 @SilkApi
-public interface ModExpansionData extends ModBasicData {
+public interface ModExtendedData extends ModBasicData {
 	@SilkApi
 	default String getJarName() {
 		String separator = File.separator.contains("\\") ? "\\\\" : File.separator;

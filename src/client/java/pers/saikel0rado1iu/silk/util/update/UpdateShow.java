@@ -20,7 +20,7 @@ import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.api.ModExpansionData;
+import pers.saikel0rado1iu.silk.api.ModExtendedData;
 import pers.saikel0rado1iu.silk.util.ScreenUtil;
 import pers.saikel0rado1iu.silk.util.config.ConfigData;
 import pers.saikel0rado1iu.silk.util.update.screen.*;
@@ -52,7 +52,7 @@ public class UpdateShow {
 	}
 	
 	@ApiStatus.Internal
-	public ModExpansionData getMod() {
+	public ModExtendedData getMod() {
 		return updateThread.getMod();
 	}
 	
