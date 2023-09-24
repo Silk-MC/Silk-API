@@ -3,7 +3,7 @@
 	"// modmenu": "Mod Menu 上可翻譯的模組描述與摘要",
 	"modmenu.nameTranslation.silk-api": "絲綢開發庫",
 	"modmenu.summaryTranslation.silk-api": "用於製作具有牛逼哄哄功能的 Fabric API 擴充套件",
-	"modmenu.descriptionTranslation.silk-api": "用於新增牛逼哄哄的模組物品、方塊、實體與特性的高階-Fabric-API-擴充套件。其目的在於方便-fabric-模組開發者進行各種高階操作",
+	"modmenu.descriptionTranslation.silk-api": "用於新增牛逼哄哄的模組物品、方塊、實體與特性的高階·Fabric·API·擴充套件。其目的在於方便·fabric·模組開發者進行各種高階操作",
 	"modmenu.support.afdian": "支援作者: 愛發電",
 	"modmenu.support.patreon": "支援作者: Patreon",
 	"config.silk-api.support.text": "支援絲綢開發庫",
