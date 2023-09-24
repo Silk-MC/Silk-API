@@ -11,6 +11,8 @@
 
 package pers.saikel0rado1iu.silk.annotation;
 
+import org.jetbrains.annotations.ApiStatus;
+
 import java.lang.annotation.*;
 
 /**
@@ -22,6 +24,7 @@ import java.lang.annotation.*;
  */
 @SilkApi
 @Documented
+@ApiStatus.Internal
 @Retention(RetentionPolicy.SOURCE)
 @Target({ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.FIELD})
 public @interface SilkApi {
