@@ -40,9 +40,9 @@
 		]
 	},
 	"mixins": [
-		"mixins.json",
+		"silk-api.mixins.json",
 		{
-			"config": "client.mixins.json",
+			"config": "silk-api.client.mixins.json",
 			"environment": "client"
 		}
 	],
