@@ -12,6 +12,7 @@
 package pers.saikel0rado1iu.silk.api;
 
 import net.fabricmc.api.DedicatedServerModInitializer;
+import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
 /**
@@ -35,6 +36,7 @@ public abstract class ModServer implements DedicatedServerModInitializer {
 	}
 	
 	@Override
+	@ApiStatus.Internal
 	public void onInitializeServer() {
 		server(mod);
 	}
@@ -42,5 +44,7 @@ public abstract class ModServer implements DedicatedServerModInitializer {
 	/**
 	 * 最先运行的模组初始化函数
 	 */
-	protected abstract void server(ModBasicData mod);
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public abstract void server(ModBasicData mod);
 }

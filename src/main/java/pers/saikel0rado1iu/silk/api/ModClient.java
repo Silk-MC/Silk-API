@@ -13,6 +13,7 @@ package pers.saikel0rado1iu.silk.api;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.pack.ResourcesPack;
 
@@ -37,6 +38,7 @@ public abstract class ModClient implements ClientModInitializer {
 	}
 	
 	@Override
+	@ApiStatus.Internal
 	public void onInitializeClient() {
 		client(mod);
 		if (modResourcesPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null)
@@ -46,7 +48,9 @@ public abstract class ModClient implements ClientModInitializer {
 	/**
 	 * 最先运行的模组初始化函数
 	 */
-	protected abstract void client(ModBasicData mod);
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public abstract void client(ModBasicData mod);
 	
 	/**
 	 * 模组自带的单独资源包，模组的资源包不是集成在 Fabric 中，而是独立资源包
@@ -55,7 +59,8 @@ public abstract class ModClient implements ClientModInitializer {
 	 * @param type 默认包类型
 	 */
 	@SilkApi
-	protected ResourcesPack modResourcesPack(ModBasicData mod, ResourcePackActivationType type) {
+	@ApiStatus.OverrideOnly
+	public ResourcesPack modResourcesPack(ModBasicData mod, ResourcePackActivationType type) {
 		return null;
 	}
 }
