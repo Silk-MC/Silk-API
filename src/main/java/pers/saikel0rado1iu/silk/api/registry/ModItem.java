@@ -35,36 +35,35 @@ import java.util.Set;
 public interface ModItem {
 	Set<Item> ALL_MOD_ITEMS = Sets.newLinkedHashSetWithExpectedSize(8);
 	
-	/**
-	 * 用于创建物品以及自动注册物品
-	 *
-	 * @param item  创建的物品
-	 * @param id    物品的唯一 ID
-	 * @param items 属于你模组的物品组
-	 * @param mod   你模组的模组数据
-	 * @return 创建的物品
-	 */
-	@SilkApi
-	static Item create(Item item, String id, Set<Item> items, ModBasicData mod) {
-		return create(item, id, null, items, mod);
+	static Builder builder(Item item) {
+		return new Builder(item);
 	}
 	
-	/**
-	 * 用于创建物品以及自动注册物品到物品组
-	 *
-	 * @param item  创建的物品
-	 * @param id    物品的唯一 ID
-	 * @param group 物品的物品组
-	 * @param items 属于你模组的物品组
-	 * @param mod   你模组的模组数据
-	 * @return 创建的物品
-	 */
 	@SilkApi
-	static Item create(Item item, String id, RegistryKey<ItemGroup> group, Set<Item> items, ModBasicData mod) {
-		items.add(item);
-		ALL_MOD_ITEMS.add(item);
-		Registry.register(Registries.ITEM, new Identifier(mod.getId(), id), item);
-		if (group != null) ItemGroupEvents.modifyEntriesEvent(group).register(content -> content.add(item));
-		return item;
+	class Builder {
+		private final Item item;
+		
+		@SilkApi
+		private Builder(Item item) {
+			ALL_MOD_ITEMS.add(this.item = item);
+		}
+		
+		@SilkApi
+		public Builder group(RegistryKey<ItemGroup> group) {
+			ItemGroupEvents.modifyEntriesEvent(group).register(content -> content.add(item));
+			return this;
+		}
+		
+		@SilkApi
+		public Builder putIn(Set<Item> items) {
+			items.add(item);
+			return this;
+		}
+		
+		@SilkApi
+		private Item build(ModBasicData mod, String id) {
+			Registry.register(Registries.ITEM, new Identifier(mod.getId(), id), item);
+			return item;
+		}
 	}
 }
