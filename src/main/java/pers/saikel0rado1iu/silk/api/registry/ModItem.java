@@ -40,7 +40,7 @@ public abstract class ModItem {
 	}
 	
 	@SilkApi
-	protected static final class Builder {
+	public static final class Builder {
 		private final Item item;
 		
 		@SilkApi

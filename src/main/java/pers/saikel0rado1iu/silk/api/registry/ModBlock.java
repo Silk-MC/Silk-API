@@ -37,7 +37,7 @@ public abstract class ModBlock {
 	}
 	
 	@SilkApi
-	protected static final class Builder {
+	public static final class Builder {
 		private final Block block;
 		
 		@SilkApi
