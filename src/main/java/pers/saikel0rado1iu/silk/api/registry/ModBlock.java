@@ -18,11 +18,13 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
+import pers.saikel0rado1iu.silk.api.ModMain;
 
 import java.util.Set;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于模组所有方块组成方块集与方块注册</font></b></p>
+ * <p style="color:FFC800">模组作者需要在 {@link pers.saikel0rado1iu.silk.api.ModMain} 中覆盖 {@link ModMain#blocks()}方法</p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>

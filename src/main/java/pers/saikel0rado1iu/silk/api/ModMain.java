@@ -13,6 +13,7 @@ package pers.saikel0rado1iu.silk.api;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.pack.DataPack;
 import pers.saikel0rado1iu.silk.api.registry.ModBlock;
@@ -44,6 +45,7 @@ public abstract class ModMain implements ModInitializer {
 	 * <p style="color:DD0000">!谨慎操作!</p>
 	 */
 	@Override
+	@ApiStatus.Internal
 	public void onInitialize() {
 		main(mod);
 		items();
@@ -54,13 +56,16 @@ public abstract class ModMain implements ModInitializer {
 	/**
 	 * 最先运行的模组初始化函数
 	 */
-	protected abstract void main(ModBasicData mod);
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public abstract void main(ModBasicData mod);
 	
 	/**
 	 * 提供来自模组的物品集以供注册
 	 */
 	@SilkApi
-	protected ModItem items() {
+	@ApiStatus.OverrideOnly
+	public ModItem items() {
 		return null;
 	}
 	
@@ -68,7 +73,8 @@ public abstract class ModMain implements ModInitializer {
 	 * 提供来自模组的方块集以供注册
 	 */
 	@SilkApi
-	protected ModBlock blocks() {
+	@ApiStatus.OverrideOnly
+	public ModBlock blocks() {
 		return null;
 	}
 	
@@ -79,7 +85,8 @@ public abstract class ModMain implements ModInitializer {
 	 * @param type 默认包类型
 	 */
 	@SilkApi
-	protected DataPack modDataPack(ModBasicData mod, ResourcePackActivationType type) {
+	@ApiStatus.OverrideOnly
+	public DataPack modDataPack(ModBasicData mod, ResourcePackActivationType type) {
 		return null;
 	}
 }
