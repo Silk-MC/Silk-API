@@ -35,7 +35,7 @@ import java.util.Set;
  * @since 0.1.0
  */
 @SilkApi
-public interface ModBlocks {
+public interface ModBlock {
 	Set<Block> ALL_MOD_BLOCKS = Sets.newLinkedHashSetWithExpectedSize(8);
 	
 	/**
@@ -48,8 +48,8 @@ public interface ModBlocks {
 	 * @return 创建的方块
 	 */
 	@SilkApi
-	static Block block(Block block, String id, Set<Block> blocks, ModBasicData mod) {
-		return block(block, id, null, null, blocks, mod);
+	static Block create(Block block, String id, Set<Block> blocks, ModBasicData mod) {
+		return create(block, id, null, null, blocks, mod);
 	}
 	
 	/**
@@ -63,8 +63,8 @@ public interface ModBlocks {
 	 * @return 创建的方块
 	 */
 	@SilkApi
-	static Block block(Block block, String id, FabricItemSettings settings, Set<Block> blocks, ModBasicData mod) {
-		return block(block, id, settings, null, blocks, mod);
+	static Block create(Block block, String id, FabricItemSettings settings, Set<Block> blocks, ModBasicData mod) {
+		return create(block, id, settings, null, blocks, mod);
 	}
 	
 	/**
@@ -78,8 +78,8 @@ public interface ModBlocks {
 	 * @return 创建的方块
 	 */
 	@SilkApi
-	static Block block(Block block, String id, RegistryKey<ItemGroup> group, Set<Block> blocks, ModBasicData mod) {
-		return block(block, id, new FabricItemSettings(), group, blocks, mod);
+	static Block create(Block block, String id, RegistryKey<ItemGroup> group, Set<Block> blocks, ModBasicData mod) {
+		return create(block, id, new FabricItemSettings(), group, blocks, mod);
 	}
 	
 	/**
@@ -93,7 +93,8 @@ public interface ModBlocks {
 	 * @param mod      你模组的模组数据
 	 * @return 创建的方块
 	 */
-	static Block block(Block block, String id, FabricItemSettings settings, RegistryKey<ItemGroup> group, Set<Block> blocks, ModBasicData mod) {
+	@SilkApi
+	static Block create(Block block, String id, FabricItemSettings settings, RegistryKey<ItemGroup> group, Set<Block> blocks, ModBasicData mod) {
 		blocks.add(block);
 		ALL_MOD_BLOCKS.add(block);
 		Identifier identifier = new Identifier(mod.getId(), id);

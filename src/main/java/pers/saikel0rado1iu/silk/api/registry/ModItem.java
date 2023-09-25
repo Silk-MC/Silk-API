@@ -32,7 +32,7 @@ import java.util.Set;
  * @since 0.1.0
  */
 @SilkApi
-public interface ModItems {
+public interface ModItem {
 	Set<Item> ALL_MOD_ITEMS = Sets.newLinkedHashSetWithExpectedSize(8);
 	
 	/**
@@ -44,8 +44,9 @@ public interface ModItems {
 	 * @param mod   你模组的模组数据
 	 * @return 创建的物品
 	 */
-	static Item item(Item item, String id, Set<Item> items, ModBasicData mod) {
-		return item(item, id, null, items, mod);
+	@SilkApi
+	static Item create(Item item, String id, Set<Item> items, ModBasicData mod) {
+		return create(item, id, null, items, mod);
 	}
 	
 	/**
@@ -58,7 +59,8 @@ public interface ModItems {
 	 * @param mod   你模组的模组数据
 	 * @return 创建的物品
 	 */
-	static Item item(Item item, String id, RegistryKey<ItemGroup> group, Set<Item> items, ModBasicData mod) {
+	@SilkApi
+	static Item create(Item item, String id, RegistryKey<ItemGroup> group, Set<Item> items, ModBasicData mod) {
 		items.add(item);
 		ALL_MOD_ITEMS.add(item);
 		Registry.register(Registries.ITEM, new Identifier(mod.getId(), id), item);

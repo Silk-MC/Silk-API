@@ -16,8 +16,8 @@ import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.pack.DataPack;
-import pers.saikel0rado1iu.silk.api.registry.ModBlocks;
-import pers.saikel0rado1iu.silk.api.registry.ModItems;
+import pers.saikel0rado1iu.silk.api.registry.ModBlock;
+import pers.saikel0rado1iu.silk.api.registry.ModItem;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用作模组主类，继承自 {@link ModInitializer}。所有模组注册或操作由此开始</font></b></p>
@@ -47,8 +47,8 @@ public abstract class ModMain implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		main(mod);
-		ModItems.ALL_MOD_ITEMS.forEach(item -> mod.logger().debug("register item " + item + "..." + Silk.DATA.getInfo()));
-		ModBlocks.ALL_MOD_BLOCKS.forEach(block -> mod.logger().debug("register block " + block + "..." + Silk.DATA.getInfo()));
+		ModItem.ALL_MOD_ITEMS.forEach(item -> mod.logger().debug("register item " + item + "..." + Silk.DATA.getInfo()));
+		ModBlock.ALL_MOD_BLOCKS.forEach(block -> mod.logger().debug("register block " + block + "..." + Silk.DATA.getInfo()));
 		if (modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null) modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}
 	
