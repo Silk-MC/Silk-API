@@ -11,12 +11,12 @@
 
 package pers.saikel0rado1iu.silk.api.registry;
 
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -25,100 +25,83 @@ import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 
-import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于模组所有方块组成方块集与方块注册</font></b></p>
- * <p style="color:FFC800">模组作者需要自行在子类中提供静态实例化字段或方法以供对象的调用</p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
 @SilkApi
-public abstract class ModBlocks {
-	private final Set<Block> blocks = Sets.newLinkedHashSetWithExpectedSize(8);
-	private final Map<String, Data> blockSet = Maps.newLinkedHashMapWithExpectedSize(8);
+public interface ModBlocks {
+	Set<Block> ALL_MOD_BLOCKS = Sets.newLinkedHashSetWithExpectedSize(8);
 	
 	/**
-	 * 限定构造方法作用域
+	 * 用于创建方块以及自动注册方块
+	 *
+	 * @param block  创建的方块
+	 * @param id     方块的唯一 ID
+	 * @param blocks 属于你模组的方块组
+	 * @param mod    你模组的模组数据
+	 * @return 创建的方块
 	 */
-	protected ModBlocks() {
+	@SilkApi
+	static Block block(Block block, String id, Set<Block> blocks, ModBasicData mod) {
+		return block(block, id, null, null, blocks, mod);
 	}
 	
 	/**
-	 * 将方块添加到此类的方块集并且完成自动方块注册
+	 * 用于创建方块以及自动注册方块以及方块物品
 	 *
-	 * @param block 添加方块
-	 * @param id    方块 id
-	 * @return 返回添加的方块
+	 * @param block    创建的方块
+	 * @param id       方块的唯一 ID
+	 * @param settings 方块物品的设置项
+	 * @param blocks   属于你模组的方块组
+	 * @param mod      你模组的模组数据
+	 * @return 创建的方块
 	 */
 	@SilkApi
-	protected Block block(Block block, String id) {
+	static Block block(Block block, String id, FabricItemSettings settings, Set<Block> blocks, ModBasicData mod) {
+		return block(block, id, settings, null, blocks, mod);
+	}
+	
+	/**
+	 * 用于创建方块以及自动注册方块以及方块物品到物品组
+	 *
+	 * @param block  创建的方块
+	 * @param id     方块的唯一 ID
+	 * @param group  物品的物品组
+	 * @param blocks 属于你模组的方块组
+	 * @param mod    你模组的模组数据
+	 * @return 创建的方块
+	 */
+	@SilkApi
+	static Block block(Block block, String id, RegistryKey<ItemGroup> group, Set<Block> blocks, ModBasicData mod) {
+		return block(block, id, new FabricItemSettings(), group, blocks, mod);
+	}
+	
+	/**
+	 * 用于创建方块以及自动注册方块以及方块物品到物品组
+	 *
+	 * @param block    创建的方块
+	 * @param id       方块的唯一 ID
+	 * @param settings 方块物品的设置项
+	 * @param group    物品的物品组
+	 * @param blocks   属于你模组的方块组
+	 * @param mod      你模组的模组数据
+	 * @return 创建的方块
+	 */
+	static Block block(Block block, String id, FabricItemSettings settings, RegistryKey<ItemGroup> group, Set<Block> blocks, ModBasicData mod) {
 		blocks.add(block);
-		blockSet.put(id, new Data(block, new FabricItemSettings(), Optional.empty()));
+		ALL_MOD_BLOCKS.add(block);
+		Identifier identifier = new Identifier(mod.getId(), id);
+		Registry.register(Registries.BLOCK, identifier, block);
+		if (settings == null) return block;
+		Item item = new BlockItem(block, settings);
+		Registry.register(Registries.ITEM, identifier, item);
+		if (group != null) ItemGroupEvents.modifyEntriesEvent(group).register(content -> content.add(item));
 		return block;
-	}
-	
-	/**
-	 * 将方块添加到此类的方块集并且完成自动方块与其方块物品的注册
-	 *
-	 * @param block 添加方块
-	 * @param id    方块 id
-	 * @param group 方块所在的方块组
-	 * @return 返回添加的方块
-	 */
-	@SilkApi
-	protected Block block(Block block, String id, RegistryKey<ItemGroup> group) {
-		blocks.add(block);
-		blockSet.put(id, new Data(block, new FabricItemSettings(), Optional.of(group)));
-		return block;
-	}
-	
-	/**
-	 * 将方块添加到此类的方块集并且完成自动方块与其方块物品的注册
-	 *
-	 * @param block    添加方块
-	 * @param id       方块 id
-	 * @param settings 方块物品设置
-	 * @param group    方块所在的方块组
-	 * @return 返回添加的方块
-	 */
-	@SilkApi
-	protected Block block(Block block, String id, FabricItemSettings settings, RegistryKey<ItemGroup> group) {
-		blocks.add(block);
-		blockSet.put(id, new Data(block, settings, Optional.of(group)));
-		return block;
-	}
-	
-	/**
-	 * 其他需要手动添加的特殊方块注册项
-	 *
-	 * @param mod 所要注册方块的模组
-	 */
-	@SilkApi
-	protected abstract void otherRegister(ModBasicData mod);
-	
-	@SilkApi
-	public void register(ModBasicData mod) {
-		blockSet.forEach((id, data) -> {
-			Registry.register(Registries.BLOCK, new Identifier(mod.getId(), id), data.block);
-			data.group.ifPresent(itemGroupRegistryKey -> {
-				BlockItem item = new BlockItem(data.block, data.settings);
-				Registry.register(Registries.ITEM, new Identifier(mod.getId(), id), item);
-				ItemGroupEvents.modifyEntriesEvent(itemGroupRegistryKey).register(content -> content.add(item));
-			});
-		});
-		otherRegister(mod);
-	}
-	
-	@SilkApi
-	public Set<Block> getBlocks() {
-		return blocks;
-	}
-	
-	private record Data(Block block, FabricItemSettings settings, Optional<RegistryKey<ItemGroup>> group) {
 	}
 }

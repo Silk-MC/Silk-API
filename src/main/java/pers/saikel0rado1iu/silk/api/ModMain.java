@@ -13,6 +13,7 @@ package pers.saikel0rado1iu.silk.api;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.pack.DataPack;
 import pers.saikel0rado1iu.silk.api.registry.ModBlocks;
@@ -46,8 +47,8 @@ public abstract class ModMain implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		main(mod);
-		if (items() != null) items().register(mod);
-		if (blocks() != null) blocks().register(mod);
+		ModItems.ALL_MOD_ITEMS.forEach(item -> mod.logger().debug("register item " + item + "..." + Silk.DATA.getInfo()));
+		ModBlocks.ALL_MOD_BLOCKS.forEach(block -> mod.logger().debug("register block " + block + "..." + Silk.DATA.getInfo()));
 		if (modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null) modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}
 	
@@ -55,20 +56,6 @@ public abstract class ModMain implements ModInitializer {
 	 * 最先运行的模组初始化函数
 	 */
 	protected abstract void main(ModBasicData mod);
-	
-	/**
-	 * 注册物品集
-	 */
-	protected ModItems items() {
-		return null;
-	}
-	
-	/**
-	 * 注册方块集
-	 */
-	protected ModBlocks blocks() {
-		return null;
-	}
 	
 	/**
 	 * 模组自带的单独数据包，模组的数据包不是集成在 Fabric 中，而是独立数据包

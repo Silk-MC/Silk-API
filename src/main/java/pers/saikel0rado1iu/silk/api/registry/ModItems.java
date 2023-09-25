@@ -11,7 +11,6 @@
 
 package pers.saikel0rado1iu.silk.api.registry;
 
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
@@ -23,80 +22,47 @@ import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 
-import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于模组所有物品组成物品集与物品注册</font></b></p>
- * <p style="color:FFC800">模组作者需要自行在子类中提供静态实例化字段或方法以供对象的调用</p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
 @SilkApi
-public abstract class ModItems {
-	private final Set<Item> items = Sets.newLinkedHashSetWithExpectedSize(8);
-	private final Map<String, Data> itemSet = Maps.newLinkedHashMapWithExpectedSize(8);
+public interface ModItems {
+	Set<Item> ALL_MOD_ITEMS = Sets.newLinkedHashSetWithExpectedSize(8);
 	
 	/**
-	 * 限定构造方法作用域
+	 * 用于创建物品以及自动注册物品
+	 *
+	 * @param item  创建的物品
+	 * @param id    物品的唯一 ID
+	 * @param items 属于你模组的物品组
+	 * @param mod   你模组的模组数据
+	 * @return 创建的物品
 	 */
-	protected ModItems() {
+	static Item item(Item item, String id, Set<Item> items, ModBasicData mod) {
+		return item(item, id, null, items, mod);
 	}
 	
 	/**
-	 * 将物品添加到此类的物品集并且完成自动物品注册
+	 * 用于创建物品以及自动注册物品到物品组
 	 *
-	 * @param item 添加物品
-	 * @param id   物品 id
-	 * @return 返回添加的物品
+	 * @param item  创建的物品
+	 * @param id    物品的唯一 ID
+	 * @param group 物品的物品组
+	 * @param items 属于你模组的物品组
+	 * @param mod   你模组的模组数据
+	 * @return 创建的物品
 	 */
-	@SilkApi
-	protected Item item(Item item, String id) {
+	static Item item(Item item, String id, RegistryKey<ItemGroup> group, Set<Item> items, ModBasicData mod) {
 		items.add(item);
-		itemSet.put(id, new Data(item, Optional.empty()));
+		ALL_MOD_ITEMS.add(item);
+		Registry.register(Registries.ITEM, new Identifier(mod.getId(), id), item);
+		if (group != null) ItemGroupEvents.modifyEntriesEvent(group).register(content -> content.add(item));
 		return item;
-	}
-	
-	/**
-	 * 将物品添加到此类的物品集并且完成自动物品注册
-	 *
-	 * @param item  添加物品
-	 * @param id    物品 id
-	 * @param group 物品所在的物品组
-	 * @return 返回添加的物品
-	 */
-	@SilkApi
-	protected Item item(Item item, String id, RegistryKey<ItemGroup> group) {
-		items.add(item);
-		itemSet.put(id, new Data(item, Optional.of(group)));
-		return item;
-	}
-	
-	/**
-	 * 其他需要手动添加的特殊物品注册项
-	 *
-	 * @param mod 所要注册物品的模组
-	 */
-	@SilkApi
-	protected abstract void otherRegister(ModBasicData mod);
-	
-	@SilkApi
-	public void register(ModBasicData mod) {
-		itemSet.forEach((id, data) -> {
-			Registry.register(Registries.ITEM, new Identifier(mod.getId(), id), data.item);
-			data.group.ifPresent(itemGroupRegistryKey -> ItemGroupEvents.modifyEntriesEvent(itemGroupRegistryKey).register(content -> content.add(data.item)));
-		});
-		otherRegister(mod);
-	}
-	
-	@SilkApi
-	public Set<Item> getItems() {
-		return items;
-	}
-	
-	private record Data(Item item, Optional<RegistryKey<ItemGroup>> group) {
 	}
 }
