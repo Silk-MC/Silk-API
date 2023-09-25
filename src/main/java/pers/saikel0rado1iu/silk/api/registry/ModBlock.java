@@ -52,7 +52,7 @@ public interface ModBlock {
 		}
 		
 		@SilkApi
-		private Block build(ModBasicData mod, String id) {
+		public Block build(ModBasicData mod, String id) {
 			Registry.register(Registries.BLOCK, new Identifier(mod.getId(), id), block);
 			return block;
 		}

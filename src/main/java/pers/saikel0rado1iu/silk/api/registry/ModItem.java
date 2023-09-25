@@ -61,7 +61,7 @@ public interface ModItem {
 		}
 		
 		@SilkApi
-		private Item build(ModBasicData mod, String id) {
+		public Item build(ModBasicData mod, String id) {
 			Registry.register(Registries.ITEM, new Identifier(mod.getId(), id), item);
 			return item;
 		}
