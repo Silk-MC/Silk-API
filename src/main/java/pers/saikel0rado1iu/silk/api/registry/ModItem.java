@@ -27,7 +27,7 @@ import java.util.Set;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于模组所有物品组成物品集与物品注册</font></b></p>
- * <p style="color:FFC800">模组作者需要在 {@link pers.saikel0rado1iu.silk.api.ModMain} 中覆盖 {@link ModMain#items()}方法</p>
+ * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#items()}方法</p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
@@ -57,7 +57,7 @@ public abstract class ModItem {
 		}
 		
 		@SilkApi
-		public Builder putIn(Set<Item> items) {
+		public Builder put(Set<Item> items) {
 			items.add(item);
 			return this;
 		}

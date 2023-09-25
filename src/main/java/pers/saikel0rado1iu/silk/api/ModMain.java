@@ -50,6 +50,7 @@ public abstract class ModMain implements ModInitializer {
 		main(mod);
 		items();
 		blocks();
+		soundEvent();
 		if (modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null) modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}
 	
@@ -75,6 +76,15 @@ public abstract class ModMain implements ModInitializer {
 	@SilkApi
 	@ApiStatus.OverrideOnly
 	public ModBlock blocks() {
+		return null;
+	}
+	
+	/**
+	 * 提供来自模组的声音事件集以供注册
+	 */
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public ModBlock soundEvent() {
 		return null;
 	}
 	
