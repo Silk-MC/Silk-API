@@ -22,7 +22,7 @@ import java.util.Set;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于模组所有声音事件组成声音事件集与声音事件注册</font></b></p>
- * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#soundEvent()}方法</p>
+ * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#soundEvents()}方法</p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>

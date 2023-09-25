@@ -51,7 +51,7 @@ public abstract class ModMain implements ModInitializer {
 		main(mod);
 		items();
 		blocks();
-		soundEvent();
+		soundEvents();
 		if (modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null) modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}
 	
@@ -85,7 +85,7 @@ public abstract class ModMain implements ModInitializer {
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
-	public ModSoundEvent soundEvent() {
+	public ModSoundEvent soundEvents() {
 		return null;
 	}
 	
