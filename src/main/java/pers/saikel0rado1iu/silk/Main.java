@@ -30,6 +30,6 @@ public class Main extends ModMain {
 	 * 最先运行的模组初始化函数
 	 */
 	@Override
-	protected void main(ModBasicData mod) {
+	public void main(ModBasicData mod) {
 	}
 }
