@@ -29,15 +29,15 @@ import java.util.Set;
  * @since 0.1.0
  */
 @SilkApi
-public interface ModBlock {
-	Set<Block> ALL_MOD_BLOCKS = Sets.newLinkedHashSetWithExpectedSize(8);
+public abstract class ModBlock {
+	public static final Set<Block> ALL_MOD_BLOCKS = Sets.newLinkedHashSetWithExpectedSize(8);
 	
-	static Builder builder(Block block) {
+	protected static Builder builder(Block block) {
 		return new Builder(block);
 	}
 	
 	@SilkApi
-	class Builder {
+	protected static final class Builder {
 		private final Block block;
 		
 		@SilkApi

@@ -32,15 +32,15 @@ import java.util.Set;
  * @since 0.1.0
  */
 @SilkApi
-public interface ModItem {
-	Set<Item> ALL_MOD_ITEMS = Sets.newLinkedHashSetWithExpectedSize(8);
+public abstract class ModItem {
+	public static final Set<Item> ALL_MOD_ITEMS = Sets.newLinkedHashSetWithExpectedSize(8);
 	
-	static Builder builder(Item item) {
+	protected static Builder builder(Item item) {
 		return new Builder(item);
 	}
 	
 	@SilkApi
-	class Builder {
+	protected static final class Builder {
 		private final Item item;
 		
 		@SilkApi
