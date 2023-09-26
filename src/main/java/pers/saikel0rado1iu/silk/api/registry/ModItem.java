@@ -23,6 +23,7 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.api.ModMain;
 
+import java.util.Arrays;
 import java.util.Set;
 
 /**
@@ -51,8 +52,9 @@ public abstract class ModItem {
 		}
 		
 		@SilkApi
-		public Builder group(RegistryKey<ItemGroup> group) {
-			ItemGroupEvents.modifyEntriesEvent(group).register(content -> content.add(item));
+		@SafeVarargs
+		public final Builder group(RegistryKey<ItemGroup>... groups) {
+			Arrays.stream(groups).forEach(group -> ItemGroupEvents.modifyEntriesEvent(group).register(content -> content.add(item)));
 			return this;
 		}
 		
