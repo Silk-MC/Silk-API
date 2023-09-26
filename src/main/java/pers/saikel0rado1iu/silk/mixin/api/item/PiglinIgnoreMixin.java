@@ -35,15 +35,18 @@ import static net.minecraft.entity.player.PlayerInventory.MAIN_SIZE;
 abstract class PiglinIgnoreMixin {
 	@Inject(method = "wearsGoldArmor", at = @At("RETURN"), cancellable = true)
 	private static void hasPiglinIgnoreItem(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
-		boolean notAllSlot = false;
+		boolean anySlot = false;
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			if (!(entity.getEquippedStack(slot).getItem() instanceof PiglinIgnore item)) continue;
-			if ((notAllSlot = item.getEffectiveEquipmentSlot().isEmpty()) || item.getEffectiveEquipmentSlot()
+			if ((anySlot = item.getEffectiveEquipmentSlot().isEmpty()) || item.getEffectiveEquipmentSlot()
 					.get().stream().allMatch(equipmentSlot -> equipmentSlot != slot)) continue;
 			cir.setReturnValue(true);
 			return;
 		}
-		if (notAllSlot) return;
+		if (anySlot) {
+			cir.setReturnValue(true);
+			return;
+		}
 		if (!(entity instanceof PlayerEntity player)) return;
 		for (int count = 0; count < MAIN_SIZE; count++) {
 			ItemStack stack = player.getInventory().getStack(count);
