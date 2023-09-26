@@ -57,9 +57,9 @@ abstract class PiglinIgnoreMixin {
 			ItemStack stack = player.getInventory().getStack(count);
 			Item slotItem = stack.getItem();
 			PiglinIgnore item = null;
-			if (slotItem instanceof PiglinIgnore p) item = p;
 			if (slotItem instanceof ArmorItem a && a.getMaterial() instanceof PiglinIgnore p) item = p;
 			if (slotItem instanceof ToolItem t && t.getMaterial() instanceof PiglinIgnore p) item = p;
+			if (slotItem instanceof PiglinIgnore p) item = p;
 			if (item == null) continue;
 			if (item.getEffectiveEquipmentSlot().isPresent()) continue;
 			cir.setReturnValue(true);
