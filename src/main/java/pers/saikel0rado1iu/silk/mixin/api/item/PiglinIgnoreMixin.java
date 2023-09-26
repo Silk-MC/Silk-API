@@ -37,7 +37,7 @@ abstract class PiglinIgnoreMixin {
 	private static void hasPiglinIgnoreItem(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
 			if (!(entity.getEquippedStack(slot).getItem() instanceof PiglinIgnore item)) continue;
-			if (item.getEffectiveEquipmentSlot().isPresent() || item.getEffectiveEquipmentSlot().get().stream().allMatch(equipmentSlot -> equipmentSlot != slot))
+			if (item.getEffectiveEquipmentSlot().isPresent() && item.getEffectiveEquipmentSlot().get().stream().allMatch(equipmentSlot -> equipmentSlot != slot))
 				continue;
 			cir.setReturnValue(true);
 			return;
