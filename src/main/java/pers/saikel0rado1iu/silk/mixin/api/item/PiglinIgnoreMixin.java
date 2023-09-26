@@ -16,7 +16,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.PiglinBrain;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -37,8 +39,14 @@ abstract class PiglinIgnoreMixin {
 	@Inject(method = "wearsGoldArmor", at = @At("RETURN"), cancellable = true)
 	private static void hasPiglinIgnoreItem(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			if (!(entity.getEquippedStack(slot).getItem() instanceof ArmorItem armorItem)) continue;
-			if (!(armorItem.getMaterial() instanceof PiglinIgnore item)) continue;
+			Item slotItem = null;
+			if (entity.getEquippedStack(slot).getItem() instanceof ArmorItem armorItem) slotItem = armorItem;
+			if (entity.getEquippedStack(slot).getItem() instanceof ToolItem toolItem) slotItem = toolItem;
+			if (slotItem == null) continue;
+			PiglinIgnore item = null;
+			if (slotItem instanceof ArmorItem a && a.getMaterial() instanceof PiglinIgnore p) item = p;
+			if (slotItem instanceof ToolItem t && t.getMaterial() instanceof PiglinIgnore p) item = p;
+			if (item == null) continue;
 			if (item.getEffectiveEquipmentSlot().isPresent() && item.getEffectiveEquipmentSlot().get().stream().allMatch(equipmentSlot -> equipmentSlot != slot))
 				continue;
 			cir.setReturnValue(true);
