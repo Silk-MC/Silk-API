@@ -36,19 +36,28 @@ import java.util.function.Consumer;
  */
 @SilkApi
 public interface ModRecipeJsonBuilder {
-	private static Identifier smeltingRecipeId(ItemConvertible item) {
+	@SilkApi
+	static String getId(ItemConvertible item) {
+		return Registries.ITEM.getId(item.asItem()).getPath();
+	}
+	
+	@SilkApi
+	static Identifier smeltingRecipeId(ItemConvertible item) {
 		return new Identifier(Registries.ITEM.getId(item.asItem()).getNamespace(), Registries.ITEM.getId(item.asItem()).getPath() + "_from_smelting");
 	}
 	
-	private static Identifier blastingRecipeId(ItemConvertible item) {
+	@SilkApi
+	static Identifier blastingRecipeId(ItemConvertible item) {
 		return new Identifier(Registries.ITEM.getId(item.asItem()).getNamespace(), Registries.ITEM.getId(item.asItem()).getPath() + "_from_blasting");
 	}
 	
-	private static Identifier smithingRecipeId(ItemConvertible item) {
+	@SilkApi
+	static Identifier smithingRecipeId(ItemConvertible item) {
 		return new Identifier(Registries.ITEM.getId(item.asItem()).getNamespace(), Registries.ITEM.getId(item.asItem()).getPath() + "_from_smithing");
 	}
 	
-	private static Identifier smithingSwapRecipeId(ItemConvertible item) {
+	@SilkApi
+	static Identifier smithingSwapRecipeId(ItemConvertible item) {
 		return new Identifier(Registries.ITEM.getId(item.asItem()).getNamespace(), Registries.ITEM.getId(item.asItem()).getPath() + "_from_smithing_swap");
 	}
 	
