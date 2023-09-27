@@ -19,13 +19,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
+
+import static net.minecraft.data.server.recipe.RecipeProvider.*;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于提供模组中常用但未提供更方便方法的配方生成方法</font></b></p>
@@ -37,28 +37,13 @@ import java.util.function.Consumer;
 @SilkApi
 public interface ModRecipeJsonBuilder {
 	@SilkApi
-	static String getId(ItemConvertible item) {
-		return Registries.ITEM.getId(item.asItem()).getPath();
+	static String getSmithingItemPath(ItemConvertible item) {
+		return getItemPath(item) + "_from_smithing";
 	}
 	
 	@SilkApi
-	static Identifier smeltingRecipeId(ItemConvertible item) {
-		return new Identifier(Registries.ITEM.getId(item.asItem()).getNamespace(), Registries.ITEM.getId(item.asItem()).getPath() + "_from_smelting");
-	}
-	
-	@SilkApi
-	static Identifier blastingRecipeId(ItemConvertible item) {
-		return new Identifier(Registries.ITEM.getId(item.asItem()).getNamespace(), Registries.ITEM.getId(item.asItem()).getPath() + "_from_blasting");
-	}
-	
-	@SilkApi
-	static Identifier smithingRecipeId(ItemConvertible item) {
-		return new Identifier(Registries.ITEM.getId(item.asItem()).getNamespace(), Registries.ITEM.getId(item.asItem()).getPath() + "_from_smithing");
-	}
-	
-	@SilkApi
-	static Identifier smithingSwapRecipeId(ItemConvertible item) {
-		return new Identifier(Registries.ITEM.getId(item.asItem()).getNamespace(), Registries.ITEM.getId(item.asItem()).getPath() + "_from_smithing_swap");
+	static String getSmithingSwapItemPath(ItemConvertible item) {
+		return getItemPath(item) + "_from_smithing_swap";
 	}
 	
 	@SilkApi
@@ -73,8 +58,8 @@ public interface ModRecipeJsonBuilder {
 			main.criterion(FabricRecipeProvider.hasItem(stack.getItem()), FabricRecipeProvider.conditionsFromItem(stack.getItem()));
 			swap.criterion(FabricRecipeProvider.hasItem(stack.getItem()), FabricRecipeProvider.conditionsFromItem(stack.getItem()));
 		});
-		main.offerTo(exporter, smithingRecipeId(result));
-		swap.offerTo(exporter, smithingSwapRecipeId(result));
+		main.offerTo(exporter, getSmithingItemPath(result));
+		swap.offerTo(exporter, getSmithingSwapItemPath(result));
 	}
 	
 	@SilkApi
@@ -82,7 +67,7 @@ public interface ModRecipeJsonBuilder {
 		CookingRecipeJsonBuilder recipe = CookingRecipeJsonBuilder.createSmelting(Ingredient.ofItems(inputs.toArray(new ItemConvertible[0])), RecipeCategory.MISC, output, experience, cookingTime).group(group)
 				.criterion(FabricRecipeProvider.hasItem(output), FabricRecipeProvider.conditionsFromItem(output));
 		inputs.forEach(itemConvertible -> recipe.criterion(FabricRecipeProvider.hasItem(itemConvertible), FabricRecipeProvider.conditionsFromItem(itemConvertible)));
-		recipe.offerTo(exporter, smeltingRecipeId(output));
+		recipe.offerTo(exporter, getSmeltingItemPath(output));
 	}
 	
 	@SilkApi
@@ -90,6 +75,6 @@ public interface ModRecipeJsonBuilder {
 		CookingRecipeJsonBuilder recipe = CookingRecipeJsonBuilder.createBlasting(Ingredient.ofItems(inputs.toArray(new ItemConvertible[0])), RecipeCategory.MISC, output, experience, cookingTime).group(group)
 				.criterion(FabricRecipeProvider.hasItem(output), FabricRecipeProvider.conditionsFromItem(output));
 		inputs.forEach(itemConvertible -> recipe.criterion(FabricRecipeProvider.hasItem(itemConvertible), FabricRecipeProvider.conditionsFromItem(itemConvertible)));
-		recipe.offerTo(exporter, blastingRecipeId(output));
+		recipe.offerTo(exporter, getBlastingItemPath(output));
 	}
 }
