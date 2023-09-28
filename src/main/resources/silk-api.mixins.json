@@ -12,7 +12,8 @@
 		"api.item.WithProjectileProtectionMixin$SetMob",
 		"api.item.WithProjectileProtectionMixin$SetPlayer",
 		"api.item.WithStatusEffectsMixin",
-		"api.item.weapon.BreakingShieldMixin"
+		"api.item.weapon.BreakingShieldMixin",
+		"datagen.SilkRecipeJsonBuilderMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

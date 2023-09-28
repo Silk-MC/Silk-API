@@ -14,6 +14,7 @@ package pers.saikel0rado1iu.silk.datagen;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.data.server.recipe.CookingRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
+import net.minecraft.data.server.recipe.RecipeProvider;
 import net.minecraft.data.server.recipe.SmithingTransformRecipeJsonBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
@@ -25,8 +26,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static net.minecraft.data.server.recipe.RecipeProvider.*;
-
 /**
  * <p><b style="color:FFC800"><font size="+1">用于提供模组中常用但未提供更方便方法的配方生成方法</font></b></p>
  * <style="color:FFC800">
@@ -35,15 +34,15 @@ import static net.minecraft.data.server.recipe.RecipeProvider.*;
  * @since 0.1.0
  */
 @SilkApi
-public interface ModRecipeJsonBuilder {
+public interface SilkRecipeJsonBuilder {
 	@SilkApi
 	static String getSmithingItemPath(ItemConvertible item) {
-		return getItemPath(item) + "_from_smithing";
+		return RecipeProvider.getItemPath(item) + "_from_smithing";
 	}
 	
 	@SilkApi
 	static String getSmithingSwapItemPath(ItemConvertible item) {
-		return getItemPath(item) + "_from_smithing_swap";
+		return RecipeProvider.getItemPath(item) + "_from_smithing_swap";
 	}
 	
 	@SilkApi
@@ -67,7 +66,7 @@ public interface ModRecipeJsonBuilder {
 		CookingRecipeJsonBuilder recipe = CookingRecipeJsonBuilder.createSmelting(Ingredient.ofItems(inputs.toArray(new ItemConvertible[0])), RecipeCategory.MISC, output, experience, cookingTime).group(group)
 				.criterion(FabricRecipeProvider.hasItem(output), FabricRecipeProvider.conditionsFromItem(output));
 		inputs.forEach(itemConvertible -> recipe.criterion(FabricRecipeProvider.hasItem(itemConvertible), FabricRecipeProvider.conditionsFromItem(itemConvertible)));
-		recipe.offerTo(exporter, getSmeltingItemPath(output));
+		recipe.offerTo(exporter, RecipeProvider.getSmeltingItemPath(output));
 	}
 	
 	@SilkApi
@@ -75,6 +74,6 @@ public interface ModRecipeJsonBuilder {
 		CookingRecipeJsonBuilder recipe = CookingRecipeJsonBuilder.createBlasting(Ingredient.ofItems(inputs.toArray(new ItemConvertible[0])), RecipeCategory.MISC, output, experience, cookingTime).group(group)
 				.criterion(FabricRecipeProvider.hasItem(output), FabricRecipeProvider.conditionsFromItem(output));
 		inputs.forEach(itemConvertible -> recipe.criterion(FabricRecipeProvider.hasItem(itemConvertible), FabricRecipeProvider.conditionsFromItem(itemConvertible)));
-		recipe.offerTo(exporter, getBlastingItemPath(output));
+		recipe.offerTo(exporter, RecipeProvider.getBlastingItemPath(output));
 	}
 }
