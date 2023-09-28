@@ -12,8 +12,6 @@
 package pers.saikel0rado1iu.silk.mixin.datagen;
 
 import net.minecraft.data.server.recipe.*;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Final;
@@ -24,11 +22,12 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.util.Minecraft;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+
+import static pers.saikel0rado1iu.silk.datagen.SilkRecipeJsonBuilder.getInput;
+import static pers.saikel0rado1iu.silk.datagen.SilkRecipeJsonBuilder.getNamespace;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">设置配方生成的 offer() 方法混入</font></b></p>
@@ -39,27 +38,6 @@ import java.util.function.Consumer;
  */
 @SilkApi
 interface SilkRecipeJsonBuilderMixin {
-	private static String getNamespace(Ingredient input, Item output) {
-		String namespace = CraftingRecipeJsonBuilder.getItemId(output).getNamespace();
-		if (!Minecraft.DATA.getId().equals(namespace)) return namespace;
-		for (ItemStack stack : input.getMatchingStacks()) {
-			namespace = CraftingRecipeJsonBuilder.getItemId(stack.getItem()).getNamespace();
-			if (!Minecraft.DATA.getId().equals(namespace)) return namespace;
-		}
-		return namespace;
-	}
-	
-	private static Ingredient getInput(Map<Character, Ingredient> inputs) {
-		List<Item> items = new ArrayList<>(List.of());
-		inputs.forEach((character, ingredient) -> Arrays.stream(ingredient.getMatchingStacks()).forEach(stack -> items.add(stack.getItem())));
-		return Ingredient.ofItems(items.toArray(new Item[0]));
-	}
-	
-	private static Ingredient getInput(List<Ingredient> inputs) {
-		List<Item> items = new ArrayList<>(List.of());
-		inputs.forEach(ingredient -> Arrays.stream(ingredient.getMatchingStacks()).forEach(stack -> items.add(stack.getItem())));
-		return Ingredient.ofItems(items.toArray(new Item[0]));
-	}
 	
 	@SilkApi
 	@Mixin(CookingRecipeJsonBuilder.class)

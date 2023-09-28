@@ -12,18 +12,20 @@
 package pers.saikel0rado1iu.silk.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.data.server.recipe.CookingRecipeJsonBuilder;
-import net.minecraft.data.server.recipe.RecipeJsonProvider;
-import net.minecraft.data.server.recipe.RecipeProvider;
-import net.minecraft.data.server.recipe.SmithingTransformRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
+import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
+import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.util.Minecraft;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 /**
@@ -35,6 +37,31 @@ import java.util.function.Consumer;
  */
 @SilkApi
 public interface SilkRecipeJsonBuilder {
+	@ApiStatus.Internal
+	static String getNamespace(Ingredient input, Item output) {
+		String namespace = CraftingRecipeJsonBuilder.getItemId(output).getNamespace();
+		if (!Minecraft.DATA.getId().equals(namespace)) return namespace;
+		for (ItemStack stack : input.getMatchingStacks()) {
+			namespace = CraftingRecipeJsonBuilder.getItemId(stack.getItem()).getNamespace();
+			if (!Minecraft.DATA.getId().equals(namespace)) return namespace;
+		}
+		return namespace;
+	}
+	
+	@ApiStatus.Internal
+	static Ingredient getInput(Map<Character, Ingredient> inputs) {
+		List<Item> items = new ArrayList<>(List.of());
+		inputs.forEach((character, ingredient) -> Arrays.stream(ingredient.getMatchingStacks()).forEach(stack -> items.add(stack.getItem())));
+		return Ingredient.ofItems(items.toArray(new Item[0]));
+	}
+	
+	@ApiStatus.Internal
+	static Ingredient getInput(List<Ingredient> inputs) {
+		List<Item> items = new ArrayList<>(List.of());
+		inputs.forEach(ingredient -> Arrays.stream(ingredient.getMatchingStacks()).forEach(stack -> items.add(stack.getItem())));
+		return Ingredient.ofItems(items.toArray(new Item[0]));
+	}
+	
 	@SilkApi
 	static String getSmithingItemPath(ItemConvertible item) {
 		return RecipeProvider.getItemPath(item) + "_from_smithing";
