@@ -40,7 +40,7 @@ import static net.minecraft.data.server.recipe.RecipeProvider.hasItem;
 @SilkApi
 public interface SilkRecipeJsonBuilder {
 	@SilkApi
-	static void offer2x2CompactingRecipe(Consumer<RecipeJsonProvider> exporter, RecipeCategory category, ItemConvertible output, ItemConvertible input, String group) {
+	static void offer2x2CompactingRecipeWithRecipeGroup(Consumer<RecipeJsonProvider> exporter, RecipeCategory category, ItemConvertible output, ItemConvertible input, String group) {
 		ShapedRecipeJsonBuilder.create(category, output, 1).group(group).input('#', input).pattern("##").pattern("##").criterion(hasItem(input), conditionsFromItem(input)).offerTo(exporter);
 	}
 	
