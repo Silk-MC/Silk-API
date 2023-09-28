@@ -14,6 +14,7 @@ package pers.saikel0rado1iu.silk.mixin.datagen;
 import net.minecraft.data.server.recipe.*;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
+import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
 import java.util.function.Consumer;
 
@@ -24,7 +25,9 @@ import java.util.function.Consumer;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
+@SilkApi
 interface SilkRecipeJsonBuilderMixin {
+	@SilkApi
 	@Mixin(CookingRecipeJsonBuilder.class)
 	abstract class CookingRecipeJsonBuilderMixin implements CraftingRecipeJsonBuilder {
 		@Override
@@ -36,6 +39,7 @@ interface SilkRecipeJsonBuilderMixin {
 		}
 	}
 	
+	@SilkApi
 	@Mixin(ShapedRecipeJsonBuilder.class)
 	abstract class ShapedRecipeJsonBuilderMixin implements CraftingRecipeJsonBuilder {
 		@Override
@@ -47,6 +51,7 @@ interface SilkRecipeJsonBuilderMixin {
 		}
 	}
 	
+	@SilkApi
 	@Mixin(ShapelessRecipeJsonBuilder.class)
 	abstract class ShapelessRecipeJsonBuilderMixin implements CraftingRecipeJsonBuilder {
 		@Override
@@ -58,6 +63,7 @@ interface SilkRecipeJsonBuilderMixin {
 		}
 	}
 	
+	@SilkApi
 	@Mixin(SingleItemRecipeJsonBuilder.class)
 	abstract class SingleItemRecipeJsonBuilderMixin implements CraftingRecipeJsonBuilder {
 		@Override
