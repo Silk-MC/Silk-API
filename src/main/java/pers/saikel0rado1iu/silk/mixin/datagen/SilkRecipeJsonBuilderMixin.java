@@ -38,7 +38,6 @@ import static pers.saikel0rado1iu.silk.datagen.SilkRecipeJsonBuilder.getNamespac
  */
 @SilkApi
 interface SilkRecipeJsonBuilderMixin {
-	
 	@SilkApi
 	@Mixin(CookingRecipeJsonBuilder.class)
 	abstract class CookingRecipeJsonBuilderMixin implements CraftingRecipeJsonBuilder {
