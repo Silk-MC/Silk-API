@@ -29,7 +29,7 @@ import java.util.function.Consumer;
  * @since 0.1.0
  */
 @Mixin(CraftingRecipeJsonBuilder.class)
-abstract class SilkRecipeJsonBuilderMixin {
+interface SilkRecipeJsonBuilderMixin {
 	@Inject(method = "offerTo(L java/util/function/Consumer;L java/lang/String;)V", at = @At("HEAD"), cancellable = true)
 	private void offerTo(Consumer<RecipeJsonProvider> exporter, String recipePath, CallbackInfo ci) {
 		Identifier main = new Identifier(CraftingRecipeJsonBuilder.getItemId(((CraftingRecipeJsonBuilder) this).getOutputItem()).getNamespace(), recipePath);
