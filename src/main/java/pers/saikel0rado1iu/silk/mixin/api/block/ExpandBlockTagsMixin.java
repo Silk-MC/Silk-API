@@ -37,12 +37,12 @@ import java.util.function.Predicate;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-final class ExpandBlockTagsMixin {
+interface ExpandBlockTagsMixin {
 	/**
 	 * 设置泥土标签的铲平效果
 	 */
 	@Mixin(ShovelItem.class)
-	abstract static class DirtMixin {
+	abstract class DirtMixin {
 		@Unique
 		private BlockState state;
 		
@@ -61,7 +61,7 @@ final class ExpandBlockTagsMixin {
 	 * 设置泥土变种的犁地效果
 	 */
 	@Mixin(HoeItem.class)
-	abstract static class DirtVarietyMixin {
+	abstract class DirtVarietyMixin {
 		@Unique
 		private ItemUsageContext context;
 		
@@ -82,7 +82,7 @@ final class ExpandBlockTagsMixin {
 	 * 设置可犁地方块的犁地效果
 	 */
 	@Mixin(HoeItem.class)
-	abstract static class CanTillBlockMixin {
+	abstract class CanTillBlockMixin {
 		@Unique
 		private ItemUsageContext context;
 		

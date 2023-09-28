@@ -40,12 +40,12 @@ import pers.saikel0rado1iu.silk.api.item.tool.UsingFovZoom;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-final class UsingFovZoomMixin {
+interface UsingFovZoomMixin {
 	/**
 	 * 设置视角缩放
 	 */
 	@Mixin(GameRenderer.class)
-	abstract static class SetFovZoom implements AutoCloseable {
+	abstract class SetFovZoom implements AutoCloseable {
 		@Shadow
 		@Final
 		MinecraftClient client;
@@ -70,7 +70,7 @@ final class UsingFovZoomMixin {
 	 * 设置鼠标移动倍数
 	 */
 	@Mixin(Mouse.class)
-	abstract static class SetMouseMoveMultiplier {
+	abstract class SetMouseMoveMultiplier {
 		@Shadow
 		@Final
 		private MinecraftClient client;
@@ -108,7 +108,7 @@ final class UsingFovZoomMixin {
 	 * 设置缩放抬头显示
 	 */
 	@Mixin(InGameHud.class)
-	abstract static class RenderHudOverlay {
+	abstract class RenderHudOverlay {
 		@Final
 		@Shadow
 		private MinecraftClient client;

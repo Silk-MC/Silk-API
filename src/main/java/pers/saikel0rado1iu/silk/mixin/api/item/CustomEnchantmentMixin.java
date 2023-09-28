@@ -38,12 +38,12 @@ import java.util.List;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-final class CustomEnchantmentMixin {
+interface CustomEnchantmentMixin {
 	/**
 	 * 设置自定义附魔能被接受
 	 */
 	@Mixin(Enchantment.class)
-	abstract static class SetAcceptEnchantment {
+	abstract class SetAcceptEnchantment {
 		/**
 		 * 如果物品为自定义物品判断此魔咒是否包含在自定义魔咒中，所以请忽略 'EqualsBetweenInconvertibleTypes' 警告
 		 */
@@ -61,7 +61,7 @@ final class CustomEnchantmentMixin {
 	 * 设置附魔台附魔能够附魔自定义魔咒
 	 */
 	@Mixin(EnchantmentHelper.class)
-	abstract static class SetTableEnchantment {
+	abstract class SetTableEnchantment {
 		/**
 		 * 设置附魔判断为 {@link Enchantment#isAcceptableItem(ItemStack)} 而不是 {@link EnchantmentTarget#isAcceptableItem(Item)}
 		 */

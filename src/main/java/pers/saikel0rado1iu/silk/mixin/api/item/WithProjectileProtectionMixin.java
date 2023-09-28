@@ -40,12 +40,12 @@ import static net.minecraft.entity.player.PlayerInventory.MAIN_SIZE;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-final class WithProjectileProtectionMixin {
+interface WithProjectileProtectionMixin {
 	/**
 	 * 设置 {@link PlayerEntity} 的效果设置
 	 */
 	@Mixin(PlayerEntity.class)
-	abstract static class SetPlayer extends LivingEntity {
+	abstract class SetPlayer extends LivingEntity {
 		@Unique
 		private static DamageSource damageSource = null;
 		
@@ -102,7 +102,7 @@ final class WithProjectileProtectionMixin {
 	 * 设置 {@link MobEntity} 的效果设置
 	 */
 	@Mixin(LivingEntity.class)
-	abstract static class SetMob extends Entity implements Attackable {
+	abstract class SetMob extends Entity implements Attackable {
 		@Unique
 		private static DamageSource damageSource = null;
 		
