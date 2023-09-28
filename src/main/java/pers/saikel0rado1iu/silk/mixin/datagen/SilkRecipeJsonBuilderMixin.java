@@ -19,7 +19,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.util.Minecraft;
 
 import java.util.List;
@@ -36,9 +35,7 @@ import static pers.saikel0rado1iu.silk.datagen.SilkRecipeJsonBuilder.getNamespac
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-@SilkApi
 interface SilkRecipeJsonBuilderMixin {
-	@SilkApi
 	@Mixin(CookingRecipeJsonBuilder.class)
 	abstract class CookingRecipeJsonBuilderMixin implements CraftingRecipeJsonBuilder {
 		@Shadow
@@ -59,7 +56,6 @@ interface SilkRecipeJsonBuilderMixin {
 		}
 	}
 	
-	@SilkApi
 	@Mixin(ShapedRecipeJsonBuilder.class)
 	abstract class ShapedRecipeJsonBuilderMixin implements CraftingRecipeJsonBuilder {
 		@Shadow
@@ -80,7 +76,6 @@ interface SilkRecipeJsonBuilderMixin {
 		}
 	}
 	
-	@SilkApi
 	@Mixin(ShapelessRecipeJsonBuilder.class)
 	abstract class ShapelessRecipeJsonBuilderMixin implements CraftingRecipeJsonBuilder {
 		@Shadow
@@ -101,7 +96,6 @@ interface SilkRecipeJsonBuilderMixin {
 		}
 	}
 	
-	@SilkApi
 	@Mixin(SingleItemRecipeJsonBuilder.class)
 	abstract class SingleItemRecipeJsonBuilderMixin implements CraftingRecipeJsonBuilder {
 		@Shadow
