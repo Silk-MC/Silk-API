@@ -11,7 +11,6 @@
 
 package pers.saikel0rado1iu.silk.datagen;
 
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.data.server.recipe.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
@@ -28,6 +27,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import static net.minecraft.data.server.recipe.RecipeProvider.conditionsFromItem;
+import static net.minecraft.data.server.recipe.RecipeProvider.hasItem;
+
 /**
  * <p><b style="color:FFC800"><font size="+1">用于提供模组中常用但未提供更方便方法的配方生成方法</font></b></p>
  * <style="color:FFC800">
@@ -37,6 +39,53 @@ import java.util.function.Consumer;
  */
 @SilkApi
 public interface SilkRecipeJsonBuilder {
+	@SilkApi
+	static void offer2x2CompactingRecipe(Consumer<RecipeJsonProvider> exporter, RecipeCategory category, ItemConvertible output, ItemConvertible input, String group) {
+		ShapedRecipeJsonBuilder.create(category, output, 1).group(group).input('#', input).pattern("##").pattern("##").criterion(hasItem(input), conditionsFromItem(input)).offerTo(exporter);
+	}
+	
+	@SilkApi
+	static void offerSmithingIngredient(Consumer<RecipeJsonProvider> exporter, Ingredient template, Ingredient base, Ingredient addition, RecipeCategory category, Item result) {
+		SmithingTransformRecipeJsonBuilder main = SmithingTransformRecipeJsonBuilder.create(template, base, addition, category, result);
+		SmithingTransformRecipeJsonBuilder swap = SmithingTransformRecipeJsonBuilder.create(template, addition, base, category, result);
+		Arrays.stream(base.getMatchingStacks()).forEach(stack -> {
+			main.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem()));
+			swap.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem()));
+		});
+		Arrays.stream(addition.getMatchingStacks()).forEach(stack -> {
+			main.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem()));
+			swap.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem()));
+		});
+		main.offerTo(exporter, getSmithingItemPath(result));
+		swap.offerTo(exporter, getSmithingSwapItemPath(result));
+	}
+	
+	@SilkApi
+	static void offerSmeltingInOneJson(Consumer<RecipeJsonProvider> exporter, List<ItemConvertible> inputs, RecipeCategory category, ItemConvertible output, float experience, int cookingTime, String group) {
+		CookingRecipeJsonBuilder recipe = CookingRecipeJsonBuilder.createSmelting(Ingredient.ofItems(inputs.toArray(new ItemConvertible[0])), RecipeCategory.MISC, output, experience, cookingTime).group(group)
+				.criterion(hasItem(output), conditionsFromItem(output));
+		inputs.forEach(itemConvertible -> recipe.criterion(hasItem(itemConvertible), conditionsFromItem(itemConvertible)));
+		recipe.offerTo(exporter, RecipeProvider.getSmeltingItemPath(output));
+	}
+	
+	@SilkApi
+	static void offerBlastingInOneJson(Consumer<RecipeJsonProvider> exporter, List<ItemConvertible> inputs, RecipeCategory category, ItemConvertible output, float experience, int cookingTime, String group) {
+		CookingRecipeJsonBuilder recipe = CookingRecipeJsonBuilder.createBlasting(Ingredient.ofItems(inputs.toArray(new ItemConvertible[0])), RecipeCategory.MISC, output, experience, cookingTime).group(group)
+				.criterion(hasItem(output), conditionsFromItem(output));
+		inputs.forEach(itemConvertible -> recipe.criterion(hasItem(itemConvertible), conditionsFromItem(itemConvertible)));
+		recipe.offerTo(exporter, RecipeProvider.getBlastingItemPath(output));
+	}
+	
+	@SilkApi
+	static String getSmithingItemPath(ItemConvertible item) {
+		return RecipeProvider.getItemPath(item) + "_from_smithing";
+	}
+	
+	@SilkApi
+	static String getSmithingSwapItemPath(ItemConvertible item) {
+		return RecipeProvider.getItemPath(item) + "_from_smithing_swap";
+	}
+	
 	@ApiStatus.Internal
 	static String getNamespace(Ingredient input, Item output) {
 		String namespace = CraftingRecipeJsonBuilder.getItemId(output).getNamespace();
@@ -60,47 +109,5 @@ public interface SilkRecipeJsonBuilder {
 		List<Item> items = new ArrayList<>(List.of());
 		inputs.forEach(ingredient -> Arrays.stream(ingredient.getMatchingStacks()).forEach(stack -> items.add(stack.getItem())));
 		return Ingredient.ofItems(items.toArray(new Item[0]));
-	}
-	
-	@SilkApi
-	static String getSmithingItemPath(ItemConvertible item) {
-		return RecipeProvider.getItemPath(item) + "_from_smithing";
-	}
-	
-	@SilkApi
-	static String getSmithingSwapItemPath(ItemConvertible item) {
-		return RecipeProvider.getItemPath(item) + "_from_smithing_swap";
-	}
-	
-	@SilkApi
-	static void offerSmithingIngredient(Consumer<RecipeJsonProvider> exporter, Ingredient template, Ingredient base, Ingredient addition, RecipeCategory category, Item result) {
-		SmithingTransformRecipeJsonBuilder main = SmithingTransformRecipeJsonBuilder.create(template, base, addition, category, result);
-		SmithingTransformRecipeJsonBuilder swap = SmithingTransformRecipeJsonBuilder.create(template, addition, base, category, result);
-		Arrays.stream(base.getMatchingStacks()).forEach(stack -> {
-			main.criterion(FabricRecipeProvider.hasItem(stack.getItem()), FabricRecipeProvider.conditionsFromItem(stack.getItem()));
-			swap.criterion(FabricRecipeProvider.hasItem(stack.getItem()), FabricRecipeProvider.conditionsFromItem(stack.getItem()));
-		});
-		Arrays.stream(addition.getMatchingStacks()).forEach(stack -> {
-			main.criterion(FabricRecipeProvider.hasItem(stack.getItem()), FabricRecipeProvider.conditionsFromItem(stack.getItem()));
-			swap.criterion(FabricRecipeProvider.hasItem(stack.getItem()), FabricRecipeProvider.conditionsFromItem(stack.getItem()));
-		});
-		main.offerTo(exporter, getSmithingItemPath(result));
-		swap.offerTo(exporter, getSmithingSwapItemPath(result));
-	}
-	
-	@SilkApi
-	static void offerSmeltingInOneJson(Consumer<RecipeJsonProvider> exporter, List<ItemConvertible> inputs, RecipeCategory category, ItemConvertible output, float experience, int cookingTime, String group) {
-		CookingRecipeJsonBuilder recipe = CookingRecipeJsonBuilder.createSmelting(Ingredient.ofItems(inputs.toArray(new ItemConvertible[0])), RecipeCategory.MISC, output, experience, cookingTime).group(group)
-				.criterion(FabricRecipeProvider.hasItem(output), FabricRecipeProvider.conditionsFromItem(output));
-		inputs.forEach(itemConvertible -> recipe.criterion(FabricRecipeProvider.hasItem(itemConvertible), FabricRecipeProvider.conditionsFromItem(itemConvertible)));
-		recipe.offerTo(exporter, RecipeProvider.getSmeltingItemPath(output));
-	}
-	
-	@SilkApi
-	static void offerBlastingInOneJson(Consumer<RecipeJsonProvider> exporter, List<ItemConvertible> inputs, RecipeCategory category, ItemConvertible output, float experience, int cookingTime, String group) {
-		CookingRecipeJsonBuilder recipe = CookingRecipeJsonBuilder.createBlasting(Ingredient.ofItems(inputs.toArray(new ItemConvertible[0])), RecipeCategory.MISC, output, experience, cookingTime).group(group)
-				.criterion(FabricRecipeProvider.hasItem(output), FabricRecipeProvider.conditionsFromItem(output));
-		inputs.forEach(itemConvertible -> recipe.criterion(FabricRecipeProvider.hasItem(itemConvertible), FabricRecipeProvider.conditionsFromItem(itemConvertible)));
-		recipe.offerTo(exporter, RecipeProvider.getBlastingItemPath(output));
 	}
 }
