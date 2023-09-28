@@ -11,13 +11,9 @@
 
 package pers.saikel0rado1iu.silk.mixin.datagen;
 
-import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder;
-import net.minecraft.data.server.recipe.RecipeJsonProvider;
+import net.minecraft.data.server.recipe.*;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.function.Consumer;
 
@@ -28,16 +24,48 @@ import java.util.function.Consumer;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-@Mixin(CraftingRecipeJsonBuilder.class)
 interface SilkRecipeJsonBuilderMixin {
-	@Inject(method = "offerTo(L java/util/function/Consumer;L java/lang/String;)V", at = @At("HEAD"), cancellable = true)
-	private void offerTo(Consumer<RecipeJsonProvider> exporter, String recipePath, CallbackInfo ci) {
-		Identifier main = new Identifier(CraftingRecipeJsonBuilder.getItemId(((CraftingRecipeJsonBuilder) this).getOutputItem()).getNamespace(), recipePath);
-		Identifier test = CraftingRecipeJsonBuilder.getItemId(((CraftingRecipeJsonBuilder) this).getOutputItem());
-		if (main.equals(test)) {
-			throw new IllegalStateException("Recipe " + recipePath + " should remove its 'save' argument as it is equal to default one");
+	@Mixin(CookingRecipeJsonBuilder.class)
+	abstract class CookingRecipeJsonBuilderMixin implements CraftingRecipeJsonBuilder {
+		@Override
+		public void offerTo(Consumer<RecipeJsonProvider> exporter, String recipePath) {
+			Identifier main = new Identifier(CraftingRecipeJsonBuilder.getItemId(getOutputItem()).getNamespace(), recipePath);
+			Identifier test = CraftingRecipeJsonBuilder.getItemId(getOutputItem());
+			if (main.equals(test)) throw new IllegalStateException("Recipe " + recipePath + " should remove its 'save' argument as it is equal to default one");
+			offerTo(exporter, main);
 		}
-		((CraftingRecipeJsonBuilder) this).offerTo(exporter, main);
-		ci.cancel();
+	}
+	
+	@Mixin(ShapedRecipeJsonBuilder.class)
+	abstract class ShapedRecipeJsonBuilderMixin implements CraftingRecipeJsonBuilder {
+		@Override
+		public void offerTo(Consumer<RecipeJsonProvider> exporter, String recipePath) {
+			Identifier main = new Identifier(CraftingRecipeJsonBuilder.getItemId(getOutputItem()).getNamespace(), recipePath);
+			Identifier test = CraftingRecipeJsonBuilder.getItemId(getOutputItem());
+			if (main.equals(test)) throw new IllegalStateException("Recipe " + recipePath + " should remove its 'save' argument as it is equal to default one");
+			offerTo(exporter, main);
+		}
+	}
+	
+	@Mixin(ShapelessRecipeJsonBuilder.class)
+	abstract class ShapelessRecipeJsonBuilderMixin implements CraftingRecipeJsonBuilder {
+		@Override
+		public void offerTo(Consumer<RecipeJsonProvider> exporter, String recipePath) {
+			Identifier main = new Identifier(CraftingRecipeJsonBuilder.getItemId(getOutputItem()).getNamespace(), recipePath);
+			Identifier test = CraftingRecipeJsonBuilder.getItemId(getOutputItem());
+			if (main.equals(test)) throw new IllegalStateException("Recipe " + recipePath + " should remove its 'save' argument as it is equal to default one");
+			offerTo(exporter, main);
+		}
+	}
+	
+	@Mixin(SingleItemRecipeJsonBuilder.class)
+	abstract class SingleItemRecipeJsonBuilderMixin implements CraftingRecipeJsonBuilder {
+		@Override
+		public void offerTo(Consumer<RecipeJsonProvider> exporter, String recipePath) {
+			Identifier main = new Identifier(CraftingRecipeJsonBuilder.getItemId(getOutputItem()).getNamespace(), recipePath);
+			Identifier test = CraftingRecipeJsonBuilder.getItemId(getOutputItem());
+			if (main.equals(test)) throw new IllegalStateException("Recipe " + recipePath + " should remove its 'save' argument as it is equal to default one");
+			offerTo(exporter, main);
+		}
 	}
 }
