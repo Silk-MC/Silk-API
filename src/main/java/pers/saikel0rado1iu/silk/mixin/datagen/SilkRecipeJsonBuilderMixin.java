@@ -55,6 +55,12 @@ interface SilkRecipeJsonBuilderMixin {
 		return Ingredient.ofItems(items.toArray(new Item[0]));
 	}
 	
+	private static Ingredient getInput(List<Ingredient> inputs) {
+		List<Item> items = new ArrayList<>(List.of());
+		inputs.forEach(ingredient -> Arrays.stream(ingredient.getMatchingStacks()).forEach(stack -> items.add(stack.getItem())));
+		return Ingredient.ofItems(items.toArray(new Item[0]));
+	}
+	
 	@SilkApi
 	@Mixin(CookingRecipeJsonBuilder.class)
 	abstract class CookingRecipeJsonBuilderMixin implements CraftingRecipeJsonBuilder {
@@ -102,7 +108,7 @@ interface SilkRecipeJsonBuilderMixin {
 	abstract class ShapelessRecipeJsonBuilderMixin implements CraftingRecipeJsonBuilder {
 		@Shadow
 		@Final
-		private Map<Character, Ingredient> inputs;
+		private List<Ingredient> inputs;
 		
 		@Override
 		public void offerTo(Consumer<RecipeJsonProvider> exporter, String recipePath) {
