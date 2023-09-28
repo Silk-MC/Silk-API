@@ -15,6 +15,7 @@ import net.minecraft.data.server.recipe.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
 import org.jetbrains.annotations.ApiStatus;
@@ -45,9 +46,9 @@ public interface SilkRecipeJsonBuilder {
 	}
 	
 	@SilkApi
-	static void offerSmithingIngredient(Consumer<RecipeJsonProvider> exporter, Ingredient template, Ingredient base, Ingredient addition, RecipeCategory category, Item result) {
-		SmithingTransformRecipeJsonBuilder main = SmithingTransformRecipeJsonBuilder.create(template, base, addition, category, result);
-		SmithingTransformRecipeJsonBuilder swap = SmithingTransformRecipeJsonBuilder.create(template, addition, base, category, result);
+	static void offerSmithingIngredient(Consumer<RecipeJsonProvider> exporter, Ingredient base, Ingredient addition, RecipeCategory category, Item result) {
+		SmithingTransformRecipeJsonBuilder main = SmithingTransformRecipeJsonBuilder.create(Ingredient.ofItems(Items.AIR), base, addition, category, result);
+		SmithingTransformRecipeJsonBuilder swap = SmithingTransformRecipeJsonBuilder.create(Ingredient.ofItems(Items.AIR), addition, base, category, result);
 		Arrays.stream(base.getMatchingStacks()).forEach(stack -> {
 			main.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem()));
 			swap.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem()));
