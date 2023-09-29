@@ -18,14 +18,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
+import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.util.Minecraft;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 
 import static net.minecraft.data.server.recipe.RecipeProvider.conditionsFromItem;
@@ -47,32 +45,27 @@ public interface SilkRecipeJsonBuilder {
 	
 	@SilkApi
 	static void offerSmithingIngredient(Consumer<RecipeJsonProvider> exporter, Ingredient base, Ingredient addition, RecipeCategory category, Item result) {
+		Set<ItemStack> stacks = Set.of(ArrayUtils.addAll(base.getMatchingStacks(), addition.getMatchingStacks()));
 		SmithingTransformRecipeJsonBuilder main = SmithingTransformRecipeJsonBuilder.create(Ingredient.ofItems(Items.AIR), base, addition, category, result);
-		SmithingTransformRecipeJsonBuilder swap = SmithingTransformRecipeJsonBuilder.create(Ingredient.ofItems(Items.AIR), addition, base, category, result);
-		Arrays.stream(base.getMatchingStacks()).forEach(stack -> {
-			main.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem()));
-			swap.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem()));
-		});
-		Arrays.stream(addition.getMatchingStacks()).forEach(stack -> {
-			main.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem()));
-			swap.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem()));
-		});
+		stacks.forEach(stack -> main.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem())));
 		main.offerTo(exporter, getSmithingItemPath(result));
-		swap.offerTo(exporter, getSmithingSwapItemPath(result));
+		if (base != addition) {
+			SmithingTransformRecipeJsonBuilder swap = SmithingTransformRecipeJsonBuilder.create(Ingredient.ofItems(Items.AIR), addition, base, category, result);
+			stacks.forEach(stack -> swap.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem())));
+			swap.offerTo(exporter, getSmithingSwapItemPath(result));
+		}
 	}
 	
 	@SilkApi
 	static void offerSmeltingInOneJson(Consumer<RecipeJsonProvider> exporter, List<ItemConvertible> inputs, RecipeCategory category, ItemConvertible output, float experience, int cookingTime, String group) {
-		CookingRecipeJsonBuilder recipe = CookingRecipeJsonBuilder.createSmelting(Ingredient.ofItems(inputs.toArray(new ItemConvertible[0])), RecipeCategory.MISC, output, experience, cookingTime).group(group)
-				.criterion(hasItem(output), conditionsFromItem(output));
+		CookingRecipeJsonBuilder recipe = CookingRecipeJsonBuilder.createSmelting(Ingredient.ofItems(inputs.toArray(new ItemConvertible[0])), RecipeCategory.MISC, output, experience, cookingTime).group(group);
 		inputs.forEach(itemConvertible -> recipe.criterion(hasItem(itemConvertible), conditionsFromItem(itemConvertible)));
 		recipe.offerTo(exporter, RecipeProvider.getSmeltingItemPath(output));
 	}
 	
 	@SilkApi
 	static void offerBlastingInOneJson(Consumer<RecipeJsonProvider> exporter, List<ItemConvertible> inputs, RecipeCategory category, ItemConvertible output, float experience, int cookingTime, String group) {
-		CookingRecipeJsonBuilder recipe = CookingRecipeJsonBuilder.createBlasting(Ingredient.ofItems(inputs.toArray(new ItemConvertible[0])), RecipeCategory.MISC, output, experience, cookingTime).group(group)
-				.criterion(hasItem(output), conditionsFromItem(output));
+		CookingRecipeJsonBuilder recipe = CookingRecipeJsonBuilder.createBlasting(Ingredient.ofItems(inputs.toArray(new ItemConvertible[0])), RecipeCategory.MISC, output, experience, cookingTime).group(group);
 		inputs.forEach(itemConvertible -> recipe.criterion(hasItem(itemConvertible), conditionsFromItem(itemConvertible)));
 		recipe.offerTo(exporter, RecipeProvider.getBlastingItemPath(output));
 	}

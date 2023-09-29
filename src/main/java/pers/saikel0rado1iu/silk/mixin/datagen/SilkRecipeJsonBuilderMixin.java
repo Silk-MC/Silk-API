@@ -23,7 +23,6 @@ import pers.saikel0rado1iu.silk.util.Minecraft;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 import static pers.saikel0rado1iu.silk.datagen.SilkRecipeJsonBuilder.getInput;
 import static pers.saikel0rado1iu.silk.datagen.SilkRecipeJsonBuilder.getNamespace;
@@ -42,14 +41,6 @@ interface SilkRecipeJsonBuilderMixin {
 		@Final
 		private Ingredient input;
 		
-		@Override
-		public void offerTo(Consumer<RecipeJsonProvider> exporter, String recipePath) {
-			Identifier main = new Identifier(getNamespace(input, getOutputItem()), recipePath);
-			Identifier test = CraftingRecipeJsonBuilder.getItemId(getOutputItem());
-			if (main.equals(test)) throw new IllegalStateException("Recipe " + recipePath + " should remove its 'save' argument as it is equal to default one");
-			offerTo(exporter, main);
-		}
-		
 		@ModifyVariable(method = "offerTo", at = @At("HEAD"), ordinal = 0, argsOnly = true)
 		private Identifier offerTo(Identifier identifier) {
 			return new Identifier(Minecraft.DATA.getId().equals(identifier.getNamespace()) ? getNamespace(input, getOutputItem()) : identifier.getNamespace(), identifier.getPath());
@@ -61,14 +52,6 @@ interface SilkRecipeJsonBuilderMixin {
 		@Shadow
 		@Final
 		private Map<Character, Ingredient> inputs;
-		
-		@Override
-		public void offerTo(Consumer<RecipeJsonProvider> exporter, String recipePath) {
-			Identifier main = new Identifier(getNamespace(getInput(inputs), getOutputItem()), recipePath);
-			Identifier test = CraftingRecipeJsonBuilder.getItemId(getOutputItem());
-			if (main.equals(test)) throw new IllegalStateException("Recipe " + recipePath + " should remove its 'save' argument as it is equal to default one");
-			offerTo(exporter, main);
-		}
 		
 		@ModifyVariable(method = "offerTo", at = @At("HEAD"), ordinal = 0, argsOnly = true)
 		private Identifier offerTo(Identifier identifier) {
@@ -82,14 +65,6 @@ interface SilkRecipeJsonBuilderMixin {
 		@Final
 		private List<Ingredient> inputs;
 		
-		@Override
-		public void offerTo(Consumer<RecipeJsonProvider> exporter, String recipePath) {
-			Identifier main = new Identifier(getNamespace(getInput(inputs), getOutputItem()), recipePath);
-			Identifier test = CraftingRecipeJsonBuilder.getItemId(getOutputItem());
-			if (main.equals(test)) throw new IllegalStateException("Recipe " + recipePath + " should remove its 'save' argument as it is equal to default one");
-			offerTo(exporter, main);
-		}
-		
 		@ModifyVariable(method = "offerTo", at = @At("HEAD"), ordinal = 0, argsOnly = true)
 		private Identifier offerTo(Identifier identifier) {
 			return new Identifier(Minecraft.DATA.getId().equals(identifier.getNamespace()) ? getNamespace(getInput(inputs), getOutputItem()) : identifier.getNamespace(), identifier.getPath());
@@ -101,14 +76,6 @@ interface SilkRecipeJsonBuilderMixin {
 		@Shadow
 		@Final
 		private Ingredient input;
-		
-		@Override
-		public void offerTo(Consumer<RecipeJsonProvider> exporter, String recipePath) {
-			Identifier main = new Identifier(getNamespace(input, getOutputItem()), recipePath);
-			Identifier test = CraftingRecipeJsonBuilder.getItemId(getOutputItem());
-			if (main.equals(test)) throw new IllegalStateException("Recipe " + recipePath + " should remove its 'save' argument as it is equal to default one");
-			offerTo(exporter, main);
-		}
 		
 		@ModifyVariable(method = "offerTo", at = @At("HEAD"), ordinal = 0, argsOnly = true)
 		private Identifier offerTo(Identifier identifier) {
