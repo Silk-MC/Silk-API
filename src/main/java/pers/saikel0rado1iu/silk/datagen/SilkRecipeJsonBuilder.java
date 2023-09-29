@@ -11,6 +11,7 @@
 
 package pers.saikel0rado1iu.silk.datagen;
 
+import com.google.common.collect.Sets;
 import net.minecraft.data.server.recipe.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
@@ -18,7 +19,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
-import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.util.Minecraft;
@@ -45,13 +45,15 @@ public interface SilkRecipeJsonBuilder {
 	
 	@SilkApi
 	static void offerSmithingIngredient(Consumer<RecipeJsonProvider> exporter, Ingredient base, Ingredient addition, RecipeCategory category, Item result) {
-		Set<ItemStack> stacks = Set.of(ArrayUtils.addAll(base.getMatchingStacks(), addition.getMatchingStacks()));
+		Set<Item> items = Sets.newHashSetWithExpectedSize(2);
+		Arrays.stream(base.getMatchingStacks()).forEach(stack -> items.add(stack.getItem()));
+		Arrays.stream(addition.getMatchingStacks()).forEach(stack -> items.add(stack.getItem()));
 		SmithingTransformRecipeJsonBuilder main = SmithingTransformRecipeJsonBuilder.create(Ingredient.ofItems(Items.AIR), base, addition, category, result);
-		stacks.forEach(stack -> main.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem())));
+		items.forEach(item -> main.criterion(hasItem(item), conditionsFromItem(item)));
 		main.offerTo(exporter, getSmithingItemPath(result));
-		if (base != addition) {
+		if (base.equals(addition)) {
 			SmithingTransformRecipeJsonBuilder swap = SmithingTransformRecipeJsonBuilder.create(Ingredient.ofItems(Items.AIR), addition, base, category, result);
-			stacks.forEach(stack -> swap.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem())));
+			items.forEach(item -> swap.criterion(hasItem(item), conditionsFromItem(item)));
 			swap.offerTo(exporter, getSmithingSwapItemPath(result));
 		}
 	}
