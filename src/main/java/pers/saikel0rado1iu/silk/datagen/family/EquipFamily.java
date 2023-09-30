@@ -35,7 +35,7 @@ public class EquipFamily {
 	}
 	
 	@SilkApi
-	public Builder builder(Ingredient ingredient) {
+	public static Builder builder(Ingredient ingredient) {
 		return new Builder(ingredient);
 	}
 	
