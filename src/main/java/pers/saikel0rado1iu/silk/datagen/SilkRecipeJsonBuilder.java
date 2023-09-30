@@ -168,12 +168,20 @@ public interface SilkRecipeJsonBuilder {
 	@SilkApi
 	static void offerSmithingIngredient(Consumer<RecipeJsonProvider> exporter, Ingredient base, Ingredient addition, RecipeCategory category, Item result) {
 		Set<Item> items = Sets.newHashSetWithExpectedSize(2);
-		Arrays.stream(base.getMatchingStacks()).forEach(stack -> items.add(stack.getItem()));
-		Arrays.stream(addition.getMatchingStacks()).forEach(stack -> items.add(stack.getItem()));
+		Set<Item> baseItems = Sets.newHashSetWithExpectedSize(2);
+		Set<Item> addItems = Sets.newHashSetWithExpectedSize(2);
+		Arrays.stream(base.getMatchingStacks()).forEach(stack -> {
+			baseItems.add(stack.getItem());
+			items.add(stack.getItem());
+		});
+		Arrays.stream(addition.getMatchingStacks()).forEach(stack -> {
+			addItems.add(stack.getItem());
+			items.add(stack.getItem());
+		});
 		SmithingTransformRecipeJsonBuilder main = SmithingTransformRecipeJsonBuilder.create(Ingredient.ofItems(Items.AIR), base, addition, category, result);
 		items.forEach(item -> main.criterion(hasItem(item), conditionsFromItem(item)));
 		main.offerTo(exporter, getSmithingItemPath(result));
-		if (!base.equals(addition)) {
+		if (!baseItems.equals(addItems)) {
 			SmithingTransformRecipeJsonBuilder swap = SmithingTransformRecipeJsonBuilder.create(Ingredient.ofItems(Items.AIR), addition, base, category, result);
 			items.forEach(item -> swap.criterion(hasItem(item), conditionsFromItem(item)));
 			swap.offerTo(exporter, getSmithingSwapItemPath(result));
