@@ -35,6 +35,11 @@ public class EquipFamily {
 	}
 	
 	@SilkApi
+	public Builder builder(Ingredient ingredient) {
+		return new Builder(ingredient);
+	}
+	
+	@SilkApi
 	public Ingredient getIngredient() {
 		return ingredient;
 	}
@@ -65,7 +70,7 @@ public class EquipFamily {
 		private final EquipFamily family;
 		
 		@SilkApi
-		public Builder(Ingredient ingredient) {
+		private Builder(Ingredient ingredient) {
 			family = new EquipFamily(ingredient);
 		}
 		
