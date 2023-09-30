@@ -13,7 +13,6 @@ package pers.saikel0rado1iu.silk.datagen.family;
 
 import com.google.common.collect.Maps;
 import net.minecraft.item.Item;
-import net.minecraft.recipe.Ingredient;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
 import java.util.Map;
@@ -28,20 +27,13 @@ import java.util.Map;
 @SilkApi
 public class EquipFamily {
 	final Map<Variant, Item> variants = Maps.newHashMap();
-	private final Ingredient ingredient;
 	
-	private EquipFamily(Ingredient ingredient) {
-		this.ingredient = ingredient;
+	private EquipFamily() {
 	}
 	
 	@SilkApi
-	public static Builder builder(Ingredient ingredient) {
-		return new Builder(ingredient);
-	}
-	
-	@SilkApi
-	public Ingredient getIngredient() {
-		return ingredient;
+	public static Builder builder() {
+		return new Builder();
 	}
 	
 	@SilkApi
@@ -70,8 +62,8 @@ public class EquipFamily {
 		private final EquipFamily family;
 		
 		@SilkApi
-		private Builder(Ingredient ingredient) {
-			family = new EquipFamily(ingredient);
+		private Builder() {
+			family = new EquipFamily();
 		}
 		
 		@SilkApi
