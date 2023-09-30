@@ -173,7 +173,7 @@ public interface SilkRecipeJsonBuilder {
 		SmithingTransformRecipeJsonBuilder main = SmithingTransformRecipeJsonBuilder.create(Ingredient.ofItems(Items.AIR), base, addition, category, result);
 		items.forEach(item -> main.criterion(hasItem(item), conditionsFromItem(item)));
 		main.offerTo(exporter, getSmithingItemPath(result));
-		if (base.equals(addition)) {
+		if (!base.equals(addition)) {
 			SmithingTransformRecipeJsonBuilder swap = SmithingTransformRecipeJsonBuilder.create(Ingredient.ofItems(Items.AIR), addition, base, category, result);
 			items.forEach(item -> swap.criterion(hasItem(item), conditionsFromItem(item)));
 			swap.offerTo(exporter, getSmithingSwapItemPath(result));
