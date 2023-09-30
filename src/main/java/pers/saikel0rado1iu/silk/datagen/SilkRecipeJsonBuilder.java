@@ -75,8 +75,8 @@ public interface SilkRecipeJsonBuilder {
 	static void offerPickaxeRecipe(Consumer<RecipeJsonProvider> exporter, Ingredient input, Item pickaxe) {
 		ShapedRecipeJsonBuilder recipe = ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, pickaxe).group(getItemPath(pickaxe)).input('X', Items.STICK).input('#', input)
 				.pattern("###")
-				.pattern(" X")
-				.pattern(" X");
+				.pattern(" X ")
+				.pattern(" X ");
 		Arrays.stream(input.getMatchingStacks()).forEach(stack -> recipe.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem())));
 		recipe.offerTo(exporter);
 	}
