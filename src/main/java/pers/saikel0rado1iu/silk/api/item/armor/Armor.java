@@ -55,7 +55,7 @@ public interface Armor extends ArmorMaterial {
 	}
 	
 	@SilkApi
-	default ArmorItem createChestPlate(Item.Settings settings) {
+	default ArmorItem createChestplate(Item.Settings settings) {
 		return new ArmorItem(this, ArmorItem.Type.CHESTPLATE, settings);
 	}
 	

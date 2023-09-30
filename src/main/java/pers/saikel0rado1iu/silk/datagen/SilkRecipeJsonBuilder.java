@@ -21,13 +21,14 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.datagen.family.EquipFamily;
 import pers.saikel0rado1iu.silk.util.Minecraft;
 
 import java.util.*;
 import java.util.function.Consumer;
 
-import static net.minecraft.data.server.recipe.RecipeProvider.conditionsFromItem;
-import static net.minecraft.data.server.recipe.RecipeProvider.hasItem;
+import static net.minecraft.data.server.recipe.RecipeProvider.*;
+import static pers.saikel0rado1iu.silk.datagen.family.EquipFamily.Variant.*;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于提供模组中常用但未提供更方便方法的配方生成方法</font></b></p>
@@ -39,8 +40,113 @@ import static net.minecraft.data.server.recipe.RecipeProvider.hasItem;
 @SilkApi
 public interface SilkRecipeJsonBuilder {
 	@SilkApi
+	static void generateEquipRecipe(Consumer<RecipeJsonProvider> exporter, Ingredient ingredient, EquipFamily family) {
+		for (EquipFamily.Variant variant : family.getVariants().keySet()) {
+			switch (variant) {
+				case SHOVEL -> offerShovelRecipe(exporter, ingredient, family.getVariant(SHOVEL));
+				case PICKAXE -> offerPickaxeRecipe(exporter, ingredient, family.getVariant(PICKAXE));
+				case AXE -> offerAxeRecipe(exporter, ingredient, family.getVariant(AXE));
+				case HOE -> offerHoeRecipe(exporter, ingredient, family.getVariant(HOE));
+				case SWORD -> offerSwordRecipe(exporter, ingredient, family.getVariant(SWORD));
+				case HELMET -> offerHelmetRecipe(exporter, ingredient, family.getVariant(HELMET));
+				case CHESTPLATE -> offerChestplateRecipe(exporter, ingredient, family.getVariant(CHESTPLATE));
+				case LEGGINGS -> offerLeggingsRecipe(exporter, ingredient, family.getVariant(LEGGINGS));
+				case BOOTS -> offerBootsRecipe(exporter, ingredient, family.getVariant(BOOTS));
+			}
+		}
+	}
+	
+	@SilkApi
 	static void offer2x2CompactingRecipeWithRecipeGroup(Consumer<RecipeJsonProvider> exporter, RecipeCategory category, ItemConvertible output, ItemConvertible input, String group) {
 		ShapedRecipeJsonBuilder.create(category, output, 1).group(group).input('#', input).pattern("##").pattern("##").criterion(hasItem(input), conditionsFromItem(input)).offerTo(exporter);
+	}
+	
+	@SilkApi
+	static void offerShovelRecipe(Consumer<RecipeJsonProvider> exporter, Ingredient input, Item shovel) {
+		ShapedRecipeJsonBuilder recipe = ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, shovel).group(getItemPath(shovel)).input('X', Items.STICK).input('#', input)
+				.pattern("#")
+				.pattern("X")
+				.pattern("X");
+		Arrays.stream(input.getMatchingStacks()).forEach(stack -> recipe.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem())));
+		recipe.offerTo(exporter);
+	}
+	
+	@SilkApi
+	static void offerPickaxeRecipe(Consumer<RecipeJsonProvider> exporter, Ingredient input, Item pickaxe) {
+		ShapedRecipeJsonBuilder recipe = ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, pickaxe).group(getItemPath(pickaxe)).input('X', Items.STICK).input('#', input)
+				.pattern("###")
+				.pattern(" X")
+				.pattern(" X");
+		Arrays.stream(input.getMatchingStacks()).forEach(stack -> recipe.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem())));
+		recipe.offerTo(exporter);
+	}
+	
+	@SilkApi
+	static void offerAxeRecipe(Consumer<RecipeJsonProvider> exporter, Ingredient input, Item axe) {
+		ShapedRecipeJsonBuilder recipe = ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, axe).group(getItemPath(axe)).input('X', Items.STICK).input('#', input)
+				.pattern("##")
+				.pattern("#X")
+				.pattern(" X");
+		Arrays.stream(input.getMatchingStacks()).forEach(stack -> recipe.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem())));
+		recipe.offerTo(exporter);
+	}
+	
+	@SilkApi
+	static void offerHoeRecipe(Consumer<RecipeJsonProvider> exporter, Ingredient input, Item hoe) {
+		ShapedRecipeJsonBuilder recipe = ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, hoe).group(getItemPath(hoe)).input('X', Items.STICK).input('#', input)
+				.pattern("##")
+				.pattern(" X")
+				.pattern(" X");
+		Arrays.stream(input.getMatchingStacks()).forEach(stack -> recipe.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem())));
+		recipe.offerTo(exporter);
+	}
+	
+	@SilkApi
+	static void offerSwordRecipe(Consumer<RecipeJsonProvider> exporter, Ingredient input, Item sword) {
+		ShapedRecipeJsonBuilder recipe = ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, sword).group(getItemPath(sword)).input('X', Items.STICK).input('#', input)
+				.pattern("#")
+				.pattern("#")
+				.pattern("X");
+		Arrays.stream(input.getMatchingStacks()).forEach(stack -> recipe.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem())));
+		recipe.offerTo(exporter);
+	}
+	
+	@SilkApi
+	static void offerHelmetRecipe(Consumer<RecipeJsonProvider> exporter, Ingredient input, Item helmet) {
+		ShapedRecipeJsonBuilder recipe = ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, helmet).group(getItemPath(helmet)).input('#', input)
+				.pattern("###")
+				.pattern("# #");
+		Arrays.stream(input.getMatchingStacks()).forEach(stack -> recipe.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem())));
+		recipe.offerTo(exporter);
+	}
+	
+	@SilkApi
+	static void offerChestplateRecipe(Consumer<RecipeJsonProvider> exporter, Ingredient input, Item chestplate) {
+		ShapedRecipeJsonBuilder recipe = ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, chestplate).group(getItemPath(chestplate)).input('#', input)
+				.pattern("# #")
+				.pattern("###")
+				.pattern("###");
+		Arrays.stream(input.getMatchingStacks()).forEach(stack -> recipe.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem())));
+		recipe.offerTo(exporter);
+	}
+	
+	@SilkApi
+	static void offerLeggingsRecipe(Consumer<RecipeJsonProvider> exporter, Ingredient input, Item leggings) {
+		ShapedRecipeJsonBuilder recipe = ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, leggings).group(getItemPath(leggings)).input('#', input)
+				.pattern("###")
+				.pattern("# #")
+				.pattern("# #");
+		Arrays.stream(input.getMatchingStacks()).forEach(stack -> recipe.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem())));
+		recipe.offerTo(exporter);
+	}
+	
+	@SilkApi
+	static void offerBootsRecipe(Consumer<RecipeJsonProvider> exporter, Ingredient input, Item boots) {
+		ShapedRecipeJsonBuilder recipe = ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, boots).group(getItemPath(boots)).input('#', input)
+				.pattern("# #")
+				.pattern("# #");
+		Arrays.stream(input.getMatchingStacks()).forEach(stack -> recipe.criterion(hasItem(stack.getItem()), conditionsFromItem(stack.getItem())));
+		recipe.offerTo(exporter);
 	}
 	
 	@SilkApi
@@ -74,12 +180,12 @@ public interface SilkRecipeJsonBuilder {
 	
 	@SilkApi
 	static String getSmithingItemPath(ItemConvertible item) {
-		return RecipeProvider.getItemPath(item) + "_from_smithing";
+		return getItemPath(item) + "_from_smithing";
 	}
 	
 	@SilkApi
 	static String getSmithingSwapItemPath(ItemConvertible item) {
-		return RecipeProvider.getItemPath(item) + "_from_smithing_swap";
+		return getItemPath(item) + "_from_smithing_swap";
 	}
 	
 	@ApiStatus.Internal
