@@ -30,7 +30,7 @@ public class EquipFamily {
 	final Map<Variant, Item> variants = Maps.newHashMap();
 	private final Ingredient ingredient;
 	
-	EquipFamily(Ingredient ingredient) {
+	private EquipFamily(Ingredient ingredient) {
 		this.ingredient = ingredient;
 	}
 	
