@@ -57,8 +57,24 @@ public interface SilkRecipeJsonBuilder {
 	}
 	
 	@SilkApi
-	static void offer2x2CompactingRecipeWithRecipeGroup(Consumer<RecipeJsonProvider> exporter, RecipeCategory category, ItemConvertible output, ItemConvertible input, String group) {
-		ShapedRecipeJsonBuilder.create(category, output, 1).group(group).input('#', input).pattern("##").pattern("##").criterion(hasItem(input), conditionsFromItem(input)).offerTo(exporter);
+	static void offer2x2CompactingRecipeWithRecipeGroup(Consumer<RecipeJsonProvider> exporter, RecipeCategory category, ItemConvertible input, ItemConvertible output, String group) {
+		ShapedRecipeJsonBuilder.create(category, output, 1).group(group).input('#', input)
+				.pattern("##")
+				.pattern("##")
+				.criterion(hasItem(input), conditionsFromItem(input))
+				.offerTo(exporter);
+	}
+	
+	@SilkApi
+	static void offer2x2CrossCompactingRecipe(Consumer<RecipeJsonProvider> exporter, RecipeCategory category, Ingredient base, Ingredient add, ItemConvertible output, String group) {
+		ShapedRecipeJsonBuilder recipe = ShapedRecipeJsonBuilder.create(category, output, 1).group(group).input('#', base).input('X', add)
+				.pattern("#X")
+				.pattern("X#");
+		Set<Item> items = Sets.newHashSetWithExpectedSize(2);
+		Arrays.stream(base.getMatchingStacks()).forEach(stack -> items.add(stack.getItem()));
+		Arrays.stream(add.getMatchingStacks()).forEach(stack -> items.add(stack.getItem()));
+		items.forEach(item -> recipe.criterion(hasItem(item), conditionsFromItem(item)));
+		recipe.offerTo(exporter);
 	}
 	
 	@SilkApi
