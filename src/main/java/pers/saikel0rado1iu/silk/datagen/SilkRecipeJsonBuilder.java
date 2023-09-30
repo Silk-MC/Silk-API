@@ -57,8 +57,8 @@ public interface SilkRecipeJsonBuilder {
 	}
 	
 	@SilkApi
-	static void offer2x2CompactingRecipeWithRecipeGroup(Consumer<RecipeJsonProvider> exporter, RecipeCategory category, ItemConvertible input, ItemConvertible output, String group) {
-		ShapedRecipeJsonBuilder.create(category, output, 1).group(group).input('#', input)
+	static void offer2x2CompactingRecipeWithRecipeGroup(Consumer<RecipeJsonProvider> exporter, RecipeCategory category, ItemConvertible input, ItemConvertible output) {
+		ShapedRecipeJsonBuilder.create(category, output, 1).group(getItemPath(output)).input('#', input)
 				.pattern("##")
 				.pattern("##")
 				.criterion(hasItem(input), conditionsFromItem(input))
