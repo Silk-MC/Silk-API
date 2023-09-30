@@ -12,51 +12,49 @@
 package pers.saikel0rado1iu.silk.api.registry;
 
 import com.google.common.collect.Sets;
-import net.minecraft.block.Block;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.util.Identifier;
+import net.minecraft.sound.SoundEvent;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.api.ModMain;
 
 import java.util.Set;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用于模组所有方块组成方块集与方块注册</font></b></p>
- * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#blocks()}方法</p>
+ * <p><b style="color:FFC800"><font size="+1">用于模组所有声音事件组成声音事件集与声音事件注册</font></b></p>
+ * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#soundEvents()}方法</p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
 @SilkApi
-public abstract class ModBlock {
-	public static final Set<Block> ALL_MOD_BLOCKS = Sets.newLinkedHashSetWithExpectedSize(8);
+public abstract class SilkSoundEvent {
+	public static final Set<SoundEvent> ALL_MOD_SOUNDS = Sets.newLinkedHashSetWithExpectedSize(8);
 	
-	protected static Builder builder(Block block) {
-		return new Builder(block);
+	protected static Builder builder(SoundEvent soundEvent) {
+		return new Builder(soundEvent);
 	}
 	
 	@SilkApi
 	public static final class Builder {
-		private final Block block;
+		private final SoundEvent soundEvent;
 		
 		@SilkApi
-		private Builder(Block block) {
-			ALL_MOD_BLOCKS.add(this.block = block);
+		private Builder(SoundEvent soundEvent) {
+			ALL_MOD_SOUNDS.add(this.soundEvent = soundEvent);
 		}
 		
 		@SilkApi
-		public Builder put(Set<Block> blocks) {
-			blocks.add(block);
+		public Builder put(Set<SoundEvent> soundEvents) {
+			soundEvents.add(soundEvent);
 			return this;
 		}
 		
 		@SilkApi
-		public Block build(ModBasicData mod, String id) {
-			Registry.register(Registries.BLOCK, new Identifier(mod.getId(), id), block);
-			return block;
+		public SoundEvent build() {
+			Registry.register(Registries.SOUND_EVENT, soundEvent.getId(), soundEvent);
+			return soundEvent;
 		}
 	}
 }

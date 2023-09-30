@@ -16,9 +16,9 @@ import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.pack.DataPack;
-import pers.saikel0rado1iu.silk.api.registry.ModBlock;
-import pers.saikel0rado1iu.silk.api.registry.ModItem;
-import pers.saikel0rado1iu.silk.api.registry.ModSoundEvent;
+import pers.saikel0rado1iu.silk.api.registry.SilkBlock;
+import pers.saikel0rado1iu.silk.api.registry.SilkItem;
+import pers.saikel0rado1iu.silk.api.registry.SilkSoundEvent;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用作模组主类，继承自 {@link ModInitializer}。所有模组注册或操作由此开始</font></b></p>
@@ -67,7 +67,7 @@ public abstract class ModMain implements ModInitializer {
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
-	public ModItem items() {
+	public SilkItem items() {
 		return null;
 	}
 	
@@ -76,7 +76,7 @@ public abstract class ModMain implements ModInitializer {
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
-	public ModBlock blocks() {
+	public SilkBlock blocks() {
 		return null;
 	}
 	
@@ -85,7 +85,7 @@ public abstract class ModMain implements ModInitializer {
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
-	public ModSoundEvent soundEvents() {
+	public SilkSoundEvent soundEvents() {
 		return null;
 	}
 	
