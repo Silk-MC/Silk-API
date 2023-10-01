@@ -25,6 +25,7 @@ import pers.saikel0rado1iu.silk.api.ModMain;
 
 import java.util.Arrays;
 import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于模组所有物品组成物品集与物品注册</font></b></p>
@@ -61,6 +62,12 @@ public abstract class SilkItem {
 		@SilkApi
 		public Builder put(Set<Item> items) {
 			items.add(item);
+			return this;
+		}
+		
+		@SilkApi
+		public Builder otherRegister(Consumer<Item> blockConsumer) {
+			blockConsumer.accept(item);
 			return this;
 		}
 		

@@ -21,6 +21,7 @@ import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.api.ModMain;
 
 import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于模组所有方块组成方块集与方块注册</font></b></p>
@@ -50,6 +51,12 @@ public abstract class SilkBlock {
 		@SilkApi
 		public Builder put(Set<Block> blocks) {
 			blocks.add(block);
+			return this;
+		}
+		
+		@SilkApi
+		public Builder otherRegister(Consumer<Block> blockConsumer) {
+			blockConsumer.accept(block);
 			return this;
 		}
 		
