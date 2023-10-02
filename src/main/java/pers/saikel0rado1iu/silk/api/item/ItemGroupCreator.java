@@ -25,8 +25,6 @@ import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 
-import java.util.function.Consumer;
-
 /**
  * <p><b style="color:FFC800"><font size="+1">用于方便快速的构建物品组集</font></b></p>
  * <style="color:FFC800">
@@ -57,33 +55,6 @@ public interface ItemGroupCreator {
 		Registry.register(Registries.ITEM_GROUP, new Identifier(namespace.getId(), id),
 				FabricItemGroup.builder().icon(() -> new ItemStack(icon)).displayName(getGroupText(namespace, id)).build());
 		return RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(namespace.getId(), id));
-	}
-	
-	/**
-	 * 使用自带的物品作为标志生成物品组，物品组 ID 为 itemGroup.namespace.id。但是添加其他有关物品组的注册项。
-	 */
-	@SilkApi
-	static RegistryKey<ItemGroup> create(Item icon, ModBasicData namespace, String id, Consumer<RegistryKey<ItemGroup>> otherRegister) {
-		Registry.register(Registries.ITEM_GROUP, new Identifier(namespace.getId(), id),
-				FabricItemGroup.builder().icon(() -> new ItemStack(icon)).displayName(getGroupText(namespace, id)).build());
-		RegistryKey<ItemGroup> key = RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(namespace.getId(), id));
-		otherRegister.accept(key);
-		return key;
-	}
-	
-	/**
-	 * 自动创建一个新的物品作为标志生成物品组，标志 ID 为 namespace:group_icon_id；
-	 * 物品组 ID 为 itemGroup.namespace.id。但是添加其他有关物品组的注册项。
-	 */
-	@SilkApi
-	static RegistryKey<ItemGroup> create(ModBasicData namespace, String id, Consumer<RegistryKey<ItemGroup>> otherRegister) {
-		Item icon = new Item(new FabricItemSettings());
-		Registry.register(Registries.ITEM, new Identifier(namespace.getId(), getIconId(id)), icon);
-		Registry.register(Registries.ITEM_GROUP, new Identifier(namespace.getId(), id),
-				FabricItemGroup.builder().icon(() -> new ItemStack(icon)).displayName(getGroupText(namespace, id)).build());
-		RegistryKey<ItemGroup> key = RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(namespace.getId(), id));
-		otherRegister.accept(key);
-		return key;
 	}
 	
 	private static Text getGroupText(ModBasicData namespace, String id) {
