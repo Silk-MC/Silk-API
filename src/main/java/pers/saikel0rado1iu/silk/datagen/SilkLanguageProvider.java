@@ -75,7 +75,7 @@ public abstract class SilkLanguageProvider extends FabricLanguageProvider {
 	
 	@SilkApi
 	public static String getSoundEventSubtitlesKey(SoundEvent soundEvent) {
-		return "subtitles." + soundEvent.getId();
+		return "subtitles." + soundEvent.getId().getNamespace() + '.' + soundEvent.getId().getPath();
 	}
 	
 	@SuppressWarnings("UnstableApiUsage")
