@@ -21,6 +21,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.data.DataOutput;
 import net.minecraft.data.DataWriter;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.Util;
@@ -70,6 +71,11 @@ public abstract class SilkLanguageProvider extends FabricLanguageProvider {
 	@SilkApi
 	public static String getLocalizationDescriptionKey(ModBasicData mod) {
 		return "modmenu.descriptionTranslation." + mod.getId();
+	}
+	
+	@SilkApi
+	public static String getSoundEventSubtitlesKey(SoundEvent soundEvent) {
+		return "subtitles." + soundEvent.getId();
 	}
 	
 	@SuppressWarnings("UnstableApiUsage")
