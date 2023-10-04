@@ -35,7 +35,7 @@ import static net.minecraft.entity.player.PlayerInventory.MAIN_SIZE;
  * @since 0.1.0
  */
 @Mixin(PiglinBrain.class)
-abstract class PiglinIgnoreMixin{
+abstract class PiglinIgnoreMixin {
 	@Inject(method = "wearsGoldArmor", at = @At("RETURN"), cancellable = true)
 	private static void hasPiglinIgnoreItem(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
 		for (EquipmentSlot slot : EquipmentSlot.values()) {

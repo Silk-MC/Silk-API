@@ -44,7 +44,7 @@ import static net.minecraft.entity.effect.StatusEffectInstance.INFINITE;
  * @since 0.1.0
  */
 @Mixin(LivingEntity.class)
-abstract class WithStatusEffectsMixin extends Entity implements Attackable{
+abstract class WithStatusEffectsMixin extends Entity implements Attackable {
 	@Unique
 	private final Set<StatusEffectInstance> instances = Sets.newHashSetWithExpectedSize(5);
 	
