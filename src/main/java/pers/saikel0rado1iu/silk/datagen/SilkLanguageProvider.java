@@ -80,9 +80,13 @@ public abstract class SilkLanguageProvider extends FabricLanguageProvider {
 	}
 	
 	@SilkApi
-	public static void translationAdvancement(TranslationBuilder translationBuilder, Advancement advancement, String title, String description) {
-		translationBuilder.add(Objects.requireNonNull(advancement.getDisplay()).getTitle().getString(), title);
-		translationBuilder.add(Objects.requireNonNull(advancement.getDisplay()).getDescription().getString(), description);
+	public static String getAdvancementTitleKey(Advancement advancement) {
+		return Objects.requireNonNull(advancement.getDisplay()).getTitle().getString();
+	}
+	
+	@SilkApi
+	public static String getAdvancementDescriptionKey(Advancement advancement) {
+		return Objects.requireNonNull(advancement.getDisplay()).getDescription().getString();
 	}
 	
 	@SuppressWarnings("UnstableApiUsage")
