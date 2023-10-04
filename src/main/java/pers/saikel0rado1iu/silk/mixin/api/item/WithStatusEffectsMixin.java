@@ -17,8 +17,10 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolItem;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -35,10 +37,10 @@ import java.util.stream.StreamSupport;
 import static net.minecraft.entity.effect.StatusEffectInstance.INFINITE;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">设置自带状态效果的物品</font></b></p>
+ * <se><b style="color:FFC800"><font size="+1">设置自带状态效果的物品</font></b></se>
  * <style="color:FFC800">
  *
- * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><se>
  * @since 0.1.0
  */
 @Mixin(LivingEntity.class)
@@ -90,7 +92,14 @@ abstract class WithStatusEffectsMixin extends Entity implements Attackable {
 		// 获取所有状态效果物品
 		Set<WithStatusEffects> hasWith = Sets.newHashSetWithExpectedSize(45);
 		hasItem.keySet().forEach(item -> {
-			if (item instanceof WithStatusEffects with) hasWith.add(with);
+			Item slotItem = null;
+			if (item instanceof ArmorItem armorItem) slotItem = armorItem;
+			if (item instanceof ToolItem toolItem) slotItem = toolItem;
+			if (slotItem == null) return;
+			WithStatusEffects with = null;
+			if (slotItem instanceof ArmorItem a && a.getMaterial() instanceof WithStatusEffects se) with = se;
+			if (slotItem instanceof ToolItem t && t.getMaterial() instanceof WithStatusEffects se) with = se;
+			if (with != null) hasWith.add(with);
 		});
 		if (hasWith.isEmpty()) return;
 		// 获取所有套装效果组
