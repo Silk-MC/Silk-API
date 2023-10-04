@@ -24,6 +24,12 @@ import java.util.Optional;
  */
 @SilkApi
 public interface WithProjectileProtection extends EffectiveEquipmentSlot {
+	/**
+	 * 设置弹射物保护的保护伤害处理
+	 *
+	 * @param originalAmount 原始伤害
+	 * @return 处理后伤害
+	 */
 	@SilkApi
 	float getPrPrAmount(float originalAmount);
 	
