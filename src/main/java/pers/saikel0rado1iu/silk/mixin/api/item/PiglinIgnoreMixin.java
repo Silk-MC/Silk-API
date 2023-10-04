@@ -39,13 +39,11 @@ abstract class PiglinIgnoreMixin {
 	@Inject(method = "wearsGoldArmor", at = @At("RETURN"), cancellable = true)
 	private static void hasPiglinIgnoreItem(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			Item slotItem = null;
-			if (entity.getEquippedStack(slot).getItem() instanceof ArmorItem armorItem) slotItem = armorItem;
-			if (entity.getEquippedStack(slot).getItem() instanceof ToolItem toolItem) slotItem = toolItem;
-			if (slotItem == null) continue;
+			Item slotItem = entity.getEquippedStack(slot).getItem();
 			PiglinIgnore item = null;
 			if (slotItem instanceof ArmorItem a && a.getMaterial() instanceof PiglinIgnore p) item = p;
 			if (slotItem instanceof ToolItem t && t.getMaterial() instanceof PiglinIgnore p) item = p;
+			if (slotItem instanceof PiglinIgnore p) item = p;
 			if (item == null) continue;
 			if (item.getEffectiveEquipmentSlot().isPresent() && item.getEffectiveEquipmentSlot().get().stream().allMatch(equipmentSlot -> equipmentSlot != slot))
 				continue;

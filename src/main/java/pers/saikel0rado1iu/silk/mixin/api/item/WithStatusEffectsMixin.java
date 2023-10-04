@@ -92,13 +92,10 @@ abstract class WithStatusEffectsMixin extends Entity implements Attackable {
 		// 获取所有状态效果物品
 		Set<WithStatusEffects> hasWith = Sets.newHashSetWithExpectedSize(45);
 		hasItem.keySet().forEach(item -> {
-			Item slotItem = null;
-			if (item instanceof ArmorItem armorItem) slotItem = armorItem;
-			if (item instanceof ToolItem toolItem) slotItem = toolItem;
-			if (slotItem == null) return;
 			WithStatusEffects with = null;
-			if (slotItem instanceof ArmorItem a && a.getMaterial() instanceof WithStatusEffects se) with = se;
-			if (slotItem instanceof ToolItem t && t.getMaterial() instanceof WithStatusEffects se) with = se;
+			if (item instanceof ArmorItem a && a.getMaterial() instanceof WithStatusEffects se) with = se;
+			if (item instanceof ToolItem t && t.getMaterial() instanceof WithStatusEffects se) with = se;
+			if (item instanceof WithStatusEffects se) with = se;
 			if (with != null) hasWith.add(with);
 		});
 		if (hasWith.isEmpty()) return;

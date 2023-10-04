@@ -73,13 +73,11 @@ interface WithProjectileProtectionMixin {
 			if (!damageSource.isIn(DamageTypeTags.IS_PROJECTILE)) return amount;
 			Map<Class<?>, Integer> map = Maps.newHashMapWithExpectedSize(8);
 			for (EquipmentSlot slot : EquipmentSlot.values()) {
-				Item slotItem = null;
-				if (getEquippedStack(slot).getItem() instanceof ArmorItem armorItem) slotItem = armorItem;
-				if (getEquippedStack(slot).getItem() instanceof ToolItem toolItem) slotItem = toolItem;
-				if (slotItem == null) continue;
+				Item slotItem = getEquippedStack(slot).getItem();
 				WithProjectileProtection item = null;
 				if (slotItem instanceof ArmorItem a && a.getMaterial() instanceof WithProjectileProtection p) item = p;
 				if (slotItem instanceof ToolItem t && t.getMaterial() instanceof WithProjectileProtection p) item = p;
+				if (slotItem instanceof WithProjectileProtection p) item = p;
 				if (item == null) continue;
 				if (item.getEffectiveEquipmentSlot().isPresent() && item.getEffectiveEquipmentSlot().get().stream().allMatch(equipmentSlot -> equipmentSlot != slot))
 					continue;
@@ -135,13 +133,11 @@ interface WithProjectileProtectionMixin {
 			if (!(((LivingEntity) (Object) this) instanceof MobEntity mob)) return amount;
 			Map<Class<?>, Integer> map = Maps.newHashMapWithExpectedSize(8);
 			for (EquipmentSlot slot : EquipmentSlot.values()) {
-				Item slotItem = null;
-				if (mob.getEquippedStack(slot).getItem() instanceof ArmorItem armorItem) slotItem = armorItem;
-				if (mob.getEquippedStack(slot).getItem() instanceof ToolItem toolItem) slotItem = toolItem;
-				if (slotItem == null) continue;
+				Item slotItem = mob.getEquippedStack(slot).getItem();
 				WithProjectileProtection item = null;
 				if (slotItem instanceof ArmorItem a && a.getMaterial() instanceof WithProjectileProtection p) item = p;
 				if (slotItem instanceof ToolItem t && t.getMaterial() instanceof WithProjectileProtection p) item = p;
+				if (slotItem instanceof WithProjectileProtection p) item = p;
 				if (item == null) continue;
 				if (item.getEffectiveEquipmentSlot().isPresent() && item.getEffectiveEquipmentSlot().get().stream().allMatch(equipmentSlot -> equipmentSlot != slot))
 					continue;
