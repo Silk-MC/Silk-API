@@ -12,8 +12,10 @@
 package pers.saikel0rado1iu.silk.datagen;
 
 import net.minecraft.advancement.Advancement;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.api.ModBasicData;
 
 import java.util.function.Consumer;
 
@@ -31,5 +33,15 @@ public interface SilkAdvancement {
 		Advancement advancement = builder.build(id);
 		consumer.accept(advancement);
 		return advancement;
+	}
+	
+	@SilkApi
+	static Text getAdvancementTitle(ModBasicData mod, String path) {
+		return Text.translatable("advancements." + mod.getId() + '.' + path + ".title");
+	}
+	
+	@SilkApi
+	static Text getAdvancementDescription(ModBasicData mod, String path) {
+		return Text.translatable("advancements." + mod.getId() + '.' + path + ".description");
 	}
 }

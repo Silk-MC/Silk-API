@@ -19,6 +19,7 @@ import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.stream.JsonWriter;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import net.minecraft.advancement.Advancement;
 import net.minecraft.data.DataOutput;
 import net.minecraft.data.DataWriter;
 import net.minecraft.sound.SoundEvent;
@@ -76,6 +77,12 @@ public abstract class SilkLanguageProvider extends FabricLanguageProvider {
 	@SilkApi
 	public static String getSoundEventSubtitlesKey(SoundEvent soundEvent) {
 		return "subtitles." + soundEvent.getId().getNamespace() + '.' + soundEvent.getId().getPath();
+	}
+	
+	@SilkApi
+	public static void translationAdvancement(TranslationBuilder translationBuilder, Advancement advancement, String title, String description) {
+		translationBuilder.add(Objects.requireNonNull(advancement.getDisplay()).getTitle().getString(), title);
+		translationBuilder.add(Objects.requireNonNull(advancement.getDisplay()).getDescription().getString(), description);
 	}
 	
 	@SuppressWarnings("UnstableApiUsage")
