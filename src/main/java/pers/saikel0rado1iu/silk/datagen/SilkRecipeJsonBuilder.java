@@ -78,6 +78,19 @@ public interface SilkRecipeJsonBuilder {
 	}
 	
 	@SilkApi
+	static void offerCrossCompactingRecipe(Consumer<RecipeJsonProvider> exporter, RecipeCategory category, Ingredient base, Ingredient add, ItemConvertible output) {
+		ShapedRecipeJsonBuilder recipe = ShapedRecipeJsonBuilder.create(category, output, 1).group(getItemPath(output)).input('#', base).input('X', add)
+				.pattern("#X#")
+				.pattern("X#X")
+				.pattern("#X#");
+		Set<Item> items = Sets.newHashSetWithExpectedSize(2);
+		Arrays.stream(base.getMatchingStacks()).forEach(stack -> items.add(stack.getItem()));
+		Arrays.stream(add.getMatchingStacks()).forEach(stack -> items.add(stack.getItem()));
+		items.forEach(item -> recipe.criterion(hasItem(item), conditionsFromItem(item)));
+		recipe.offerTo(exporter);
+	}
+	
+	@SilkApi
 	static void offerShovelRecipe(Consumer<RecipeJsonProvider> exporter, Ingredient input, Item shovel) {
 		ShapedRecipeJsonBuilder recipe = ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, shovel).group(getItemPath(shovel)).input('X', Items.STICK).input('#', input)
 				.pattern("#")
