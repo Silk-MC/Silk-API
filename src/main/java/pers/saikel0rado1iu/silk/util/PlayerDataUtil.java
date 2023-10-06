@@ -34,8 +34,8 @@ public interface PlayerDataUtil {
 	}
 	
 	@SilkApi
-	static float getHungerRatio(float ratio) {
-		return HUNGER / ratio;
+	static int getHungerRatio(float ratio) {
+		return (int) (HUNGER / ratio);
 	}
 	
 	@SilkApi
