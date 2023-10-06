@@ -16,9 +16,8 @@ import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.pack.ResourcesPack;
-
-import static pers.saikel0rado1iu.silk.api.registry.SilkBlock.ALL_MOD_BLOCK_CLIENT_REGISTERS;
-import static pers.saikel0rado1iu.silk.api.registry.SilkItem.ALL_MOD_ITEM_CLIENT_REGISTERS;
+import pers.saikel0rado1iu.silk.api.registry.SilkBlock;
+import pers.saikel0rado1iu.silk.api.registry.SilkItem;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用作模组客户端主类，继承自 {@link ClientModInitializer}。所有模组注册或操作由此开始</font></b></p>
@@ -44,8 +43,8 @@ public abstract class ModClient implements ClientModInitializer {
 	@ApiStatus.Internal
 	public void onInitializeClient() {
 		client(mod);
-		ALL_MOD_ITEM_CLIENT_REGISTERS.forEach(Runnable::run);
-		ALL_MOD_BLOCK_CLIENT_REGISTERS.forEach(Runnable::run);
+		items();
+		blocks();
 		if (modResourcesPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null)
 			modResourcesPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}
@@ -56,6 +55,24 @@ public abstract class ModClient implements ClientModInitializer {
 	@SilkApi
 	@ApiStatus.OverrideOnly
 	public abstract void client(ModBasicData mod);
+	
+	/**
+	 * 提供来自模组的物品集以供注册
+	 */
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public SilkItem items() {
+		return null;
+	}
+	
+	/**
+	 * 提供来自模组的方块集以供注册
+	 */
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public SilkBlock blocks() {
+		return null;
+	}
 	
 	/**
 	 * 模组自带的单独资源包，模组的资源包不是集成在 Fabric 中，而是独立资源包

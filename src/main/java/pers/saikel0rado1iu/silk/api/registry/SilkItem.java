@@ -12,6 +12,8 @@
 package pers.saikel0rado1iu.silk.api.registry;
 
 import com.google.common.collect.Sets;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -19,7 +21,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.api.ModMain;
@@ -39,11 +40,15 @@ import java.util.function.Consumer;
 @SilkApi
 public abstract class SilkItem {
 	public static final Set<Item> ALL_MOD_ITEMS = Sets.newLinkedHashSetWithExpectedSize(8);
-	@ApiStatus.Internal
-	public static final Set<Runnable> ALL_MOD_ITEM_CLIENT_REGISTERS = Sets.newLinkedHashSetWithExpectedSize(8);
 	
 	protected static Builder builder(Item item) {
 		return new Builder(item);
+	}
+	
+	@SilkApi
+	@Environment(EnvType.CLIENT)
+	protected static void clientRegister(Item item, Consumer<Item> clientRegister) {
+		clientRegister.accept(item);
 	}
 	
 	@SilkApi
@@ -71,12 +76,6 @@ public abstract class SilkItem {
 		@SilkApi
 		public Builder otherRegister(Consumer<Item> itemRegister) {
 			itemRegister.accept(item);
-			return this;
-		}
-		
-		@SilkApi
-		public Builder clientRegister(Consumer<Item> clientRegister) {
-			ALL_MOD_ITEM_CLIENT_REGISTERS.add(() -> clientRegister.accept(item));
 			return this;
 		}
 		
