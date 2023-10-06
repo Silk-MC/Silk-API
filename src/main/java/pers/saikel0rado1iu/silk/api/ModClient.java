@@ -43,8 +43,7 @@ public abstract class ModClient implements ClientModInitializer {
 	@Override
 	@ApiStatus.Internal
 	public void onInitializeClient() {
-		client(mod);
-		ALL_MOD_ITEM_CLIENT_REGISTERS.forEach(Runnable::run);
+		client(mod);		ALL_MOD_ITEM_CLIENT_REGISTERS.forEach(Runnable::run);
 		ALL_MOD_BLOCK_CLIENT_REGISTERS.forEach(Runnable::run);
 		if (modResourcesPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null)
 			modResourcesPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
