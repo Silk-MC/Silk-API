@@ -65,7 +65,8 @@ public abstract class SilkItem {
 		@SilkApi
 		public Builder put(Set<Item> items) {
 			items.add(item);
-			return this;		}
+			return this;
+		}
 		
 		@SilkApi
 		public Builder otherRegister(Consumer<Item> itemRegister) {

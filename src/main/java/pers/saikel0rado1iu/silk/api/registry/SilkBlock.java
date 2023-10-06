@@ -33,7 +33,7 @@ import java.util.function.Consumer;
  * @since 0.1.0
  */
 @SilkApi
-public abstract class SilkBlock{
+public abstract class SilkBlock {
 	public static final Set<Block> ALL_MOD_BLOCKS = Sets.newLinkedHashSetWithExpectedSize(8);
 	@ApiStatus.Internal
 	public static final Set<Runnable> ALL_MOD_BLOCK_CLIENT_REGISTERS = Sets.newLinkedHashSetWithExpectedSize(8);
