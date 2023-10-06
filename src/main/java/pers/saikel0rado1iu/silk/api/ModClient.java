@@ -17,6 +17,9 @@ import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.pack.ResourcesPack;
 
+import static pers.saikel0rado1iu.silk.api.registry.SilkBlock.ALL_MOD_BLOCK_CLIENT_REGISTERS;
+import static pers.saikel0rado1iu.silk.api.registry.SilkItem.ALL_MOD_ITEM_CLIENT_REGISTERS;
+
 /**
  * <p><b style="color:FFC800"><font size="+1">用作模组客户端主类，继承自 {@link ClientModInitializer}。所有模组注册或操作由此开始</font></b></p>
  * <style="color:FFC800">
@@ -41,6 +44,8 @@ public abstract class ModClient implements ClientModInitializer {
 	@ApiStatus.Internal
 	public void onInitializeClient() {
 		client(mod);
+		ALL_MOD_ITEM_CLIENT_REGISTERS.forEach(Runnable::run);
+		ALL_MOD_BLOCK_CLIENT_REGISTERS.forEach(Runnable::run);
 		if (modResourcesPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null)
 			modResourcesPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}

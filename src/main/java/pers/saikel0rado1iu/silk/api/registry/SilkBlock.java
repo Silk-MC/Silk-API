@@ -16,6 +16,7 @@ import net.minecraft.block.Block;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.api.ModMain;
@@ -34,6 +35,8 @@ import java.util.function.Consumer;
 @SilkApi
 public abstract class SilkBlock {
 	public static final Set<Block> ALL_MOD_BLOCKS = Sets.newLinkedHashSetWithExpectedSize(8);
+	@ApiStatus.Internal
+	public static final Set<Runnable> ALL_MOD_BLOCK_CLIENT_REGISTERS = Sets.newLinkedHashSetWithExpectedSize(8);
 	
 	protected static Builder builder(Block block) {
 		return new Builder(block);
@@ -55,8 +58,14 @@ public abstract class SilkBlock {
 		}
 		
 		@SilkApi
-		public Builder otherRegister(Consumer<Block> blockConsumer) {
-			blockConsumer.accept(block);
+		public Builder otherRegister(Consumer<Block> blockRegister) {
+			blockRegister.accept(block);
+			return this;
+		}
+		
+		@SilkApi
+		public Builder clientRegister(Consumer<Block> clientRegister) {
+			ALL_MOD_BLOCK_CLIENT_REGISTERS.add(() -> clientRegister.accept(block));
 			return this;
 		}
 		
