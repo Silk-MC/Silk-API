@@ -36,6 +36,14 @@ import java.util.function.Consumer;
  */
 @SilkApi
 public abstract class SilkEntity {
+	@SilkApi
+	public static final float POS_SHIFTING = 0.5F;
+	@SilkApi
+	public static final float PROJECTILE_BOX = 0.25F;
+	@SilkApi
+	public static final int PROJECTILE_RANGE = 4;
+	@SilkApi
+	public static final int PROJECTILE_UPDATE_RATE = 20;
 	public static final Set<EntityType<?>> ALL_MOD_ENTITIES = Sets.newLinkedHashSetWithExpectedSize(8);
 	
 	protected static Builder builder(EntityType<?> entity) {
