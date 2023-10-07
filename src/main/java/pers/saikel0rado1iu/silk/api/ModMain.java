@@ -17,6 +17,7 @@ import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.pack.DataPack;
 import pers.saikel0rado1iu.silk.api.registry.SilkBlock;
+import pers.saikel0rado1iu.silk.api.registry.SilkEntity;
 import pers.saikel0rado1iu.silk.api.registry.SilkItem;
 import pers.saikel0rado1iu.silk.api.registry.SilkSoundEvent;
 
@@ -51,6 +52,7 @@ public abstract class ModMain implements ModInitializer {
 		main(mod);
 		items();
 		blocks();
+		entities();
 		soundEvents();
 		if (modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null) modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}
@@ -77,6 +79,15 @@ public abstract class ModMain implements ModInitializer {
 	@SilkApi
 	@ApiStatus.OverrideOnly
 	public SilkBlock blocks() {
+		return null;
+	}
+	
+	/**
+	 * 提供来自模组的实体集以供注册
+	 */
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public SilkEntity entities() {
 		return null;
 	}
 	

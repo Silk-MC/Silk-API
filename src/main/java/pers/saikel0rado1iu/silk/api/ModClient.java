@@ -17,6 +17,7 @@ import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.pack.ResourcesPack;
 import pers.saikel0rado1iu.silk.api.registry.SilkBlock;
+import pers.saikel0rado1iu.silk.api.registry.SilkEntity;
 import pers.saikel0rado1iu.silk.api.registry.SilkItem;
 
 /**
@@ -45,6 +46,7 @@ public abstract class ModClient implements ClientModInitializer {
 		client(mod);
 		items();
 		blocks();
+		entities();
 		if (modResourcesPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null)
 			modResourcesPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}
@@ -71,6 +73,15 @@ public abstract class ModClient implements ClientModInitializer {
 	@SilkApi
 	@ApiStatus.OverrideOnly
 	public SilkBlock blocks() {
+		return null;
+	}
+	
+	/**
+	 * 提供来自模组的实体集以供注册
+	 */
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public SilkEntity entities() {
 		return null;
 	}
 	
