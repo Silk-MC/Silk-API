@@ -40,6 +40,11 @@ public abstract class Bow extends BowItem implements BowExtend {
 		super(settings);
 	}
 	
+	@Override
+	public boolean isHubStretch() {
+		return false;
+	}
+	
 	/**
 	 * 获取最大使用时间
 	 */

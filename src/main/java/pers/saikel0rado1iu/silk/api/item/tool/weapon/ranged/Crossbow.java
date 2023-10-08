@@ -207,6 +207,11 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 	}
 	
 	@Override
+	public boolean isHubStretch() {
+		return false;
+	}
+	
+	@Override
 	public boolean canChangeFov(ItemStack stack) {
 		return isCharged(stack);
 	}
