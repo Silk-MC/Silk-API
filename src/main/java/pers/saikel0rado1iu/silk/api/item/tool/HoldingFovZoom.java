@@ -12,6 +12,7 @@
 package pers.saikel0rado1iu.silk.api.item.tool;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
@@ -25,6 +26,11 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 public interface HoldingFovZoom extends ItemFovZoom {
 	@SilkApi
 	float getHoldingFovZoom();
+	
+	@SilkApi
+	default boolean canChangeFov(ItemStack stack) {
+		return true;
+	}
 	
 	@SilkApi
 	boolean isConflictItems(Item checkItem);

@@ -11,6 +11,8 @@
 		"api.item.UsingFovZoomMixin$SetFovZoom",
 		"api.item.UsingFovZoomMixin$SetMouseMoveMultiplier",
 		"api.item.UsingMovementMultiplierMixin",
+		"api.item.tool.weapon.ranged.CrossbowMixin$FirstPersonRender",
+		"api.item.tool.weapon.ranged.CrossbowMixin$ThirdPersonRender",
 		"util.LocalizationUtilMixin",
 		"util.update.UpdateInGame",
 		"util.update.UpdateInTitle"

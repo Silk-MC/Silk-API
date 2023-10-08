@@ -45,10 +45,12 @@ abstract class HoldingMovementMultiplierMixin extends AbstractClientPlayerEntity
 		Item mainHandItem = getMainHandStack().getItem();
 		Item offHandItem = getOffHandStack().getItem();
 		if (mainHandItem instanceof HoldingMovementMultiplier multiplier) {
+			if (!multiplier.canChangeMovement(getMainHandStack())) return;
 			input.movementSideways *= multiplier.getHoldingMovementMultiple();
 			input.movementForward *= multiplier.getHoldingMovementMultiple();
 		}
 		if (offHandItem instanceof HoldingMovementMultiplier multiplier && !multiplier.isConflictItems(mainHandItem)) {
+			if (!multiplier.canChangeMovement(getOffHandStack())) return;
 			input.movementSideways *= multiplier.getHoldingMovementMultiple();
 			input.movementForward *= multiplier.getHoldingMovementMultiple();
 		}
