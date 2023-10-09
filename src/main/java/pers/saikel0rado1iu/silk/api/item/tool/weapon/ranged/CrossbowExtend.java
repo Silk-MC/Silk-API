@@ -34,6 +34,8 @@ import java.util.Optional;
 @SilkApi
 public interface CrossbowExtend extends RangedWeaponExtend, HoldingMovementMultiplier, HoldingFovZoom {
 	@SilkApi
+	String CHARGED_KEY = "Charged";
+	@SilkApi
 	String CHARGED_PROJECTILES_KEY = "ChargedProjectiles";
 	@SilkApi
 	int CROSSBOW_MAX_USE_TICKS = 25;
