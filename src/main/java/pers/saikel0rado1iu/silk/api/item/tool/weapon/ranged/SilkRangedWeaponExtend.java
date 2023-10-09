@@ -61,5 +61,5 @@ public interface SilkRangedWeaponExtend {
 	 * 获取所有弹丸的 ID 与他们所对应的名称以供模型生成
 	 */
 	@SilkApi
-	Map<Float, String> getProjectiles();
+	Map<Float, String> getAllProjectile();
 }
