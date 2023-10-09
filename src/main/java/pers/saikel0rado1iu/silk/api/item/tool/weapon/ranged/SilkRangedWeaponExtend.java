@@ -14,6 +14,8 @@ package pers.saikel0rado1iu.silk.api.item.tool.weapon.ranged;
 import net.minecraft.item.ItemStack;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
+import java.util.Map;
+
 /**
  * <p><b style="color:FFC800"><font size="+1">用于扩展远程武器特性的方法接口</font></b></p>
  * <style="color:FFC800">
@@ -54,4 +56,10 @@ public interface SilkRangedWeaponExtend {
 	 */
 	@SilkApi
 	float getProjectileId(ItemStack stack);
+	
+	/**
+	 * 获取所有弹丸的 ID 与他们所对应的名称以供模型生成
+	 */
+	@SilkApi
+	Map<Float, String> getProjectiles();
 }
