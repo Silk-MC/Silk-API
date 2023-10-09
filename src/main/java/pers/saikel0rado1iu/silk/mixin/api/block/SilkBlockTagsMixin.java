@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import pers.saikel0rado1iu.silk.api.block.ExtendedBlockTags;
+import pers.saikel0rado1iu.silk.api.block.SilkBlockTags;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -37,7 +37,7 @@ import java.util.function.Predicate;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-interface ExpandBlockTagsMixin {
+interface SilkBlockTagsMixin {
 	/**
 	 * 设置泥土标签的铲平效果
 	 */
@@ -72,7 +72,7 @@ interface ExpandBlockTagsMixin {
 		
 		@ModifyVariable(method = "useOnBlock", at = @At(value = "STORE", ordinal = 0), ordinal = 0)
 		private Pair<Predicate<ItemUsageContext>, Consumer<ItemUsageContext>> set(Pair<Predicate<ItemUsageContext>, Consumer<ItemUsageContext>> pair) {
-			return context.getWorld().getBlockState(context.getBlockPos()).isIn(ExtendedBlockTags.DIRT_VARIETY)
+			return context.getWorld().getBlockState(context.getBlockPos()).isIn(SilkBlockTags.DIRT_VARIETY)
 					? Pair.of(HoeItem::canTillFarmland, HoeItem.createTillAction(Blocks.DIRT.getDefaultState()))
 					: pair;
 		}
@@ -93,7 +93,7 @@ interface ExpandBlockTagsMixin {
 		
 		@ModifyVariable(method = "useOnBlock", at = @At(value = "STORE", ordinal = 0), ordinal = 0)
 		private Pair<Predicate<ItemUsageContext>, Consumer<ItemUsageContext>> set(Pair<Predicate<ItemUsageContext>, Consumer<ItemUsageContext>> pair) {
-			return context.getWorld().getBlockState(context.getBlockPos()).isIn(ExtendedBlockTags.CAN_TILL_BLOCK)
+			return context.getWorld().getBlockState(context.getBlockPos()).isIn(SilkBlockTags.CAN_TILL_BLOCK)
 					? Pair.of(HoeItem::canTillFarmland, HoeItem.createTillAction(Blocks.FARMLAND.getDefaultState()))
 					: pair;
 		}

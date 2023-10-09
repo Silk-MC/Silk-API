@@ -3,9 +3,9 @@
 	"package": "pers.saikel0rado1iu.silk.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"api.block.ExpandBlockTagsMixin$CanTillBlockMixin",
-		"api.block.ExpandBlockTagsMixin$DirtMixin",
-		"api.block.ExpandBlockTagsMixin$DirtVarietyMixin",
+		"api.block.SilkBlockTagsMixin$CanTillBlockMixin",
+		"api.block.SilkBlockTagsMixin$DirtMixin",
+		"api.block.SilkBlockTagsMixin$DirtVarietyMixin",
 		"api.item.CustomEnchantmentMixin$SetAcceptEnchantment",
 		"api.item.CustomEnchantmentMixin$SetTableEnchantment",
 		"api.item.PiglinIgnoreMixin",
