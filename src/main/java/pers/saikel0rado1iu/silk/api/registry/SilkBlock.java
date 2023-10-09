@@ -38,8 +38,8 @@ import java.util.function.Consumer;
 public abstract class SilkBlock {
 	public static final Set<Block> ALL_MOD_BLOCKS = Sets.newLinkedHashSetWithExpectedSize(8);
 	
-	protected static Builder builder(Block block) {
-		return new Builder(block);
+	protected static <B extends Block> Builder<B> builder(B block) {
+		return new Builder<>(block);
 	}
 	
 	/**
@@ -47,33 +47,33 @@ public abstract class SilkBlock {
 	 */
 	@SilkApi
 	@Environment(EnvType.CLIENT)
-	protected static void clientRegister(Block block, Consumer<Block> clientRegister) {
+	protected static <B extends Block> void clientRegister(B block, Consumer<B> clientRegister) {
 		clientRegister.accept(block);
 	}
 	
 	@SilkApi
-	public static final class Builder {
-		private final Block block;
+	public static final class Builder<B extends Block> {
+		private final B block;
 		
 		@SilkApi
-		private Builder(Block block) {
+		private Builder(B block) {
 			ALL_MOD_BLOCKS.add(this.block = block);
 		}
 		
 		@SilkApi
-		public Builder put(Set<Block> blocks) {
+		public Builder<B> put(Set<Block> blocks) {
 			blocks.add(block);
 			return this;
 		}
 		
 		@SilkApi
-		public Builder otherRegister(Consumer<Block> blockRegister) {
+		public Builder<B> otherRegister(Consumer<B> blockRegister) {
 			blockRegister.accept(block);
 			return this;
 		}
 		
 		@SilkApi
-		public Block build(ModBasicData mod, String id) {
+		public B build(ModBasicData mod, String id) {
 			Registry.register(Registries.BLOCK, new Identifier(mod.getId(), id), block);
 			return block;
 		}

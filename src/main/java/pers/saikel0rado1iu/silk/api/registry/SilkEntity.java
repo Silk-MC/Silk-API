@@ -14,6 +14,7 @@ package pers.saikel0rado1iu.silk.api.registry;
 import com.google.common.collect.Sets;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -46,8 +47,8 @@ public abstract class SilkEntity {
 	public static final int PROJECTILE_UPDATE_RATE = 20;
 	public static final Set<EntityType<?>> ALL_MOD_ENTITIES = Sets.newLinkedHashSetWithExpectedSize(8);
 	
-	protected static Builder builder(EntityType<?> entity) {
-		return new Builder(entity);
+	protected static <E extends Entity> Builder<E> builder(EntityType<E> entity) {
+		return new Builder<>(entity);
 	}
 	
 	/**
@@ -55,33 +56,33 @@ public abstract class SilkEntity {
 	 */
 	@SilkApi
 	@Environment(EnvType.CLIENT)
-	protected static void clientRegister(EntityType<?> entity, Consumer<EntityType<?>> clientRegister) {
+	protected static <E extends Entity> void clientRegister(EntityType<E> entity, Consumer<EntityType<E>> clientRegister) {
 		clientRegister.accept(entity);
 	}
 	
 	@SilkApi
-	public static final class Builder {
-		private final EntityType<?> entity;
+	public static final class Builder<E extends Entity> {
+		private final EntityType<E> entity;
 		
 		@SilkApi
-		private Builder(EntityType<?> entity) {
+		private Builder(EntityType<E> entity) {
 			ALL_MOD_ENTITIES.add(this.entity = entity);
 		}
 		
 		@SilkApi
-		public Builder put(Set<EntityType<?>> entity) {
+		public Builder<E> put(Set<EntityType<?>> entity) {
 			entity.add(this.entity);
 			return this;
 		}
 		
 		@SilkApi
-		public Builder otherRegister(Consumer<EntityType<?>> entityRegister) {
+		public Builder<E> otherRegister(Consumer<EntityType<E>> entityRegister) {
 			entityRegister.accept(entity);
 			return this;
 		}
 		
 		@SilkApi
-		public EntityType<?> build(ModBasicData mod, String id) {
+		public EntityType<E> build(ModBasicData mod, String id) {
 			Registry.register(Registries.ENTITY_TYPE, new Identifier(mod.getId(), id), entity);
 			return entity;
 		}

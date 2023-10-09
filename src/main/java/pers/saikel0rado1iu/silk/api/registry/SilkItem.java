@@ -42,8 +42,8 @@ import java.util.function.Consumer;
 public abstract class SilkItem {
 	public static final Set<Item> ALL_MOD_ITEMS = Sets.newLinkedHashSetWithExpectedSize(8);
 	
-	protected static Builder builder(Item item) {
-		return new Builder(item);
+	protected static <I extends Item> Builder<I> builder(I item) {
+		return new Builder<>(item);
 	}
 	
 	/**
@@ -51,40 +51,40 @@ public abstract class SilkItem {
 	 */
 	@SilkApi
 	@Environment(EnvType.CLIENT)
-	protected static void clientRegister(Item item, Consumer<Item> clientRegister) {
+	protected static <I extends Item> void clientRegister(I item, Consumer<I> clientRegister) {
 		clientRegister.accept(item);
 	}
 	
 	@SilkApi
-	public static final class Builder {
-		private final Item item;
+	public static final class Builder<I extends Item> {
+		private final I item;
 		
 		@SilkApi
-		private Builder(Item item) {
+		private Builder(I item) {
 			ALL_MOD_ITEMS.add(this.item = item);
 		}
 		
 		@SilkApi
 		@SafeVarargs
-		public final Builder group(RegistryKey<ItemGroup>... groups) {
+		public final Builder<I> group(RegistryKey<ItemGroup>... groups) {
 			Arrays.stream(groups).forEach(group -> ItemGroupEvents.modifyEntriesEvent(group).register(content -> content.add(item)));
 			return this;
 		}
 		
 		@SilkApi
-		public Builder put(Set<Item> items) {
+		public Builder<I> put(Set<Item> items) {
 			items.add(item);
 			return this;
 		}
 		
 		@SilkApi
-		public Builder otherRegister(Consumer<Item> itemRegister) {
+		public Builder<I> otherRegister(Consumer<I> itemRegister) {
 			itemRegister.accept(item);
 			return this;
 		}
 		
 		@SilkApi
-		public Item build(ModBasicData mod, String id) {
+		public I build(ModBasicData mod, String id) {
 			Registry.register(Registries.ITEM, new Identifier(mod.getId(), id), item);
 			return item;
 		}

@@ -32,27 +32,27 @@ import java.util.Set;
 public abstract class SilkSoundEvent {
 	public static final Set<SoundEvent> ALL_MOD_SOUNDS = Sets.newLinkedHashSetWithExpectedSize(8);
 	
-	protected static Builder builder(SoundEvent soundEvent) {
-		return new Builder(soundEvent);
+	protected static <S extends SoundEvent> Builder<S> builder(S soundEvent) {
+		return new Builder<>(soundEvent);
 	}
 	
 	@SilkApi
-	public static final class Builder {
-		private final SoundEvent soundEvent;
+	public static final class Builder<S extends SoundEvent> {
+		private final S soundEvent;
 		
 		@SilkApi
-		private Builder(SoundEvent soundEvent) {
+		private Builder(S soundEvent) {
 			ALL_MOD_SOUNDS.add(this.soundEvent = soundEvent);
 		}
 		
 		@SilkApi
-		public Builder put(Set<SoundEvent> soundEvents) {
+		public Builder<S> put(Set<SoundEvent> soundEvents) {
 			soundEvents.add(soundEvent);
 			return this;
 		}
 		
 		@SilkApi
-		public SoundEvent build() {
+		public S build() {
 			Registry.register(Registries.SOUND_EVENT, soundEvent.getId(), soundEvent);
 			return soundEvent;
 		}
