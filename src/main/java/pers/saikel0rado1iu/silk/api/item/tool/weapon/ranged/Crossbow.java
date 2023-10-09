@@ -54,7 +54,7 @@ import java.util.List;
  * @since 0.1.0
  */
 @SilkApi
-public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
+public abstract class Crossbow extends CrossbowItem implements SilkCrossbowExtend {
 	protected boolean charged = false;
 	protected boolean loaded = false;
 	

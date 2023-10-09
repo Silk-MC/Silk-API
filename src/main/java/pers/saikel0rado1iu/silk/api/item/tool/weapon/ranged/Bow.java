@@ -35,7 +35,7 @@ import pers.saikel0rado1iu.silk.util.MathUtil;
  * @since 0.1.0
  */
 @SilkApi
-public abstract class Bow extends BowItem implements BowExtend {
+public abstract class Bow extends BowItem implements SilkBowExtend {
 	public Bow(Settings settings) {
 		super(settings);
 	}

@@ -32,7 +32,7 @@ import java.util.Optional;
  * @since 0.1.0
  */
 @SilkApi
-public interface CrossbowExtend extends RangedWeaponExtend, HoldingMovementMultiplier, HoldingFovZoom {
+public interface SilkCrossbowExtend extends SilkRangedWeaponExtend, HoldingMovementMultiplier, HoldingFovZoom {
 	@SilkApi
 	String CHARGED_KEY = "Charged";
 	@SilkApi

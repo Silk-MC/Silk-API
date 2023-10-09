@@ -27,7 +27,7 @@ import java.util.Optional;
  * @since 0.1.0
  */
 @SilkApi
-public interface BowExtend extends RangedWeaponExtend, UsingMovementMultiplier, UsingFovZoom {
+public interface SilkBowExtend extends SilkRangedWeaponExtend, UsingMovementMultiplier, UsingFovZoom {
 	@SilkApi
 	float BOW_MAX_PROJECTILE_SPEED = 3;
 	@SilkApi

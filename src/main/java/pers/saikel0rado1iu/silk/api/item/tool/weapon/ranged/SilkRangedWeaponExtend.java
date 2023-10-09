@@ -22,7 +22,7 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
  * @since 0.1.0
  */
 @SilkApi
-public interface RangedWeaponExtend {
+public interface SilkRangedWeaponExtend {
 	@SilkApi
 	String PROJECTILE_ID_KEY = "Projectile";
 	@SilkApi
