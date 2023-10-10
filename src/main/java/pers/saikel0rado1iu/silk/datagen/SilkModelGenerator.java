@@ -15,6 +15,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.data.client.*;
+import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.item.tool.weapon.ranged.Bow;
@@ -50,6 +51,13 @@ public interface SilkModelGenerator {
 		scaleArray.add(scale[2]);
 		jsonObject.add("scale", scaleArray);
 		return jsonObject;
+	}
+	
+	@SilkApi
+	static void createOverlayItemJson(ItemModelGenerator itemModelGenerator, Item item) {
+		Models.GENERATED_TWO_LAYERS.upload(ModelIds.getItemModelId(item),
+				TextureMap.layered(TextureMap.getId(item), TextureMap.getSubId(item, "_overlay")),
+				itemModelGenerator.writer);
 	}
 	
 	@SilkApi
