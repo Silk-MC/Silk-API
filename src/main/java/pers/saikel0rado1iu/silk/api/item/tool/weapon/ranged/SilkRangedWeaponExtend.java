@@ -26,6 +26,10 @@ import java.util.Map;
 @SilkApi
 public interface SilkRangedWeaponExtend {
 	@SilkApi
+	String PULLING_KEY = "pulling";
+	@SilkApi
+	String PULL_KEY = "pull";
+	@SilkApi
 	String PROJECTILE_ID_KEY = "Projectile";
 	@SilkApi
 	float DEFAULT_FIRING_ERROR = 1;

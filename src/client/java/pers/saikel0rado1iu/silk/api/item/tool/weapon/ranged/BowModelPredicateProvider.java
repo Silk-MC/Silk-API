@@ -27,11 +27,11 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 public interface BowModelPredicateProvider {
 	@SilkApi
 	static void register(Bow bow) {
-		ModelPredicateProviderRegistry.register(bow, new Identifier("pulling"), (stack, world, entity, seed) -> {
+		ModelPredicateProviderRegistry.register(bow, new Identifier(Bow.PULLING_KEY), (stack, world, entity, seed) -> {
 			if (entity == null) return 0;
 			return entity.isUsingItem() && entity.getActiveItem() == stack ? 1 : 0;
 		});
-		ModelPredicateProviderRegistry.register(bow, new Identifier("pull"), (stack, world, entity, seed) -> {
+		ModelPredicateProviderRegistry.register(bow, new Identifier(Bow.PULL_KEY), (stack, world, entity, seed) -> {
 			if (entity == null) return 0;
 			return entity.getActiveItem() != stack ? 0 : BowItem.getPullProgress(stack.getMaxUseTime() - entity.getItemUseTimeLeft());
 		});

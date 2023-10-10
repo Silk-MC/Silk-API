@@ -27,11 +27,11 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 public interface CrossbowModelPredicateProvider {
 	@SilkApi
 	static void register(Crossbow crossbow) {
-		ModelPredicateProviderRegistry.register(crossbow, new Identifier("pulling"), (stack, world, entity, seed) -> {
+		ModelPredicateProviderRegistry.register(crossbow, new Identifier(Crossbow.PULLING_KEY), (stack, world, entity, seed) -> {
 			if (entity == null) return 0;
 			return entity.isUsingItem() && entity.getActiveItem() == stack ? 1 : 0;
 		});
-		ModelPredicateProviderRegistry.register(crossbow, new Identifier("pull"), (stack, world, entity, seed) -> {
+		ModelPredicateProviderRegistry.register(crossbow, new Identifier(Crossbow.PULL_KEY), (stack, world, entity, seed) -> {
 			if (entity == null) return 0;
 			return entity.getActiveItem() != stack ? 0 : ((Crossbow) stack.getItem()).getUsingProgress(stack.getMaxUseTime() - entity.getItemUseTimeLeft(), stack);
 		});
