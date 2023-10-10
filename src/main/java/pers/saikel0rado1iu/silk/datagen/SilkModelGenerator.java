@@ -54,14 +54,14 @@ public interface SilkModelGenerator {
 	}
 	
 	@SilkApi
-	static void createOverlayItemJson(ItemModelGenerator itemModelGenerator, Item item) {
+	static void registerOverlayItemJson(ItemModelGenerator itemModelGenerator, Item item) {
 		Models.GENERATED_TWO_LAYERS.upload(ModelIds.getItemModelId(item),
 				TextureMap.layered(TextureMap.getId(item), TextureMap.getSubId(item, "_overlay")),
 				itemModelGenerator.writer);
 	}
 	
 	@SilkApi
-	static void createBowJson(ItemModelGenerator itemModelGenerator, Bow bow, float[] pullStage) {
+	static void registerBowJson(ItemModelGenerator itemModelGenerator, Bow bow, float[] pullStage) {
 		Models.GENERATED.upload(ModelIds.getItemModelId(bow), TextureMap.layer0(TextureMap.getSubId(bow, "_standby")), itemModelGenerator.writer, (id, textures) -> {
 			JsonObject jsonObject = Models.GENERATED.createJson(id, textures);
 			JsonObject display = new JsonObject();
@@ -96,7 +96,7 @@ public interface SilkModelGenerator {
 	}
 	
 	@SilkApi
-	static void createCrossbowJson(ItemModelGenerator itemModelGenerator, Crossbow crossbow, float[] pullStage) {
+	static void registerCrossbowJson(ItemModelGenerator itemModelGenerator, Crossbow crossbow, float[] pullStage) {
 		Models.GENERATED.upload(ModelIds.getItemModelId(crossbow), TextureMap.layer0(TextureMap.getSubId(crossbow, "_standby")), itemModelGenerator.writer, (id, textures) -> {
 			JsonObject jsonObject = Models.GENERATED.createJson(id, textures);
 			JsonObject display = new JsonObject();
