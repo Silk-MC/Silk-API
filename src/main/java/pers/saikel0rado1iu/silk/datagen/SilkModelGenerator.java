@@ -106,17 +106,16 @@ public interface SilkModelGenerator {
 			display.add(ModelTransformationMode.FIRST_PERSON_LEFT_HAND.asString(), modelTransModeJson(new float[]{-90, 0, 35}, new float[]{1.13F, 3.2F, 1.13F}, new float[]{0.68F, 0.68F, 0.68F}));
 			jsonObject.add("display", display);
 			JsonArray jsonArray = new JsonArray();
+			for (int count = 0; count < pullStage.length; count++) {
+				JsonObject predicate = new JsonObject();
+				JsonObject object = new JsonObject();
+				object.addProperty(Crossbow.PULLING_KEY, 1);
+				object.addProperty(Crossbow.PULL_KEY, pullStage[count]);
+				predicate.add("predicate", object);
+				predicate.addProperty("model", id.withSuffixedPath('_' + Crossbow.PULLING_KEY + '_' + count).toString());
+				jsonArray.add(predicate);
+			}
 			for (float projectile : crossbow.getAllProjectile().keySet()) {
-				for (int count = 0; count < pullStage.length; count++) {
-					JsonObject predicate = new JsonObject();
-					JsonObject object = new JsonObject();
-					object.addProperty(Crossbow.PROJECTILE_ID_KEY.toLowerCase(), projectile);
-					object.addProperty(Crossbow.PULLING_KEY, 1);
-					object.addProperty(Crossbow.PULL_KEY, pullStage[count]);
-					predicate.add("predicate", object);
-					predicate.addProperty("model", id.withSuffixedPath('_' + crossbow.getAllProjectile().get(projectile) + '_' + Crossbow.PULLING_KEY + '_' + count).toString());
-					jsonArray.add(predicate);
-				}
 				JsonObject predicate = new JsonObject();
 				JsonObject object = new JsonObject();
 				object.addProperty(Crossbow.CHARGED_KEY.toLowerCase(), 1);
@@ -128,12 +127,12 @@ public interface SilkModelGenerator {
 			jsonObject.add("overrides", jsonArray);
 			return jsonObject;
 		});
+		for (int count = 0; count < pullStage.length; count++) {
+			String suffix = '_' + Crossbow.PULLING_KEY + '_' + count;
+			new Model(Optional.of(Registries.ITEM.getId(crossbow)), Optional.empty(), TextureKey.LAYER0)
+					.upload(ModelIds.getItemSubModelId(crossbow, suffix), TextureMap.layer0(TextureMap.getSubId(crossbow, suffix)), itemModelGenerator.writer);
+		}
 		for (float projectile : crossbow.getAllProjectile().keySet()) {
-			for (int count = 0; count < pullStage.length; count++) {
-				String suffix = '_' + crossbow.getAllProjectile().get(projectile) + '_' + Crossbow.PULLING_KEY + '_' + count;
-				new Model(Optional.of(Registries.ITEM.getId(crossbow)), Optional.empty(), TextureKey.LAYER0)
-						.upload(ModelIds.getItemSubModelId(crossbow, suffix), TextureMap.layer0(TextureMap.getSubId(crossbow, suffix)), itemModelGenerator.writer);
-			}
 			String suffix = '_' + crossbow.getAllProjectile().get(projectile);
 			new Model(Optional.of(Registries.ITEM.getId(crossbow)), Optional.empty(), TextureKey.LAYER0)
 					.upload(ModelIds.getItemSubModelId(crossbow, suffix), TextureMap.layer0(TextureMap.getSubId(crossbow, suffix)), itemModelGenerator.writer);
