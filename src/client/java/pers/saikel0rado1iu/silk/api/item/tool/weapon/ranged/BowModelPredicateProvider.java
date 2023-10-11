@@ -12,7 +12,6 @@
 package pers.saikel0rado1iu.silk.api.item.tool.weapon.ranged;
 
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
-import net.minecraft.item.BowItem;
 import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
@@ -33,7 +32,7 @@ public interface BowModelPredicateProvider {
 		});
 		ModelPredicateProviderRegistry.register(bow, new Identifier(Bow.PULL_KEY), (stack, world, entity, seed) -> {
 			if (entity == null) return 0;
-			return entity.getActiveItem() != stack ? 0 : BowItem.getPullProgress(stack.getMaxUseTime() - entity.getItemUseTimeLeft());
+			return entity.getActiveItem() != stack ? 0 : ((Bow) stack.getItem()).getUsingProgress(stack.getMaxUseTime() - entity.getItemUseTimeLeft(), stack);
 		});
 		ModelPredicateProviderRegistry.register(bow, new Identifier(Bow.PROJECTILE_ID_KEY.toLowerCase()), (stack, world, entity, seed) -> {
 			if (entity == null) return 0;
