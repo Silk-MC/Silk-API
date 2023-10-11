@@ -69,7 +69,7 @@ public interface SilkCrossbowExtend extends SilkRangedWeaponExtend, HoldingMovem
 	
 	@SilkApi
 	default float getUsingProgress(int useTicks, ItemStack stack) {
-		return Math.min(1, useTicks / getMaxPullTicks(stack));
+		return Math.min(1, useTicks / (float) getMaxPullTicks(stack));
 	}
 	
 	@SilkApi
