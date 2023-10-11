@@ -74,7 +74,7 @@ public interface SilkModelGenerator {
 				for (int count = 0; count < pullStage.length; count++) {
 					JsonObject predicate = new JsonObject();
 					JsonObject object = new JsonObject();
-					object.addProperty(Bow.PROJECTILE_ID_KEY.toLowerCase(), projectile);
+					if (projectile != 0) object.addProperty(Bow.PROJECTILE_ID_KEY.toLowerCase(), projectile);
 					object.addProperty(Bow.PULLING_KEY, 1);
 					object.addProperty(Bow.PULL_KEY, pullStage[count]);
 					predicate.add("predicate", object);
@@ -118,7 +118,7 @@ public interface SilkModelGenerator {
 				JsonObject predicate = new JsonObject();
 				JsonObject object = new JsonObject();
 				object.addProperty(Crossbow.CHARGED_KEY.toLowerCase(), 1);
-				object.addProperty(Crossbow.PROJECTILE_ID_KEY.toLowerCase(), projectile);
+				if (projectile != 0) object.addProperty(Crossbow.PROJECTILE_ID_KEY.toLowerCase(), projectile);
 				predicate.add("predicate", object);
 				predicate.addProperty("model", id.withSuffixedPath('_' + crossbow.getAllProjectile().get(projectile)).toString());
 				jsonArray.add(predicate);
