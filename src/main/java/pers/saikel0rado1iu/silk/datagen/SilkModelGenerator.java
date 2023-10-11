@@ -61,7 +61,7 @@ public interface SilkModelGenerator {
 	
 	@SilkApi
 	static void registerBowJson(ItemModelGenerator itemModelGenerator, Bow bow, float[] pullStage) {
-		Models.GENERATED.upload(ModelIds.getItemModelId(bow), TextureMap.layer0(TextureMap.getId(bow)), itemModelGenerator.writer, (id, textures) -> {
+		Models.GENERATED.upload(ModelIds.getItemModelId(bow), TextureMap.layer0(bow), itemModelGenerator.writer, (id, textures) -> {
 			JsonObject jsonObject = Models.GENERATED.createJson(id, textures);
 			JsonObject display = new JsonObject();
 			display.add(ModelTransformationMode.THIRD_PERSON_RIGHT_HAND.asString(), modelTransModeJson(new float[]{-80, 260, -40}, new float[]{-1, -2, 2.5F}, new float[]{0.9F, 0.9F, 0.9F}));
