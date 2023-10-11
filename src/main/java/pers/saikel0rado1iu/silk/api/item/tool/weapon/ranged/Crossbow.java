@@ -311,7 +311,7 @@ public abstract class Crossbow extends CrossbowItem implements SilkCrossbowExten
 			// 获取声音类别
 			SoundCategory soundCategory = user instanceof PlayerEntity ? SoundCategory.PLAYERS : SoundCategory.HOSTILE;
 			// 播放弩装填结束音效
-			world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ITEM_CROSSBOW_LOADING_END, soundCategory, 1.0f, 1.0f / (world.getRandom().nextFloat() * 0.5f + 1.0f) + 0.2f);
+			world.playSound(null, user.getX(), user.getY(), user.getZ(), getLoadingEndSound(), soundCategory, 1.0f, 1.0f / (world.getRandom().nextFloat() * 0.5f + 1.0f) + 0.2f);
 		}
 	}
 	
@@ -354,7 +354,7 @@ public abstract class Crossbow extends CrossbowItem implements SilkCrossbowExten
 			// 设置“快速装填”音效
 			int quickChargeLevel = EnchantmentHelper.getLevel(Enchantments.QUICK_CHARGE, stack);
 			SoundEvent soundEvent = getQuickChargeSound(quickChargeLevel);
-			SoundEvent soundEvent2 = quickChargeLevel == 0 ? SoundEvents.ITEM_CROSSBOW_LOADING_MIDDLE : null;
+			SoundEvent soundEvent2 = quickChargeLevel == 0 ? getLoadingSound() : null;
 			// 获取张弩进度
 			float pullProgress = (float) (stack.getMaxUseTime() - remainingUseTicks) / getMaxPullTicks(stack);
 			if (pullProgress < 0.2F) {
@@ -382,6 +382,20 @@ public abstract class Crossbow extends CrossbowItem implements SilkCrossbowExten
 			case 3 -> SoundEvents.ITEM_CROSSBOW_QUICK_CHARGE_3;
 			default -> SoundEvents.ITEM_CROSSBOW_LOADING_START;
 		};
+	}
+	
+	/**
+	 * 获取装填中音效
+	 */
+	protected SoundEvent getLoadingSound() {
+		return SoundEvents.ITEM_CROSSBOW_LOADING_MIDDLE;
+	}
+	
+	/**
+	 * 获取装填结束音效
+	 */
+	protected SoundEvent getLoadingEndSound() {
+		return SoundEvents.ITEM_CROSSBOW_LOADING_END;
 	}
 	
 	/**
