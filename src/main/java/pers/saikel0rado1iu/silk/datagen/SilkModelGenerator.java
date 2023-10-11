@@ -16,7 +16,6 @@ import com.google.gson.JsonObject;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.data.client.*;
 import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.item.tool.weapon.ranged.Bow;
 import pers.saikel0rado1iu.silk.api.item.tool.weapon.ranged.Crossbow;
@@ -89,7 +88,7 @@ public interface SilkModelGenerator {
 		for (float pull : bow.getAllProjectile().keySet()) {
 			for (int count = 0; count < pullStage.length; count++) {
 				String suffix = '_' + bow.getAllProjectile().get(pull) + '_' + Bow.PULLING_KEY + '_' + count;
-				new Model(Optional.of(Registries.ITEM.getId(bow)), Optional.empty(), TextureKey.LAYER0)
+				new Model(Optional.of(ModelIds.getItemModelId(bow)), Optional.empty(), TextureKey.LAYER0)
 						.upload(ModelIds.getItemSubModelId(bow, suffix), TextureMap.layer0(TextureMap.getSubId(bow, suffix)), itemModelGenerator.writer);
 			}
 		}
@@ -129,12 +128,12 @@ public interface SilkModelGenerator {
 		});
 		for (int count = 0; count < pullStage.length; count++) {
 			String suffix = '_' + Crossbow.PULLING_KEY + '_' + count;
-			new Model(Optional.of(Registries.ITEM.getId(crossbow)), Optional.empty(), TextureKey.LAYER0)
+			new Model(Optional.of(ModelIds.getItemModelId(crossbow)), Optional.empty(), TextureKey.LAYER0)
 					.upload(ModelIds.getItemSubModelId(crossbow, suffix), TextureMap.layer0(TextureMap.getSubId(crossbow, suffix)), itemModelGenerator.writer);
 		}
 		for (float projectile : crossbow.getAllProjectile().keySet()) {
 			String suffix = '_' + crossbow.getAllProjectile().get(projectile);
-			new Model(Optional.of(Registries.ITEM.getId(crossbow)), Optional.empty(), TextureKey.LAYER0)
+			new Model(Optional.of(ModelIds.getItemModelId(crossbow)), Optional.empty(), TextureKey.LAYER0)
 					.upload(ModelIds.getItemSubModelId(crossbow, suffix), TextureMap.layer0(TextureMap.getSubId(crossbow, suffix)), itemModelGenerator.writer);
 		}
 	}
