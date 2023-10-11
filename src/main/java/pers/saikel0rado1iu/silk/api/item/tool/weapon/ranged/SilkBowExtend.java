@@ -67,8 +67,7 @@ public interface SilkBowExtend extends SilkRangedWeaponExtend, UsingMovementMult
 	
 	@Override
 	default float getUsingProgress(int useTicks, ItemStack stack) {
-		float progress = (float) useTicks / getMaxPullTicks();
-		return Math.min(1, (progress * (progress + 2)) / 3);
+		return useTicks > getMaxPullTicks() ? 1 : (float) useTicks / getMaxPullTicks();
 	}
 	
 	@Override
