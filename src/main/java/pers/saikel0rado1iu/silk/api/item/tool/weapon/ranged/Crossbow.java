@@ -266,7 +266,7 @@ public abstract class Crossbow extends CrossbowItem implements SilkCrossbowExten
 		// 生成弹药
 		world.spawnEntity(projectileEntity);
 		// 播放音效
-		world.playSound(null, shooter.getX(), shooter.getY(), shooter.getZ(), SoundEvents.ITEM_CROSSBOW_SHOOT, SoundCategory.PLAYERS, 1.0f, soundPitch);
+		world.playSound(null, shooter.getX(), shooter.getY(), shooter.getZ(), getShootSound(), SoundCategory.PLAYERS, 1.0f, soundPitch);
 	}
 	
 	/**
@@ -396,6 +396,13 @@ public abstract class Crossbow extends CrossbowItem implements SilkCrossbowExten
 	 */
 	protected SoundEvent getLoadingEndSound() {
 		return SoundEvents.ITEM_CROSSBOW_LOADING_END;
+	}
+	
+	/**
+	 * 获取弩发射音效
+	 */
+	protected SoundEvent getShootSound() {
+		return SoundEvents.ITEM_CROSSBOW_SHOOT;
 	}
 	
 	/**
