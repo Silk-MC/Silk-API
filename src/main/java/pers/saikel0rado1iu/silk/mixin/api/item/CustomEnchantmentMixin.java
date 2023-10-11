@@ -20,12 +20,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
-import net.minecraft.util.math.random.Random;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.api.item.CustomEnchantment;
 
 import java.util.ArrayList;
@@ -51,9 +49,8 @@ interface CustomEnchantmentMixin {
 		@Inject(method = "isAcceptableItem", at = @At("RETURN"), cancellable = true)
 		private void acceptEnchantment(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
 			if (stack.getItem() instanceof CustomEnchantment item && item.getEnchantments().stream()
-					.anyMatch(enchantment -> enchantment.equals(this))) {
-				cir.setReturnValue(true);
-			}
+					.anyMatch(enchantment -> enchantment.equals(this))) cir.setReturnValue(true);
+			else cir.setReturnValue(false);
 		}
 	}
 	
@@ -71,9 +68,7 @@ interface CustomEnchantmentMixin {
 			nextEnchantment:
 			for (Enchantment enchantment : Registries.ENCHANTMENT) {
 				if (enchantment.isTreasure() && !treasureAllowed || !enchantment.isAvailableForRandomSelection()
-						|| !enchantment.isAcceptableItem(stack) && !stack.isOf(Items.BOOK)) {
-					continue;
-				}
+						|| !enchantment.isAcceptableItem(stack) && !stack.isOf(Items.BOOK)) continue;
 				for (int level = enchantment.getMaxLevel(); level > enchantment.getMinLevel() - 1; level--) {
 					if (power < enchantment.getMinPower(level) || power > enchantment.getMaxPower(level)) continue;
 					enchantments.add(new EnchantmentLevelEntry(enchantment, level));
@@ -81,11 +76,6 @@ interface CustomEnchantmentMixin {
 				}
 			}
 			cir.setReturnValue(enchantments);
-		}
-		
-		@Inject(method = "enchant", at = @At("HEAD"))
-		private static void test(Random random, ItemStack stack, int level, boolean treasureAllowed, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir) {
-			Silk.DATA.logger().info(stack.getItem().toString());
 		}
 	}
 }
