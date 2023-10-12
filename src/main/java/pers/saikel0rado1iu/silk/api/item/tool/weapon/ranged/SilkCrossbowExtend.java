@@ -106,7 +106,7 @@ public interface SilkCrossbowExtend extends SilkRangedWeaponExtend, HoldingMovem
 	
 	@Override
 	default boolean onlyFirstPerson() {
-		return true;
+		return false;
 	}
 }
 
