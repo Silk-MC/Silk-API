@@ -88,6 +88,6 @@ public interface SilkBowExtend extends SilkRangedWeaponExtend, UsingMovementMult
 	
 	@Override
 	default boolean onlyFirstPerson() {
-		return true;
+		return false;
 	}
 }
