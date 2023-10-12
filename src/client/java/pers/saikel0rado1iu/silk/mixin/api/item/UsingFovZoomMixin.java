@@ -168,15 +168,8 @@ interface UsingFovZoomMixin {
 			ItemStack activeStack = player.getActiveItem();
 			Item activeItem = activeStack.getItem();
 			if (client.options.getPerspective().isFirstPerson() && activeItem instanceof UsingFovZoom fovZoom && fovZoom.getHubOverlay().isPresent()) {
-				if (fovZoom.onlyFirstPerson()) {
-					if (client.options.getPerspective().isFirstPerson()) {
-						if (fovZoom.isHubStretch()) renderOverlay(context, fovZoom.getHubOverlay().get(), 1.0f);
-						else renderHudOverlay(context, fovZoom.getHubOverlay().get());
-					}
-				} else {
-					if (fovZoom.isHubStretch()) renderOverlay(context, fovZoom.getHubOverlay().get(), 1.0f);
-					else renderHudOverlay(context, fovZoom.getHubOverlay().get());
-				}
+				if (fovZoom.isHubStretch()) renderOverlay(context, fovZoom.getHubOverlay().get(), 1.0f);
+				else renderHudOverlay(context, fovZoom.getHubOverlay().get());
 			}
 		}
 	}

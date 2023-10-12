@@ -208,24 +208,14 @@ interface HoldingFovZoomMixin {
 			Item offHandItem = player.getOffHandStack().getItem();
 			if (mainHandItem instanceof HoldingFovZoom fovZoom && fovZoom.getHubOverlay().isPresent()) {
 				if (!fovZoom.canChangeFov(player.getMainHandStack())) return;
-				if (fovZoom.onlyFirstPerson()) {
-					if (client.options.getPerspective().isFirstPerson()) {
-						if (fovZoom.isHubStretch()) renderOverlay(context, fovZoom.getHubOverlay().get(), 1.0f);
-						else renderHudOverlay(context, fovZoom.getHubOverlay().get());
-					}
-				} else {
+				if (client.options.getPerspective().isFirstPerson()) {
 					if (fovZoom.isHubStretch()) renderOverlay(context, fovZoom.getHubOverlay().get(), 1.0f);
 					else renderHudOverlay(context, fovZoom.getHubOverlay().get());
 				}
 			}
 			if (offHandItem instanceof HoldingFovZoom fovZoom && fovZoom.getHubOverlay().isPresent()) {
 				if (!fovZoom.canChangeFov(player.getOffHandStack())) return;
-				if (fovZoom.onlyFirstPerson()) {
-					if (client.options.getPerspective().isFirstPerson()) {
-						if (fovZoom.isHubStretch()) renderOverlay(context, fovZoom.getHubOverlay().get(), 1.0f);
-						else renderHudOverlay(context, fovZoom.getHubOverlay().get());
-					}
-				} else {
+				if (client.options.getPerspective().isFirstPerson()) {
 					if (fovZoom.isHubStretch()) renderOverlay(context, fovZoom.getHubOverlay().get(), 1.0f);
 					else renderHudOverlay(context, fovZoom.getHubOverlay().get());
 				}
