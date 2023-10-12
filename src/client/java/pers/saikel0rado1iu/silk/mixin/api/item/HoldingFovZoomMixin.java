@@ -59,14 +59,24 @@ interface HoldingFovZoomMixin {
 			Item offHandItem = player.getOffHandStack().getItem();
 			if (mainHandItem instanceof HoldingFovZoom fovZoom) {
 				if (!fovZoom.canChangeFov(player.getMainHandStack())) return;
-				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+				if (fovZoom.onlyFirstPerson()) {
+					if (client.options.getPerspective().isFirstPerson()) {
+						float fovChangeAmount = 1 - fovZoom.getHoldingFovMultiple();
+						fovMultiplier -= fovChangeAmount;
+					}
+				} else {
 					float fovChangeAmount = 1 - fovZoom.getHoldingFovMultiple();
 					fovMultiplier -= fovChangeAmount;
 				}
 			}
 			if (offHandItem instanceof HoldingFovZoom fovZoom && !fovZoom.isConflictItems(mainHandItem)) {
 				if (!fovZoom.canChangeFov(player.getOffHandStack())) return;
-				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+				if (fovZoom.onlyFirstPerson()) {
+					if (client.options.getPerspective().isFirstPerson()) {
+						float fovChangeAmount = 1 - fovZoom.getHoldingFovMultiple();
+						fovMultiplier -= fovChangeAmount;
+					}
+				} else {
 					float fovChangeAmount = 1 - fovZoom.getHoldingFovMultiple();
 					fovMultiplier -= fovChangeAmount;
 				}
@@ -91,7 +101,13 @@ interface HoldingFovZoomMixin {
 			Item offHandItem = player.getOffHandStack().getItem();
 			if (mainHandItem instanceof HoldingFovZoom fovZoom) {
 				if (!fovZoom.canChangeFov(player.getMainHandStack())) return;
-				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+				if (fovZoom.onlyFirstPerson()) {
+					if (client.options.getPerspective().isFirstPerson()) {
+						float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
+						args.set(0, (double) args.get(0) * moveMultiple);
+						args.set(1, (double) args.get(1) * moveMultiple);
+					}
+				} else {
 					float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
 					args.set(0, (double) args.get(0) * moveMultiple);
 					args.set(1, (double) args.get(1) * moveMultiple);
@@ -99,7 +115,13 @@ interface HoldingFovZoomMixin {
 			}
 			if (offHandItem instanceof HoldingFovZoom fovZoom && !fovZoom.isConflictItems(mainHandItem)) {
 				if (!fovZoom.canChangeFov(player.getOffHandStack())) return;
-				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+				if (fovZoom.onlyFirstPerson()) {
+					if (client.options.getPerspective().isFirstPerson()) {
+						float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
+						args.set(0, (double) args.get(0) * moveMultiple);
+						args.set(1, (double) args.get(1) * moveMultiple);
+					}
+				} else {
 					float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
 					args.set(0, (double) args.get(0) * moveMultiple);
 					args.set(1, (double) args.get(1) * moveMultiple);
@@ -115,7 +137,13 @@ interface HoldingFovZoomMixin {
 			Item offHandItem = player.getOffHandStack().getItem();
 			if (mainHandItem instanceof HoldingFovZoom fovZoom) {
 				if (!fovZoom.canChangeFov(player.getMainHandStack())) return;
-				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+				if (fovZoom.onlyFirstPerson()) {
+					if (client.options.getPerspective().isFirstPerson()) {
+						float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
+						args.set(0, (double) args.get(0) * moveMultiple);
+						args.set(1, (double) args.get(1) * moveMultiple);
+					}
+				} else {
 					float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
 					args.set(0, (double) args.get(0) * moveMultiple);
 					args.set(1, (double) args.get(1) * moveMultiple);
@@ -123,7 +151,13 @@ interface HoldingFovZoomMixin {
 			}
 			if (offHandItem instanceof HoldingFovZoom fovZoom && !fovZoom.isConflictItems(mainHandItem)) {
 				if (!fovZoom.canChangeFov(player.getOffHandStack())) return;
-				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+				if (fovZoom.onlyFirstPerson()) {
+					if (client.options.getPerspective().isFirstPerson()) {
+						float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
+						args.set(0, (double) args.get(0) * moveMultiple);
+						args.set(1, (double) args.get(1) * moveMultiple);
+					}
+				} else {
 					float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
 					args.set(0, (double) args.get(0) * moveMultiple);
 					args.set(1, (double) args.get(1) * moveMultiple);
@@ -174,16 +208,27 @@ interface HoldingFovZoomMixin {
 			Item offHandItem = player.getOffHandStack().getItem();
 			if (mainHandItem instanceof HoldingFovZoom fovZoom && fovZoom.getHubOverlay().isPresent()) {
 				if (!fovZoom.canChangeFov(player.getMainHandStack())) return;
-				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+				if (fovZoom.onlyFirstPerson()) {
+					if (client.options.getPerspective().isFirstPerson()) {
+						if (fovZoom.isHubStretch()) renderOverlay(context, fovZoom.getHubOverlay().get(), 1.0f);
+						else renderHudOverlay(context, fovZoom.getHubOverlay().get());
+					}
+				} else {
 					if (fovZoom.isHubStretch()) renderOverlay(context, fovZoom.getHubOverlay().get(), 1.0f);
 					else renderHudOverlay(context, fovZoom.getHubOverlay().get());
 				}
 			}
 			if (offHandItem instanceof HoldingFovZoom fovZoom && fovZoom.getHubOverlay().isPresent()) {
 				if (!fovZoom.canChangeFov(player.getOffHandStack())) return;
-				if (!fovZoom.onlyFirstPerson() || !client.options.getPerspective().isFirstPerson()) return;
-				if (fovZoom.isHubStretch()) renderOverlay(context, fovZoom.getHubOverlay().get(), 1.0f);
-				else renderHudOverlay(context, fovZoom.getHubOverlay().get());
+				if (fovZoom.onlyFirstPerson()) {
+					if (client.options.getPerspective().isFirstPerson()) {
+						if (fovZoom.isHubStretch()) renderOverlay(context, fovZoom.getHubOverlay().get(), 1.0f);
+						else renderHudOverlay(context, fovZoom.getHubOverlay().get());
+					}
+				} else {
+					if (fovZoom.isHubStretch()) renderOverlay(context, fovZoom.getHubOverlay().get(), 1.0f);
+					else renderHudOverlay(context, fovZoom.getHubOverlay().get());
+				}
 			}
 		}
 	}

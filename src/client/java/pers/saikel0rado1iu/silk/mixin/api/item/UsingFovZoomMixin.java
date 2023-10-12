@@ -58,7 +58,14 @@ interface UsingFovZoomMixin {
 			if (player == null) return;
 			ItemStack activeStack = player.getActiveItem();
 			Item activeItem = activeStack.getItem();
-			if (activeItem instanceof UsingFovZoom fovZoom && fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+			if (!(activeItem instanceof UsingFovZoom fovZoom)) return;
+			if (fovZoom.onlyFirstPerson()) {
+				if (client.options.getPerspective().isFirstPerson()) {
+					float pullProgress = fovZoom.getUsingProgress(activeItem.getMaxUseTime(activeStack) - player.getItemUseTimeLeft(), activeStack);
+					float fovChangeAmount = (1 - fovZoom.getUsingFovMultiple()) * pullProgress;
+					fovMultiplier -= fovChangeAmount;
+				}
+			} else {
 				float pullProgress = fovZoom.getUsingProgress(activeItem.getMaxUseTime(activeStack) - player.getItemUseTimeLeft(), activeStack);
 				float fovChangeAmount = (1 - fovZoom.getUsingFovMultiple()) * pullProgress;
 				fovMultiplier -= fovChangeAmount;
@@ -81,7 +88,15 @@ interface UsingFovZoomMixin {
 			if (player == null) return;
 			ItemStack activeStack = player.getActiveItem();
 			Item activeItem = activeStack.getItem();
-			if (activeItem instanceof UsingFovZoom fovZoom && fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+			if (!(activeItem instanceof UsingFovZoom fovZoom)) return;
+			if (fovZoom.onlyFirstPerson()) {
+				if (client.options.getPerspective().isFirstPerson()) {
+					float pullProgress = fovZoom.getUsingProgress(activeStack.getMaxUseTime() - player.getItemUseTimeLeft(), activeStack);
+					float moveMultiple = 1 - (1 - fovZoom.getUsingFovMultiple()) * pullProgress;
+					args.set(0, (double) args.get(0) * moveMultiple);
+					args.set(1, (double) args.get(1) * moveMultiple);
+				}
+			} else {
 				float pullProgress = fovZoom.getUsingProgress(activeStack.getMaxUseTime() - player.getItemUseTimeLeft(), activeStack);
 				float moveMultiple = 1 - (1 - fovZoom.getUsingFovMultiple()) * pullProgress;
 				args.set(0, (double) args.get(0) * moveMultiple);
@@ -95,7 +110,15 @@ interface UsingFovZoomMixin {
 			if (player == null) return;
 			ItemStack activeStack = player.getActiveItem();
 			Item activeItem = activeStack.getItem();
-			if (activeItem instanceof UsingFovZoom fovZoom && fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+			if (!(activeItem instanceof UsingFovZoom fovZoom)) return;
+			if (fovZoom.onlyFirstPerson()) {
+				if (client.options.getPerspective().isFirstPerson()) {
+					float pullProgress = fovZoom.getUsingProgress(activeStack.getMaxUseTime() - player.getItemUseTimeLeft(), activeStack);
+					float moveMultiple = 1 - (1 - fovZoom.getUsingFovMultiple()) * pullProgress;
+					args.set(0, (double) args.get(0) * moveMultiple);
+					args.set(1, (double) args.get(1) * moveMultiple);
+				}
+			} else {
 				float pullProgress = fovZoom.getUsingProgress(activeStack.getMaxUseTime() - player.getItemUseTimeLeft(), activeStack);
 				float moveMultiple = 1 - (1 - fovZoom.getUsingFovMultiple()) * pullProgress;
 				args.set(0, (double) args.get(0) * moveMultiple);
@@ -145,9 +168,15 @@ interface UsingFovZoomMixin {
 			ItemStack activeStack = player.getActiveItem();
 			Item activeItem = activeStack.getItem();
 			if (client.options.getPerspective().isFirstPerson() && activeItem instanceof UsingFovZoom fovZoom && fovZoom.getHubOverlay().isPresent()) {
-				if (!fovZoom.onlyFirstPerson() || !client.options.getPerspective().isFirstPerson()) return;
-				if (fovZoom.isHubStretch()) renderOverlay(context, fovZoom.getHubOverlay().get(), 1.0f);
-				else renderHudOverlay(context, fovZoom.getHubOverlay().get());
+				if (fovZoom.onlyFirstPerson()) {
+					if (client.options.getPerspective().isFirstPerson()) {
+						if (fovZoom.isHubStretch()) renderOverlay(context, fovZoom.getHubOverlay().get(), 1.0f);
+						else renderHudOverlay(context, fovZoom.getHubOverlay().get());
+					}
+				} else {
+					if (fovZoom.isHubStretch()) renderOverlay(context, fovZoom.getHubOverlay().get(), 1.0f);
+					else renderHudOverlay(context, fovZoom.getHubOverlay().get());
+				}
 			}
 		}
 	}
