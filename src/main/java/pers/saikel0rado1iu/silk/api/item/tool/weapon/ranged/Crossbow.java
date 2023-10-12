@@ -362,7 +362,7 @@ public abstract class Crossbow extends CrossbowItem implements SilkCrossbowExten
 				loaded = false;
 			} else if (pullProgress >= 0.2F && !charged) {
 				charged = true;
-				world.playSound(null, user.getX(), user.getY(), user.getZ(), soundEvent, SoundCategory.PLAYERS, 0.5f, 1.0f);
+				if (soundEvent != null) world.playSound(null, user.getX(), user.getY(), user.getZ(), soundEvent, SoundCategory.PLAYERS, 0.5f, 1.0f);
 			} else if (pullProgress >= 0.5F && soundEvent2 != null && !loaded) {
 				loaded = true;
 				world.playSound(null, user.getX(), user.getY(), user.getZ(), soundEvent2, SoundCategory.PLAYERS, 0.5f, 1.0f);
