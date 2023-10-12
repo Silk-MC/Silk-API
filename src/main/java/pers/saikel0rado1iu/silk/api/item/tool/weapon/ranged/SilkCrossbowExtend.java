@@ -91,7 +91,7 @@ public interface SilkCrossbowExtend extends SilkRangedWeaponExtend, HoldingMovem
 	
 	@Override
 	default float getHoldingMovementMultiple() {
-		return DEFAULT_MOVEMENT_MULTIPLE;
+		return 1;
 	}
 	
 	@Override
