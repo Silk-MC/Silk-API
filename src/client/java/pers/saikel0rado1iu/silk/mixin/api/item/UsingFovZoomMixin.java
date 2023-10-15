@@ -92,13 +92,13 @@ interface UsingFovZoomMixin {
 			if (fovZoom.onlyFirstPerson()) {
 				if (client.options.getPerspective().isFirstPerson()) {
 					float pullProgress = fovZoom.getUsingProgress(activeStack.getMaxUseTime() - player.getItemUseTimeLeft(), activeStack);
-					float moveMultiple = (float) (Math.pow(fovZoom.getUsingFovMultiple() * pullProgress, 3));
+					float moveMultiple = (float) (Math.pow(1 - (1 - fovZoom.getUsingFovMultiple()) * pullProgress, 3));
 					args.set(0, (double) args.get(0) * moveMultiple);
 					args.set(1, (double) args.get(1) * moveMultiple);
 				}
 			} else {
 				float pullProgress = fovZoom.getUsingProgress(activeStack.getMaxUseTime() - player.getItemUseTimeLeft(), activeStack);
-				float moveMultiple = (float) (Math.pow(fovZoom.getUsingFovMultiple() * pullProgress, 3));
+				float moveMultiple = (float) (Math.pow(1 - (1 - fovZoom.getUsingFovMultiple()) * pullProgress, 3));
 				args.set(0, (double) args.get(0) * moveMultiple);
 				args.set(1, (double) args.get(1) * moveMultiple);
 			}
@@ -114,13 +114,13 @@ interface UsingFovZoomMixin {
 			if (fovZoom.onlyFirstPerson()) {
 				if (client.options.getPerspective().isFirstPerson()) {
 					float pullProgress = fovZoom.getUsingProgress(activeStack.getMaxUseTime() - player.getItemUseTimeLeft(), activeStack);
-					float moveMultiple = (float) (Math.pow(fovZoom.getUsingFovMultiple() * pullProgress, 3));
+					float moveMultiple = (float) (Math.pow(1 - (1 - fovZoom.getUsingFovMultiple()) * pullProgress, 3));
 					args.set(0, (double) args.get(0) * moveMultiple);
 					args.set(1, (double) args.get(1) * moveMultiple);
 				}
 			} else {
 				float pullProgress = fovZoom.getUsingProgress(activeStack.getMaxUseTime() - player.getItemUseTimeLeft(), activeStack);
-				float moveMultiple = (float) (Math.pow(fovZoom.getUsingFovMultiple() * pullProgress, 3));
+				float moveMultiple = (float) (Math.pow(1 - (1 - fovZoom.getUsingFovMultiple()) * pullProgress, 3));
 				args.set(0, (double) args.get(0) * moveMultiple);
 				args.set(1, (double) args.get(1) * moveMultiple);
 			}
