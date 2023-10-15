@@ -103,28 +103,24 @@ interface HoldingFovZoomMixin {
 				if (!fovZoom.canChangeFov(player.getMainHandStack())) return;
 				if (fovZoom.onlyFirstPerson()) {
 					if (client.options.getPerspective().isFirstPerson()) {
-						float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
-						args.set(0, (double) args.get(0) * moveMultiple);
-						args.set(1, (double) args.get(1) * moveMultiple);
+						args.set(0, (double) args.get(0) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
+						args.set(1, (double) args.get(1) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
 					}
 				} else {
-					float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
-					args.set(0, (double) args.get(0) * moveMultiple);
-					args.set(1, (double) args.get(1) * moveMultiple);
+					args.set(0, (double) args.get(0) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
+					args.set(1, (double) args.get(1) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
 				}
 			}
 			if (offHandItem instanceof HoldingFovZoom fovZoom && !fovZoom.isConflictItems(mainHandItem)) {
 				if (!fovZoom.canChangeFov(player.getOffHandStack())) return;
 				if (fovZoom.onlyFirstPerson()) {
 					if (client.options.getPerspective().isFirstPerson()) {
-						float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
-						args.set(0, (double) args.get(0) * moveMultiple);
-						args.set(1, (double) args.get(1) * moveMultiple);
+						args.set(0, (double) args.get(0) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
+						args.set(1, (double) args.get(1) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
 					}
 				} else {
-					float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
-					args.set(0, (double) args.get(0) * moveMultiple);
-					args.set(1, (double) args.get(1) * moveMultiple);
+					args.set(0, (double) args.get(0) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
+					args.set(1, (double) args.get(1) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
 				}
 			}
 		}
@@ -139,28 +135,24 @@ interface HoldingFovZoomMixin {
 				if (!fovZoom.canChangeFov(player.getMainHandStack())) return;
 				if (fovZoom.onlyFirstPerson()) {
 					if (client.options.getPerspective().isFirstPerson()) {
-						float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
-						args.set(0, (double) args.get(0) * moveMultiple);
-						args.set(1, (double) args.get(1) * moveMultiple);
+						args.set(0, (double) args.get(0) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
+						args.set(1, (double) args.get(1) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
 					}
 				} else {
-					float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
-					args.set(0, (double) args.get(0) * moveMultiple);
-					args.set(1, (double) args.get(1) * moveMultiple);
+					args.set(0, (double) args.get(0) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
+					args.set(1, (double) args.get(1) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
 				}
 			}
 			if (offHandItem instanceof HoldingFovZoom fovZoom && !fovZoom.isConflictItems(mainHandItem)) {
 				if (!fovZoom.canChangeFov(player.getOffHandStack())) return;
 				if (fovZoom.onlyFirstPerson()) {
 					if (client.options.getPerspective().isFirstPerson()) {
-						float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
-						args.set(0, (double) args.get(0) * moveMultiple);
-						args.set(1, (double) args.get(1) * moveMultiple);
+						args.set(0, (double) args.get(0) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
+						args.set(1, (double) args.get(1) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
 					}
 				} else {
-					float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
-					args.set(0, (double) args.get(0) * moveMultiple);
-					args.set(1, (double) args.get(1) * moveMultiple);
+					args.set(0, (double) args.get(0) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
+					args.set(1, (double) args.get(1) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
 				}
 			}
 		}
