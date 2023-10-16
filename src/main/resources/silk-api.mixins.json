@@ -6,6 +6,7 @@
 		"api.block.SilkBlockTagsMixin$CanTillBlockMixin",
 		"api.block.SilkBlockTagsMixin$DirtMixin",
 		"api.block.SilkBlockTagsMixin$DirtVarietyMixin",
+		"api.entity.projectile.FixedDamageMixin",
 		"api.item.CustomEnchantmentMixin$SetAcceptEnchantment",
 		"api.item.CustomEnchantmentMixin$SetTableEnchantment",
 		"api.item.PiglinIgnoreMixin",
