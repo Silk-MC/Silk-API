@@ -30,7 +30,7 @@ public interface SilkRangedWeaponExtend {
 	@SilkApi
 	String PULL_KEY = "pull";
 	@SilkApi
-	String PROJECTILE_ID_KEY = "Projectile";
+	String PROJECTILE_ID_KEY = "FixedDamage";
 	@SilkApi
 	float DEFAULT_FIRING_ERROR = 1;
 	
