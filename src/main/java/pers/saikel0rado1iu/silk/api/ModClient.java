@@ -19,6 +19,7 @@ import pers.saikel0rado1iu.silk.api.pack.ResourcesPack;
 import pers.saikel0rado1iu.silk.api.registry.SilkBlock;
 import pers.saikel0rado1iu.silk.api.registry.SilkEntity;
 import pers.saikel0rado1iu.silk.api.registry.SilkItem;
+import pers.saikel0rado1iu.silk.api.registry.SilkParticle;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用作模组客户端主类，继承自 {@link ClientModInitializer}。所有模组注册或操作由此开始</font></b></p>
@@ -47,6 +48,7 @@ public abstract class ModClient implements ClientModInitializer {
 		items();
 		blocks();
 		entities();
+		particles();
 		if (modResourcesPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null)
 			modResourcesPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}
@@ -82,6 +84,15 @@ public abstract class ModClient implements ClientModInitializer {
 	@SilkApi
 	@ApiStatus.OverrideOnly
 	public SilkEntity entities() {
+		return null;
+	}
+	
+	/**
+	 * 提供来自模组的粒子集以供注册
+	 */
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public SilkParticle particles() {
 		return null;
 	}
 	

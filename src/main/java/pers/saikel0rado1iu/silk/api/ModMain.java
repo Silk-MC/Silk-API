@@ -16,10 +16,7 @@ import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.pack.DataPack;
-import pers.saikel0rado1iu.silk.api.registry.SilkBlock;
-import pers.saikel0rado1iu.silk.api.registry.SilkEntity;
-import pers.saikel0rado1iu.silk.api.registry.SilkItem;
-import pers.saikel0rado1iu.silk.api.registry.SilkSoundEvent;
+import pers.saikel0rado1iu.silk.api.registry.*;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用作模组主类，继承自 {@link ModInitializer}。所有模组注册或操作由此开始</font></b></p>
@@ -53,6 +50,7 @@ public abstract class ModMain implements ModInitializer {
 		items();
 		blocks();
 		entities();
+		particles();
 		soundEvents();
 		if (modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null) modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}
@@ -88,6 +86,15 @@ public abstract class ModMain implements ModInitializer {
 	@SilkApi
 	@ApiStatus.OverrideOnly
 	public SilkEntity entities() {
+		return null;
+	}
+	
+	/**
+	 * 提供来自模组的粒子集以供注册
+	 */
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public SilkParticle particles() {
 		return null;
 	}
 	
