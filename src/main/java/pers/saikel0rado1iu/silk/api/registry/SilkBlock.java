@@ -20,7 +20,6 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
-import pers.saikel0rado1iu.silk.api.ModClient;
 import pers.saikel0rado1iu.silk.api.ModMain;
 
 import java.util.Set;
@@ -43,7 +42,7 @@ public abstract class SilkBlock {
 	}
 	
 	/**
-	 * 你需要在 client 模块中重新创建继承 {@link SilkBlock} 类来创建一个专用于客户端的注册类并覆盖 {@link ModClient#blocks()}方法
+	 * 你需要在 client 模块中重新创建继承 {@link SilkBlock} 类来创建一个专用于客户端的注册类并覆盖 ModClient.blocks()方法
 	 */
 	@SilkApi
 	@Environment(EnvType.CLIENT)
