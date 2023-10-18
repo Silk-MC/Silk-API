@@ -16,9 +16,11 @@ import com.google.gson.JsonObject;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.data.client.*;
 import net.minecraft.item.Item;
+import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.item.tool.weapon.ranged.Bow;
 import pers.saikel0rado1iu.silk.api.item.tool.weapon.ranged.Crossbow;
+import pers.saikel0rado1iu.silk.util.Minecraft;
 
 import java.util.Optional;
 
@@ -31,6 +33,9 @@ import java.util.Optional;
  */
 @SilkApi
 public interface SilkModelGenerator {
+	@SilkApi
+	Model TEMPLATE_SPAWN_EGG = new Model(Optional.of(new Identifier(Minecraft.DATA.getId(), "item/template_spawn_egg")), Optional.empty());
+	
 	@SilkApi
 	static JsonObject modelTransModeJson(float[] rotation, float[] translation, float[] scale) {
 		JsonObject jsonObject = new JsonObject();
