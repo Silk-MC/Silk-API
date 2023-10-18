@@ -13,6 +13,8 @@ package pers.saikel0rado1iu.silk.datagen;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.loot.LootTable;
+import net.minecraft.predicate.entity.EntityFlagsPredicate;
+import net.minecraft.predicate.entity.EntityPredicate;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
@@ -28,6 +30,9 @@ import java.util.function.BiConsumer;
  */
 @SilkApi
 public interface SilkLootTableGenerator {
+	@SilkApi
+	EntityPredicate.Builder NEEDS_ENTITY_ON_FIRE = EntityPredicate.Builder.create().flags(EntityFlagsPredicate.Builder.create().onFire(true).build());
+	
 	@SilkApi
 	static void addEntityDrop(BiConsumer<Identifier, LootTable.Builder> exporter, EntityType<?> entity, LootTable.Builder builder) {
 		exporter.accept(new Identifier(Registries.ENTITY_TYPE.getId(entity).getNamespace(), "entities/" + Registries.ENTITY_TYPE.getId(entity).getPath()), builder);
