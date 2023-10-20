@@ -49,9 +49,9 @@ public abstract class ModMain implements ModInitializer {
 		main(mod);
 		items();
 		blocks();
+		sounds();
 		entities();
 		particles();
-		soundEvents();
 		if (modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null) modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}
 	
@@ -81,6 +81,15 @@ public abstract class ModMain implements ModInitializer {
 	}
 	
 	/**
+	 * 提供来自模组的声音事件集以供注册
+	 */
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public SilkSound sounds() {
+		return null;
+	}
+	
+	/**
 	 * 提供来自模组的实体集以供注册
 	 */
 	@SilkApi
@@ -95,15 +104,6 @@ public abstract class ModMain implements ModInitializer {
 	@SilkApi
 	@ApiStatus.OverrideOnly
 	public SilkParticle particles() {
-		return null;
-	}
-	
-	/**
-	 * 提供来自模组的声音事件集以供注册
-	 */
-	@SilkApi
-	@ApiStatus.OverrideOnly
-	public SilkSoundEvent soundEvents() {
 		return null;
 	}
 	

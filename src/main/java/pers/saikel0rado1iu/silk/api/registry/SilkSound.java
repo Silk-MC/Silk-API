@@ -22,15 +22,15 @@ import java.util.Set;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于模组所有声音事件组成声音事件集与声音事件注册</font></b></p>
- * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#soundEvents()}方法</p>
+ * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#sounds()}方法</p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
 @SilkApi
-public abstract class SilkSoundEvent {
-	public static final Set<SoundEvent> ALL_MOD_SOUNDS = Sets.newLinkedHashSetWithExpectedSize(8);
+public abstract class SilkSound {
+	public static final Set<SoundEvent> ALL_MOD_SOUND_EVENTS = Sets.newLinkedHashSetWithExpectedSize(8);
 	
 	protected static <S extends SoundEvent> Builder<S> builder(S soundEvent) {
 		return new Builder<>(soundEvent);
@@ -42,7 +42,7 @@ public abstract class SilkSoundEvent {
 		
 		@SilkApi
 		private Builder(S soundEvent) {
-			ALL_MOD_SOUNDS.add(this.soundEvent = soundEvent);
+			ALL_MOD_SOUND_EVENTS.add(this.soundEvent = soundEvent);
 		}
 		
 		@SilkApi

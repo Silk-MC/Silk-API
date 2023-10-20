@@ -44,46 +44,46 @@ public abstract class SilkEntity {
 	public static final int PROJECTILE_RANGE = 4;
 	@SilkApi
 	public static final int PROJECTILE_UPDATE_RATE = 20;
-	public static final Set<EntityType<?>> ALL_MOD_ENTITIES = Sets.newLinkedHashSetWithExpectedSize(8);
+	public static final Set<EntityType<?>> ALL_MOD_ENTITY_TYPES = Sets.newLinkedHashSetWithExpectedSize(8);
 	
-	protected static <E extends Entity> Builder<E> builder(EntityType<E> entity) {
-		return new Builder<>(entity);
+	protected static <E extends Entity> Builder<E> builder(EntityType<E> entityType) {
+		return new Builder<>(entityType);
 	}
 	
 	/**
-	 * 你需要在 client 模块中重新创建继承 {@link SilkEntity} 类来创建一个专用于客户端的注册类并覆盖 ModClient.entities()方法
+	 * 你需要在 client 模块中重新创建继承 {@link SilkEntity} 类来创建一个专用于客户端的注册类并覆盖 ModClient.entityType()方法
 	 */
 	@SilkApi
 	@Environment(EnvType.CLIENT)
-	protected static <E extends Entity> void clientRegister(EntityType<E> entity, Consumer<EntityType<E>> clientRegister) {
-		clientRegister.accept(entity);
+	protected static <E extends Entity> void clientRegister(EntityType<E> entityType, Consumer<EntityType<E>> clientRegister) {
+		clientRegister.accept(entityType);
 	}
 	
 	@SilkApi
 	public static final class Builder<E extends Entity> {
-		private final EntityType<E> entity;
+		private final EntityType<E> entityType;
 		
 		@SilkApi
-		private Builder(EntityType<E> entity) {
-			ALL_MOD_ENTITIES.add(this.entity = entity);
+		private Builder(EntityType<E> entityType) {
+			ALL_MOD_ENTITY_TYPES.add(this.entityType = entityType);
 		}
 		
 		@SilkApi
-		public Builder<E> put(Set<EntityType<?>> entity) {
-			entity.add(this.entity);
+		public Builder<E> put(Set<EntityType<?>> entityType) {
+			entityType.add(this.entityType);
 			return this;
 		}
 		
 		@SilkApi
-		public Builder<E> otherRegister(Consumer<EntityType<E>> entityRegister) {
-			entityRegister.accept(entity);
+		public Builder<E> otherRegister(Consumer<EntityType<E>> entityTypeRegister) {
+			entityTypeRegister.accept(entityType);
 			return this;
 		}
 		
 		@SilkApi
 		public EntityType<E> build(ModBasicData mod, String id) {
-			Registry.register(Registries.ENTITY_TYPE, new Identifier(mod.getId(), id), entity);
-			return entity;
+			Registry.register(Registries.ENTITY_TYPE, new Identifier(mod.getId(), id), entityType);
+			return entityType;
 		}
 	}
 }
