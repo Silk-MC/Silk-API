@@ -27,7 +27,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用于模组所有实体组成实体集与实体注册</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">用于模组所有实体类型组成实体类型集与实体类型注册</font></b></p>
  * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#entities()}方法</p>
  * <style="color:FFC800">
  *
