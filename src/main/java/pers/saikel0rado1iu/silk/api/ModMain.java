@@ -53,6 +53,7 @@ public abstract class ModMain implements ModInitializer {
 		effects();
 		entities();
 		particles();
+		blockEntities();
 		if (modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null) modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}
 	
@@ -114,6 +115,15 @@ public abstract class ModMain implements ModInitializer {
 	@SilkApi
 	@ApiStatus.OverrideOnly
 	public SilkParticle particles() {
+		return null;
+	}
+	
+	/**
+	 * 提供来自模组的方块实体类型集以供注册
+	 */
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public SilkBlockEntity blockEntities() {
 		return null;
 	}
 	
