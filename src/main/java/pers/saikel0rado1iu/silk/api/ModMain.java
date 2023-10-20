@@ -50,6 +50,7 @@ public abstract class ModMain implements ModInitializer {
 		items();
 		blocks();
 		sounds();
+		effects();
 		entities();
 		particles();
 		if (modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null) modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
@@ -90,7 +91,16 @@ public abstract class ModMain implements ModInitializer {
 	}
 	
 	/**
-	 * 提供来自模组的实体集以供注册
+	 * 提供来自模组的状态效果集以供注册
+	 */
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public SilkEffect effects() {
+		return null;
+	}
+	
+	/**
+	 * 提供来自模组的实体类型集以供注册
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
