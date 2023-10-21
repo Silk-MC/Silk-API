@@ -229,6 +229,7 @@ public interface SilkModelGenerator {
 	
 	@SilkApi
 	static void registerCarpet(BlockStateModelGenerator blockStateModelGenerator, Block carpet) {
+		blockStateModelGenerator.registerItemModel(carpet);
 		blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator
 				.createSingletonBlockState(carpet, TexturedModel.CARPET.get(carpet)
 						.upload(carpet, blockStateModelGenerator.modelCollector)));
