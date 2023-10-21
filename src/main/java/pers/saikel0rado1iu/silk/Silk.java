@@ -13,11 +13,11 @@ package pers.saikel0rado1iu.silk;
 
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
-import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModExtendedData;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.Optional;
 
 /**
@@ -48,16 +48,8 @@ final public class Silk implements ModExtendedData {
 	@Override
 	public Optional<URL> getSupportLink() throws MalformedURLException {
 		String url = getMod().getMetadata().getCustomValue("modmenu").getAsObject().get("links").getAsObject().get("modmenu.support.patreon").getAsString();
+		if ("CN".equals(Locale.getDefault().getLanguage()) && "zh".equals(Locale.getDefault().getCountry()))
+			url = getMod().getMetadata().getCustomValue("modmenu").getAsObject().get("links").getAsObject().get("modmenu.support.afdian").getAsString();
 		return Optional.of(new URL(url));
-	}
-	
-	@SilkApi
-	public URL getAfdianLink() {
-		String url = getMod().getMetadata().getCustomValue("modmenu").getAsObject().get("links").getAsObject().get("modmenu.support.afdian").getAsString();
-		try {
-			return new URL(url);
-		} catch (MalformedURLException e) {
-			throw new RuntimeException(e);
-		}
 	}
 }
