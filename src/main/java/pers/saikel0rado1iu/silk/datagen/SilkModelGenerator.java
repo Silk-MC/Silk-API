@@ -13,6 +13,8 @@ package pers.saikel0rado1iu.silk.datagen;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.data.client.*;
 import net.minecraft.item.Item;
@@ -210,5 +212,25 @@ public interface SilkModelGenerator {
 			new Model(Optional.of(ModelIds.getItemModelId(crossbow)), Optional.empty(), TextureKey.LAYER0)
 					.upload(ModelIds.getItemSubModelId(crossbow, suffix), TextureMap.layer0(TextureMap.getSubId(crossbow, suffix)), itemModelGenerator.writer);
 		}
+	}
+	
+	@SilkApi
+	static void registerTopSoil(BlockStateModelGenerator blockStateModelGenerator, Block soil) {
+		Identifier identifier = TextureMap.getId(Blocks.DIRT);
+		BlockStateVariant blockStateVariant = BlockStateVariant.create().put(VariantSettings.MODEL, Models.CUBE_BOTTOM_TOP.upload(Blocks.GRASS_BLOCK, "_snow", new TextureMap()
+				.put(TextureKey.BOTTOM, identifier).inherit(TextureKey.BOTTOM, TextureKey.PARTICLE)
+				.put(TextureKey.TOP, TextureMap.getSubId(Blocks.GRASS_BLOCK, "_top"))
+				.put(TextureKey.SIDE, TextureMap.getSubId(Blocks.GRASS_BLOCK, "_snow")), blockStateModelGenerator.modelCollector));
+		Identifier modelId = TexturedModel.CUBE_BOTTOM_TOP.get(soil)
+				.textures(textures -> textures.put(TextureKey.BOTTOM, identifier))
+				.upload(soil, blockStateModelGenerator.modelCollector);
+		blockStateModelGenerator.registerTopSoil(soil, modelId, blockStateVariant);
+	}
+	
+	@SilkApi
+	static void registerCarpet(BlockStateModelGenerator blockStateModelGenerator, Block carpet) {
+		blockStateModelGenerator.blockStateCollector.accept(BlockStateModelGenerator
+				.createSingletonBlockState(carpet, TexturedModel.CARPET.get(carpet)
+						.upload(carpet, blockStateModelGenerator.modelCollector)));
 	}
 }
