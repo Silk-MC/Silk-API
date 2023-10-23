@@ -116,7 +116,7 @@ abstract class WithStatusEffectsMixin extends Entity implements Attackable {
 				if (item instanceof WithStatusEffects with) slots = with.getEffectiveEquipmentSlot().orElse(null);
 				else slots = itemMap.get(item).orElse(null);
 				triggerCount[0] += slots != null
-						? (slots.stream().anyMatch(slot -> getEquippedStack(slot).getItem().equals(item))
+						? (slots.stream().anyMatch(slot -> getEquippedStack(slot).equals(stack))
 						? num : 0) : num;
 			});
 			kitsMap.put(itemMap, triggerCount[0]);
