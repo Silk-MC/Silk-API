@@ -17,7 +17,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.data.client.*;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.item.tool.weapon.ranged.Bow;
@@ -57,6 +59,12 @@ public interface SilkModelGenerator {
 		scaleArray.add(scale[2]);
 		jsonObject.add("scale", scaleArray);
 		return jsonObject;
+	}
+	
+	@SilkApi
+	static void registerBlockItem(ItemModelGenerator itemModelGenerator, BlockItem blockItem) {
+		Block block = blockItem.getBlock();
+		itemModelGenerator.register(blockItem, new Model(Optional.of(new Identifier(Registries.BLOCK.getId(block).getNamespace(), "block/" + Registries.BLOCK.getId(block).getPath())), Optional.empty()));
 	}
 	
 	@SilkApi
