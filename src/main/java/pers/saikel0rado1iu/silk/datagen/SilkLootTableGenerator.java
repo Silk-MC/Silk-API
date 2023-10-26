@@ -11,8 +11,14 @@
 
 package pers.saikel0rado1iu.silk.datagen;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.ItemConvertible;
+import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
+import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.function.SetCountLootFunction;
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.predicate.entity.EntityFlagsPredicate;
 import net.minecraft.predicate.entity.EntityPredicate;
 import net.minecraft.registry.Registries;
@@ -32,6 +38,16 @@ import java.util.function.BiConsumer;
 public interface SilkLootTableGenerator {
 	@SilkApi
 	EntityPredicate.Builder NEEDS_ENTITY_ON_FIRE = EntityPredicate.Builder.create().flags(EntityFlagsPredicate.Builder.create().onFire(true).build());
+	
+	@SilkApi
+	static void addBlockDrop(BiConsumer<Block, LootTable.Builder> addDrop, Block block, ItemConvertible... drops) {
+		LootTable.Builder lootTableBuilder = LootTable.builder();
+		for (ItemConvertible drop : drops) {
+			lootTableBuilder = lootTableBuilder.pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1))
+					.with(ItemEntry.builder(drop).apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(1)))));
+		}
+		addDrop.accept(block, lootTableBuilder);
+	}
 	
 	@SilkApi
 	static void addEntityDrop(BiConsumer<Identifier, LootTable.Builder> exporter, EntityType<?> entity, LootTable.Builder builder) {
