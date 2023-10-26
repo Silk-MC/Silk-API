@@ -242,4 +242,11 @@ public interface SilkModelGenerator {
 				.createSingletonBlockState(carpet, TexturedModel.CARPET.get(carpet)
 						.upload(carpet, blockStateModelGenerator.modelCollector)));
 	}
+	
+	@SilkApi
+	static void registerVines(BlockStateModelGenerator blockStateModelGenerator, Block plant, Block plantStem, BlockStateModelGenerator.TintType tintType) {
+		blockStateModelGenerator.registerPlantPart(plant, plantStem, tintType);
+		blockStateModelGenerator.registerItemModel(plant, "_plant");
+		blockStateModelGenerator.excludeFromSimpleItemModelGeneration(plantStem);
+	}
 }
