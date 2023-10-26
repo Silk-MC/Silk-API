@@ -14,11 +14,12 @@ package pers.saikel0rado1iu.silk.mixin.api.block;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.HoeItem;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.item.ShovelItem;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.*;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -38,6 +39,59 @@ import java.util.function.Predicate;
  * @since 0.1.0
  */
 interface SilkBlockTagsMixin {
+	/**
+	 * 设置 cobwebs 方块标签的破坏加速效果
+	 */
+	interface CobwebsMixin {
+		float COBWEB_MINING_SPEED = 15;
+		
+		@Mixin(ShearsItem.class)
+		abstract class ShearsBreak {
+			/**
+			 * 矿物测试，如果方块是 cobwebs 方块标签则返回 true
+			 */
+			@Inject(method = "postMine", at = @At("RETURN"), cancellable = true)
+			public void postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner, CallbackInfoReturnable<Boolean> cir) {
+				cir.setReturnValue(state.isIn(SilkBlockTags.COBWEBS));
+			}
+			
+			/**
+			 * 适用测试，如果方块是 cobwebs 方块标签则返回 true
+			 */
+			@Inject(method = "isSuitableFor", at = @At("RETURN"), cancellable = true)
+			public void isSuitableFor(BlockState state, CallbackInfoReturnable<Boolean> cir) {
+				if (state.isIn(SilkBlockTags.COBWEBS)) cir.setReturnValue(true);
+			}
+			
+			/**
+			 * 获取挖掘速度增幅，如果方块是 cobwebs 方块标签则返回增幅倍数
+			 */
+			@Inject(method = "getMiningSpeedMultiplier", at = @At("HEAD"), cancellable = true)
+			public void getMiningSpeedMultiplier(ItemStack stack, BlockState state, CallbackInfoReturnable<Float> cir) {
+				if (state.isIn(SilkBlockTags.COBWEBS)) cir.setReturnValue(COBWEB_MINING_SPEED);
+			}
+		}
+		
+		@Mixin(SwordItem.class)
+		abstract class SwordBreak {
+			/**
+			 * 使用测试，如果方块是 cobwebs 方块标签则返回 true
+			 */
+			@Inject(method = "isSuitableFor", at = @At("RETURN"), cancellable = true)
+			public void isSuitableFor(BlockState state, CallbackInfoReturnable<Boolean> cir) {
+				if (state.isIn(SilkBlockTags.COBWEBS)) cir.setReturnValue(true);
+			}
+			
+			/**
+			 * 获取挖掘速度增幅，如果方块是 cobwebs 方块标签则返回增幅倍数
+			 */
+			@Inject(method = "getMiningSpeedMultiplier", at = @At("RETURN"), cancellable = true)
+			public void getMiningSpeedMultiplier(ItemStack stack, BlockState state, CallbackInfoReturnable<Float> cir) {
+				if (state.isIn(SilkBlockTags.COBWEBS)) cir.setReturnValue(COBWEB_MINING_SPEED);
+			}
+		}
+	}
+	
 	/**
 	 * 设置泥土标签的铲平效果
 	 */

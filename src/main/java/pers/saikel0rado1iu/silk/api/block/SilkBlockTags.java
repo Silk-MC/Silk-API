@@ -38,4 +38,10 @@ public interface SilkBlockTags {
 	 */
 	@SilkApi
 	TagKey<Block> CAN_TILL_BLOCK = TagKey.of(RegistryKeys.BLOCK, new Identifier(Silk.DATA.getId(), "can_till_block"));
+	/**
+	 * <p>方块标签：蛛网</p>
+	 * <p>在此标签中的方块使用剪刀或剑会加速破坏</p>
+	 */
+	@SilkApi
+	TagKey<Block> COBWEBS = TagKey.of(RegistryKeys.BLOCK, new Identifier(Silk.DATA.getId(), "cobwebs"));
 }
