@@ -57,11 +57,11 @@ public interface ItemGroupCreator {
 		return RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(namespace.getId(), id));
 	}
 	
-	private static Text getGroupText(ModBasicData namespace, String id) {
+	static Text getGroupText(ModBasicData namespace, String id) {
 		return Text.translatable("itemGroup." + namespace.getId() + "." + id);
 	}
 	
-	private static String getIconId(String id) {
+	static String getIconId(String id) {
 		return "group_icon_" + id;
 	}
 }

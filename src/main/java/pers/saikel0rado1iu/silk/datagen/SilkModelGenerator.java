@@ -24,6 +24,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.api.item.ItemGroupCreator;
 import pers.saikel0rado1iu.silk.api.item.tool.weapon.ranged.Bow;
 import pers.saikel0rado1iu.silk.api.item.tool.weapon.ranged.Crossbow;
 import pers.saikel0rado1iu.silk.util.Minecraft;
@@ -70,7 +71,7 @@ public interface SilkModelGenerator {
 	
 	@SilkApi
 	static void registerItemGroup(ItemModelGenerator itemModelGenerator, RegistryKey<ItemGroup> itemGroup) {
-		registerId(itemModelGenerator, itemGroup.getValue(), Models.GENERATED);
+		registerId(itemModelGenerator, new Identifier(itemGroup.getValue().getNamespace(), ItemGroupCreator.getIconId(itemGroup.getValue().getPath())), Models.GENERATED);
 	}
 	
 	@SilkApi
