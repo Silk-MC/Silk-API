@@ -28,8 +28,8 @@ public interface ParticleUtil {
 	@SilkApi
 	static void addEffectParticle(World world, StatusEffect effect, double x, double y, double z) {
 		world.addParticle(new AreaEffectCloudEntity(world, 0, 0, 0).getParticleType(), x, y, z,
-				(double) (effect.getColor() >> 16 & 255) / 255.0F,
-				(double) (effect.getColor() >> 8 & 255) / 255.0F,
-				(double) (effect.getColor() & 255) / 255.0F);
+				(effect.getColor() >> 16 & 255) / 255.0,
+				(effect.getColor() >> 8 & 255) / 255.0,
+				(effect.getColor() & 255) / 255.0);
 	}
 }
