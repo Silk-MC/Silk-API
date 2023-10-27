@@ -24,6 +24,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.api.item.ItemGroupCreator;
 import pers.saikel0rado1iu.silk.api.item.tool.weapon.ranged.Bow;
 import pers.saikel0rado1iu.silk.api.item.tool.weapon.ranged.Crossbow;
@@ -69,6 +70,9 @@ public interface SilkModelGenerator {
 		model.upload(id, TextureMap.layer0(id), itemModelGenerator.writer);
 	}
 	
+	/**
+	 * 如果使用了 {@link ItemGroupCreator#create(ModBasicData, String)}创建了一个专门的物品组图标则使用此方法生成物品模型
+	 */
 	@SilkApi
 	static void registerItemGroup(ItemModelGenerator itemModelGenerator, RegistryKey<ItemGroup> itemGroup) {
 		registerId(itemModelGenerator, new Identifier(itemGroup.getValue().getNamespace(), ItemGroupCreator.getIconId(itemGroup.getValue().getPath())).withPrefixedPath("item/"), Models.GENERATED);
