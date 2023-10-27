@@ -66,12 +66,12 @@ public interface SilkModelGenerator {
 	
 	@SilkApi
 	static void registerId(ItemModelGenerator itemModelGenerator, Identifier id, Model model) {
-		model.upload(id.withPrefixedPath("item/"), TextureMap.layer0(id), itemModelGenerator.writer);
+		model.upload(id, TextureMap.layer0(id), itemModelGenerator.writer);
 	}
 	
 	@SilkApi
 	static void registerItemGroup(ItemModelGenerator itemModelGenerator, RegistryKey<ItemGroup> itemGroup) {
-		registerId(itemModelGenerator, new Identifier(itemGroup.getValue().getNamespace(), ItemGroupCreator.getIconId(itemGroup.getValue().getPath())), Models.GENERATED);
+		registerId(itemModelGenerator, new Identifier(itemGroup.getValue().getNamespace(), ItemGroupCreator.getIconId(itemGroup.getValue().getPath())).withPrefixedPath("item/"), Models.GENERATED);
 	}
 	
 	@SilkApi
