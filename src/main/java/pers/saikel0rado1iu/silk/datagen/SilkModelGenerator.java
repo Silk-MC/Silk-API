@@ -62,6 +62,11 @@ public interface SilkModelGenerator {
 	}
 	
 	@SilkApi
+	static void registerItem(ItemModelGenerator itemModelGenerator, Identifier id, Model model) {
+		model.upload(id.withPrefixedPath("item/"), TextureMap.layer0(id), itemModelGenerator.writer);
+	}
+	
+	@SilkApi
 	static void registerBlockItem(ItemModelGenerator itemModelGenerator, BlockItem blockItem) {
 		Block block = blockItem.getBlock();
 		itemModelGenerator.register(blockItem, new Model(Optional.of(new Identifier(Registries.BLOCK.getId(block).getNamespace(), "block/" + Registries.BLOCK.getId(block).getPath())), Optional.empty()));
