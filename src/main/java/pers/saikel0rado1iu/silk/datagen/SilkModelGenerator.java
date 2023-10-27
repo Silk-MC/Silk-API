@@ -69,8 +69,8 @@ public interface SilkModelGenerator {
 	}
 	
 	@SilkApi
-	static void registerItemGroup(ItemModelGenerator itemModelGenerator, RegistryKey<ItemGroup> itemGroup, Model model) {
-		registerItem(itemModelGenerator, itemGroup.getValue(), model);
+	static void registerItemGroup(ItemModelGenerator itemModelGenerator, RegistryKey<ItemGroup> itemGroup) {
+		registerItem(itemModelGenerator, itemGroup.getValue(), Models.GENERATED);
 	}
 	
 	@SilkApi
