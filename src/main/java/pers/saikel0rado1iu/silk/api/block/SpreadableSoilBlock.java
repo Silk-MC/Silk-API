@@ -11,16 +11,12 @@
 
 package pers.saikel0rado1iu.silk.api.block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.SnowBlock;
-import net.minecraft.block.SpreadableBlock;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.block.*;
 import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Position;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.chunk.light.ChunkLightProvider;
@@ -42,31 +38,48 @@ public abstract class SpreadableSoilBlock extends SpreadableBlock {
 	protected boolean canSurvive(BlockState state, WorldView world, BlockPos pos) {
 		BlockPos blockPos = pos.up();
 		BlockState blockState = world.getBlockState(blockPos);
-		if (blockState.isOf(Blocks.SNOW) && blockState.get(SnowBlock.LAYERS) == 1) {
-			return true;
-		} else if (blockState.getFluidState().getLevel() == 8) {
-			return false;
-		} else {
-			int i = ChunkLightProvider.getRealisticOpacity(world, state, pos, blockState, blockPos, Direction.UP, blockState.getOpacity(world, blockPos));
-			return i < world.getMaxLightLevel();
-		}
+		if (blockState.isOf(Blocks.SNOW) && blockState.get(SnowBlock.LAYERS) == Block.NOTIFY_NEIGHBORS) return true;
+		if (blockState.getFluidState().getLevel() == Block.REDRAW_ON_MAIN_THREAD) return false;
+		int level = ChunkLightProvider.getRealisticOpacity(world, state, pos, blockState, blockPos, Direction.UP, blockState.getOpacity(world, blockPos));
+		return level < world.getMaxLightLevel();
 	}
 	
 	protected boolean canSpread(BlockState state, WorldView world, BlockPos pos) {
-		BlockPos blockPos = pos.up();
-		return canSurvive(state, world, pos) && !world.getFluidState(blockPos).isIn(FluidTags.WATER);
+		return world.getBlockState(pos).isOf(Blocks.DIRT) && canSurvive(state, world, pos) && !world.getFluidState(pos.up()).isIn(FluidTags.WATER);
 	}
 	
-	protected BlockState getSpreadableBlockState() {
-		return getDefaultState();
+	protected BlockState getSpreadableBlockState(ServerWorld world, BlockPos pos) {
+		return getDefaultState().with(SNOWY, world.getBlockState(pos.up()).isOf(Blocks.SNOW));
+	}
+	
+	/**
+	 * @return 退化方块状态，方块无法存活后退化的方块
+	 */
+	protected BlockState getDegeneratedBlockState() {
+		return Blocks.DIRT.getDefaultState();
 	}
 	
 	protected int getSpreadableOdds() {
 		return 4;
 	}
 	
-	protected int getSpreadableRange() {
-		return 3;
+	protected Position getSpreadableRange() {
+		return new Position() {
+			@Override
+			public double getX() {
+				return 3;
+			}
+			
+			@Override
+			public double getY() {
+				return 5;
+			}
+			
+			@Override
+			public double getZ() {
+				return 3;
+			}
+		};
 	}
 	
 	protected BlockPos getSpreadableOffset(BlockPos original) {
@@ -75,18 +88,32 @@ public abstract class SpreadableSoilBlock extends SpreadableBlock {
 	
 	@Override
 	public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-		if (world.getBlockState(pos.up()).isIn(BlockTags.DIRT) || !world.getFluidState(pos.up()).isOf(Fluids.EMPTY)) {
-			world.setBlockState(pos, Blocks.DIRT.getDefaultState());
-		} else {
-			int range = getSpreadableRange();
-			int halfRange = getSpreadableRange() / 2;
-			for (int i = 0; i < getSpreadableOdds(); i++) {
-				BlockPos blockPos = pos.add(random.nextInt(range) - halfRange, random.nextInt(range) - halfRange, random.nextInt(range) - halfRange);
-				if (blockPos != pos && (world.getBlockState(blockPos).isOf(Blocks.DIRT)
-						|| world.getBlockState(blockPos).isOf(Blocks.GRASS_BLOCK))
-						&& canSpread(getSpreadableBlockState(), world, blockPos)) {
-					world.setBlockState(getSpreadableOffset(blockPos), getSpreadableBlockState());
+		if (!canSurvive(state, world, pos)) {
+			world.setBlockState(pos, getDegeneratedBlockState());
+			return;
+		}
+		if (world.getLightLevel(pos.up()) >= Block.REDRAW_ON_MAIN_THREAD + 1) {
+			Position range = getSpreadableRange();
+			Position halfRange = new Position() {
+				@Override
+				public double getX() {
+					return Math.floor(range.getX() / 2);
 				}
+				
+				@Override
+				public double getY() {
+					return Math.floor(range.getY() / 2);
+				}
+				
+				@Override
+				public double getZ() {
+					return Math.floor(range.getZ() / 2);
+				}
+			};
+			for (int i = 0; i < getSpreadableOdds(); i++) {
+				BlockPos blockPos = pos.add((int) (random.nextInt((int) range.getX()) - halfRange.getX()), (int) (random.nextInt((int) range.getY()) - halfRange.getY()), (int) (random.nextInt((int) range.getZ()) - halfRange.getZ()));
+				if (!canSpread(getSpreadableBlockState(world, blockPos), world, blockPos)) continue;
+				world.setBlockState(getSpreadableOffset(blockPos), getSpreadableBlockState(world, blockPos));
 			}
 		}
 	}
