@@ -32,27 +32,27 @@ import java.util.Set;
 public abstract class SilkCriterion {
 	public static final Set<AbstractCriterion<?>> ALL_MOD_CRITERIA = Sets.newLinkedHashSetWithExpectedSize(8);
 	
-	protected static <C extends AbstractCriterionConditions> Builder<C> builder(AbstractCriterion<C> criterion) {
+	protected static <C extends AbstractCriterionConditions, T extends AbstractCriterion<C>> Builder<C, T> builder(T criterion) {
 		return new Builder<>(criterion);
 	}
 	
 	@SilkApi
-	public static final class Builder<C extends AbstractCriterionConditions> {
-		private final AbstractCriterion<C> criterion;
+	public static final class Builder<C extends AbstractCriterionConditions, T extends AbstractCriterion<C>> {
+		private final T criterion;
 		
 		@SilkApi
-		private Builder(AbstractCriterion<C> criterion) {
+		private Builder(T criterion) {
 			ALL_MOD_CRITERIA.add(this.criterion = criterion);
 		}
 		
 		@SilkApi
-		public Builder<C> put(Set<AbstractCriterion<?>> criteria) {
+		public Builder<C, T> put(Set<AbstractCriterion<?>> criteria) {
 			criteria.add(criterion);
 			return this;
 		}
 		
 		@SilkApi
-		public AbstractCriterion<C> build(ModBasicData mod, String id) {
+		public T build(ModBasicData mod, String id) {
 			return criterion;
 		}
 	}

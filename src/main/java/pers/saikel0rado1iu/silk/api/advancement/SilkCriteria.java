@@ -11,12 +11,21 @@
 
 package pers.saikel0rado1iu.silk.api.advancement;
 
+import net.minecraft.advancement.criterion.Criteria;
+import pers.saikel0rado1iu.silk.Silk;
+import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.api.registry.SilkCriterion;
+
 /**
- * <p><b style="color:FFC800"><font size="+1">用于补充原版的标准以便用于模组中</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">用于补充原版的标准以便在模组中使用</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-public class SilkCriteria {
+@SilkApi
+public class SilkCriteria extends SilkCriterion {
+	public static final ShotProjectileCriterion SHOT_PROJECTILE_CRITERION = builder(Criteria.register(new ShotProjectileCriterion()))
+			.build(Silk.DATA, "");
+	
 }
