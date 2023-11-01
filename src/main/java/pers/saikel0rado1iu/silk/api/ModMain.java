@@ -52,6 +52,7 @@ public abstract class ModMain implements ModInitializer {
 		sounds();
 		effects();
 		entities();
+		criteria();
 		particles();
 		blockEntities();
 		if (modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null) modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
@@ -106,6 +107,15 @@ public abstract class ModMain implements ModInitializer {
 	@SilkApi
 	@ApiStatus.OverrideOnly
 	public SilkEntity entities() {
+		return null;
+	}
+	
+	/**
+	 * 提供来自模组的标准集以供注册
+	 */
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public SilkCriterion criteria() {
 		return null;
 	}
 	
