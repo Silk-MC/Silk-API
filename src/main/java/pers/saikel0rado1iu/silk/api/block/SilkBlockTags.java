@@ -19,7 +19,7 @@ import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用于所有用于补充原版应有但缺失的标签</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">用于补充原版应有但缺失的标签以便在模组中使用</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
