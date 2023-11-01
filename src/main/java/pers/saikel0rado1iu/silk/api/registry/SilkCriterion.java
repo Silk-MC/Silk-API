@@ -15,10 +15,10 @@ import com.google.common.collect.Sets;
 import net.minecraft.advancement.criterion.AbstractCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterionConditions;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.api.ModMain;
 
 import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于模组所有标准组成标准集与标准注册</font></b></p>
@@ -52,7 +52,8 @@ public abstract class SilkCriterion {
 		}
 		
 		@SilkApi
-		public T build(ModBasicData mod, String id) {
+		public T build(Consumer<T> criterionRegister) {
+			criterionRegister.accept(criterion);
 			return criterion;
 		}
 	}
