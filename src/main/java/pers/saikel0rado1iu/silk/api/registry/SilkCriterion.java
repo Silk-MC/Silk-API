@@ -52,8 +52,13 @@ public abstract class SilkCriterion {
 		}
 		
 		@SilkApi
-		public T build(Consumer<T> criterionRegister) {
+		public Builder<C, T> otherRegister(Consumer<T> criterionRegister) {
 			criterionRegister.accept(criterion);
+			return this;
+		}
+		
+		@SilkApi
+		public T build() {
 			return criterion;
 		}
 	}
