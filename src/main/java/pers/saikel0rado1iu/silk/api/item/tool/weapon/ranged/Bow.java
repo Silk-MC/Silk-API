@@ -20,11 +20,13 @@ import net.minecraft.item.ArrowItem;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.world.World;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.api.criterion.SilkCriteria;
 import pers.saikel0rado1iu.silk.util.MathUtil;
 
 /**
@@ -111,15 +113,15 @@ public abstract class Bow extends BowItem implements SilkBowExtend {
 			
 			// 生成弹丸实体
 			world.spawnEntity(persistentProjectileEntity);
+			if (player instanceof ServerPlayerEntity serverPlayer)
+				SilkCriteria.SHOT_PROJECTILE_CRITERION.trigger(serverPlayer, stack, persistentProjectileEntity, 1);
 		}
 		
 		// 播放音效
 		world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (world.getRandom().nextFloat() * 0.4F + 1.2F) + pullProgress * 0.5F);
 		if (!andDefaultProjectile && !player.getAbilities().creativeMode) {
 			useProjectile.decrement(1);
-			if (useProjectile.isEmpty()) {
-				player.getInventory().removeOne(useProjectile);
-			}
+			if (useProjectile.isEmpty()) player.getInventory().removeOne(useProjectile);
 		}
 		
 		player.incrementStat(Stats.USED.getOrCreateStat(this));

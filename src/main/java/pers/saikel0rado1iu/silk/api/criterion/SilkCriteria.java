@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.api.advancement;
+package pers.saikel0rado1iu.silk.api.criterion;
 
 import net.minecraft.advancement.criterion.Criteria;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
