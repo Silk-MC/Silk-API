@@ -75,13 +75,13 @@ public class ShotProjectileCriterion extends AbstractCriterion<ShotProjectileCri
 		}
 		
 		@SilkApi
-		public static Conditions ranged(ItemPredicate rangedWeapons) {
-			return new Conditions(LootContextPredicate.EMPTY, rangedWeapons, EntityPredicate.ANY, NumberRange.IntRange.ANY);
+		public static Conditions ranged(ItemPredicate ranged) {
+			return new Conditions(LootContextPredicate.EMPTY, ranged, EntityPredicate.ANY, NumberRange.IntRange.ANY);
 		}
 		
 		@SilkApi
-		public static Conditions ranged(ItemConvertible rangedWeapons) {
-			ItemPredicate itemPredicates = ItemPredicate.Builder.create().items(rangedWeapons.asItem()).build();
+		public static Conditions ranged(ItemConvertible ranged) {
+			ItemPredicate itemPredicates = ItemPredicate.Builder.create().items(ranged.asItem()).build();
 			return ranged(itemPredicates);
 		}
 		
@@ -106,8 +106,8 @@ public class ShotProjectileCriterion extends AbstractCriterion<ShotProjectileCri
 			return jsonObject;
 		}
 		
-		public boolean matches(ServerPlayerEntity player, ItemStack rangedWeapon, Entity projectile, int count) {
-			boolean hasRanged = this.ranged.test(rangedWeapon);
+		public boolean matches(ServerPlayerEntity player, ItemStack ranged, Entity projectile, int count) {
+			boolean hasRanged = this.ranged.test(ranged);
 			if (!hasRanged) return false;
 			if (!this.projectile.test(player, projectile)) return false;
 			counts += count;
