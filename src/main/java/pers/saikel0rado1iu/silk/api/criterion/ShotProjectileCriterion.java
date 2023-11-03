@@ -110,8 +110,7 @@ public class ShotProjectileCriterion extends AbstractCriterion<ShotProjectileCri
 			boolean hasRanged = this.ranged.test(ranged);
 			if (!hasRanged) return false;
 			if (!this.projectile.test(player, projectile)) return false;
-			counts += count;
-			return this.count.test(counts);
+			return this.count.test(counts += count);
 		}
 	}
 }
