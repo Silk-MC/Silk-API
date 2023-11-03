@@ -40,10 +40,10 @@ public class ShotProjectileCriterion extends AbstractCriterion<ShotProjectileCri
 	
 	@Override
 	protected Conditions conditionsFromJson(JsonObject jsonObject, LootContextPredicate lootContextPredicate, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
-		ItemPredicate rangedWeapons = ItemPredicate.fromJson(jsonObject.get("ranged_weapon"));
+		ItemPredicate ranged = ItemPredicate.fromJson(jsonObject.get("ranged"));
 		EntityPredicate projectile = EntityPredicate.fromJson(jsonObject.get("projectile"));
 		NumberRange.IntRange count = NumberRange.IntRange.fromJson(jsonObject.get("count"));
-		return new Conditions(lootContextPredicate, rangedWeapons, projectile, count);
+		return new Conditions(lootContextPredicate, ranged, projectile, count);
 	}
 	
 	@Override
@@ -52,24 +52,24 @@ public class ShotProjectileCriterion extends AbstractCriterion<ShotProjectileCri
 	}
 	
 	@SilkApi
-	public void trigger(ServerPlayerEntity player, ItemStack rangedWeapon, Entity projectile) {
-		trigger(player, conditions -> conditions.matches(player, rangedWeapon, projectile, 0));
+	public void trigger(ServerPlayerEntity player, ItemStack ranged, Entity projectile) {
+		trigger(player, conditions -> conditions.matches(player, ranged, projectile, 0));
 	}
 	
 	@SilkApi
-	public void trigger(ServerPlayerEntity player, ItemStack rangedWeapon, Entity projectile, int count) {
-		trigger(player, conditions -> conditions.matches(player, rangedWeapon, projectile, count));
+	public void trigger(ServerPlayerEntity player, ItemStack ranged, Entity projectile, int count) {
+		trigger(player, conditions -> conditions.matches(player, ranged, projectile, count));
 	}
 	
 	public static class Conditions extends AbstractCriterionConditions {
-		private final ItemPredicate rangedWeapon;
+		private final ItemPredicate ranged;
 		private EntityPredicate projectile;
 		private NumberRange.IntRange count;
 		private int counts = 0;
 		
-		public Conditions(LootContextPredicate player, ItemPredicate rangedWeapon, EntityPredicate projectile, NumberRange.IntRange count) {
+		public Conditions(LootContextPredicate player, ItemPredicate ranged, EntityPredicate projectile, NumberRange.IntRange count) {
 			super(ID, player);
-			this.rangedWeapon = rangedWeapon;
+			this.ranged = ranged;
 			this.projectile = projectile;
 			this.count = count;
 		}
@@ -100,14 +100,14 @@ public class ShotProjectileCriterion extends AbstractCriterion<ShotProjectileCri
 		@Override
 		public JsonObject toJson(AdvancementEntityPredicateSerializer predicateSerializer) {
 			JsonObject jsonObject = super.toJson(predicateSerializer);
-			jsonObject.add("ranged_weapon", rangedWeapon.toJson());
+			jsonObject.add("ranged", ranged.toJson());
 			jsonObject.add("projectile", projectile.toJson());
 			jsonObject.add("count", count.toJson());
 			return jsonObject;
 		}
 		
 		public boolean matches(ServerPlayerEntity player, ItemStack rangedWeapon, Entity projectile, int count) {
-			boolean hasRanged = this.rangedWeapon.test(rangedWeapon);
+			boolean hasRanged = this.ranged.test(rangedWeapon);
 			if (!hasRanged) return false;
 			if (!this.projectile.test(player, projectile)) return false;
 			counts += count;
