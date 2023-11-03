@@ -75,14 +75,14 @@ public class ShotProjectileCriterion extends AbstractCriterion<ShotProjectileCri
 		}
 		
 		@SilkApi
-		public static Conditions rangedWeapons(ItemPredicate rangedWeapons) {
+		public static Conditions ranged(ItemPredicate rangedWeapons) {
 			return new Conditions(LootContextPredicate.EMPTY, rangedWeapons, EntityPredicate.ANY, NumberRange.IntRange.ANY);
 		}
 		
 		@SilkApi
-		public static Conditions rangedWeapons(ItemConvertible rangedWeapons) {
+		public static Conditions ranged(ItemConvertible rangedWeapons) {
 			ItemPredicate itemPredicates = ItemPredicate.Builder.create().items(rangedWeapons.asItem()).build();
-			return rangedWeapons(itemPredicates);
+			return ranged(itemPredicates);
 		}
 		
 		@SilkApi
