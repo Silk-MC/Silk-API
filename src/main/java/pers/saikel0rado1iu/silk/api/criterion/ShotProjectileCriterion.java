@@ -53,7 +53,7 @@ public class ShotProjectileCriterion extends AbstractCriterion<ShotProjectileCri
 	
 	@SilkApi
 	public void trigger(ServerPlayerEntity player, ItemStack ranged, Entity projectile) {
-		trigger(player, conditions -> conditions.matches(player, ranged, projectile, 0));
+		trigger(player, ranged, projectile, 0);
 	}
 	
 	@SilkApi
