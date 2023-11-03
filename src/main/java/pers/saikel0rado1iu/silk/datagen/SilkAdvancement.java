@@ -12,12 +12,19 @@
 package pers.saikel0rado1iu.silk.datagen;
 
 import net.minecraft.advancement.Advancement;
+import net.minecraft.advancement.criterion.CriterionConditions;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于构建属于自己模组的进度，而不是依附在 minecraft 命名空间下</font></b></p>
@@ -28,6 +35,18 @@ import java.util.function.Consumer;
  */
 @SilkApi
 public interface SilkAdvancement {
+	@SilkApi
+	static Advancement.Builder generateEntityPredicateFromSpawnGroup(Advancement.Builder builder, SpawnGroup spawnGroup, Function<EntityType<?>, CriterionConditions> function) {
+		List<String> list = new ArrayList<>(10);
+		for (EntityType<?> entityType : Registries.ENTITY_TYPE) {
+			if (entityType.getSpawnGroup().equals(spawnGroup)) {
+				list.add(Registries.ENTITY_TYPE.getId(entityType).toString());
+				builder.criterion(Registries.ENTITY_TYPE.getId(entityType).toString(), function.apply(entityType));
+			}
+		}
+		return builder.requirements(new String[][]{list.toArray(new String[0])});
+	}
+	
 	@SilkApi
 	static Advancement create(Consumer<Advancement> consumer, Advancement.Builder builder, Identifier id) {
 		Advancement advancement = builder.build(id);
