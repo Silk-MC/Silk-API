@@ -41,6 +41,7 @@ import net.minecraft.world.World;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.api.criterion.RangedKilledEntityCriterion;
 import pers.saikel0rado1iu.silk.api.criterion.SilkCriteria;
 import pers.saikel0rado1iu.silk.util.MathUtil;
 
@@ -250,6 +251,7 @@ public abstract class Crossbow extends CrossbowItem implements SilkCrossbowExten
 				((PersistentProjectileEntity) projectileEntity).pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
 			}
 		}
+		RangedKilledEntityCriterion.putRangedNbt(projectileEntity, crossbow);
 		// 如果使用者是弩使用者
 		if (shooter instanceof CrossbowUser crossbowUser) {
 			// 直接由弩使用者发射

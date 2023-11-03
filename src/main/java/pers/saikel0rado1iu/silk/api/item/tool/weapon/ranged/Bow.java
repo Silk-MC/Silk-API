@@ -26,6 +26,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.world.World;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.api.criterion.RangedKilledEntityCriterion;
 import pers.saikel0rado1iu.silk.api.criterion.SilkCriteria;
 import pers.saikel0rado1iu.silk.util.MathUtil;
 
@@ -87,6 +88,7 @@ public abstract class Bow extends BowItem implements SilkBowExtend {
 			// 创建箭实体
 			ArrowItem arrowItem = (ArrowItem) (useProjectile.getItem() instanceof ArrowItem ? useProjectile.getItem() : Items.ARROW);
 			PersistentProjectileEntity persistentProjectileEntity = arrowItem.createArrow(world, useProjectile, player);
+			RangedKilledEntityCriterion.putRangedNbt(persistentProjectileEntity, stack);
 			// 设置速度速度
 			persistentProjectileEntity.setVelocity(player, player.getPitch(), player.getYaw(), 0.0F, pullProgress * getMaxProjectileSpeed(), getFiringError());
 			// 设置基础伤害增加

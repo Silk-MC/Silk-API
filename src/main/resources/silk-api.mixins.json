@@ -11,6 +11,8 @@
 		"api.block.SilkBlockTagsMixin$DirtMixin",
 		"api.block.SilkBlockTagsMixin$DirtVarietyMixin",
 		"api.callback.SimpleBlockFeatureCreateMixin",
+		"api.criterion.RangedKilledEntityCriterionMixin",
+		"api.entity.EntityNbtMixin",
 		"api.entity.projectile.FixedDamageMixin",
 		"api.item.CustomEnchantmentMixin$SetAcceptEnchantment",
 		"api.item.CustomEnchantmentMixin$SetTableEnchantment",
