@@ -11,7 +11,6 @@
 
 package pers.saikel0rado1iu.silk.api.criterion;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.advancement.criterion.AbstractCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterionConditions;
@@ -41,7 +40,7 @@ public class ShotProjectileCriterion extends AbstractCriterion<ShotProjectileCri
 	
 	@Override
 	protected Conditions conditionsFromJson(JsonObject jsonObject, LootContextPredicate lootContextPredicate, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
-		ItemPredicate[] rangedWeapons = ItemPredicate.deserializeAll(jsonObject.get("ranged_weapons"));
+		ItemPredicate rangedWeapons = ItemPredicate.fromJson(jsonObject.get("ranged_weapon"));
 		EntityPredicate projectile = EntityPredicate.fromJson(jsonObject.get("projectile"));
 		IntRange count = IntRange.fromJson(jsonObject.get("count"));
 		return new Conditions(lootContextPredicate, rangedWeapons, projectile, count);
@@ -63,27 +62,26 @@ public class ShotProjectileCriterion extends AbstractCriterion<ShotProjectileCri
 	}
 	
 	public static class Conditions extends AbstractCriterionConditions {
-		private final ItemPredicate[] rangedWeapons;
+		private final ItemPredicate rangedWeapon;
 		private EntityPredicate projectile;
 		private IntRange count;
 		private int counts = 0;
 		
-		public Conditions(LootContextPredicate player, ItemPredicate[] rangedWeapons, EntityPredicate projectile, IntRange count) {
+		public Conditions(LootContextPredicate player, ItemPredicate rangedWeapon, EntityPredicate projectile, IntRange count) {
 			super(ID, player);
-			this.rangedWeapons = rangedWeapons;
+			this.rangedWeapon = rangedWeapon;
 			this.projectile = projectile;
 			this.count = count;
 		}
 		
 		@SilkApi
-		public static Conditions rangedWeapons(ItemPredicate... rangedWeapons) {
+		public static Conditions rangedWeapons(ItemPredicate rangedWeapons) {
 			return new Conditions(LootContextPredicate.EMPTY, rangedWeapons, EntityPredicate.ANY, IntRange.ANY);
 		}
 		
 		@SilkApi
-		public static Conditions rangedWeapons(ItemConvertible... rangedWeapons) {
-			ItemPredicate[] itemPredicates = new ItemPredicate[rangedWeapons.length];
-			for (int i = 0; i < rangedWeapons.length; i++) itemPredicates[i] = ItemPredicate.Builder.create().items(rangedWeapons[i].asItem()).build();
+		public static Conditions rangedWeapons(ItemConvertible rangedWeapons) {
+			ItemPredicate itemPredicates = ItemPredicate.Builder.create().items(rangedWeapons.asItem()).build();
 			return rangedWeapons(itemPredicates);
 		}
 		
@@ -102,20 +100,14 @@ public class ShotProjectileCriterion extends AbstractCriterion<ShotProjectileCri
 		@Override
 		public JsonObject toJson(AdvancementEntityPredicateSerializer predicateSerializer) {
 			JsonObject jsonObject = super.toJson(predicateSerializer);
-			if (rangedWeapons.length > 0) {
-				JsonArray jsonArray = new JsonArray();
-				for (ItemPredicate itemPredicate : rangedWeapons) jsonArray.add(itemPredicate.toJson());
-				jsonObject.add("ranged_weapons", jsonArray);
-			}
+			jsonObject.add("ranged_weapon", rangedWeapon.toJson());
 			jsonObject.add("projectile", projectile.toJson());
 			jsonObject.add("count", count.toJson());
 			return jsonObject;
 		}
 		
 		public boolean matches(ServerPlayerEntity player, ItemStack rangedWeapon, Entity projectile, int count) {
-			if (rangedWeapons.length == 0) return true;
-			boolean hasRanged = false;
-			for (ItemPredicate item : rangedWeapons) hasRanged = item.test(rangedWeapon);
+			boolean hasRanged = this.rangedWeapon.test(rangedWeapon);
 			if (!hasRanged) return false;
 			if (!this.projectile.test(player, projectile)) return false;
 			counts += count;
