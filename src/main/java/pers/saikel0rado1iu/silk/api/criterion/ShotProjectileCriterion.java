@@ -17,7 +17,7 @@ import net.minecraft.advancement.criterion.AbstractCriterionConditions;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
-import net.minecraft.predicate.NumberRange.IntRange;
+import net.minecraft.predicate.NumberRange;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
 import net.minecraft.predicate.entity.AdvancementEntityPredicateSerializer;
 import net.minecraft.predicate.entity.EntityPredicate;
@@ -42,7 +42,7 @@ public class ShotProjectileCriterion extends AbstractCriterion<ShotProjectileCri
 	protected Conditions conditionsFromJson(JsonObject jsonObject, LootContextPredicate lootContextPredicate, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
 		ItemPredicate rangedWeapons = ItemPredicate.fromJson(jsonObject.get("ranged_weapon"));
 		EntityPredicate projectile = EntityPredicate.fromJson(jsonObject.get("projectile"));
-		IntRange count = IntRange.fromJson(jsonObject.get("count"));
+		NumberRange.IntRange count = NumberRange.IntRange.fromJson(jsonObject.get("count"));
 		return new Conditions(lootContextPredicate, rangedWeapons, projectile, count);
 	}
 	
@@ -64,10 +64,10 @@ public class ShotProjectileCriterion extends AbstractCriterion<ShotProjectileCri
 	public static class Conditions extends AbstractCriterionConditions {
 		private final ItemPredicate rangedWeapon;
 		private EntityPredicate projectile;
-		private IntRange count;
+		private NumberRange.IntRange count;
 		private int counts = 0;
 		
-		public Conditions(LootContextPredicate player, ItemPredicate rangedWeapon, EntityPredicate projectile, IntRange count) {
+		public Conditions(LootContextPredicate player, ItemPredicate rangedWeapon, EntityPredicate projectile, NumberRange.IntRange count) {
 			super(ID, player);
 			this.rangedWeapon = rangedWeapon;
 			this.projectile = projectile;
@@ -76,7 +76,7 @@ public class ShotProjectileCriterion extends AbstractCriterion<ShotProjectileCri
 		
 		@SilkApi
 		public static Conditions rangedWeapons(ItemPredicate rangedWeapons) {
-			return new Conditions(LootContextPredicate.EMPTY, rangedWeapons, EntityPredicate.ANY, IntRange.ANY);
+			return new Conditions(LootContextPredicate.EMPTY, rangedWeapons, EntityPredicate.ANY, NumberRange.IntRange.ANY);
 		}
 		
 		@SilkApi
@@ -92,7 +92,7 @@ public class ShotProjectileCriterion extends AbstractCriterion<ShotProjectileCri
 		}
 		
 		@SilkApi
-		public Conditions count(IntRange count) {
+		public Conditions count(NumberRange.IntRange count) {
 			this.count = count;
 			return this;
 		}
