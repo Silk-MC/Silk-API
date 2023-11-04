@@ -19,6 +19,7 @@ import net.minecraft.util.Formatting;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.util.ScreenUtil;
+import pers.saikel0rado1iu.silk.util.TextUtil;
 
 import java.util.Objects;
 
@@ -50,7 +51,7 @@ public class PlaceholderScreen extends BaseScreen {
 	protected void init() {
 		super.init();
 		// 添加提示消息文本
-		messageText = MultilineText.create(textRenderer, Text.translatable(ScreenUtil.widgetText(mod, "placeholder")), width - 100);
+		messageText = MultilineText.create(textRenderer, Text.translatable(TextUtil.widgetText(mod, "placeholder")), width - 100);
 		int buttonWidth = 100;
 		// 添加官网跳转按钮
 		addDrawableChild(ScreenUtil.linkButton(this, mod, ModBasicData.LinkType.HOMEPAGE, linkTrusted()).dimensions((int) (width / 2 - buttonWidth * 1.5), height / 2 + 12, buttonWidth - 4, 20).build());

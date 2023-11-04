@@ -18,7 +18,7 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import pers.saikel0rado1iu.silk.Silk;
-import pers.saikel0rado1iu.silk.util.ScreenUtil;
+import pers.saikel0rado1iu.silk.util.TextUtil;
 import pers.saikel0rado1iu.silk.util.update.UpdateShow;
 
 import java.io.File;
@@ -42,7 +42,7 @@ public class DownloadedScreen extends UpdateScreen {
 		super.init();
 		// 添加信息
 		MultilineTextWidget messageText = new MultilineTextWidget(0, 0,
-				Text.translatable(ScreenUtil.widgetText(Silk.DATA, "downloaded"), updateShow.getMod().getJarName()),
+				Text.translatable(TextUtil.widgetText(Silk.DATA, "downloaded"), updateShow.getMod().getJarName()),
 				textRenderer).setMaxWidth(screenWidth - INTERVAL);
 		int height1 = height - (height - screenHeight) / 2 - BUTTON_SPACING * 2;
 		int height2 = (height - screenHeight) / 2 + textRenderer.fontHeight + ICON_SIZE + INTERVAL * 2 - messageText.getHeight();
@@ -52,7 +52,7 @@ public class DownloadedScreen extends UpdateScreen {
 		int fullButtonWidth = screenWidth - INTERVAL;
 		int fullButtonX = (width - (screenWidth - INTERVAL)) / 2;
 		int buttonY = (height - (height - screenHeight) / 2);
-		addDrawableChild(ButtonWidget.builder(Text.translatable(ScreenUtil.configText(Silk.DATA, "downloaded")).setStyle(Style.EMPTY.withBold(true)), (button) -> {
+		addDrawableChild(ButtonWidget.builder(Text.translatable(TextUtil.configText(Silk.DATA, "downloaded")).setStyle(Style.EMPTY.withBold(true)), (button) -> {
 			Util.getOperatingSystem().open(new File(updateShow.getMod().getPath().toString()));
 			if (client != null) client.scheduleStop();
 		}).dimensions(fullButtonX, buttonY - BUTTON_SPACING * 2, fullButtonWidth, BUTTON_HEIGHT).build());

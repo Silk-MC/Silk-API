@@ -29,8 +29,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static pers.saikel0rado1iu.silk.util.ScreenUtil.configText;
-import static pers.saikel0rado1iu.silk.util.ScreenUtil.configTip;
+import static pers.saikel0rado1iu.silk.util.TextUtil.configText;
+import static pers.saikel0rado1iu.silk.util.TextUtil.configTip;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于模组配置选项卡</font></b></p>

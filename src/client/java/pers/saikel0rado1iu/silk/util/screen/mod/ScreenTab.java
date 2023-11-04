@@ -23,7 +23,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
-import pers.saikel0rado1iu.silk.util.ScreenUtil;
+import pers.saikel0rado1iu.silk.util.TextUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public abstract class ScreenTab extends GridScreenTab {
 	
 	@SilkApi
 	public ScreenTab(ModBasicData mod, String key) {
-		super(Text.translatable(ScreenUtil.widgetText(mod, "tab." + key)));
+		super(Text.translatable(TextUtil.widgetText(mod, "tab." + key)));
 		this.mod = mod;
 	}
 	

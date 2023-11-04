@@ -38,26 +38,6 @@ import java.nio.file.Path;
 @SilkApi
 public interface ScreenUtil {
 	@SilkApi
-	static String configText(ModBasicData mod, String key) {
-		return "config." + mod.getId() + '.' + key + ("".equals(key) ? "text" : ".text");
-	}
-	
-	@SilkApi
-	static String configTip(ModBasicData mod, String key) {
-		return "config." + mod.getId() + '.' + key + ("".equals(key) ? "tip" : ".tip");
-	}
-	
-	@SilkApi
-	static String widgetTitle(ModBasicData mod, String key) {
-		return "title." + mod.getId() + '.' + key;
-	}
-	
-	@SilkApi
-	static String widgetText(ModBasicData mod, String key) {
-		return "text." + mod.getId() + '.' + key;
-	}
-	
-	@SilkApi
 	static ButtonWidget.Builder backButton(Screen screen) {
 		return ButtonWidget.builder(ScreenTexts.BACK, (button) -> screen.close());
 	}
@@ -99,7 +79,7 @@ public interface ScreenUtil {
 	
 	@SilkApi
 	static ButtonWidget.Builder linkButton(Screen parent, ModBasicData mod, ModBasicData.LinkType linkType, boolean canTrust) {
-		Text text = Text.translatable(configText(mod, linkType.toString().toLowerCase()));
+		Text text = Text.translatable(TextUtil.configText(mod, linkType.toString().toLowerCase()));
 		return mod.getLink(linkType).isPresent() ? linkButton(parent, text, mod.getLink(linkType).get().toString(), canTrust) : linkButton(parent, text, Silk.DATA.getLink(linkType).orElseThrow().toString(), true);
 	}
 	

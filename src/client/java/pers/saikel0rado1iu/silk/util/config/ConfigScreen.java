@@ -30,7 +30,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static pers.saikel0rado1iu.silk.util.ScreenUtil.*;
+import static pers.saikel0rado1iu.silk.util.ScreenUtil.doneButton;
+import static pers.saikel0rado1iu.silk.util.TextUtil.configText;
+import static pers.saikel0rado1iu.silk.util.TextUtil.configTip;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于构建配置屏幕</font></b></p>

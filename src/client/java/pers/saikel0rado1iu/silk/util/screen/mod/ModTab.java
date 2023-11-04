@@ -22,6 +22,7 @@ import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.util.ScreenUtil;
+import pers.saikel0rado1iu.silk.util.TextUtil;
 import pers.saikel0rado1iu.silk.util.screen.widget.TextListWidget;
 
 /**
@@ -55,11 +56,11 @@ public class ModTab extends ScreenTab {
 		addWidget(ScreenUtil.linkButton(parent, mod, ModBasicData.LinkType.HOMEPAGE, linkTrusted()).dimensions(buttonX, TAP_TOP + INTERVAL, width / 2 - width / 60 - buttonX - iconAdd, buttonHeight).build());
 		addWidget(ScreenUtil.linkButton(parent, mod, ModBasicData.LinkType.SUPPORT, linkTrusted()).dimensions(buttonX, ((TAP_TOP + INTERVAL) + (TAP_TOP + INTERVAL + LOGO_SIDE - buttonHeight)) / 2, width / 2 - width / 60 - buttonX - iconAdd, buttonHeight).build());
 		addWidget(ScreenUtil.linkButton(parent, mod, ModBasicData.LinkType.COMMUNITY, linkTrusted()).dimensions(buttonX, TAP_TOP + INTERVAL + LOGO_SIDE - buttonHeight, width / 2 - width / 60 - buttonX - iconAdd, buttonHeight).build());
-		addWidget(logTitle = new TextWidget(Text.translatable(ScreenUtil.widgetTitle(mod, "changelog")), textRenderer));
-		addWidget(targetTitle = new TextWidget(Text.translatable(ScreenUtil.widgetTitle(mod, "target")), textRenderer));
+		addWidget(logTitle = new TextWidget(Text.translatable(TextUtil.widgetTitle(mod, "changelog")), textRenderer));
+		addWidget(targetTitle = new TextWidget(Text.translatable(TextUtil.widgetTitle(mod, "target")), textRenderer));
 		changelogWidget = new TextListWidget(client, width / 2 - width / 30, height, TAP_TOP + INTERVAL * 3, height - TAP_BOTTOM - INTERVAL, 12, ScreenUtil.readChangelog(mod));
 		changelogWidget.setLeftPos(width / 2 + width / 60);
-		targetWidget = new TextListWidget(client, width / 2 - width / 30, height, TAP_TOP + INTERVAL * 4 + LOGO_SIDE, height - TAP_BOTTOM - INTERVAL, 12, ScreenUtil.widgetText(mod, "target"));
+		targetWidget = new TextListWidget(client, width / 2 - width / 30, height, TAP_TOP + INTERVAL * 4 + LOGO_SIDE, height - TAP_BOTTOM - INTERVAL, 12, TextUtil.widgetText(mod, "target"));
 		targetWidget.setLeftPos(width / 60);
 	}
 	

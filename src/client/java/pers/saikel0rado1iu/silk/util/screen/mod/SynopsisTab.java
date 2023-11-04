@@ -20,7 +20,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
-import pers.saikel0rado1iu.silk.util.ScreenUtil;
+import pers.saikel0rado1iu.silk.util.TextUtil;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于模组介绍选项卡</font></b></p>
@@ -44,10 +44,10 @@ public class SynopsisTab extends ScreenTab {
 	
 	@Override
 	public void init(MinecraftClient client, TextRenderer textRenderer, int width, int height) {
-		addWidget(introTitle = new TextWidget(Text.translatable(ScreenUtil.widgetTitle(mod, "tab.synopsis.intro")).formatted(Formatting.BOLD), textRenderer));
-		addWidget(visionTitle = new TextWidget(Text.translatable(ScreenUtil.widgetTitle(mod, "tab.synopsis.vision")).formatted(Formatting.BOLD), textRenderer));
-		addWidget(introText = new MultilineTextWidget(Text.translatable(ScreenUtil.widgetText(mod, "tab.synopsis.intro")), textRenderer));
-		addWidget(visionText = new MultilineTextWidget(Text.translatable(ScreenUtil.widgetText(mod, "tab.synopsis.vision")), textRenderer));
+		addWidget(introTitle = new TextWidget(Text.translatable(TextUtil.widgetTitle(mod, "tab.synopsis.intro")).formatted(Formatting.BOLD), textRenderer));
+		addWidget(visionTitle = new TextWidget(Text.translatable(TextUtil.widgetTitle(mod, "tab.synopsis.vision")).formatted(Formatting.BOLD), textRenderer));
+		addWidget(introText = new MultilineTextWidget(Text.translatable(TextUtil.widgetText(mod, "tab.synopsis.intro")), textRenderer));
+		addWidget(visionText = new MultilineTextWidget(Text.translatable(TextUtil.widgetText(mod, "tab.synopsis.vision")), textRenderer));
 	}
 	
 	@Override

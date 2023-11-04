@@ -17,7 +17,7 @@ import net.minecraft.client.gui.widget.MultilineTextWidget;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import pers.saikel0rado1iu.silk.Silk;
-import pers.saikel0rado1iu.silk.util.ScreenUtil;
+import pers.saikel0rado1iu.silk.util.TextUtil;
 import pers.saikel0rado1iu.silk.util.update.UpdateShow;
 
 import java.io.IOException;
@@ -41,7 +41,7 @@ public class UpdatedScreen extends UpdateScreen {
 		super.init();
 		// 添加信息
 		MultilineTextWidget messageText = new MultilineTextWidget(0, 0,
-				Text.translatable(ScreenUtil.widgetText(Silk.DATA, "updated"), updateShow.getMod().getJarName()),
+				Text.translatable(TextUtil.widgetText(Silk.DATA, "updated"), updateShow.getMod().getJarName()),
 				textRenderer).setMaxWidth(screenWidth - INTERVAL);
 		int height1 = (int) (height - (height - screenHeight) / 2 - BUTTON_SPACING * 1.5);
 		int height2 = (height - screenHeight) / 2 + textRenderer.fontHeight + ICON_SIZE + INTERVAL * 2 - messageText.getHeight();
@@ -51,7 +51,7 @@ public class UpdatedScreen extends UpdateScreen {
 		int fullButtonWidth = screenWidth - INTERVAL;
 		int fullButtonX = (width - (screenWidth - INTERVAL)) / 2;
 		int buttonY = (height - (height - screenHeight) / 2);
-		addDrawableChild(ButtonWidget.builder(Text.translatable(ScreenUtil.configText(Silk.DATA, "updated")).setStyle(Style.EMPTY.withBold(true)), (button) -> {
+		addDrawableChild(ButtonWidget.builder(Text.translatable(TextUtil.configText(Silk.DATA, "updated")).setStyle(Style.EMPTY.withBold(true)), (button) -> {
 			// 使用断言消除 setScreen NullPointerException警告
 			try {
 				Runtime.getRuntime().exec("cmd /A /C start \"\" /D \""

@@ -21,7 +21,7 @@ import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModExtendedData;
-import pers.saikel0rado1iu.silk.util.ScreenUtil;
+import pers.saikel0rado1iu.silk.util.TextUtil;
 import pers.saikel0rado1iu.silk.util.config.ConfigData;
 import pers.saikel0rado1iu.silk.util.update.screen.*;
 import pers.saikel0rado1iu.silk.util.update.toast.*;
@@ -68,28 +68,28 @@ public class UpdateShow {
 	
 	@ApiStatus.Internal
 	public Text getTitle(String key) {
-		return Text.translatable(ScreenUtil.widgetTitle(Silk.DATA, KEY + key), updateThread.getMod().getLocalizedName()).setStyle(Style.EMPTY.withBold(true).withColor(updateThread.getMod().getThemeColor()));
+		return Text.translatable(TextUtil.widgetTitle(Silk.DATA, KEY + key), updateThread.getMod().getLocalizedName()).setStyle(Style.EMPTY.withBold(true).withColor(updateThread.getMod().getThemeColor()));
 	}
 	
 	@ApiStatus.Internal
 	public Text getTitle(String key, String value) {
-		return Text.translatable(ScreenUtil.widgetTitle(Silk.DATA, KEY + key), updateThread.getMod().getLocalizedName(), value).setStyle(Style.EMPTY.withBold(true).withColor(updateThread.getMod().getThemeColor()));
+		return Text.translatable(TextUtil.widgetTitle(Silk.DATA, KEY + key), updateThread.getMod().getLocalizedName(), value).setStyle(Style.EMPTY.withBold(true).withColor(updateThread.getMod().getThemeColor()));
 	}
 	
 	@ApiStatus.Internal
 	public Text getToastText(String key) {
-		return Text.translatable(ScreenUtil.widgetText(Silk.DATA, KEY + key), updateThread.getMod().getLocalizedName()).setStyle(Style.EMPTY);
+		return Text.translatable(TextUtil.widgetText(Silk.DATA, KEY + key), updateThread.getMod().getLocalizedName()).setStyle(Style.EMPTY);
 	}
 	
 	@ApiStatus.Internal
 	public Text getWarText(String key) {
-		return Text.translatable(ScreenUtil.widgetText(Silk.DATA, KEY + key), updateThread.getMod().getLocalizedName()).setStyle(Style.EMPTY.withBold(true).withColor(Formatting.RED));
+		return Text.translatable(TextUtil.widgetText(Silk.DATA, KEY + key), updateThread.getMod().getLocalizedName()).setStyle(Style.EMPTY.withBold(true).withColor(Formatting.RED));
 	}
 	
 	@ApiStatus.Internal
 	public Text getVerText(String key) {
 		String ver = getUpdateThread().getUpdateModVer();
-		return Text.translatable(ScreenUtil.widgetText(Silk.DATA, KEY + key), updateThread.getMod().getLocalizedName(), ver.substring(0, ver.indexOf("-")));
+		return Text.translatable(TextUtil.widgetText(Silk.DATA, KEY + key), updateThread.getMod().getLocalizedName(), ver.substring(0, ver.indexOf("-")));
 	}
 	
 	@ApiStatus.Internal
