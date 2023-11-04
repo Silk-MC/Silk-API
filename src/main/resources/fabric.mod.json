@@ -32,6 +32,9 @@
 	"icon": "assets/silk-api/icon.png",
 	"environment": "*",
 	"entrypoints": {
+		"fabric-datagen": [
+			"pers.saikel0rado1iu.silk.DataGeneration"
+		],
 		"main": [
 			"pers.saikel0rado1iu.silk.Main"
 		]
