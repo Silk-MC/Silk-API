@@ -79,7 +79,7 @@ public interface ScreenUtil {
 	
 	@SilkApi
 	static ButtonWidget.Builder linkButton(Screen parent, ModBasicData mod, ModBasicData.LinkType linkType, boolean canTrust) {
-		Text text = Text.translatable(TextUtil.configText(mod, linkType.toString().toLowerCase()));
+		Text text = Text.translatable(TextUtil.widgetText(mod, linkType.toString().toLowerCase()));
 		return mod.getLink(linkType).isPresent() ? linkButton(parent, text, mod.getLink(linkType).get().toString(), canTrust) : linkButton(parent, text, Silk.DATA.getLink(linkType).orElseThrow().toString(), true);
 	}
 	
