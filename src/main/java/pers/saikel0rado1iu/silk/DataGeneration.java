@@ -14,8 +14,16 @@ package pers.saikel0rado1iu.silk;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.minecraft.entity.SpawnGroup;
+import net.minecraft.registry.RegistryWrapper;
+import pers.saikel0rado1iu.silk.api.entity.SilkEntityTypeTags;
 import pers.saikel0rado1iu.silk.datagen.SilkLanguageProvider;
+import pers.saikel0rado1iu.silk.util.Minecraft;
 
+import java.util.concurrent.CompletableFuture;
+
+import static pers.saikel0rado1iu.silk.datagen.SilkTagGenerator.putSpawnGroupEntityInTags;
 import static pers.saikel0rado1iu.silk.util.TextUtil.*;
 
 /**
@@ -29,10 +37,24 @@ public final class DataGeneration implements DataGeneratorEntrypoint {
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
 		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
+		pack.addProvider(TagGeneration.EntityType::new);
 		pack.addProvider(LocalizationGenerator.EnUs::new);
 		pack.addProvider(LocalizationGenerator.ZhCn::new);
 		pack.addProvider(LocalizationGenerator.ZhHk::new);
 		pack.addProvider(LocalizationGenerator.ZhTw::new);
+	}
+	
+	private interface TagGeneration {
+		final class EntityType extends FabricTagProvider.EntityTypeTagProvider {
+			public EntityType(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
+				super(output, completableFuture);
+			}
+			
+			@Override
+			protected void configure(RegistryWrapper.WrapperLookup arg) {
+				putSpawnGroupEntityInTags(this::getOrCreateTagBuilder, SilkEntityTypeTags.MONSTERS, SpawnGroup.MONSTER, Minecraft.DATA);
+			}
+		}
 	}
 	
 	private interface LocalizationGenerator {
