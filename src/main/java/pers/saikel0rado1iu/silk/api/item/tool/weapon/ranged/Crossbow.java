@@ -41,8 +41,8 @@ import net.minecraft.world.World;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.api.criterion.RangedKilledEntityCriterion;
-import pers.saikel0rado1iu.silk.api.criterion.SilkCriteria;
+import pers.saikel0rado1iu.silk.api.registry.datagen.criterion.RangedKilledEntityCriterion;
+import pers.saikel0rado1iu.silk.api.registry.datagen.criterion.SilkCriteria;
 import pers.saikel0rado1iu.silk.util.MathUtil;
 
 import java.util.ArrayList;

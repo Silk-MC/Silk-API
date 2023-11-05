@@ -26,8 +26,8 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.world.World;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.api.criterion.RangedKilledEntityCriterion;
-import pers.saikel0rado1iu.silk.api.criterion.SilkCriteria;
+import pers.saikel0rado1iu.silk.api.registry.datagen.criterion.RangedKilledEntityCriterion;
+import pers.saikel0rado1iu.silk.api.registry.datagen.criterion.SilkCriteria;
 import pers.saikel0rado1iu.silk.util.MathUtil;
 
 /**
