@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.api.registry;
+package pers.saikel0rado1iu.silk.api.registry.datagen;
 
 import com.google.common.collect.Sets;
 import net.minecraft.advancement.criterion.AbstractCriterion;
@@ -21,7 +21,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用于模组所有标准组成标准集与标准注册</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">用于模组所有标准与标准注册</font></b></p>
  * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#criteria()}方法</p>
  * <style="color:FFC800">
  *

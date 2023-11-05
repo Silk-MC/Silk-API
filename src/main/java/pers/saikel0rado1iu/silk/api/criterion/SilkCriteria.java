@@ -13,7 +13,7 @@ package pers.saikel0rado1iu.silk.api.criterion;
 
 import net.minecraft.advancement.criterion.Criteria;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.api.registry.SilkCriterion;
+import pers.saikel0rado1iu.silk.api.registry.datagen.SilkCriterion;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于补充原版的标准以便在模组中使用</font></b></p>
