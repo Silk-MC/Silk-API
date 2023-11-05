@@ -34,7 +34,7 @@ public interface SilkCriterion {
 	}
 	
 	@SilkApi
-	static <C extends AbstractCriterionConditions, T extends AbstractCriterion<C>> T otherRegister(T criterion, Consumer<T> criterionRegister) {
+	static <C extends AbstractCriterionConditions, T extends AbstractCriterion<C>> T create(T criterion, Consumer<T> criterionRegister) {
 		criterionRegister.accept(criterion);
 		return criterion;
 	}
