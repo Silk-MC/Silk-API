@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.api.criterion;
+package pers.saikel0rado1iu.silk.api.registry.datagen.criterion;
 
 import com.google.gson.JsonObject;
 import net.minecraft.advancement.criterion.AbstractCriterion;
