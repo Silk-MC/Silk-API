@@ -23,9 +23,9 @@ import pers.saikel0rado1iu.silk.api.registry.datagen.SilkCriterion;
  * @since 0.1.0
  */
 @SilkApi
-public class SilkCriteria extends SilkCriterion {
+public interface SilkCriteria {
 	@SilkApi
-	public static final ShotProjectileCriterion SHOT_PROJECTILE_CRITERION = builder(Criteria.register(new ShotProjectileCriterion())).build();
+	ShotProjectileCriterion SHOT_PROJECTILE_CRITERION = SilkCriterion.create(Criteria.register(new ShotProjectileCriterion()));
 	@SilkApi
-	public static final RangedKilledEntityCriterion RANGED_KILLED_ENTITY_CRITERION = builder(Criteria.register(new RangedKilledEntityCriterion())).build();
+	RangedKilledEntityCriterion RANGED_KILLED_ENTITY_CRITERION = SilkCriterion.create(Criteria.register(new RangedKilledEntityCriterion()));
 }
