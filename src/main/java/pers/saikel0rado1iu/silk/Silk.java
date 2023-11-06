@@ -48,7 +48,7 @@ final public class Silk implements ModExtendedData {
 	@Override
 	public Optional<URL> getSupportLink() throws MalformedURLException {
 		String url = getMod().getMetadata().getCustomValue("modmenu").getAsObject().get("links").getAsObject().get("modmenu.support.patreon").getAsString();
-		if ("CN".equals(Locale.getDefault().getLanguage()) && "zh".equals(Locale.getDefault().getCountry()))
+		if ("zh".equals(Locale.getDefault().getLanguage()) && "CN".equals(Locale.getDefault().getCountry()))
 			url = getMod().getMetadata().getCustomValue("modmenu").getAsObject().get("links").getAsObject().get("modmenu.support.afdian").getAsString();
 		return Optional.of(new URL(url));
 	}
