@@ -46,10 +46,6 @@ public class NbtShapedRecipe extends ShapedRecipe {
 		super(id, group, category, width, height, input, output, showNotification);
 	}
 	
-	public NbtShapedRecipe(Identifier id, String group, CraftingRecipeCategory category, int width, int height, DefaultedList<Ingredient> input, ItemStack output) {
-		this(id, group, category, width, height, input, output, true);
-	}
-	
 	protected static int findFirstSymbol(String line) {
 		int i = 0;
 		while (i < line.length() && line.charAt(i) == ' ') i++;
