@@ -44,9 +44,9 @@ public abstract class ModClient implements ClientModInitializer {
 		client(mod);
 		items();
 		blocks();
-		entities();
-		particles();
 		modelLayers();
+		entityTypes();
+		particleTypes();
 		if (modResourcesPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null)
 			modResourcesPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}
@@ -77,11 +77,20 @@ public abstract class ModClient implements ClientModInitializer {
 	}
 	
 	/**
+	 * 提供来自模组的模型图层集以供注册
+	 */
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public SilkModelLayer modelLayers() {
+		return null;
+	}
+	
+	/**
 	 * 提供来自模组的实体集以供注册
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
-	public SilkEntityType entities() {
+	public SilkEntityType entityTypes() {
 		return null;
 	}
 	
@@ -90,16 +99,7 @@ public abstract class ModClient implements ClientModInitializer {
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
-	public SilkParticleType particles() {
-		return null;
-	}
-	
-	/**
-	 * 提供来自模组的模型图层集以供注册
-	 */
-	@SilkApi
-	@ApiStatus.OverrideOnly
-	public SilkModelLayer modelLayers() {
+	public SilkParticleType particleTypes() {
 		return null;
 	}
 	
