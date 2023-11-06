@@ -17,6 +17,7 @@ import com.google.common.collect.Sets;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.advancement.Advancement;
+import net.minecraft.advancement.AdvancementRewards;
 import net.minecraft.advancement.CriterionMerger;
 import net.minecraft.advancement.criterion.CriterionConditions;
 import net.minecraft.advancement.criterion.RecipeUnlockedCriterion;
@@ -127,7 +128,7 @@ public class NbtShapedRecipeJsonBuilder extends ShapedRecipeJsonBuilder {
 	@Override
 	public void offerTo(Consumer<RecipeJsonProvider> exporter, Identifier recipeId) {
 		validate(recipeId);
-		advancementBuilder.parent(ROOT).criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeId)).rewards(net.minecraft.advancement.AdvancementRewards.Builder.recipe(recipeId)).criteriaMerger(CriterionMerger.OR);
+		advancementBuilder.parent(ROOT).criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeId)).rewards(AdvancementRewards.Builder.recipe(recipeId)).criteriaMerger(CriterionMerger.OR);
 		exporter.accept(new NbtShapedRecipeJsonProvider(recipeId, output, group == null ? "" : group, getCraftingCategory(category), pattern, inputs, advancementBuilder, recipeId.withPrefixedPath("recipes/" + category.getName() + "/"), showNotification));
 	}
 	
