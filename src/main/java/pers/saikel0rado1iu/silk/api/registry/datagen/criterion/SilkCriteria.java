@@ -12,6 +12,7 @@
 package pers.saikel0rado1iu.silk.api.registry.datagen.criterion;
 
 import net.minecraft.advancement.criterion.Criteria;
+import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.registry.datagen.SilkCriterion;
 
@@ -24,6 +25,9 @@ import pers.saikel0rado1iu.silk.api.registry.datagen.SilkCriterion;
  */
 @SilkApi
 public interface SilkCriteria {
+	@ApiStatus.Internal
+	SilkCriteria INSTANCE = new SilkCriteria() {
+	};
 	@SilkApi
 	ShotProjectileCriterion SHOT_PROJECTILE_CRITERION = SilkCriterion.create(Criteria.register(new ShotProjectileCriterion()));
 	@SilkApi
