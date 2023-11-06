@@ -40,9 +40,7 @@ public final class Main extends ModMain {
 	
 	@Override
 	public void datagen() {
-		new SilkCriteria() {
-		};
-		new SilkRecipeSerializers() {
-		};
+		Silk.DATA.logger().info("register " + SilkCriteria.INSTANCE);
+		Silk.DATA.logger().info("register " + SilkRecipeSerializers.INSTANCE);
 	}
 }

@@ -11,9 +11,11 @@
 
 package pers.saikel0rado1iu.silk.api.registry.datagen.recipe;
 
+import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.registry.datagen.SilkRecipeSerializer;
+import pers.saikel0rado1iu.silk.api.registry.datagen.criterion.SilkCriteria;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于补充原版的配方序列化器以便在模组中使用</font></b></p>
@@ -23,6 +25,9 @@ import pers.saikel0rado1iu.silk.api.registry.datagen.SilkRecipeSerializer;
  * @since 0.1.0
  */
 public interface SilkRecipeSerializers {
+	@ApiStatus.Internal
+	SilkCriteria INSTANCE = new SilkCriteria() {
+	};
 	@SilkApi
 	NbtShapedRecipe.Serializer NBT_SHAPED = SilkRecipeSerializer.create(new NbtShapedRecipe.Serializer(), Silk.DATA, "crafting_nbt_shaped");
 }
