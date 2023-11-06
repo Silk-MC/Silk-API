@@ -50,10 +50,10 @@ public abstract class ModMain implements ModInitializer {
 		datagen();
 		items();
 		blocks();
-		sounds();
-		effects();
-		entities();
-		particles();
+		entityTypes();
+		soundEvents();
+		statusEffects();
+		particleTypes();
 		blockEntities();
 		if (modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null) modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}
@@ -92,11 +92,20 @@ public abstract class ModMain implements ModInitializer {
 	}
 	
 	/**
+	 * 提供来自模组的实体类型集以供注册
+	 */
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public SilkEntityType entityTypes() {
+		return null;
+	}
+	
+	/**
 	 * 提供来自模组的声音事件集以供注册
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
-	public SilkSound sounds() {
+	public SilkSoundEvent soundEvents() {
 		return null;
 	}
 	
@@ -105,16 +114,7 @@ public abstract class ModMain implements ModInitializer {
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
-	public SilkEffect effects() {
-		return null;
-	}
-	
-	/**
-	 * 提供来自模组的实体类型集以供注册
-	 */
-	@SilkApi
-	@ApiStatus.OverrideOnly
-	public SilkEntity entities() {
+	public SilkStatusEffect statusEffects() {
 		return null;
 	}
 	
@@ -123,7 +123,7 @@ public abstract class ModMain implements ModInitializer {
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
-	public SilkParticle particles() {
+	public SilkParticleType particleTypes() {
 		return null;
 	}
 	

@@ -81,7 +81,7 @@ public abstract class ModClient implements ClientModInitializer {
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
-	public SilkEntity entities() {
+	public SilkEntityType entities() {
 		return null;
 	}
 	
@@ -90,7 +90,7 @@ public abstract class ModClient implements ClientModInitializer {
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
-	public SilkParticle particles() {
+	public SilkParticleType particles() {
 		return null;
 	}
 	

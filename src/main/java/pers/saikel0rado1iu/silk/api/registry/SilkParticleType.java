@@ -27,22 +27,22 @@ import java.util.function.Consumer;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于模组所有粒子组成粒子集与粒子注册</font></b></p>
- * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#particles()}方法</p>
+ * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#particleTypes()}方法</p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
 @SilkApi
-public abstract class SilkParticle {
-	public static final Set<ParticleType<?>> ALL_MOD_PARTICLES = Sets.newLinkedHashSetWithExpectedSize(8);
+public abstract class SilkParticleType {
+	public static final Set<ParticleType<?>> ALL_MOD_PARTICLE_TYPES = Sets.newLinkedHashSetWithExpectedSize(8);
 	
 	protected static <P extends ParticleType<?>> Builder<P> builder(P particle) {
 		return new Builder<>(particle);
 	}
 	
 	/**
-	 * 你需要在 client 模块中重新创建继承 {@link SilkParticle} 类来创建一个专用于客户端的注册类并覆盖 ModClient.particles()方法
+	 * 你需要在 client 模块中重新创建继承 {@link SilkParticleType} 类来创建一个专用于客户端的注册类并覆盖 ModClient.particles()方法
 	 */
 	@SilkApi
 	@Environment(EnvType.CLIENT)
@@ -56,7 +56,7 @@ public abstract class SilkParticle {
 		
 		@SilkApi
 		private Builder(P particle) {
-			ALL_MOD_PARTICLES.add(this.particle = particle);
+			ALL_MOD_PARTICLE_TYPES.add(this.particle = particle);
 		}
 		
 		@SilkApi

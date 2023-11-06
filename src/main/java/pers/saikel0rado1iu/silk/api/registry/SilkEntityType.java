@@ -28,14 +28,14 @@ import java.util.function.Consumer;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于模组所有实体类型组成实体类型集与实体类型注册</font></b></p>
- * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#entities()}方法</p>
+ * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#entityTypes()}方法</p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
 @SilkApi
-public abstract class SilkEntity {
+public abstract class SilkEntityType {
 	@SilkApi
 	public static final float POS_SHIFTING = 0.5F;
 	@SilkApi
@@ -51,7 +51,7 @@ public abstract class SilkEntity {
 	}
 	
 	/**
-	 * 你需要在 client 模块中重新创建继承 {@link SilkEntity} 类来创建一个专用于客户端的注册类并覆盖 ModClient.entities()方法
+	 * 你需要在 client 模块中重新创建继承 {@link SilkEntityType} 类来创建一个专用于客户端的注册类并覆盖 ModClient.entities()方法
 	 */
 	@SilkApi
 	@Environment(EnvType.CLIENT)
