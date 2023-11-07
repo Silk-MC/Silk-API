@@ -3,6 +3,9 @@
 	"package": "pers.saikel0rado1iu.silk.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"client": [
+		"api.callback.GameMenuScreenAddButtonCallbackMixin",
+		"api.callback.WorldPresetCustomButtonCallbackMixin$AddButton",
+		"api.callback.WorldPresetCustomButtonCallbackMixin$ShowCustom",
 		"api.item.HoldingFovZoomMixin$RenderHudOverlay",
 		"api.item.HoldingFovZoomMixin$SetMouseMoveMultiplier",
 		"api.item.HoldingFovZoomMixin$SetUsingFovZoom",
