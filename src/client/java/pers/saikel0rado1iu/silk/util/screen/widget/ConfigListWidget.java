@@ -80,13 +80,6 @@ public class ConfigListWidget extends OptionListWidget implements CustomBackgrou
 	}
 	
 	@Override
-	protected void enableScissor(DrawContext context) {
-		top += 4;
-		super.enableScissor(context);
-		top -= 4;
-	}
-	
-	@Override
 	public @Nullable Identifier getBackground() {
 		return background;
 	}
