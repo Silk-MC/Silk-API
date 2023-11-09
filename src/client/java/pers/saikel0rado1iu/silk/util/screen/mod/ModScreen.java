@@ -50,6 +50,7 @@ public class ModScreen extends BaseScreen {
 	private final Identifier background;
 	private GridWidget grid;
 	private TabNavigationWidget tabNavigation;
+	private int tempIndex = -1;
 	
 	@SilkApi
 	public ModScreen(Screen parent, ScreenTab tab, ScreenTab... tabs) {
@@ -69,8 +70,7 @@ public class ModScreen extends BaseScreen {
 		this.tabs = ImmutableList.copyOf(Lists.asList(tab, tabs));
 	}
 	
-	protected void tabWidgetRender(ScreenTab tab, DrawContext context, int mouseX, int mouseY, float delta) {
-		tab.render(client, textRenderer, context, mouseX, mouseY, delta, width, height);
+	protected void tabWidgetReset(ScreenTab tab) {
 		tab.drawableWidgetList.forEach(this::remove);
 		tab.selectableWidgetList.forEach(object -> remove((Element & Selectable) object));
 		tab.drawableWidgetList.clear();
@@ -78,7 +78,6 @@ public class ModScreen extends BaseScreen {
 		tab.init(client, textRenderer, width, height);
 		tab.drawableWidgetList.forEach(this::addDrawableChild);
 		tab.selectableWidgetList.forEach(object -> addSelectableChild((Element & Selectable) object));
-		tab.render(client, textRenderer, context, mouseX, mouseY, delta, width, height);
 	}
 	
 	@Override
@@ -88,14 +87,18 @@ public class ModScreen extends BaseScreen {
 		for (int count = 0; count < tabs.size(); count++) {
 			if (tabNavigation.getFocused() == null) {
 				if (count == mainTabIndex) {
-					tabWidgetRender(tabs.get(count), context, mouseX, mouseY, delta);
+					if (tempIndex != count) tabWidgetReset(tabs.get(count));
+					tabs.get(count).render(client, textRenderer, context, mouseX, mouseY, delta, width, height);
+					tempIndex = count;
 				} else {
 					tabs.get(count).drawableWidgetList.forEach(this::remove);
 					tabs.get(count).selectableWidgetList.forEach(object -> remove((Element & Selectable) object));
 				}
 			} else {
 				if (tabNavigation.children().get(count).equals(tabNavigation.getFocused())) {
-					tabWidgetRender(tabs.get(count), context, mouseX, mouseY, delta);
+					if (tempIndex != count) tabWidgetReset(tabs.get(count));
+					tabs.get(count).render(client, textRenderer, context, mouseX, mouseY, delta, width, height);
+					tempIndex = count;
 				} else {
 					tabs.get(count).drawableWidgetList.forEach(this::remove);
 					tabs.get(count).selectableWidgetList.forEach(object -> remove((Element & Selectable) object));

@@ -54,7 +54,7 @@ public class ConfigListWidget extends OptionListWidget implements CustomBackgrou
 		
 		int rowLeft = getRowLeft();
 		int scrollAmount = top + 4 - (int) getScrollAmount();
-		//enableScissor(context);
+		enableScissor(context);
 		
 		renderHeader(context, rowLeft, scrollAmount);
 		
