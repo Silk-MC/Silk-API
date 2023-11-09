@@ -58,7 +58,7 @@ public class ModTab extends ScreenTab {
 		addWidget(ScreenUtil.linkButton(parent, mod, ModBasicData.LinkType.COMMUNITY, linkTrusted()).dimensions(buttonX, TAP_TOP + INTERVAL + LOGO_SIDE - buttonHeight, width / 2 - width / 60 - buttonX - iconAdd, buttonHeight).build());
 		addWidget(logTitle = new TextWidget(Text.translatable(TextUtil.widgetTitle(mod, "changelog")), textRenderer));
 		addWidget(targetTitle = new TextWidget(Text.translatable(TextUtil.widgetTitle(mod, "target")), textRenderer));
-		changelogWidget = new TextListWidget(client, width / 2 - width / 30, height, TAP_TOP + INTERVAL * 3, height - TAP_BOTTOM - INTERVAL, 12, ScreenUtil.readChangelog(mod));
+		changelogWidget = new TextListWidget(client, width / 2 - width / 30, height, TAP_TOP + INTERVAL * 3, height - TAP_BOTTOM - INTERVAL, 12, ScreenUtil.readChangelog());
 		changelogWidget.setLeftPos(width / 2 + width / 60);
 		targetWidget = new TextListWidget(client, width / 2 - width / 30, height, TAP_TOP + INTERVAL * 4 + LOGO_SIDE, height - TAP_BOTTOM - INTERVAL, 12, TextUtil.widgetText(mod, "target"));
 		targetWidget.setLeftPos(width / 60);

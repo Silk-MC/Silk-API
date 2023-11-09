@@ -102,9 +102,9 @@ public interface ScreenUtil {
 	 * 读取的更新日志位置于资源包根目录下的 log 文件夹内
 	 */
 	@SilkApi
-	static String readChangelog(ModBasicData mod) {
+	static String readChangelog() {
 		try {
-			URL path = ScreenUtil.class.getResource("/assets/" + mod.getId() + "/log/" + LocalizationUtil.getLanguage() + ".txt");
+			URL path = ScreenUtil.class.getResource("/log/" + LocalizationUtil.getLanguage() + ".txt");
 			if (path == null) return "Changelog does not exist!" + Silk.DATA.getInfo();
 			Path logPath = Path.of(path.toURI());
 			StringBuilder log = new StringBuilder().append(Files.readString(logPath, StandardCharsets.UTF_8));
