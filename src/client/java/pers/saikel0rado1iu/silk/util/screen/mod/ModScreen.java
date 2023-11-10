@@ -51,6 +51,7 @@ public class ModScreen extends BaseScreen {
 	private GridWidget grid;
 	private TabNavigationWidget tabNavigation;
 	private int tempIndex = -1;
+	private int tempSize = -1;
 	
 	@SilkApi
 	public ModScreen(Screen parent, ScreenTab tab, ScreenTab... tabs) {
@@ -87,18 +88,20 @@ public class ModScreen extends BaseScreen {
 		for (int count = 0; count < tabs.size(); count++) {
 			if (tabNavigation.getFocused() == null) {
 				if (count == mainTabIndex) {
-					if (tempIndex != count) tabWidgetReset(tabs.get(count));
+					if (tempIndex != count || tempSize != width * height) tabWidgetReset(tabs.get(count));
 					tabs.get(count).render(client, textRenderer, context, mouseX, mouseY, delta, width, height);
 					tempIndex = count;
+					tempSize = width * height;
 				} else {
 					tabs.get(count).drawableWidgetList.forEach(this::remove);
 					tabs.get(count).selectableWidgetList.forEach(object -> remove((Element & Selectable) object));
 				}
 			} else {
 				if (tabNavigation.children().get(count).equals(tabNavigation.getFocused())) {
-					if (tempIndex != count) tabWidgetReset(tabs.get(count));
+					if (tempIndex != count || tempSize != width * height) tabWidgetReset(tabs.get(count));
 					tabs.get(count).render(client, textRenderer, context, mouseX, mouseY, delta, width, height);
 					tempIndex = count;
+					tempSize = width * height;
 				} else {
 					tabs.get(count).drawableWidgetList.forEach(this::remove);
 					tabs.get(count).selectableWidgetList.forEach(object -> remove((Element & Selectable) object));
@@ -124,7 +127,7 @@ public class ModScreen extends BaseScreen {
 	
 	@Override
 	protected void init() {
-		tabs.forEach(tab -> tab.setParent(this).setBackground(background).init(client, textRenderer, width, height));
+		tabs.forEach(tab -> tab.drawableWidgetList.forEach(this::addDrawableChild));
 		tabNavigation = TabNavigationWidget.builder(tabManager, width).tabs(tabs.toArray(new Tab[0])).build();
 		addDrawableChild(tabNavigation);
 		grid = new GridWidget().setColumnSpacing(10);

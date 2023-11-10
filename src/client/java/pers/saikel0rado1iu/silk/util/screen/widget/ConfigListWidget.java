@@ -20,7 +20,6 @@ import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
-import static com.mojang.blaze3d.systems.RenderSystem.disableScissor;
 import static net.minecraft.client.gui.screen.Screen.OPTIONS_BACKGROUND_TEXTURE;
 import static net.minecraft.client.gui.screen.world.CreateWorldScreen.LIGHT_DIRT_BACKGROUND_TEXTURE;
 import static pers.saikel0rado1iu.silk.util.screen.mod.ScreenTab.TAP_BOTTOM;
@@ -59,7 +58,7 @@ public class ConfigListWidget extends OptionListWidget implements CustomBackgrou
 		renderHeader(context, rowLeft, scrollAmount);
 		
 		renderList(context, mouseX, mouseY, delta);
-		disableScissor();
+		context.disableScissor();
 		RenderSystem.setShaderTexture(0, LIGHT_DIRT_BACKGROUND_TEXTURE);
 		context.drawTexture(LIGHT_DIRT_BACKGROUND_TEXTURE, left, 0, 0.0F, 0.0F, width, top, 32, 32);
 		context.fillGradient(left, top, right, top + 4, -16777216, 0);
