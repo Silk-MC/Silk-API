@@ -17,7 +17,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.ApiStatus;
-import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.api.ModExtendedData;
 import pers.saikel0rado1iu.silk.util.Minecraft;
 
@@ -62,6 +61,7 @@ public final class CheckUpdateThread extends Thread {
 	}
 	
 	private static String getFileSha1(Path path) {
+		if (!path.toFile().isFile()) return "";
 		try (InputStream in = Files.newInputStream(path)) {
 			MessageDigest digest = MessageDigest.getInstance("SHA-1");
 			byte[] buffer = new byte[1024 * 1024 * 10];
@@ -234,7 +234,6 @@ public final class CheckUpdateThread extends Thread {
 				checkUpdateLink.openConnection().setConnectTimeout(100);
 				// 通过 URL 的 openStream 方法获取 URL 对象所表示的自愿字节输入流
 				String s = new BufferedReader(new InputStreamReader(checkUpdateLink.openStream())).lines().collect(Collectors.joining(System.lineSeparator()));
-				Silk.DATA.logger().error(s);
 				if ("[]".equals(s)) return UPDATE_FAIL;
 				JsonObject webData = (JsonObject) JsonParser.parseString(s).getAsJsonArray().get(0);
 				// 判断更新
