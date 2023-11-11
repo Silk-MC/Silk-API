@@ -74,7 +74,7 @@ dependencies {
 	modImplementation "com.moandjiezana.toml:toml4j:0.7.2"
 	
 	// 本模组所需要添加使用的本地模组库
-	modImplementation fileTree(dir: 'libs', includes: ['*.jar'])
+	modCompileOnly fileTree(dir: 'libs', includes: ['*.jar'])
 }
 
 processResources {
