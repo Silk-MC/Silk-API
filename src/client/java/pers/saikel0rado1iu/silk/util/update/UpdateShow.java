@@ -98,11 +98,16 @@ public class UpdateShow {
 	}
 	
 	@ApiStatus.Internal
-	public void showUpdate(Screen parent) {
+	public void checkAndShowUpdate(Screen parent) {
 		String str = "modmenu.nameTranslation." + Silk.DATA.getId();
 		if (str.equals(Text.translatable(str).getString())) return;
 		if (!canShowScreen) return;
 		if (updateThread.getUpdateModVer() == null) return;
+		showUpdate(parent);
+	}
+	
+	@ApiStatus.Internal
+	public void showUpdate(Screen parent) {
 		if (updateThread.getData().getUpdateNotify()) showUpdateScreen(parent);
 		else showUpdateToast();
 	}
