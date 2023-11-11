@@ -55,7 +55,7 @@ public class CanUpdateModScreen extends ModScreen {
 		super.init();
 		String modVerString = updateShow.getMod().getVersion();
 		modVersion = new PressableTextWidget(0, height - 12, textRenderer.getWidth(modVerString), textRenderer.fontHeight,
-				Text.of(modVerString), buttonWidget -> updateShow.updateMod(), textRenderer);
+				Text.of(modVerString), buttonWidget -> updateShow.showUpdate(this), textRenderer);
 		addDrawableChild(modVersion);
 	}
 	
