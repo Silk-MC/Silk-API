@@ -23,12 +23,15 @@ import net.minecraft.client.gui.tab.TabManager;
 import net.minecraft.client.gui.widget.GridWidget;
 import net.minecraft.client.gui.widget.SimplePositioningWidget;
 import net.minecraft.client.gui.widget.TabNavigationWidget;
+import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.util.ScreenUtil;
 import pers.saikel0rado1iu.silk.util.screen.BaseScreen;
+
+import java.util.ArrayList;
 
 import static com.mojang.blaze3d.systems.RenderSystem.setShaderColor;
 import static com.mojang.blaze3d.systems.RenderSystem.setShaderTexture;
@@ -44,8 +47,8 @@ import static net.minecraft.client.gui.screen.world.CreateWorldScreen.LIGHT_DIRT
  */
 @SilkApi
 public class ModScreen extends BaseScreen {
+	protected final ImmutableList<ScreenTab> tabs;
 	private final TabManager tabManager = new TabManager(this::addDrawableChild, this::remove);
-	private final ImmutableList<ScreenTab> tabs;
 	private final int mainTabIndex;
 	private final Identifier background;
 	private GridWidget grid;
@@ -139,6 +142,10 @@ public class ModScreen extends BaseScreen {
 		});
 		tabNavigation.selectTab(mainTabIndex, false);
 		initTabNavigation();
+		String modVerString = tabs.get(0).mod.getVersion();
+		addDrawableChild(new TextWidget(0, height - 12, textRenderer.getWidth(modVerString), textRenderer.fontHeight, Text.of(modVerString), textRenderer));
+		String modLicense = new ArrayList<>(tabs.get(0).mod.getLicenses()).isEmpty() ? "ARR" : new ArrayList<>(tabs.get(0).mod.getLicenses()).get(0);
+		addDrawableChild(new TextWidget(width - textRenderer.getWidth(modLicense), height - 12, textRenderer.getWidth(modLicense), textRenderer.fontHeight, Text.of(modLicense), textRenderer));
 	}
 	
 	@Override
