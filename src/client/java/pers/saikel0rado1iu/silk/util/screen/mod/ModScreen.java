@@ -53,6 +53,8 @@ public class ModScreen extends BaseScreen {
 	private final Identifier background;
 	private GridWidget grid;
 	private TabNavigationWidget tabNavigation;
+	private TextWidget verWidget;
+	private TextWidget licenseWidget;
 	private int tempIndex = -1;
 	private int tempSize = -1;
 	
@@ -111,6 +113,9 @@ public class ModScreen extends BaseScreen {
 				}
 			}
 		}
+		String modLicense = new ArrayList<>(tabs.get(0).mod.getLicenses()).isEmpty() ? "ARR" : new ArrayList<>(tabs.get(0).mod.getLicenses()).get(0);
+		verWidget.setPosition(0, height - 12);
+		licenseWidget.setPosition(width - textRenderer.getWidth(modLicense), height - 12);
 		super.render(context, mouseX, mouseY, delta);
 	}
 	
@@ -143,9 +148,9 @@ public class ModScreen extends BaseScreen {
 		tabNavigation.selectTab(mainTabIndex, false);
 		initTabNavigation();
 		String modVerString = tabs.get(0).mod.getVersion();
-		addDrawableChild(new TextWidget(0, height - 12, textRenderer.getWidth(modVerString), textRenderer.fontHeight, Text.of(modVerString), textRenderer));
+		addDrawableChild(verWidget = new TextWidget(0, height - 12, textRenderer.getWidth(modVerString), textRenderer.fontHeight, Text.of(modVerString), textRenderer));
 		String modLicense = new ArrayList<>(tabs.get(0).mod.getLicenses()).isEmpty() ? "ARR" : new ArrayList<>(tabs.get(0).mod.getLicenses()).get(0);
-		addDrawableChild(new TextWidget(width - textRenderer.getWidth(modLicense), height - 12, textRenderer.getWidth(modLicense), textRenderer.fontHeight, Text.of(modLicense), textRenderer));
+		addDrawableChild(licenseWidget = new TextWidget(width - textRenderer.getWidth(modLicense), height - 12, textRenderer.getWidth(modLicense), textRenderer.fontHeight, Text.of(modLicense), textRenderer));
 	}
 	
 	@Override

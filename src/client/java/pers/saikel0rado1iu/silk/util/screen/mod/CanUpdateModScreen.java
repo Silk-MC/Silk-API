@@ -63,6 +63,7 @@ public class CanUpdateModScreen extends ModScreen {
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 		super.render(context, mouseX, mouseY, delta);
+		modVersion.setPosition(0, height - 12);
 		if (modVersion.isMouseOver(mouseX, mouseY)) {
 			context.drawTextWithShadow(textRenderer, Text.translatable(TextUtil.widgetText(Silk.DATA, "check_update")),
 					mouseX, mouseY - textRenderer.fontHeight * 2, 0xCCCCCC);
