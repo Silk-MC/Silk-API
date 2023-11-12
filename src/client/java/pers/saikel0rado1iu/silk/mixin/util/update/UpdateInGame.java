@@ -31,7 +31,7 @@ abstract class UpdateInGame {
 	@Inject(method = "tick", at = @At("RETURN"))
 	private void tick(CallbackInfo ci) {
 		for (UpdateShow updateShow : UpdateSystem.getUpdateShows()) {
-			updateShow.checkAndShowUpdate(null);
+			updateShow.showUpdate(null);
 		}
 	}
 }
