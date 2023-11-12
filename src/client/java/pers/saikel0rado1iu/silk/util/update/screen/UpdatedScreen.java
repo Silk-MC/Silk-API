@@ -41,7 +41,7 @@ public class UpdatedScreen extends UpdateScreen {
 		super.init();
 		// 添加信息
 		MultilineTextWidget messageText = new MultilineTextWidget(0, 0,
-				Text.translatable(TextUtil.widgetText(Silk.DATA, "updated"), updateShow.getMod().getJarName()),
+				Text.translatable(TextUtil.widgetText(Silk.DATA, "updated"), updateShow.getMod().getLocalizedName()),
 				textRenderer).setMaxWidth(screenWidth - INTERVAL);
 		int height1 = (int) (height - (height - screenHeight) / 2 - BUTTON_SPACING * 1.5);
 		int height2 = (height - screenHeight) / 2 + textRenderer.fontHeight + ICON_SIZE + INTERVAL * 2 - messageText.getHeight();
