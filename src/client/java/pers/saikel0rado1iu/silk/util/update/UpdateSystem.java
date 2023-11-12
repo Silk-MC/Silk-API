@@ -45,7 +45,13 @@ public class UpdateSystem {
 	
 	@SilkApi
 	public static void registryUpdate(UpdateData updateData) {
-		UpdateShow updateShow = new UpdateShow(new CheckUpdateThread(updateData));
+		UpdateShow updateShow = new UpdateShow(new CheckUpdateThread(updateData), false);
+		if (UPDATE_SHOWS.add(updateShow)) updateShow.runUpdateThread();
+	}
+	
+	@SilkApi
+	public static void registryUpdate(UpdateData updateData, boolean isTrustedLink) {
+		UpdateShow updateShow = new UpdateShow(new CheckUpdateThread(updateData), isTrustedLink);
 		if (UPDATE_SHOWS.add(updateShow)) updateShow.runUpdateThread();
 	}
 }

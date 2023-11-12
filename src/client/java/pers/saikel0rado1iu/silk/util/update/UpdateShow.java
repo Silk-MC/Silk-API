@@ -44,11 +44,13 @@ public class UpdateShow {
 	public static final String KEY = "update.";
 	private final CheckUpdateThread updateThread;
 	private final ModUpdateThread modUpdateThread;
+	private final boolean isTrustedLink;
 	private boolean canShowScreen = true;
 	
-	public UpdateShow(CheckUpdateThread updateThread) {
+	public UpdateShow(CheckUpdateThread updateThread, boolean isTrustedLink) {
 		this.updateThread = updateThread;
 		this.modUpdateThread = new ModUpdateThread(updateThread);
+		this.isTrustedLink = isTrustedLink;
 	}
 	
 	@ApiStatus.Internal
@@ -137,20 +139,20 @@ public class UpdateShow {
 	 */
 	private void showUpdateScreen(Screen parent) {
 		switch (updateThread.getUpdateState()) {
-			case NEW_MC_VER -> MinecraftClient.getInstance().setScreen(new NewMcVerNotifyScreen(parent, this, linkTrusted()));
-			case THIS_MC_VER -> MinecraftClient.getInstance().setScreen(new ThisMcVerNotifyScreen(parent, this, linkTrusted()));
+			case NEW_MC_VER -> MinecraftClient.getInstance().setScreen(new NewMcVerNotifyScreen(parent, this, isTrustedLink));
+			case THIS_MC_VER -> MinecraftClient.getInstance().setScreen(new ThisMcVerNotifyScreen(parent, this, isTrustedLink));
 			case MOD_LOG -> {
-				if (updateThread.getData().getShowChangelog()) MinecraftClient.getInstance().setScreen(new ShowChangelogScreen(parent, this, linkTrusted()));
+				if (updateThread.getData().getShowChangelog()) MinecraftClient.getInstance().setScreen(new ShowChangelogScreen(parent, this, isTrustedLink));
 				else UpdateToast.setToast(new ShowChangelogToast(this));
 			}
 			case STOP_UPDATE -> {
 				if (updateThread.getData().getStopUpdatingWarning())
-					MinecraftClient.getInstance().setScreen(new StopUpdateWarningScreen(parent, this, linkTrusted()));
+					MinecraftClient.getInstance().setScreen(new StopUpdateWarningScreen(parent, this, isTrustedLink));
 				else UpdateToast.setToast(new StopUpdateWarningToast(this));
 			}
 			case UPDATE_FAIL -> {
 				if (updateThread.getData().getUpdateSysFailWarning())
-					MinecraftClient.getInstance().setScreen(new UpdateFailWarningScreen(parent, this, linkTrusted()));
+					MinecraftClient.getInstance().setScreen(new UpdateFailWarningScreen(parent, this, isTrustedLink));
 				else UpdateToast.setToast(new UpdateFailWarningToast(this));
 			}
 			case NONE -> getMod().logger().info("Checking the new version of mod..." + Silk.DATA.getInfo());
@@ -169,12 +171,5 @@ public class UpdateShow {
 			case UPDATE_FAIL -> UpdateToast.setToast(new UpdateFailWarningToast(this));
 			case NONE -> getMod().logger().info("Checking the new version of mod..." + Silk.DATA.getInfo());
 		}
-	}
-	
-	/**
-	 * 重写此方法以信任链接
-	 */
-	protected boolean linkTrusted() {
-		return false;
 	}
 }
