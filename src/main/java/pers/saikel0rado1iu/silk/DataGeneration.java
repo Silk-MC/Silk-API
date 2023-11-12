@@ -75,6 +75,7 @@ public final class DataGeneration implements DataGeneratorEntrypoint {
 				translationBuilder.add("modmenu.support.patreon", "Support: Patreon");
 				translationBuilder.add(getCommentKey("update"), "Text translation of the update system");
 				translationBuilder.add(widgetText(Silk.DATA, "support"), "Support for Silk API");
+				translationBuilder.add(widgetText(Silk.DATA, "check_update"), "Check For Updates");
 				translationBuilder.add(widgetTitle(Silk.DATA, "update.update_fail"), "Update System Fail Warning");
 				translationBuilder.add(widgetText(Silk.DATA, "update.update_fail"), "  The update system is invalid and the update request cannot be obtained. Please update the silk-api version in time.");
 				translationBuilder.add(widgetTitle(Silk.DATA, "update.stop_update"), "%s Stop Update Warning");
@@ -144,6 +145,7 @@ public final class DataGeneration implements DataGeneratorEntrypoint {
 				translationBuilder.add("modmenu.support.patreon", "支持作者: Patreon");
 				translationBuilder.add(getCommentKey("update"), "更新系统的文本翻译");
 				translationBuilder.add(widgetText(Silk.DATA, "support"), "支持丝绸开发库");
+				translationBuilder.add(widgetText(Silk.DATA, "check_update"), "检查更新");
 				translationBuilder.add(widgetTitle(Silk.DATA, "update.update_fail"), "更新系统失效警告");
 				translationBuilder.add(widgetText(Silk.DATA, "update.update_fail"), "　　更新系统已失效，无法获取更新请求，请及时更新丝绸开发库版本。");
 				translationBuilder.add(widgetTitle(Silk.DATA, "update.stop_update"), "%s停止更新警告");
@@ -213,6 +215,7 @@ public final class DataGeneration implements DataGeneratorEntrypoint {
 				translationBuilder.add("modmenu.support.patreon", "支持作者: Patreon");
 				translationBuilder.add(getCommentKey("update"), "更新系統的文本翻譯");
 				translationBuilder.add(widgetText(Silk.DATA, "support"), "支持絲綢開發庫");
+				translationBuilder.add(widgetText(Silk.DATA, "check_update"), "檢查更新");
 				translationBuilder.add(widgetTitle(Silk.DATA, "update.update_fail"), "更新系統失效警告");
 				translationBuilder.add(widgetText(Silk.DATA, "update.update_fail"), "　　更新系統已失效，無法獲取更新請求，請及時更新絲綢開發庫版本。");
 				translationBuilder.add(widgetTitle(Silk.DATA, "update.stop_update"), "%s停止更新警告");
@@ -282,6 +285,7 @@ public final class DataGeneration implements DataGeneratorEntrypoint {
 				translationBuilder.add("modmenu.support.patreon", "支援作者: Patreon");
 				translationBuilder.add(getCommentKey("update"), "更新系統的文字翻譯");
 				translationBuilder.add(widgetText(Silk.DATA, "support"), "支援絲綢開發庫");
+				translationBuilder.add(widgetText(Silk.DATA, "check_update"), "檢查更新");
 				translationBuilder.add(widgetTitle(Silk.DATA, "update.update_fail"), "更新系統失效警告");
 				translationBuilder.add(widgetText(Silk.DATA, "update.update_fail"), "　　更新系統已失效，無法獲取更新請求，請及時更新絲綢開發庫版本。");
 				translationBuilder.add(widgetTitle(Silk.DATA, "update.stop_update"), "%s停止更新警告");

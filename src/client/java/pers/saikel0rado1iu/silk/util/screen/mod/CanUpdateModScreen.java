@@ -16,6 +16,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.PressableTextWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.util.TextUtil;
 import pers.saikel0rado1iu.silk.util.update.UpdateShow;
@@ -63,7 +64,7 @@ public class CanUpdateModScreen extends ModScreen {
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 		super.render(context, mouseX, mouseY, delta);
 		if (modVersion.isMouseOver(mouseX, mouseY)) {
-			context.drawTextWithShadow(textRenderer, Text.translatable(TextUtil.widgetText(updateShow.getMod(), "check_update")),
+			context.drawTextWithShadow(textRenderer, Text.translatable(TextUtil.widgetText(Silk.DATA, "check_update")),
 					mouseX, mouseY - textRenderer.fontHeight * 2, 0xCCCCCC);
 		}
 	}
