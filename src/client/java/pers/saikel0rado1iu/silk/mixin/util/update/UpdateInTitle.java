@@ -31,7 +31,7 @@ abstract class UpdateInTitle {
 	@Inject(method = "tick", at = @At("RETURN"))
 	private void tick(CallbackInfo ci) {
 		for (UpdateShow updateShow : UpdateSystem.getUpdateShows()) {
-			updateShow.showUpdate((TitleScreen) (Object) this);
+			updateShow.checkAndShowUpdate((TitleScreen) (Object) this);
 		}
 	}
 }
