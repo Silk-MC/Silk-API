@@ -124,12 +124,7 @@ public abstract class UpdateScreen extends BaseScreen {
 	@SilkApi
 	protected ButtonWidget.Builder updateConfigButton() {
 		return ButtonWidget.builder(Text.translatable(TextUtil.configText(Silk.DATA, UpdateData.KEY)), (button) -> {
-			if (client != null) client.setScreen(new ConfigScreen(this, updateShow.getConfigData(), UpdateData.KEY) {
-				@Override
-				protected boolean linkTrusted() {
-					return true;
-				}
-			});
+			if (client != null) client.setScreen(new ConfigScreen(this, updateShow.getConfigData(), UpdateData.KEY));
 		});
 	}
 	

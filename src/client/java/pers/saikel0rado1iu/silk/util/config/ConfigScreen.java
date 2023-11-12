@@ -113,7 +113,7 @@ public class ConfigScreen extends BaseScreen {
 	protected void init() {
 		super.init();
 		// 添加"支持我们"按钮
-		addDrawableChild(ScreenUtil.linkButton(this, configData.mod, ModBasicData.LinkType.SUPPORT, linkTrusted()).dimensions(width - 115, 6, 110, 20).build());
+		addDrawableChild(ScreenUtil.linkButton(this, configData.mod, ModBasicData.LinkType.SUPPORT, true).dimensions(width - 115, 6, 110, 20).build());
 		// 添加完成按钮
 		addDrawableChild(doneButton(this).dimensions(width / 2 - 100, height - 26, 200, 20).build());
 		// 添加黑色透明窗口
@@ -211,12 +211,5 @@ public class ConfigScreen extends BaseScreen {
 		}
 		if (isDouble && simpleOptionList.size() % 2 == 1) optionListWidget.addOptionEntry(simpleOptionList.get(simpleOptionList.size() - 1), null);
 		return simpleOptionList;
-	}
-	
-	/**
-	 * 重写此方法以信任链接
-	 */
-	protected boolean linkTrusted() {
-		return false;
 	}
 }
