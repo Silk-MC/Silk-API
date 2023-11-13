@@ -17,7 +17,11 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.world.WorldCreator;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">世界预设自定义按钮回调</font></b></p>
@@ -36,4 +40,18 @@ public interface WorldPresetCustomButtonCallback {
 	});
 	
 	boolean canAdd(WorldCreator.WorldType worldType, MinecraftClient client, Screen parent, ButtonWidget.PressAction setOnPress);
+	
+	@ApiStatus.Internal
+	class Data {
+		@ApiStatus.Internal
+		public static final Map<WorldCreator.WorldType, ButtonWidget> WORLD_CUSTOMS = new HashMap<>(8);
+		@ApiStatus.Internal
+		public static WorldCreator worldCreator;
+		
+		@ApiStatus.Internal
+		public static MinecraftClient client;
+		
+		@ApiStatus.Internal
+		public static Screen parent;
+	}
 }

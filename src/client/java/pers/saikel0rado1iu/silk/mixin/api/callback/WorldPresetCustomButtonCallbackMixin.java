@@ -11,7 +11,6 @@
 
 package pers.saikel0rado1iu.silk.mixin.api.callback;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.world.CreateWorldScreen;
 import net.minecraft.client.gui.screen.world.WorldCreator;
@@ -28,9 +27,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import pers.saikel0rado1iu.silk.api.callback.WorldPresetCustomButtonCallback;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import static pers.saikel0rado1iu.silk.api.callback.WorldPresetCustomButtonCallback.Data.*;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">设置世界预设自定义按钮回调</font></b></p>
@@ -39,14 +38,9 @@ import java.util.Map;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-abstract class WorldPresetCustomButtonCallbackMixin {
-	private static final Map<WorldCreator.WorldType, ButtonWidget> WORLD_CUSTOMS = new HashMap<>(8);
-	private static WorldCreator worldCreator;
-	private static MinecraftClient client;
-	private static Screen parent;
-	
+interface WorldPresetCustomButtonCallbackMixin {
 	@Mixin(CreateWorldScreen.class)
-	abstract static class AddButton extends Screen {
+	abstract class AddButton extends Screen {
 		@Final
 		@Shadow
 		private TabManager tabManager;
@@ -62,8 +56,8 @@ abstract class WorldPresetCustomButtonCallbackMixin {
 		 */
 		@Inject(method = "init", at = @At("TAIL"))
 		private void init(CallbackInfo ci) {
-			WorldPresetCustomButtonCallbackMixin.client = this.client;
-			WorldPresetCustomButtonCallbackMixin.parent = this;
+			WorldPresetCustomButtonCallback.Data.client = this.client;
+			parent = this;
 			worldCreator = ((CreateWorldScreen) (Object) this).getWorldCreator();
 			List<WorldCreator.WorldType> worldTypes = new ArrayList<>();
 			worldTypes.addAll(worldCreator.getNormalWorldTypes());
@@ -90,7 +84,7 @@ abstract class WorldPresetCustomButtonCallbackMixin {
 	}
 	
 	@Mixin(targets = "net.minecraft.client.gui.screen.world.CreateWorldScreen$WorldTab")
-	abstract static class ShowCustom extends GridScreenTab {
+	abstract class ShowCustom extends GridScreenTab {
 		@Final
 		@Shadow
 		private ButtonWidget customizeButton;
