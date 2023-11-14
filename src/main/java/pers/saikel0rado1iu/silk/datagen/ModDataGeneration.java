@@ -26,13 +26,17 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
  * @since 0.1.0
  */
 public abstract class ModDataGeneration implements DataGeneratorEntrypoint {
+	private SilkWorldGenerator worldGenerator;
+	
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
-		datagen(fabricDataGenerator.createPack());
+		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
+		worldGenerator = pack.addProvider(worldGen());
+		datagen(pack);
 	}
 	
 	/**
-	 * 最先运行的模组初始化函数
+	 * 数据生成函数
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
@@ -43,15 +47,15 @@ public abstract class ModDataGeneration implements DataGeneratorEntrypoint {
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
-	public SilkWorldGenerator worldGen() {
+	public FabricDataGenerator.Pack.RegistryDependentFactory<SilkWorldGenerator> worldGen() {
 		return null;
 	}
 	
 	@Override
 	public void buildRegistry(RegistryBuilder registryBuilder) {
-		if (worldGen() != null) {
-			registryBuilder.addRegistry(RegistryKeys.CONFIGURED_FEATURE, worldGen().configuredFeatures()::bootstrap);
-			registryBuilder.addRegistry(RegistryKeys.PLACED_FEATURE, worldGen().placedFeatures()::bootstrap);
+		if (worldGenerator != null) {
+			registryBuilder.addRegistry(RegistryKeys.CONFIGURED_FEATURE, worldGenerator.configuredFeatures()::bootstrap);
+			registryBuilder.addRegistry(RegistryKeys.PLACED_FEATURE, worldGenerator.placedFeatures()::bootstrap);
 		}
 	}
 }
