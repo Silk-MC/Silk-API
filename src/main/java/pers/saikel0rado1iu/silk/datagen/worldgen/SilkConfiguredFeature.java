@@ -32,7 +32,7 @@ import pers.saikel0rado1iu.silk.datagen.SilkWorldGenerator;
  */
 @SilkApi
 public abstract class SilkConfiguredFeature {
-	protected static RegistryKey<ConfiguredFeature<?, ?>> of(ModBasicData mod, String id) {
+	protected static RegistryKey<ConfiguredFeature<?, ?>> create(ModBasicData mod, String id) {
 		return RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, new Identifier(mod.getId(), id));
 	}
 	
