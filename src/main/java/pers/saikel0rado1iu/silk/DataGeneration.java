@@ -35,8 +35,7 @@ import static pers.saikel0rado1iu.silk.util.TextUtil.*;
  */
 public final class DataGeneration extends ModDataGeneration {
 	@Override
-	public void datagen(FabricDataGenerator fabricDataGenerator) {
-		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
+	public void datagen(FabricDataGenerator.Pack pack) {
 		pack.addProvider(TagGeneration.EntityType::new);
 		pack.addProvider(LocalizationGenerator.EnUs::new);
 		pack.addProvider(LocalizationGenerator.ZhCn::new);

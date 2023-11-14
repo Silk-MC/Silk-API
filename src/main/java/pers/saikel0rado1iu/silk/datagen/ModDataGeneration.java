@@ -28,7 +28,7 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 public abstract class ModDataGeneration implements DataGeneratorEntrypoint {
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
-		datagen(fabricDataGenerator);
+		datagen(fabricDataGenerator.createPack());
 	}
 	
 	/**
@@ -36,7 +36,7 @@ public abstract class ModDataGeneration implements DataGeneratorEntrypoint {
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
-	public abstract void datagen(FabricDataGenerator fabricDataGenerator);
+	public abstract void datagen(FabricDataGenerator.Pack pack);
 	
 	/**
 	 * 提供来自模组的世界生成器以供注册、生成
