@@ -11,13 +11,13 @@
 
 package pers.saikel0rado1iu.silk;
 
-import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.registry.RegistryWrapper;
 import pers.saikel0rado1iu.silk.api.entity.SilkEntityTypeTags;
+import pers.saikel0rado1iu.silk.datagen.ModDataGeneration;
 import pers.saikel0rado1iu.silk.datagen.SilkLanguageProvider;
 import pers.saikel0rado1iu.silk.util.Minecraft;
 
@@ -33,9 +33,9 @@ import static pers.saikel0rado1iu.silk.util.TextUtil.*;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-public final class DataGeneration implements DataGeneratorEntrypoint {
+public final class DataGeneration extends ModDataGeneration {
 	@Override
-	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
+	public void datagen(FabricDataGenerator fabricDataGenerator) {
 		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
 		pack.addProvider(TagGeneration.EntityType::new);
 		pack.addProvider(LocalizationGenerator.EnUs::new);
@@ -43,6 +43,7 @@ public final class DataGeneration implements DataGeneratorEntrypoint {
 		pack.addProvider(LocalizationGenerator.ZhHk::new);
 		pack.addProvider(LocalizationGenerator.ZhTw::new);
 	}
+	
 	
 	private interface TagGeneration {
 		final class EntityType extends FabricTagProvider.EntityTypeTagProvider {
