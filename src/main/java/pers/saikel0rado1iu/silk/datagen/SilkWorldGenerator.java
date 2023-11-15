@@ -13,8 +13,12 @@ package pers.saikel0rado1iu.silk.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
+import net.minecraft.registry.Registerable;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.PlacedFeature;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
@@ -61,7 +65,11 @@ public abstract class SilkWorldGenerator extends FabricDynamicRegistryProvider {
 	@SilkApi
 	@ApiStatus.OverrideOnly
 	public SilkConfiguredFeature configuredFeatures() {
-		return null;
+		return new SilkConfiguredFeature() {
+			@Override
+			public void bootstrap(Registerable<ConfiguredFeature<?, ?>> featureRegisterable) {
+			}
+		};
 	}
 	
 	/**
@@ -70,7 +78,11 @@ public abstract class SilkWorldGenerator extends FabricDynamicRegistryProvider {
 	@SilkApi
 	@ApiStatus.OverrideOnly
 	public SilkPlacedFeature placedFeatures() {
-		return null;
+		return new SilkPlacedFeature() {
+			@Override
+			public void bootstrap(Registerable<PlacedFeature> featureRegisterable) {
+			}
+		};
 	}
 	
 	/**
@@ -79,7 +91,11 @@ public abstract class SilkWorldGenerator extends FabricDynamicRegistryProvider {
 	@SilkApi
 	@ApiStatus.OverrideOnly
 	public SilkBiomeKey biomes() {
-		return null;
+		return new SilkBiomeKey() {
+			@Override
+			public void bootstrap(Registerable<Biome> biomeRegisterable) {
+			}
+		};
 	}
 	
 	public abstract ModBasicData getMod();
