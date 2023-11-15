@@ -15,27 +15,24 @@ import net.minecraft.registry.Registerable;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.ApiStatus;
-import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.datagen.SilkWorldGenerator;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用于创建、注册、生成已配置的地物</font></b></p>
- * <p style="color:FFC800">模组作者需要在 {@link SilkWorldGenerator} 中覆盖 {@link SilkWorldGenerator#configuredFeatures()}方法</p>
- * <p style="color:FFC800">实例化</p>
+ * <p><b style="color:FFC800"><font size="+1">用于创建、注册、生成生物群系</font></b></p>
+ * <p style="color:FFC800">模组作者需要在 {@link SilkWorldGenerator} 中覆盖 {@link SilkWorldGenerator#biomes()}方法</p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-@SilkApi
-public abstract class SilkConfiguredFeature {
-	protected static RegistryKey<ConfiguredFeature<?, ?>> register(ModBasicData mod, String id) {
-		return RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, new Identifier(mod.getId(), id));
+public abstract class SilkBiomeKey {
+	protected static RegistryKey<Biome> register(ModBasicData mod, String id) {
+		return RegistryKey.of(RegistryKeys.BIOME, new Identifier(mod.getId(), id));
 	}
 	
 	@ApiStatus.OverrideOnly
-	public abstract void bootstrap(Registerable<ConfiguredFeature<?, ?>> featureRegisterable);
+	public abstract void bootstrap(Registerable<Biome> biomeRegisterable);
 }

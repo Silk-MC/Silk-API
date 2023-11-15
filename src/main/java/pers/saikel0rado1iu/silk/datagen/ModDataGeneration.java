@@ -56,6 +56,7 @@ public abstract class ModDataGeneration implements DataGeneratorEntrypoint {
 		if (worldGenerator != null) {
 			registryBuilder.addRegistry(RegistryKeys.CONFIGURED_FEATURE, worldGenerator.configuredFeatures()::bootstrap);
 			registryBuilder.addRegistry(RegistryKeys.PLACED_FEATURE, worldGenerator.placedFeatures()::bootstrap);
+			registryBuilder.addRegistry(RegistryKeys.BIOME, worldGenerator.biomes()::bootstrap);
 		}
 	}
 }

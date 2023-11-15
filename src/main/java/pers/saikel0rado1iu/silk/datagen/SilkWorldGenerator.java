@@ -18,6 +18,7 @@ import net.minecraft.registry.RegistryWrapper;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
+import pers.saikel0rado1iu.silk.datagen.worldgen.SilkBiomeKey;
 import pers.saikel0rado1iu.silk.datagen.worldgen.SilkConfiguredFeature;
 import pers.saikel0rado1iu.silk.datagen.worldgen.SilkPlacedFeature;
 
@@ -69,6 +70,15 @@ public abstract class SilkWorldGenerator extends FabricDynamicRegistryProvider {
 	@SilkApi
 	@ApiStatus.OverrideOnly
 	public SilkPlacedFeature placedFeatures() {
+		return null;
+	}
+	
+	/**
+	 * 提供来自模组的生物群系以供注册、生成
+	 */
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public SilkBiomeKey biomes() {
 		return null;
 	}
 	
