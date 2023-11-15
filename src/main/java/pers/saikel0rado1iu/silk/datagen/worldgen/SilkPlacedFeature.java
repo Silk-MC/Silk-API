@@ -38,6 +38,13 @@ import java.util.List;
  */
 @SilkApi
 public abstract class SilkPlacedFeature {
+	@ApiStatus.Internal
+	public static final SilkPlacedFeature EMPTY = new SilkPlacedFeature() {
+		@Override
+		public void bootstrap(Registerable<PlacedFeature> featureRegisterable) {
+		}
+	};
+	
 	@SilkApi
 	protected static RegistryKey<PlacedFeature> register(ModBasicData mod, String id) {
 		return RegistryKey.of(RegistryKeys.PLACED_FEATURE, new Identifier(mod.getId(), id));

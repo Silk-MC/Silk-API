@@ -29,6 +29,13 @@ import pers.saikel0rado1iu.silk.datagen.SilkWorldGenerator;
  * @since 0.1.0
  */
 public abstract class SilkBiomeKey {
+	@ApiStatus.Internal
+	public static final SilkBiomeKey EMPTY = new SilkBiomeKey() {
+		@Override
+		public void bootstrap(Registerable<Biome> biomeRegisterable) {
+		}
+	};
+	
 	protected static RegistryKey<Biome> register(ModBasicData mod, String id) {
 		return RegistryKey.of(RegistryKeys.BIOME, new Identifier(mod.getId(), id));
 	}

@@ -32,6 +32,13 @@ import pers.saikel0rado1iu.silk.datagen.SilkWorldGenerator;
  */
 @SilkApi
 public abstract class SilkConfiguredFeature {
+	@ApiStatus.Internal
+	public static final SilkConfiguredFeature EMPTY = new SilkConfiguredFeature() {
+		@Override
+		public void bootstrap(Registerable<ConfiguredFeature<?, ?>> featureRegisterable) {
+		}
+	};
+	
 	@SilkApi
 	protected static RegistryKey<ConfiguredFeature<?, ?>> register(ModBasicData mod, String id) {
 		return RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, new Identifier(mod.getId(), id));
