@@ -14,12 +14,18 @@ package pers.saikel0rado1iu.silk.datagen.worldgen;
 import net.minecraft.registry.Registerable;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.PlacedFeature;
+import net.minecraft.world.gen.feature.PlacedFeatures;
+import net.minecraft.world.gen.placementmodifier.PlacementModifier;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.datagen.SilkWorldGenerator;
+
+import java.util.List;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于创建、注册、生成已放置的地物</font></b></p>
@@ -32,8 +38,19 @@ import pers.saikel0rado1iu.silk.datagen.SilkWorldGenerator;
  */
 @SilkApi
 public abstract class SilkPlacedFeature {
+	@SilkApi
 	protected static RegistryKey<PlacedFeature> register(ModBasicData mod, String id) {
 		return RegistryKey.of(RegistryKeys.PLACED_FEATURE, new Identifier(mod.getId(), id));
+	}
+	
+	@SilkApi
+	protected static void register(Registerable<PlacedFeature> featureRegisterable, RegistryKey<PlacedFeature> key, RegistryEntry<ConfiguredFeature<?, ?>> feature, List<PlacementModifier> modifiers) {
+		featureRegisterable.register(key, new PlacedFeature(feature, List.copyOf(modifiers)));
+	}
+	
+	@SilkApi
+	protected static void register(Registerable<PlacedFeature> featureRegisterable, RegistryKey<PlacedFeature> key, RegistryEntry<ConfiguredFeature<?, ?>> feature, PlacementModifier... modifiers) {
+		PlacedFeatures.register(featureRegisterable, key, feature, List.of(modifiers));
 	}
 	
 	@ApiStatus.OverrideOnly

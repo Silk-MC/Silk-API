@@ -15,7 +15,7 @@ import net.minecraft.registry.Registerable;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.*;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
@@ -32,8 +32,19 @@ import pers.saikel0rado1iu.silk.datagen.SilkWorldGenerator;
  */
 @SilkApi
 public abstract class SilkConfiguredFeature {
+	@SilkApi
 	protected static RegistryKey<ConfiguredFeature<?, ?>> register(ModBasicData mod, String id) {
 		return RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, new Identifier(mod.getId(), id));
+	}
+	
+	@SilkApi
+	protected static <FC extends FeatureConfig, F extends Feature<FC>> void register(Registerable<ConfiguredFeature<?, ?>> registerable, RegistryKey<ConfiguredFeature<?, ?>> key, F feature, FC config) {
+		ConfiguredFeatures.register(registerable, key, feature, config);
+	}
+	
+	@SilkApi
+	protected static void register(Registerable<ConfiguredFeature<?, ?>> registerable, RegistryKey<ConfiguredFeature<?, ?>> key, Feature<DefaultFeatureConfig> feature) {
+		ConfiguredFeatures.register(registerable, key, feature, FeatureConfig.DEFAULT);
 	}
 	
 	@ApiStatus.OverrideOnly
