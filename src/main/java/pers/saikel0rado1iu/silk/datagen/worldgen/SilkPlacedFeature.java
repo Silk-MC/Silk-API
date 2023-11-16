@@ -60,6 +60,9 @@ public abstract class SilkPlacedFeature {
 		PlacedFeatures.register(featureRegisterable, key, feature, List.of(modifiers));
 	}
 	
+	/**
+	 * 参考 {@link PlacedFeatures#bootstrap(Registerable)}
+	 */
 	@ApiStatus.OverrideOnly
 	public abstract void bootstrap(Registerable<PlacedFeature> featureRegisterable);
 }

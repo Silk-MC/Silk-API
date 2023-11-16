@@ -16,6 +16,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BuiltinBiomes;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.datagen.SilkWorldGenerator;
@@ -40,6 +41,9 @@ public abstract class SilkBiomeKey {
 		return RegistryKey.of(RegistryKeys.BIOME, new Identifier(mod.getId(), id));
 	}
 	
+	/**
+	 * 参考 {@link BuiltinBiomes#bootstrap(Registerable)}
+	 */
 	@ApiStatus.OverrideOnly
 	public abstract void bootstrap(Registerable<Biome> biomeRegisterable);
 }

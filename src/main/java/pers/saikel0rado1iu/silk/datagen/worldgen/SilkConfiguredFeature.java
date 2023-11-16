@@ -54,6 +54,9 @@ public abstract class SilkConfiguredFeature {
 		ConfiguredFeatures.register(registerable, key, feature, FeatureConfig.DEFAULT);
 	}
 	
+	/**
+	 * 参考 {@link ConfiguredFeatures#bootstrap(Registerable)}
+	 */
 	@ApiStatus.OverrideOnly
 	public abstract void bootstrap(Registerable<ConfiguredFeature<?, ?>> featureRegisterable);
 }
