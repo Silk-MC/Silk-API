@@ -21,6 +21,7 @@ import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.datagen.worldgen.SilkBiomeKey;
 import pers.saikel0rado1iu.silk.datagen.worldgen.SilkConfiguredFeature;
 import pers.saikel0rado1iu.silk.datagen.worldgen.SilkPlacedFeature;
+import pers.saikel0rado1iu.silk.datagen.worldgen.SilkWorldPreset;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -80,6 +81,15 @@ public abstract class SilkWorldGenerator extends FabricDynamicRegistryProvider {
 	@ApiStatus.OverrideOnly
 	public SilkBiomeKey biomes() {
 		return SilkBiomeKey.EMPTY;
+	}
+	
+	/**
+	 * 提供来自模组的世界预设以供注册、生成
+	 */
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public SilkWorldPreset worldPresets() {
+		return SilkWorldPreset.EMPTY;
 	}
 	
 	public abstract ModBasicData getMod();

@@ -15,37 +15,35 @@ import net.minecraft.registry.Registerable;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BuiltinBiomes;
+import net.minecraft.world.gen.WorldPreset;
+import net.minecraft.world.gen.WorldPresets;
 import org.jetbrains.annotations.ApiStatus;
-import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.datagen.SilkWorldGenerator;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用于创建、注册、生成生物群系</font></b></p>
- * <p style="color:FFC800">模组作者需要在 {@link SilkWorldGenerator} 中覆盖 {@link SilkWorldGenerator#biomes()}方法</p>
+ * <p><b style="color:FFC800"><font size="+1">用于创建、注册、生成世界预设</font></b></p>
+ * <p style="color:FFC800">模组作者需要在 {@link SilkWorldGenerator} 中覆盖 {@link SilkWorldGenerator#worldPresets()}方法</p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-@SilkApi
-public abstract class SilkBiomeKey {
+public abstract class SilkWorldPreset {
 	@ApiStatus.Internal
-	public static final SilkBiomeKey EMPTY = new SilkBiomeKey() {
+	public static final SilkWorldPreset EMPTY = new SilkWorldPreset() {
 		@Override
-		public void bootstrap(Registerable<Biome> biomeRegisterable) {
+		public void bootstrap(Registerable<WorldPreset> presetRegisterable) {
 		}
 	};
 	
-	protected static RegistryKey<Biome> register(ModBasicData mod, String id) {
-		return RegistryKey.of(RegistryKeys.BIOME, new Identifier(mod.getId(), id));
+	protected static RegistryKey<WorldPreset> register(ModBasicData mod, String id) {
+		return RegistryKey.of(RegistryKeys.WORLD_PRESET, new Identifier(mod.getId(), id));
 	}
 	
 	/**
-	 * 参考 {@link BuiltinBiomes#bootstrap(Registerable)}
+	 * 参考 {@link WorldPresets#bootstrap(Registerable)}
 	 */
 	@ApiStatus.OverrideOnly
-	public abstract void bootstrap(Registerable<Biome> biomeRegisterable);
+	public abstract void bootstrap(Registerable<WorldPreset> presetRegisterable);
 }
