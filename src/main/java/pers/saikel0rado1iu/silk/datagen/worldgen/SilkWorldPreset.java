@@ -76,7 +76,7 @@ public abstract class SilkWorldPreset {
 		public final DimensionOptions netherDimensionOptions;
 		public final DimensionOptions endDimensionOptions;
 		
-		Registrar(Registerable<WorldPreset> presetRegisterable) {
+		public Registrar(Registerable<WorldPreset> presetRegisterable) {
 			this.presetRegisterable = presetRegisterable;
 			RegistryEntryLookup<DimensionType> registryEntryLookup = presetRegisterable.getRegistryLookup(RegistryKeys.DIMENSION_TYPE);
 			chunkGeneratorSettingsLookup = presetRegisterable.getRegistryLookup(RegistryKeys.CHUNK_GENERATOR_SETTINGS);
