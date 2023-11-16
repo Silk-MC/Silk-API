@@ -22,10 +22,12 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.advancement.Advancement;
 import net.minecraft.data.DataOutput;
 import net.minecraft.data.DataWriter;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.Util;
+import net.minecraft.world.gen.WorldPreset;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 
@@ -57,6 +59,11 @@ public abstract class SilkLanguageProvider extends FabricLanguageProvider {
 	@SilkApi
 	public static String getCommentKey(String key) {
 		return "// " + key;
+	}
+	
+	@SilkApi
+	public static String getWorldPresetKey(RegistryKey<WorldPreset> key) {
+		return "generator." + key.getValue().getNamespace() + "." + key.getValue().getPath();
 	}
 	
 	@SilkApi
