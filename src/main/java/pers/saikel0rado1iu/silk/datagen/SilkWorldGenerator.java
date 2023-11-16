@@ -48,6 +48,7 @@ public abstract class SilkWorldGenerator extends FabricDynamicRegistryProvider {
 		entries.addAll(registries.getWrapperOrThrow(RegistryKeys.FLAT_LEVEL_GENERATOR_PRESET));
 		entries.addAll(registries.getWrapperOrThrow(RegistryKeys.MULTI_NOISE_BIOME_SOURCE_PARAMETER_LIST));
 		entries.addAll(registries.getWrapperOrThrow(RegistryKeys.NOISE_PARAMETERS));
+		entries.addAll(registries.getWrapperOrThrow(RegistryKeys.CHUNK_GENERATOR_SETTINGS));
 		entries.addAll(registries.getWrapperOrThrow(RegistryKeys.PLACED_FEATURE));
 		entries.addAll(registries.getWrapperOrThrow(RegistryKeys.PROCESSOR_LIST));
 		entries.addAll(registries.getWrapperOrThrow(RegistryKeys.STRUCTURE));
