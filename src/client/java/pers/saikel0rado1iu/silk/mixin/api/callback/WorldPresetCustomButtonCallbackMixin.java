@@ -26,7 +26,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import pers.saikel0rado1iu.silk.api.callback.WorldPresetCustomButtonCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static pers.saikel0rado1iu.silk.api.callback.WorldPresetCustomButtonCallback.Data.*;
@@ -59,9 +58,7 @@ interface WorldPresetCustomButtonCallbackMixin {
 			WorldPresetCustomButtonCallback.Data.client = this.client;
 			parent = this;
 			worldCreator = ((CreateWorldScreen) (Object) this).getWorldCreator();
-			List<WorldCreator.WorldType> worldTypes = new ArrayList<>();
-			worldTypes.addAll(worldCreator.getNormalWorldTypes());
-			worldTypes.addAll(worldCreator.getExtendedWorldTypes());
+			List<WorldCreator.WorldType> worldTypes = worldCreator.getExtendedWorldTypes();
 			worldTypes.forEach(worldType -> {
 				ButtonWidget.PressAction onPress;
 				if ((onPress = WorldPresetCustomButtonCallback.EVENT.invoker().canAdd(worldType, client, this)) != null)
