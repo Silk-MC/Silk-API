@@ -40,6 +40,10 @@ public class PlaceholderScreen extends BaseScreen {
 		this.mod = mod;
 	}
 	
+	public static String getText(ModBasicData mod) {
+		return TextUtil.widgetText(mod, "placeholder");
+	}
+	
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 		renderBackground(context);
@@ -51,7 +55,7 @@ public class PlaceholderScreen extends BaseScreen {
 	protected void init() {
 		super.init();
 		// 添加提示消息文本
-		messageText = MultilineText.create(textRenderer, Text.translatable(TextUtil.widgetText(mod, "placeholder")), width - 100);
+		messageText = MultilineText.create(textRenderer, Text.translatable(getText(mod)), width - 100);
 		int buttonWidth = 100;
 		// 添加官网跳转按钮
 		addDrawableChild(ScreenUtil.linkButton(this, mod, ModBasicData.LinkType.HOMEPAGE, linkTrusted()).dimensions((int) (width / 2 - buttonWidth * 1.5), height / 2 + 12, buttonWidth - 4, 20).build());
