@@ -91,7 +91,7 @@ public class UpdateShow {
 	@ApiStatus.Internal
 	public Text getVerText(String key) {
 		String ver = getUpdateThread().getUpdateModVer();
-		return Text.translatable(TextUtil.widgetText(Silk.DATA, KEY + key), updateThread.getMod().getLocalizedName(), ver.substring(0, ver.contains("-") ? ver.indexOf("-") : ver.length()));
+		return Text.translatable(TextUtil.widgetText(Silk.DATA, KEY + key), updateThread.getMod().getLocalizedName(), ver);
 	}
 	
 	@ApiStatus.Internal
