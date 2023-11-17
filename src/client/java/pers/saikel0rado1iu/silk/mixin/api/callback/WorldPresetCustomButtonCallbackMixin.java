@@ -63,9 +63,8 @@ interface WorldPresetCustomButtonCallbackMixin {
 			worldTypes.addAll(worldCreator.getNormalWorldTypes());
 			worldTypes.addAll(worldCreator.getExtendedWorldTypes());
 			worldTypes.forEach(worldType -> {
-				ButtonWidget.PressAction onPress = button -> {
-				};
-				if (WorldPresetCustomButtonCallback.EVENT.invoker().canAdd(worldType, client, this, onPress))
+				ButtonWidget.PressAction onPress;
+				if ((onPress = WorldPresetCustomButtonCallback.EVENT.invoker().canAdd(worldType, client, this)) != null)
 					WORLD_CUSTOMS.put(worldType, addDrawableChild(ButtonWidget.builder(Text.translatable("selectWorld.customizeType"), onPress).build()));
 			});
 			WORLD_CUSTOMS.forEach((worldType, buttonWidget) -> buttonWidget.visible = false);
@@ -100,9 +99,7 @@ interface WorldPresetCustomButtonCallbackMixin {
 		 */
 		@Inject(method = "tick", at = @At("HEAD"))
 		private void tick(CallbackInfo ci) {
-			ButtonWidget.PressAction onPress = button -> {
-			};
-			if (WorldPresetCustomButtonCallback.EVENT.invoker().canAdd(worldCreator.getWorldType(), client, parent, onPress)) {
+			if (WorldPresetCustomButtonCallback.EVENT.invoker().canAdd(worldCreator.getWorldType(), client, parent) != null) {
 				ButtonWidget custom = WORLD_CUSTOMS.get(worldCreator.getWorldType());
 				custom.setPosition(customizeButton.getX(), customizeButton.getY());
 				custom.visible = true;

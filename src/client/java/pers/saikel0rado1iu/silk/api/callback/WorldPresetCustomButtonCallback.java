@@ -18,6 +18,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.world.WorldCreator;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
 import java.util.HashMap;
@@ -34,12 +35,14 @@ import java.util.Map;
 @SilkApi
 public interface WorldPresetCustomButtonCallback {
 	@SilkApi
-	Event<WorldPresetCustomButtonCallback> EVENT = EventFactory.createArrayBacked(WorldPresetCustomButtonCallback.class, listeners -> (worldType, client, parent, setOnPress) -> {
-		for (WorldPresetCustomButtonCallback event : listeners) if (event.canAdd(worldType, client, parent, setOnPress)) return true;
-		return false;
+	Event<WorldPresetCustomButtonCallback> EVENT = EventFactory.createArrayBacked(WorldPresetCustomButtonCallback.class, listeners -> (worldType, client, parent) -> {
+		ButtonWidget.PressAction onPress;
+		for (WorldPresetCustomButtonCallback event : listeners) if ((onPress = event.canAdd(worldType, client, parent)) != null) return onPress;
+		return null;
 	});
 	
-	boolean canAdd(WorldCreator.WorldType worldType, MinecraftClient client, Screen parent, ButtonWidget.PressAction setOnPress);
+	@Nullable
+	ButtonWidget.PressAction canAdd(WorldCreator.WorldType worldType, MinecraftClient client, Screen parent);
 	
 	@ApiStatus.Internal
 	class Data {
