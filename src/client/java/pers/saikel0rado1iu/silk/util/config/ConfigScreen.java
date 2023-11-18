@@ -182,11 +182,10 @@ public class ConfigScreen extends BaseScreen implements LinkTrusted {
 				}
 			} else if (object instanceof ConfigData cd) {
 				if (cd.getType() == ConfigData.Type.DEV) continue;
-				boolean trusted = linkTrusted();
 				simpleOption = SimpleOption.ofBoolean(configText(configData.mod, realKey), SimpleOption.constantTooltip(Text.translatable(configTip(configData.mod, realKey))), (optionText, value) -> Text.of(""), false, (value) -> MinecraftClient.getInstance().setScreen(new ConfigScreen(this, isDouble, cd, realKey + '.', Text.translatable(configText(configData.mod, realKey))) {
 					@Override
 					public boolean linkTrusted() {
-						return trusted;
+						return ConfigScreen.this.linkTrusted();
 					}
 				}));
 			}
