@@ -17,13 +17,13 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.registry.RegistryWrapper;
 import pers.saikel0rado1iu.silk.api.entity.SilkEntityTypeTags;
-import pers.saikel0rado1iu.silk.datagen.ModDataGeneration;
-import pers.saikel0rado1iu.silk.datagen.SilkLanguageProvider;
+import pers.saikel0rado1iu.silk.gen.ModDataGeneration;
+import pers.saikel0rado1iu.silk.gen.data.SilkLanguageProvider;
 import pers.saikel0rado1iu.silk.util.Minecraft;
 
 import java.util.concurrent.CompletableFuture;
 
-import static pers.saikel0rado1iu.silk.datagen.SilkTagGenerator.putSpawnGroupEntityInTags;
+import static pers.saikel0rado1iu.silk.gen.data.SilkTagGenerator.putSpawnGroupEntityInTags;
 import static pers.saikel0rado1iu.silk.util.TextUtil.*;
 
 /**

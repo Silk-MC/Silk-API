@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.datagen;
+package pers.saikel0rado1iu.silk.gen;
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
@@ -17,6 +17,7 @@ import net.minecraft.registry.RegistryBuilder;
 import net.minecraft.registry.RegistryKeys;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.gen.world.SilkWorldGenerator;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用作模组数据生成主类，继承自 {@link DataGeneratorEntrypoint}。所有数据生成注册或操作由此开始</font></b></p>

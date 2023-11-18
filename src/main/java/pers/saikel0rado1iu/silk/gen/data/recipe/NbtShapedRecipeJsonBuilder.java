@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.datagen.recipe;
+package pers.saikel0rado1iu.silk.gen.data.recipe;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;

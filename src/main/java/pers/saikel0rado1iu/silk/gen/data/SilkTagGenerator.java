@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.datagen;
+package pers.saikel0rado1iu.silk.gen.data;
 
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.entity.EntityType;

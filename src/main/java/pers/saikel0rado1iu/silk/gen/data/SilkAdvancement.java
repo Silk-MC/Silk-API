@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.datagen;
+package pers.saikel0rado1iu.silk.gen.data;
 
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.criterion.CriterionConditions;

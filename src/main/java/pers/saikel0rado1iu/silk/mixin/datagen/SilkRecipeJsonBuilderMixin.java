@@ -24,8 +24,8 @@ import pers.saikel0rado1iu.silk.util.Minecraft;
 import java.util.List;
 import java.util.Map;
 
-import static pers.saikel0rado1iu.silk.datagen.SilkRecipeJsonBuilder.getInput;
-import static pers.saikel0rado1iu.silk.datagen.SilkRecipeJsonBuilder.getNamespace;
+import static pers.saikel0rado1iu.silk.gen.data.SilkRecipeJsonBuilder.getInput;
+import static pers.saikel0rado1iu.silk.gen.data.SilkRecipeJsonBuilder.getNamespace;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">设置配方生成的 offer() 方法混入</font></b></p>

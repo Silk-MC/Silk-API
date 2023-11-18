@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.datagen;
+package pers.saikel0rado1iu.silk.gen.world;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
@@ -18,10 +18,7 @@ import net.minecraft.registry.RegistryWrapper;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
-import pers.saikel0rado1iu.silk.datagen.worldgen.SilkBiomeKey;
-import pers.saikel0rado1iu.silk.datagen.worldgen.SilkConfiguredFeature;
-import pers.saikel0rado1iu.silk.datagen.worldgen.SilkPlacedFeature;
-import pers.saikel0rado1iu.silk.datagen.worldgen.SilkWorldPreset;
+import pers.saikel0rado1iu.silk.gen.ModDataGeneration;
 
 import java.util.concurrent.CompletableFuture;
 

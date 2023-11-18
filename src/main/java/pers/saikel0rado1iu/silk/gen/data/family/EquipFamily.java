@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.datagen.family;
+package pers.saikel0rado1iu.silk.gen.data.family;
 
 import com.google.common.collect.Maps;
 import net.minecraft.item.Item;

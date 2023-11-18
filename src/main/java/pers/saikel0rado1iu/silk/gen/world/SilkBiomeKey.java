@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.datagen.worldgen;
+package pers.saikel0rado1iu.silk.gen.world;
 
 import net.minecraft.registry.Registerable;
 import net.minecraft.registry.RegistryKey;
@@ -20,7 +20,6 @@ import net.minecraft.world.biome.BuiltinBiomes;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
-import pers.saikel0rado1iu.silk.datagen.SilkWorldGenerator;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于创建、注册、生成生物群系</font></b></p>

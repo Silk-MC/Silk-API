@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.datagen;
+package pers.saikel0rado1iu.silk.gen.data;
 
 import com.google.common.collect.Sets;
 import net.minecraft.data.server.recipe.*;
@@ -21,14 +21,14 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.datagen.family.EquipFamily;
+import pers.saikel0rado1iu.silk.gen.data.family.EquipFamily;
 import pers.saikel0rado1iu.silk.util.Minecraft;
 
 import java.util.*;
 import java.util.function.Consumer;
 
 import static net.minecraft.data.server.recipe.RecipeProvider.*;
-import static pers.saikel0rado1iu.silk.datagen.family.EquipFamily.Variant.*;
+import static pers.saikel0rado1iu.silk.gen.data.family.EquipFamily.Variant.*;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于提供模组中常用但未提供更方便方法的配方生成方法</font></b></p>
