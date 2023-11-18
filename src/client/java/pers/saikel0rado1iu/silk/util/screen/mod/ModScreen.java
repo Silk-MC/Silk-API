@@ -135,7 +135,10 @@ public class ModScreen extends BaseScreen {
 	
 	@Override
 	protected void init() {
-		tabs.forEach(tab -> tab.drawableWidgetList.forEach(this::addDrawableChild));
+		tabs.forEach(tab -> {
+			tab.setParent(this);
+			tab.drawableWidgetList.forEach(this::addDrawableChild);
+		});
 		tabNavigation = TabNavigationWidget.builder(tabManager, width).tabs(tabs.toArray(new Tab[0])).build();
 		addDrawableChild(tabNavigation);
 		grid = new GridWidget().setColumnSpacing(10);
