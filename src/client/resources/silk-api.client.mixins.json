@@ -6,6 +6,8 @@
 		"api.callback.GameMenuScreenAddButtonCallbackMixin",
 		"api.callback.WorldPresetCustomButtonCallbackMixin$AddButton",
 		"api.callback.WorldPresetCustomButtonCallbackMixin$ShowCustom",
+		"api.callback.WorldPresetSetDefaultCallbackMixin$GetWorldCreator",
+		"api.callback.WorldPresetSetDefaultCallbackMixin$SetDefault",
 		"api.item.HoldingFovZoomMixin$RenderHudOverlay",
 		"api.item.HoldingFovZoomMixin$SetMouseMoveMultiplier",
 		"api.item.HoldingFovZoomMixin$SetUsingFovZoom",
