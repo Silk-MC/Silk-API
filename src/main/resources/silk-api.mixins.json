@@ -25,10 +25,10 @@
 		"api.item.WithProjectileProtectionMixin$SetPlayer",
 		"api.item.WithStatusEffectsMixin",
 		"api.item.weapon.BreakingShieldMixin",
-		"datagen.SilkRecipeJsonBuilderMixin$CookingRecipeJsonBuilderMixin",
-		"datagen.SilkRecipeJsonBuilderMixin$ShapedRecipeJsonBuilderMixin",
-		"datagen.SilkRecipeJsonBuilderMixin$ShapelessRecipeJsonBuilderMixin",
-		"datagen.SilkRecipeJsonBuilderMixin$SingleItemRecipeJsonBuilderMixin"
+		"gen.data.SilkRecipeJsonBuilderMixin$CookingRecipeJsonBuilderMixin",
+		"gen.data.SilkRecipeJsonBuilderMixin$ShapedRecipeJsonBuilderMixin",
+		"gen.data.SilkRecipeJsonBuilderMixin$ShapelessRecipeJsonBuilderMixin",
+		"gen.data.SilkRecipeJsonBuilderMixin$SingleItemRecipeJsonBuilderMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

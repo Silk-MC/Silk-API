@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.mixin.datagen;
+package pers.saikel0rado1iu.silk.mixin.gen.data;
 
 import net.minecraft.data.server.recipe.*;
 import net.minecraft.recipe.Ingredient;
