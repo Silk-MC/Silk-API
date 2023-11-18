@@ -71,11 +71,4 @@ public class ModTab extends ScreenTab {
 		changelogWidget.render(context, mouseX, mouseY, delta);
 		targetWidget.render(context, mouseX, mouseY, delta);
 	}
-	
-	/**
-	 * 重写此方法以信任链接
-	 */
-	protected boolean linkTrusted() {
-		return false;
-	}
 }

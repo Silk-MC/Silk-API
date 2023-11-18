@@ -124,7 +124,13 @@ public class ConfigTab extends ScreenTab {
 				}
 			} else if (object instanceof ConfigData cd) {
 				if (cd.getType() == ConfigData.Type.DEV) continue;
-				simpleOption = SimpleOption.ofBoolean(configText(configData.mod, key), SimpleOption.constantTooltip(Text.translatable(configTip(configData.mod, key))), (optionText, value) -> Text.of(""), false, (value) -> MinecraftClient.getInstance().setScreen(new ConfigScreen(parent, isDouble, cd, key + '.', Text.translatable(configText(configData.mod, key)))));
+				boolean trusted = linkTrusted();
+				simpleOption = SimpleOption.ofBoolean(configText(configData.mod, key), SimpleOption.constantTooltip(Text.translatable(configTip(configData.mod, key))), (optionText, value) -> Text.of(""), false, (value) -> MinecraftClient.getInstance().setScreen(new ConfigScreen(parent, isDouble, cd, key + '.', Text.translatable(configText(configData.mod, key))) {
+					@Override
+					public boolean linkTrusted() {
+						return trusted;
+					}
+				}));
 			}
 			simpleOptionList.add(simpleOption);
 			if (!isDouble) {

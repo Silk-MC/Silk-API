@@ -31,7 +31,7 @@ import java.util.Objects;
  * @since 0.1.0
  */
 @SilkApi
-public class PlaceholderScreen extends BaseScreen {
+public class PlaceholderScreen extends BaseScreen implements LinkTrusted {
 	protected final ModBasicData mod;
 	protected MultilineText messageText;
 	
@@ -63,12 +63,5 @@ public class PlaceholderScreen extends BaseScreen {
 		addDrawableChild(ScreenUtil.linkButton(this, mod, ModBasicData.LinkType.SUPPORT, linkTrusted()).dimensions((int) (width / 2 - buttonWidth * 0.5 + 2), height / 2 + 12, buttonWidth - 4, 20).build());
 		// 添加返回按钮
 		addDrawableChild(ScreenUtil.backButton(this).dimensions((int) (width / 2 + buttonWidth * 0.5 + 4), height / 2 + 12, buttonWidth - 4, 20).build());
-	}
-	
-	/**
-	 * 重写此方法以信任链接
-	 */
-	protected boolean linkTrusted() {
-		return false;
 	}
 }

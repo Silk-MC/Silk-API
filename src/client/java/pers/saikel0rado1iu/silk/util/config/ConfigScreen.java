@@ -25,6 +25,7 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.util.ScreenUtil;
 import pers.saikel0rado1iu.silk.util.screen.BaseScreen;
+import pers.saikel0rado1iu.silk.util.screen.LinkTrusted;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,7 +43,7 @@ import static pers.saikel0rado1iu.silk.util.TextUtil.configTip;
  * @since 0.1.0
  */
 @SilkApi
-public class ConfigScreen extends BaseScreen {
+public class ConfigScreen extends BaseScreen implements LinkTrusted {
 	private final boolean isDouble;
 	private final String keyPrefix;
 	private final ConfigData configData;
@@ -113,7 +114,7 @@ public class ConfigScreen extends BaseScreen {
 	protected void init() {
 		super.init();
 		// 添加"支持我们"按钮
-		addDrawableChild(ScreenUtil.linkButton(this, configData.mod, ModBasicData.LinkType.SUPPORT, true).dimensions(width - 115, 6, 110, 20).build());
+		addDrawableChild(ScreenUtil.linkButton(this, configData.mod, ModBasicData.LinkType.SUPPORT, linkTrusted()).dimensions(width - 115, 6, 110, 20).build());
 		// 添加完成按钮
 		addDrawableChild(doneButton(this).dimensions(width / 2 - 100, height - 26, 200, 20).build());
 		// 添加黑色透明窗口
@@ -181,7 +182,13 @@ public class ConfigScreen extends BaseScreen {
 				}
 			} else if (object instanceof ConfigData cd) {
 				if (cd.getType() == ConfigData.Type.DEV) continue;
-				simpleOption = SimpleOption.ofBoolean(configText(configData.mod, realKey), SimpleOption.constantTooltip(Text.translatable(configTip(configData.mod, realKey))), (optionText, value) -> Text.of(""), false, (value) -> MinecraftClient.getInstance().setScreen(new ConfigScreen(this, isDouble, cd, realKey + '.', Text.translatable(configText(configData.mod, realKey)))));
+				boolean trusted = linkTrusted();
+				simpleOption = SimpleOption.ofBoolean(configText(configData.mod, realKey), SimpleOption.constantTooltip(Text.translatable(configTip(configData.mod, realKey))), (optionText, value) -> Text.of(""), false, (value) -> MinecraftClient.getInstance().setScreen(new ConfigScreen(this, isDouble, cd, realKey + '.', Text.translatable(configText(configData.mod, realKey))) {
+					@Override
+					public boolean linkTrusted() {
+						return trusted;
+					}
+				}));
 			}
 			simpleOptionList.add(simpleOption);
 			if (!isDouble) {
