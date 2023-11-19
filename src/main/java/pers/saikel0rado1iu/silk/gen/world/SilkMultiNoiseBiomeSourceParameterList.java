@@ -47,4 +47,8 @@ public abstract class SilkMultiNoiseBiomeSourceParameterList {
 	 */
 	@ApiStatus.OverrideOnly
 	public abstract void bootstrap(Registerable<MultiNoiseBiomeSourceParameterList> registry);
+	
+	@SilkApi
+	public interface SilkBiomeSourceFunction extends MultiNoiseBiomeSourceParameterList.Preset.BiomeSourceFunction {
+	}
 }
