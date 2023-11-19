@@ -45,6 +45,7 @@ import java.util.Map;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
+@SilkApi
 public abstract class SilkWorldPreset {
 	@ApiStatus.Internal
 	public static final SilkWorldPreset EMPTY = new SilkWorldPreset() {

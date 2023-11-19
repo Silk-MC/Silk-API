@@ -90,6 +90,15 @@ public abstract class SilkWorldGenerator extends FabricDynamicRegistryProvider {
 		return SilkWorldPreset.EMPTY;
 	}
 	
+	/**
+	 * 提供来自模组的多重噪声生物群系源参数列表以供注册、生成
+	 */
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public SilkMultiNoiseBiomeSourceParameterList multiNoiseBiomeSourceParameterLists() {
+		return SilkMultiNoiseBiomeSourceParameterList.EMPTY;
+	}
+	
 	public abstract ModBasicData getMod();
 	
 	@Override
