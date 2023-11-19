@@ -32,6 +32,8 @@ loom {
 		}
 	}
 	
+	accessWidenerPath = file("src/main/resources/${mod_id}.accesswidener")
+	
 	runs {
 		// 添加一个新的 gradle 任务，会运行数据生成 API：“gradlew runDatagenClient”
 		datagenClient {
