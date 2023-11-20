@@ -27,6 +27,10 @@ import pers.saikel0rado1iu.silk.api.registry.datagen.criterion.SilkCriteria;
 public interface SilkRecipeSerializers {
 	@ApiStatus.Internal
 	SilkCriteria INSTANCE = new SilkCriteria() {
+		@Override
+		public String toString() {
+			return "SilkRecipeSerializers";
+		}
 	};
 	@SilkApi
 	NbtShapedRecipe.Serializer NBT_SHAPED = SilkRecipeSerializer.create(new NbtShapedRecipe.Serializer(), Silk.DATA, "crafting_nbt_shaped");

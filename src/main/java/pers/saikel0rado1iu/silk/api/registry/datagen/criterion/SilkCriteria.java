@@ -27,6 +27,10 @@ import pers.saikel0rado1iu.silk.api.registry.datagen.SilkCriterion;
 public interface SilkCriteria {
 	@ApiStatus.Internal
 	SilkCriteria INSTANCE = new SilkCriteria() {
+		@Override
+		public String toString() {
+			return "SilkCriteria";
+		}
 	};
 	@SilkApi
 	ShotProjectileCriterion SHOT_PROJECTILE_CRITERION = SilkCriterion.create(Criteria.register(new ShotProjectileCriterion()));
