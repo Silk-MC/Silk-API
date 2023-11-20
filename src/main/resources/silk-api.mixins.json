@@ -10,6 +10,7 @@
 		"api.block.SilkBlockTagsMixin$CobwebsMixin$SwordBreak",
 		"api.block.SilkBlockTagsMixin$DirtMixin",
 		"api.block.SilkBlockTagsMixin$DirtVarietyMixin",
+		"api.callback.RegisterMultiNoiseBiomeSourceParameterListPresetCallbackMixin",
 		"api.criterion.RangedKilledEntityCriterionMixin$Bow",
 		"api.criterion.RangedKilledEntityCriterionMixin$Crossbow",
 		"api.criterion.RangedKilledEntityCriterionMixin$Trigger",
