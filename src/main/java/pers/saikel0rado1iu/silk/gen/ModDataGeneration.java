@@ -33,7 +33,6 @@ public abstract class ModDataGeneration implements DataGeneratorEntrypoint {
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
 		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
 		if (null != worldGen()) worldGenerator = pack.addProvider(worldGen());
-		buildRegistry(new RegistryBuilder());
 		datagen(pack);
 	}
 	
