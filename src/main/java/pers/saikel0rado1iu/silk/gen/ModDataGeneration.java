@@ -54,12 +54,17 @@ public abstract class ModDataGeneration implements DataGeneratorEntrypoint {
 	
 	@Override
 	public void buildRegistry(RegistryBuilder registryBuilder) {
-		if (worldGenerator != null) {
-			registryBuilder.addRegistry(RegistryKeys.CONFIGURED_FEATURE, worldGenerator.configuredFeatures()::bootstrap);
-			registryBuilder.addRegistry(RegistryKeys.PLACED_FEATURE, worldGenerator.placedFeatures()::bootstrap);
-			registryBuilder.addRegistry(RegistryKeys.BIOME, worldGenerator.biomes()::bootstrap);
-			registryBuilder.addRegistry(RegistryKeys.WORLD_PRESET, worldGenerator.worldPresets()::bootstrap);
-			registryBuilder.addRegistry(RegistryKeys.MULTI_NOISE_BIOME_SOURCE_PARAMETER_LIST, worldGenerator.multiNoiseBiomeSourceParameterLists()::bootstrap);
+		try {
+			if (worldGenerator == null) Thread.sleep(250);
+			if (worldGenerator != null) {
+				registryBuilder.addRegistry(RegistryKeys.CONFIGURED_FEATURE, worldGenerator.configuredFeatures()::bootstrap);
+				registryBuilder.addRegistry(RegistryKeys.PLACED_FEATURE, worldGenerator.placedFeatures()::bootstrap);
+				registryBuilder.addRegistry(RegistryKeys.BIOME, worldGenerator.biomes()::bootstrap);
+				registryBuilder.addRegistry(RegistryKeys.WORLD_PRESET, worldGenerator.worldPresets()::bootstrap);
+				registryBuilder.addRegistry(RegistryKeys.MULTI_NOISE_BIOME_SOURCE_PARAMETER_LIST, worldGenerator.multiNoiseBiomeSourceParameterLists()::bootstrap);
+			}
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
 		}
 	}
 }
