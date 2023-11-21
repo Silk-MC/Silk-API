@@ -16,6 +16,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.chunk.ChunkGeneratorSettings;
+import net.minecraft.world.gen.chunk.GenerationShapeConfig;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
@@ -46,4 +47,22 @@ public abstract class SilkChunkGeneratorSetting {
 	 */
 	@ApiStatus.OverrideOnly
 	public abstract void bootstrap(Registerable<ChunkGeneratorSettings> chunkGenerationSettingsRegisterable);
+	
+	@SilkApi
+	public static class SilkGenerationShapeConfig extends GenerationShapeConfig {
+		@SilkApi
+		public static final GenerationShapeConfig SURFACE = GenerationShapeConfig.SURFACE;
+		@SilkApi
+		public static final GenerationShapeConfig NETHER = GenerationShapeConfig.NETHER;
+		@SilkApi
+		public static final GenerationShapeConfig END = GenerationShapeConfig.END;
+		@SilkApi
+		public static final GenerationShapeConfig CAVES = GenerationShapeConfig.CAVES;
+		@SilkApi
+		public static final GenerationShapeConfig FLOATING_ISLANDS = GenerationShapeConfig.FLOATING_ISLANDS;
+		
+		public SilkGenerationShapeConfig(int minimumY, int height, int i, int j) {
+			super(minimumY, height, i, j);
+		}
+	}
 }
