@@ -55,12 +55,39 @@ public abstract class SilkWorldGenerator extends FabricDynamicRegistryProvider {
 	}
 	
 	/**
+	 * 提供来自模组的生物群系以供注册、生成
+	 */
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public SilkBiomeKey biomes() {
+		return SilkBiomeKey.EMPTY;
+	}
+	
+	/**
 	 * 提供来自模组的已配置的地物以供注册、生成
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
 	public SilkConfiguredFeature configuredFeatures() {
 		return SilkConfiguredFeature.EMPTY;
+	}
+	
+	/**
+	 * 提供来自模组的多重噪声生物群系源参数列表以供注册、生成
+	 */
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public SilkMultiNoiseBiomeSourceParameterList multiNoiseBiomeSourceParameterLists() {
+		return SilkMultiNoiseBiomeSourceParameterList.EMPTY;
+	}
+	
+	/**
+	 * 提供来自模组的区块生成器设置以供注册、生成
+	 */
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public SilkChunkGeneratorSetting chunkGeneratorSettings() {
+		return SilkChunkGeneratorSetting.EMPTY;
 	}
 	
 	/**
@@ -73,30 +100,12 @@ public abstract class SilkWorldGenerator extends FabricDynamicRegistryProvider {
 	}
 	
 	/**
-	 * 提供来自模组的生物群系以供注册、生成
-	 */
-	@SilkApi
-	@ApiStatus.OverrideOnly
-	public SilkBiomeKey biomes() {
-		return SilkBiomeKey.EMPTY;
-	}
-	
-	/**
 	 * 提供来自模组的世界预设以供注册、生成
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
 	public SilkWorldPreset worldPresets() {
 		return SilkWorldPreset.EMPTY;
-	}
-	
-	/**
-	 * 提供来自模组的多重噪声生物群系源参数列表以供注册、生成
-	 */
-	@SilkApi
-	@ApiStatus.OverrideOnly
-	public SilkMultiNoiseBiomeSourceParameterList multiNoiseBiomeSourceParameterLists() {
-		return SilkMultiNoiseBiomeSourceParameterList.EMPTY;
 	}
 	
 	public abstract ModBasicData getMod();
