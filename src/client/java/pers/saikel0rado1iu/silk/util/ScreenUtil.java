@@ -105,6 +105,7 @@ public interface ScreenUtil {
 	static String readChangelog() {
 		try {
 			URL path = ScreenUtil.class.getResource("/log/" + LocalizationUtil.getLanguage() + ".txt");
+			if (path == null) path = ScreenUtil.class.getResource("/log/en_us.txt");
 			if (path == null) return "Changelog does not exist!" + Silk.DATA.getInfo();
 			Path logPath = Path.of(path.toURI());
 			StringBuilder log = new StringBuilder().append(Files.readString(logPath, StandardCharsets.UTF_8));
