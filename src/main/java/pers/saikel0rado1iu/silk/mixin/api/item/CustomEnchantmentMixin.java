@@ -20,12 +20,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
-import net.minecraft.util.math.random.Random;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.api.item.CustomEnchantment;
 
 import java.util.ArrayList;
@@ -38,12 +36,12 @@ import java.util.List;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-final class CustomEnchantmentMixin {
+interface CustomEnchantmentMixin {
 	/**
 	 * 设置自定义附魔能被接受
 	 */
 	@Mixin(Enchantment.class)
-	abstract static class SetAcceptEnchantment {
+	abstract class SetAcceptEnchantment {
 		/**
 		 * 如果物品为自定义物品判断此魔咒是否包含在自定义魔咒中，所以请忽略 'EqualsBetweenInconvertibleTypes' 警告
 		 */
@@ -51,9 +49,8 @@ final class CustomEnchantmentMixin {
 		@Inject(method = "isAcceptableItem", at = @At("RETURN"), cancellable = true)
 		private void acceptEnchantment(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
 			if (stack.getItem() instanceof CustomEnchantment item && item.getEnchantments().stream()
-					.anyMatch(enchantment -> enchantment.equals(this))) {
-				cir.setReturnValue(true);
-			}
+					.anyMatch(enchantment -> enchantment.equals(this))) cir.setReturnValue(true);
+			else cir.setReturnValue(false);
 		}
 	}
 	
@@ -61,7 +58,7 @@ final class CustomEnchantmentMixin {
 	 * 设置附魔台附魔能够附魔自定义魔咒
 	 */
 	@Mixin(EnchantmentHelper.class)
-	abstract static class SetTableEnchantment {
+	abstract class SetTableEnchantment {
 		/**
 		 * 设置附魔判断为 {@link Enchantment#isAcceptableItem(ItemStack)} 而不是 {@link EnchantmentTarget#isAcceptableItem(Item)}
 		 */
@@ -71,9 +68,7 @@ final class CustomEnchantmentMixin {
 			nextEnchantment:
 			for (Enchantment enchantment : Registries.ENCHANTMENT) {
 				if (enchantment.isTreasure() && !treasureAllowed || !enchantment.isAvailableForRandomSelection()
-						|| !enchantment.isAcceptableItem(stack) && !stack.isOf(Items.BOOK)) {
-					continue;
-				}
+						|| !enchantment.isAcceptableItem(stack) && !stack.isOf(Items.BOOK)) continue;
 				for (int level = enchantment.getMaxLevel(); level > enchantment.getMinLevel() - 1; level--) {
 					if (power < enchantment.getMinPower(level) || power > enchantment.getMaxPower(level)) continue;
 					enchantments.add(new EnchantmentLevelEntry(enchantment, level));
@@ -81,11 +76,6 @@ final class CustomEnchantmentMixin {
 				}
 			}
 			cir.setReturnValue(enchantments);
-		}
-		
-		@Inject(method = "enchant", at = @At("HEAD"))
-		private static void test(Random random, ItemStack stack, int level, boolean treasureAllowed, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir) {
-			Silk.DATA.logger().info(stack.getItem().toString());
 		}
 	}
 }

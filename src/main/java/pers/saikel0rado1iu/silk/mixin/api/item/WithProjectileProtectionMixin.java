@@ -17,7 +17,10 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolItem;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -40,12 +43,12 @@ import static net.minecraft.entity.player.PlayerInventory.MAIN_SIZE;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-final class WithProjectileProtectionMixin {
+interface WithProjectileProtectionMixin {
 	/**
 	 * 设置 {@link PlayerEntity} 的效果设置
 	 */
 	@Mixin(PlayerEntity.class)
-	abstract static class SetPlayer extends LivingEntity {
+	abstract class SetPlayer extends LivingEntity {
 		@Unique
 		private static DamageSource damageSource = null;
 		
@@ -68,12 +71,16 @@ final class WithProjectileProtectionMixin {
 		@ModifyVariable(method = "applyDamage", at = @At("HEAD"), ordinal = 0, argsOnly = true)
 		private float setProtect(float amount) {
 			if (!damageSource.isIn(DamageTypeTags.IS_PROJECTILE)) return amount;
-			boolean notAllSlot = false;
 			Map<Class<?>, Integer> map = Maps.newHashMapWithExpectedSize(8);
 			for (EquipmentSlot slot : EquipmentSlot.values()) {
-				if (!(getEquippedStack(slot).getItem() instanceof WithProjectileProtection item)) continue;
-				if ((notAllSlot = item.getEffectiveEquipmentSlot().isEmpty()) || item.getEffectiveEquipmentSlot()
-						.get().stream().allMatch(equipmentSlot -> equipmentSlot != slot)) continue;
+				Item slotItem = getEquippedStack(slot).getItem();
+				WithProjectileProtection item = null;
+				if (slotItem instanceof ArmorItem a && a.getMaterial() instanceof WithProjectileProtection p) item = p;
+				if (slotItem instanceof ToolItem t && t.getMaterial() instanceof WithProjectileProtection p) item = p;
+				if (slotItem instanceof WithProjectileProtection p) item = p;
+				if (item == null) continue;
+				if (item.getEffectiveEquipmentSlot().isPresent() && item.getEffectiveEquipmentSlot().get().stream().allMatch(equipmentSlot -> equipmentSlot != slot))
+					continue;
 				if (item.getPrPrStackingCount().isPresent()) {
 					int stackingCount = item.getPrPrStackingCount().get();
 					int mapCount = map.get(item.getClass()) == null ? 0 : map.get(item.getClass());
@@ -82,9 +89,14 @@ final class WithProjectileProtectionMixin {
 				}
 				amount = item.getPrPrAmount(amount);
 			}
-			if (notAllSlot) return amount;
 			for (int count = 0; count < MAIN_SIZE; count++) {
-				if (!(getInventory().getStack(count).getItem() instanceof WithProjectileProtection item)) continue;
+				ItemStack stack = getInventory().getStack(count);
+				Item slotItem = stack.getItem();
+				WithProjectileProtection item = null;
+				if (slotItem instanceof ArmorItem a && a.getMaterial() instanceof WithProjectileProtection p) item = p;
+				if (slotItem instanceof ToolItem t && t.getMaterial() instanceof WithProjectileProtection p) item = p;
+				if (slotItem instanceof WithProjectileProtection p) item = p;
+				if (item == null) continue;
 				if (item.getEffectiveEquipmentSlot().isPresent()) continue;
 				if (item.getPrPrStackingCount().isPresent()) {
 					int stackingCount = item.getPrPrStackingCount().get();
@@ -102,7 +114,7 @@ final class WithProjectileProtectionMixin {
 	 * 设置 {@link MobEntity} 的效果设置
 	 */
 	@Mixin(LivingEntity.class)
-	abstract static class SetMob extends Entity implements Attackable {
+	abstract class SetMob extends Entity implements Attackable {
 		@Unique
 		private static DamageSource damageSource = null;
 		
@@ -121,9 +133,14 @@ final class WithProjectileProtectionMixin {
 			if (!(((LivingEntity) (Object) this) instanceof MobEntity mob)) return amount;
 			Map<Class<?>, Integer> map = Maps.newHashMapWithExpectedSize(8);
 			for (EquipmentSlot slot : EquipmentSlot.values()) {
-				if (!(mob.getEquippedStack(slot).getItem() instanceof WithProjectileProtection item)) continue;
-				if (item.getEffectiveEquipmentSlot().isEmpty() || item.getEffectiveEquipmentSlot()
-						.get().stream().allMatch(equipmentSlot -> equipmentSlot != slot)) continue;
+				Item slotItem = mob.getEquippedStack(slot).getItem();
+				WithProjectileProtection item = null;
+				if (slotItem instanceof ArmorItem a && a.getMaterial() instanceof WithProjectileProtection p) item = p;
+				if (slotItem instanceof ToolItem t && t.getMaterial() instanceof WithProjectileProtection p) item = p;
+				if (slotItem instanceof WithProjectileProtection p) item = p;
+				if (item == null) continue;
+				if (item.getEffectiveEquipmentSlot().isPresent() && item.getEffectiveEquipmentSlot().get().stream().allMatch(equipmentSlot -> equipmentSlot != slot))
+					continue;
 				if (item.getPrPrStackingCount().isPresent()) {
 					int stackingCount = item.getPrPrStackingCount().get();
 					int mapCount = map.get(item.getClass()) == null ? 0 : map.get(item.getClass());

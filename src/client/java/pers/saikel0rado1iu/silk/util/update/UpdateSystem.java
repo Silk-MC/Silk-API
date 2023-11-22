@@ -12,8 +12,10 @@
 package pers.saikel0rado1iu.silk.util.update;
 
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.include.com.google.common.collect.Sets;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.api.ModExtendedData;
 
 import java.util.Set;
 
@@ -26,17 +28,30 @@ import java.util.Set;
  */
 @SilkApi
 public class UpdateSystem {
-	private static final UpdateSystem UPDATE_SYSTEM = new UpdateSystem();
-	private final Set<UpdateShow> updateShowSet = Sets.newHashSetWithExpectedSize(4);
+	private static final Set<UpdateShow> UPDATE_SHOWS = Sets.newHashSetWithExpectedSize(4);
 	
 	@ApiStatus.Internal
-	public static Set<UpdateShow> getUpdateShowSet() {
-		return UPDATE_SYSTEM.updateShowSet;
+	public static Set<UpdateShow> getUpdateShows() {
+		return UPDATE_SHOWS;
+	}
+	
+	@SilkApi
+	public static @Nullable UpdateShow getUpdateShow(ModExtendedData mod) {
+		for (UpdateShow show : UPDATE_SHOWS) {
+			if (show.getMod().equals(mod)) return show;
+		}
+		return null;
 	}
 	
 	@SilkApi
 	public static void registryUpdate(UpdateData updateData) {
-		UpdateShow updateShow = new UpdateShow(new CheckUpdateThread(updateData));
-		if (UPDATE_SYSTEM.updateShowSet.add(updateShow)) updateShow.runUpdateThread();
+		UpdateShow updateShow = new UpdateShow(new CheckUpdateThread(updateData), false);
+		if (UPDATE_SHOWS.add(updateShow)) updateShow.runUpdateThread();
+	}
+	
+	@SilkApi
+	public static void registryUpdate(UpdateData updateData, boolean isTrustedLink) {
+		UpdateShow updateShow = new UpdateShow(new CheckUpdateThread(updateData), isTrustedLink);
+		if (UPDATE_SHOWS.add(updateShow)) updateShow.runUpdateThread();
 	}
 }

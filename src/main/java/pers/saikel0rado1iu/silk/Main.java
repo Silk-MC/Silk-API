@@ -11,17 +11,36 @@
 
 package pers.saikel0rado1iu.silk;
 
-import pers.saikel0rado1iu.silk.api.registry.ModMain;
+import pers.saikel0rado1iu.silk.api.ModBasicData;
+import pers.saikel0rado1iu.silk.api.ModMain;
+import pers.saikel0rado1iu.silk.api.registry.datagen.criterion.SilkCriteria;
+import pers.saikel0rado1iu.silk.api.registry.datagen.recipe.SilkRecipeSerializers;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">Fabric Loader 最先调用的类，通常用于进行最终注册和模组最先操作</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">注册 Silk 的必要数据</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-public class Main extends ModMain {
+public final class Main extends ModMain {
+	/**
+	 * 此构造方法仅用于父级构造（super() 构造方法），不可在子类实现
+	 */
 	public Main() {
 		super(Silk.DATA);
+	}
+	
+	/**
+	 * 最先运行的模组初始化函数
+	 */
+	@Override
+	public void main(ModBasicData mod) {
+	}
+	
+	@Override
+	public void datagen() {
+		Silk.DATA.logger().info("register " + SilkCriteria.INSTANCE);
+		Silk.DATA.logger().info("register " + SilkRecipeSerializers.INSTANCE);
 	}
 }

@@ -17,8 +17,10 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolItem;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -35,10 +37,10 @@ import java.util.stream.StreamSupport;
 import static net.minecraft.entity.effect.StatusEffectInstance.INFINITE;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">设置自带状态效果的物品</font></b></p>
+ * <se><b style="color:FFC800"><font size="+1">设置自带状态效果的物品</font></b></se>
  * <style="color:FFC800">
  *
- * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><se>
  * @since 0.1.0
  */
 @Mixin(LivingEntity.class)
@@ -88,17 +90,20 @@ abstract class WithStatusEffectsMixin extends Entity implements Attackable {
 			hasItem.put(item, counts == null ? stack.getCount() : counts + stack.getCount());
 		});
 		// 获取所有状态效果物品
-		Set<WithStatusEffects> hasWith = Sets.newHashSetWithExpectedSize(45);
+		Map<Item, WithStatusEffects> hasWith = Maps.newHashMapWithExpectedSize(45);
 		hasItem.keySet().forEach(item -> {
-			if (item instanceof WithStatusEffects with) hasWith.add(with);
+			WithStatusEffects with = null;
+			if (item instanceof ArmorItem a && a.getMaterial() instanceof WithStatusEffects se) with = se;
+			if (item instanceof ToolItem t && t.getMaterial() instanceof WithStatusEffects se) with = se;
+			if (item instanceof WithStatusEffects se) with = se;
+			if (with != null) hasWith.put(item, with);
 		});
 		if (hasWith.isEmpty()) return;
 		// 获取所有套装效果组
 		Map<Map<Item, Optional<Set<EquipmentSlot>>>, Integer> kitsMap = Maps.newHashMapWithExpectedSize(45);
-		hasWith.forEach(with -> with.getStatusEffects().keySet().forEach(effect -> {
-			Map<Item, Optional<Set<EquipmentSlot>>> map = with.getStatusEffectsKit().get(effect).orElse(new HashMap<>(1));
-			map.put((Item) with, with.getEffectiveEquipmentSlot());
-			kitsMap.put(map, 0);
+		hasWith.forEach((item, with) -> with.getStatusEffects().keySet().forEach(effect -> {
+			if (with.getStatusEffectsKit().get(effect).isPresent()) kitsMap.put(with.getStatusEffectsKit().get(effect).get(), 0);
+			else kitsMap.put(Map.of(item, with.getEffectiveEquipmentSlot()), 0);
 		}));
 		// 获取所有套装效果组触发物品数
 		kitsMap.forEach((itemMap, integer) -> {
@@ -111,7 +116,7 @@ abstract class WithStatusEffectsMixin extends Entity implements Attackable {
 				if (item instanceof WithStatusEffects with) slots = with.getEffectiveEquipmentSlot().orElse(null);
 				else slots = itemMap.get(item).orElse(null);
 				triggerCount[0] += slots != null
-						? (slots.stream().anyMatch(slot -> getEquippedStack(slot).getItem().equals(item))
+						? (slots.stream().anyMatch(slot -> getEquippedStack(slot).equals(stack))
 						? num : 0) : num;
 			});
 			kitsMap.put(itemMap, triggerCount[0]);
@@ -120,7 +125,7 @@ abstract class WithStatusEffectsMixin extends Entity implements Attackable {
 		Map<Set<Item>, Integer> kitsSet = Maps.newHashMapWithExpectedSize(45);
 		kitsMap.forEach((itemMap, integer) -> kitsSet.put(itemMap.keySet(), integer));
 		// 设置状态效果
-		hasWith.forEach(with -> {
+		hasWith.forEach((item, with) -> {
 			Map<StatusEffect, Integer> maxLevels = with.getStatusEffects();
 			Map<StatusEffect, Float> stackingLevels = with.getStatusEffectsStackingLevel();
 			Map<StatusEffect, Optional<Map<Item, Optional<Set<EquipmentSlot>>>>> kits = with.getStatusEffectsKit();
@@ -128,11 +133,12 @@ abstract class WithStatusEffectsMixin extends Entity implements Attackable {
 			for (StatusEffect effect : maxLevels.keySet()) {
 				int maxLevel = maxLevels.get(effect);
 				float stackingLevel = stackingLevels.get(effect);
-				Set<Item> kit = kits.get(effect).isEmpty() ? new HashSet<>(1) : kits.get(effect).get().keySet();
-				kit.add((Item) with);
+				Set<Item> kit = new HashSet<>();
+				if (kits.get(effect).isPresent()) kit.addAll(kits.get(effect).get().keySet());
+				kit.add(item);
 				int threshold = thresholds.get(effect).isPresent()
 						? (kit.size() == 1 ? Math.max(1, thresholds.get(effect).get()) : Math.min(kit.size(), Math.max(1, thresholds.get(effect).get())))
-						: (kit.size() == 1 ? 1 : thresholds.get(effect).get());
+						: kit.size();
 				// 是否能触发效果
 				if (kitsSet.get(kit) >= threshold) {
 					int level = (int) Math.min(maxLevel, stackingLevel * (kitsSet.get(kit) - threshold));

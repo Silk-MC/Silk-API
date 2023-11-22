@@ -15,7 +15,10 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.PiglinBrain;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -35,19 +38,27 @@ import static net.minecraft.entity.player.PlayerInventory.MAIN_SIZE;
 abstract class PiglinIgnoreMixin {
 	@Inject(method = "wearsGoldArmor", at = @At("RETURN"), cancellable = true)
 	private static void hasPiglinIgnoreItem(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
-		boolean notAllSlot = false;
 		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			if (!(entity.getEquippedStack(slot).getItem() instanceof PiglinIgnore item)) continue;
-			if ((notAllSlot = item.getEffectiveEquipmentSlot().isEmpty()) || item.getEffectiveEquipmentSlot()
-					.get().stream().allMatch(equipmentSlot -> equipmentSlot != slot)) continue;
+			Item slotItem = entity.getEquippedStack(slot).getItem();
+			PiglinIgnore item = null;
+			if (slotItem instanceof ArmorItem a && a.getMaterial() instanceof PiglinIgnore p) item = p;
+			if (slotItem instanceof ToolItem t && t.getMaterial() instanceof PiglinIgnore p) item = p;
+			if (slotItem instanceof PiglinIgnore p) item = p;
+			if (item == null) continue;
+			if (item.getEffectiveEquipmentSlot().isPresent() && item.getEffectiveEquipmentSlot().get().stream().allMatch(equipmentSlot -> equipmentSlot != slot))
+				continue;
 			cir.setReturnValue(true);
 			return;
 		}
-		if (notAllSlot) return;
 		if (!(entity instanceof PlayerEntity player)) return;
 		for (int count = 0; count < MAIN_SIZE; count++) {
 			ItemStack stack = player.getInventory().getStack(count);
-			if (!(stack.getItem() instanceof PiglinIgnore item)) continue;
+			Item slotItem = stack.getItem();
+			PiglinIgnore item = null;
+			if (slotItem instanceof ArmorItem a && a.getMaterial() instanceof PiglinIgnore p) item = p;
+			if (slotItem instanceof ToolItem t && t.getMaterial() instanceof PiglinIgnore p) item = p;
+			if (slotItem instanceof PiglinIgnore p) item = p;
+			if (item == null) continue;
 			if (item.getEffectiveEquipmentSlot().isPresent()) continue;
 			cir.setReturnValue(true);
 			return;

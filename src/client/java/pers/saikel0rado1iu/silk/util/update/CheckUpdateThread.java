@@ -17,7 +17,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.ApiStatus;
-import pers.saikel0rado1iu.silk.api.ModExpansionData;
+import pers.saikel0rado1iu.silk.api.ModExtendedData;
 import pers.saikel0rado1iu.silk.util.Minecraft;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -35,6 +35,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static pers.saikel0rado1iu.silk.util.update.CheckUpdateThread.State.*;
 
@@ -60,6 +61,7 @@ public final class CheckUpdateThread extends Thread {
 	}
 	
 	private static String getFileSha1(Path path) {
+		if (!path.toFile().isFile()) return "";
 		try (InputStream in = Files.newInputStream(path)) {
 			MessageDigest digest = MessageDigest.getInstance("SHA-1");
 			byte[] buffer = new byte[1024 * 1024 * 10];
@@ -126,7 +128,7 @@ public final class CheckUpdateThread extends Thread {
 	}
 	
 	@ApiStatus.Internal
-	public ModExpansionData getMod() {
+	public ModExtendedData getMod() {
 		return data.getMod();
 	}
 	
@@ -231,9 +233,9 @@ public final class CheckUpdateThread extends Thread {
 				updateLink = checkUpdateLink = new URL(checkUpdateBasic);
 				checkUpdateLink.openConnection().setConnectTimeout(100);
 				// 通过 URL 的 openStream 方法获取 URL 对象所表示的自愿字节输入流
-				InputStream is = checkUpdateLink.openStream();
-				InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
-				JsonObject webData = (JsonObject) JsonParser.parseReader(new BufferedReader(isr)).getAsJsonArray().get(0);
+				String s = new BufferedReader(new InputStreamReader(checkUpdateLink.openStream())).lines().collect(Collectors.joining(System.lineSeparator()));
+				if ("[]".equals(s)) return UPDATE_FAIL;
+				JsonObject webData = (JsonObject) JsonParser.parseString(s).getAsJsonArray().get(0);
 				// 判断更新
 				String updateVer = getLatestMcVer(webData);
 				JsonObject jsonObject = (JsonObject) webData.getAsJsonArray("files").get(0);
@@ -246,9 +248,9 @@ public final class CheckUpdateThread extends Thread {
 				updateLink = checkUpdateLink = new URL(checkUpdateBasic + "&game_versions=[%22" + Minecraft.DATA.getVersion() + "%22]");
 				checkUpdateLink.openConnection().setConnectTimeout(100);
 				// 通过 URL 的 openStream 方法获取 URL 对象所表示的自愿字节输入流
-				InputStream is = checkUpdateLink.openStream();
-				InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
-				JsonObject webData = (JsonObject) JsonParser.parseReader(new BufferedReader(isr)).getAsJsonArray().get(0);
+				String s = new BufferedReader(new InputStreamReader(checkUpdateLink.openStream())).lines().collect(Collectors.joining(System.lineSeparator()));
+				if ("[]".equals(s)) return UPDATE_FAIL;
+				JsonObject webData = (JsonObject) JsonParser.parseString(s).getAsJsonArray().get(0);
 				// 判断更新
 				JsonObject jsonObject = (JsonObject) webData.getAsJsonArray("files").get(0);
 				String sha1Code = jsonObject.getAsJsonObject("hashes").get("sha1").getAsString();

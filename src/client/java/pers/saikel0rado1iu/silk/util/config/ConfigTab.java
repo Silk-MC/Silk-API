@@ -29,8 +29,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static pers.saikel0rado1iu.silk.util.ScreenUtil.configText;
-import static pers.saikel0rado1iu.silk.util.ScreenUtil.configTip;
+import static pers.saikel0rado1iu.silk.util.TextUtil.configText;
+import static pers.saikel0rado1iu.silk.util.TextUtil.configTip;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于模组配置选项卡</font></b></p>
@@ -61,7 +61,7 @@ public class ConfigTab extends ScreenTab {
 	@Override
 	public void init(MinecraftClient client, TextRenderer textRenderer, int width, int height) {
 		// 添加黑色透明窗口
-		configListWidget = new ConfigListWidget(client, width, height, 32, height - 32, 25);
+		configListWidget = new ConfigListWidget(client, width, height, 32, height - 40, 25);
 		if (configData.type == ConfigData.Type.DEV) return;
 		simpleOptionList = addSimpleOption();
 		addWidget(configListWidget);
@@ -124,7 +124,12 @@ public class ConfigTab extends ScreenTab {
 				}
 			} else if (object instanceof ConfigData cd) {
 				if (cd.getType() == ConfigData.Type.DEV) continue;
-				simpleOption = SimpleOption.ofBoolean(configText(configData.mod, key), SimpleOption.constantTooltip(Text.of(configTip(configData.mod, key))), (optionText, value) -> Text.of(""), false, (value) -> MinecraftClient.getInstance().setScreen(new ConfigScreen(parent, isDouble, cd, key + '.', Text.translatable(configText(configData.mod, key)))));
+				simpleOption = SimpleOption.ofBoolean(configText(configData.mod, key), SimpleOption.constantTooltip(Text.translatable(configTip(configData.mod, key))), (optionText, value) -> Text.of(""), false, (value) -> MinecraftClient.getInstance().setScreen(new ConfigScreen(parent, isDouble, cd, key + '.', Text.translatable(configText(configData.mod, key))) {
+					@Override
+					public boolean linkTrusted() {
+						return ConfigTab.this.linkTrusted();
+					}
+				}));
 			}
 			simpleOptionList.add(simpleOption);
 			if (!isDouble) {

@@ -26,6 +26,7 @@ import net.minecraft.util.Util;
 import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.util.ScreenUtil;
+import pers.saikel0rado1iu.silk.util.TextUtil;
 import pers.saikel0rado1iu.silk.util.config.ConfigScreen;
 import pers.saikel0rado1iu.silk.util.screen.BaseScreen;
 import pers.saikel0rado1iu.silk.util.update.CheckUpdateThread;
@@ -97,8 +98,8 @@ public abstract class UpdateScreen extends BaseScreen {
 		renderBackgroundTexture(context);
 		super.render(context, mouseX, mouseY, delta);
 		if (updateModeText != null) {
-			updateModeText.setMessage(Text.translatable(ScreenUtil.configText(Silk.DATA, UpdateData.KEY + '.' + UPDATE_MODE + "_"),
-					Text.translatable(ScreenUtil.configText(Silk.DATA, UpdateData.KEY + '.' + UPDATE_MODE + '.' + updateShow.getUpdateData().getUpdateMode().toString().toLowerCase()))));
+			updateModeText.setMessage(Text.translatable(TextUtil.configText(Silk.DATA, UpdateData.KEY + '.' + UPDATE_MODE + "_"),
+					Text.translatable(TextUtil.configText(Silk.DATA, UpdateData.KEY + '.' + UPDATE_MODE + '.' + updateShow.getUpdateData().getUpdateMode().toString().toLowerCase()))));
 			updateModeText.render(context, mouseX, mouseY, delta);
 		}
 	}
@@ -122,13 +123,8 @@ public abstract class UpdateScreen extends BaseScreen {
 	
 	@SilkApi
 	protected ButtonWidget.Builder updateConfigButton() {
-		return ButtonWidget.builder(Text.translatable(ScreenUtil.configText(Silk.DATA, UpdateData.KEY)), (button) -> {
-			if (client != null) client.setScreen(new ConfigScreen(this, updateShow.getConfigData(), UpdateData.KEY) {
-				@Override
-				protected boolean linkTrusted() {
-					return true;
-				}
-			});
+		return ButtonWidget.builder(Text.translatable(TextUtil.configText(Silk.DATA, UpdateData.KEY)), (button) -> {
+			if (client != null) client.setScreen(new ConfigScreen(this, updateShow.getConfigData(), UpdateData.KEY));
 		});
 	}
 	
@@ -156,7 +152,7 @@ public abstract class UpdateScreen extends BaseScreen {
 	
 	@SilkApi
 	protected ButtonWidget updateNowButton() {
-		return updateButton = ButtonWidget.builder(Text.translatable(ScreenUtil.configText(Silk.DATA, "update_now")), button -> {
+		return updateButton = ButtonWidget.builder(Text.translatable(TextUtil.configText(Silk.DATA, "update_now")), button -> {
 			close();
 			if (updateShow.getUpdateData().getUpdateMode() != MANUAL_DOWNLOAD)
 				MinecraftClient.getInstance().setScreen(new ConfirmDownloadScreen(parent, updateShow, title));
@@ -167,7 +163,7 @@ public abstract class UpdateScreen extends BaseScreen {
 	
 	@SilkApi
 	protected ButtonWidget.Builder notUpdateButton() {
-		return ButtonWidget.builder(Text.translatable(ScreenUtil.configText(Silk.DATA, "not_update")).copy().formatted(Formatting.GRAY), button -> {
+		return ButtonWidget.builder(Text.translatable(TextUtil.configText(Silk.DATA, "not_update")).copy().formatted(Formatting.GRAY), button -> {
 			updateShow.getUpdateThread().setCanCheckUpdate(true);
 			close();
 		});

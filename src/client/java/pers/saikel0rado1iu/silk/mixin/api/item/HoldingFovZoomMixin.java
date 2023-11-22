@@ -39,12 +39,12 @@ import pers.saikel0rado1iu.silk.api.item.tool.HoldingFovZoom;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-final class HoldingFovZoomMixin {
+interface HoldingFovZoomMixin {
 	/**
 	 * 设置视角缩放
 	 */
 	@Mixin(GameRenderer.class)
-	abstract static class SetUsingFovZoom implements AutoCloseable {
+	abstract class SetUsingFovZoom implements AutoCloseable {
 		@Shadow
 		@Final
 		MinecraftClient client;
@@ -58,13 +58,25 @@ final class HoldingFovZoomMixin {
 			Item mainHandItem = player.getMainHandStack().getItem();
 			Item offHandItem = player.getOffHandStack().getItem();
 			if (mainHandItem instanceof HoldingFovZoom fovZoom) {
-				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+				if (!fovZoom.canChangeFov(player.getMainHandStack())) return;
+				if (fovZoom.onlyFirstPerson()) {
+					if (client.options.getPerspective().isFirstPerson()) {
+						float fovChangeAmount = 1 - fovZoom.getHoldingFovMultiple();
+						fovMultiplier -= fovChangeAmount;
+					}
+				} else {
 					float fovChangeAmount = 1 - fovZoom.getHoldingFovMultiple();
 					fovMultiplier -= fovChangeAmount;
 				}
 			}
 			if (offHandItem instanceof HoldingFovZoom fovZoom && !fovZoom.isConflictItems(mainHandItem)) {
-				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+				if (!fovZoom.canChangeFov(player.getOffHandStack())) return;
+				if (fovZoom.onlyFirstPerson()) {
+					if (client.options.getPerspective().isFirstPerson()) {
+						float fovChangeAmount = 1 - fovZoom.getHoldingFovMultiple();
+						fovMultiplier -= fovChangeAmount;
+					}
+				} else {
 					float fovChangeAmount = 1 - fovZoom.getHoldingFovMultiple();
 					fovMultiplier -= fovChangeAmount;
 				}
@@ -76,7 +88,7 @@ final class HoldingFovZoomMixin {
 	 * 设置鼠标移动倍数
 	 */
 	@Mixin(Mouse.class)
-	abstract static class SetMouseMoveMultiplier {
+	abstract class SetMouseMoveMultiplier {
 		@Shadow
 		@Final
 		private MinecraftClient client;
@@ -88,17 +100,27 @@ final class HoldingFovZoomMixin {
 			Item mainHandItem = player.getMainHandStack().getItem();
 			Item offHandItem = player.getOffHandStack().getItem();
 			if (mainHandItem instanceof HoldingFovZoom fovZoom) {
-				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
-					float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
-					args.set(0, (double) args.get(0) * moveMultiple);
-					args.set(1, (double) args.get(1) * moveMultiple);
+				if (!fovZoom.canChangeFov(player.getMainHandStack())) return;
+				if (fovZoom.onlyFirstPerson()) {
+					if (client.options.getPerspective().isFirstPerson()) {
+						args.set(0, (double) args.get(0) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
+						args.set(1, (double) args.get(1) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
+					}
+				} else {
+					args.set(0, (double) args.get(0) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
+					args.set(1, (double) args.get(1) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
 				}
 			}
 			if (offHandItem instanceof HoldingFovZoom fovZoom && !fovZoom.isConflictItems(mainHandItem)) {
-				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
-					float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
-					args.set(0, (double) args.get(0) * moveMultiple);
-					args.set(1, (double) args.get(1) * moveMultiple);
+				if (!fovZoom.canChangeFov(player.getOffHandStack())) return;
+				if (fovZoom.onlyFirstPerson()) {
+					if (client.options.getPerspective().isFirstPerson()) {
+						args.set(0, (double) args.get(0) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
+						args.set(1, (double) args.get(1) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
+					}
+				} else {
+					args.set(0, (double) args.get(0) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
+					args.set(1, (double) args.get(1) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
 				}
 			}
 		}
@@ -110,17 +132,27 @@ final class HoldingFovZoomMixin {
 			Item mainHandItem = player.getMainHandStack().getItem();
 			Item offHandItem = player.getOffHandStack().getItem();
 			if (mainHandItem instanceof HoldingFovZoom fovZoom) {
-				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
-					float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
-					args.set(0, (double) args.get(0) * moveMultiple);
-					args.set(1, (double) args.get(1) * moveMultiple);
+				if (!fovZoom.canChangeFov(player.getMainHandStack())) return;
+				if (fovZoom.onlyFirstPerson()) {
+					if (client.options.getPerspective().isFirstPerson()) {
+						args.set(0, (double) args.get(0) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
+						args.set(1, (double) args.get(1) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
+					}
+				} else {
+					args.set(0, (double) args.get(0) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
+					args.set(1, (double) args.get(1) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
 				}
 			}
 			if (offHandItem instanceof HoldingFovZoom fovZoom && !fovZoom.isConflictItems(mainHandItem)) {
-				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
-					float moveMultiple = 1 - (1 - fovZoom.getHoldingFovZoom());
-					args.set(0, (double) args.get(0) * moveMultiple);
-					args.set(1, (double) args.get(1) * moveMultiple);
+				if (!fovZoom.canChangeFov(player.getOffHandStack())) return;
+				if (fovZoom.onlyFirstPerson()) {
+					if (client.options.getPerspective().isFirstPerson()) {
+						args.set(0, (double) args.get(0) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
+						args.set(1, (double) args.get(1) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
+					}
+				} else {
+					args.set(0, (double) args.get(0) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
+					args.set(1, (double) args.get(1) * Math.pow(fovZoom.getHoldingFovMultiple(), 3));
 				}
 			}
 		}
@@ -130,7 +162,7 @@ final class HoldingFovZoomMixin {
 	 * 设置缩放抬头显示
 	 */
 	@Mixin(InGameHud.class)
-	abstract static class RenderHudOverlay {
+	abstract class RenderHudOverlay {
 		@Final
 		@Shadow
 		private MinecraftClient client;
@@ -167,15 +199,18 @@ final class HoldingFovZoomMixin {
 			Item mainHandItem = player.getMainHandStack().getItem();
 			Item offHandItem = player.getOffHandStack().getItem();
 			if (mainHandItem instanceof HoldingFovZoom fovZoom && fovZoom.getHubOverlay().isPresent()) {
-				if (fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+				if (!fovZoom.canChangeFov(player.getMainHandStack())) return;
+				if (client.options.getPerspective().isFirstPerson()) {
 					if (fovZoom.isHubStretch()) renderOverlay(context, fovZoom.getHubOverlay().get(), 1.0f);
 					else renderHudOverlay(context, fovZoom.getHubOverlay().get());
 				}
 			}
 			if (offHandItem instanceof HoldingFovZoom fovZoom && fovZoom.getHubOverlay().isPresent()) {
-				if (!fovZoom.onlyFirstPerson() || !client.options.getPerspective().isFirstPerson()) return;
-				if (fovZoom.isHubStretch()) renderOverlay(context, fovZoom.getHubOverlay().get(), 1.0f);
-				else renderHudOverlay(context, fovZoom.getHubOverlay().get());
+				if (!fovZoom.canChangeFov(player.getOffHandStack())) return;
+				if (client.options.getPerspective().isFirstPerson()) {
+					if (fovZoom.isHubStretch()) renderOverlay(context, fovZoom.getHubOverlay().get(), 1.0f);
+					else renderHudOverlay(context, fovZoom.getHubOverlay().get());
+				}
 			}
 		}
 	}

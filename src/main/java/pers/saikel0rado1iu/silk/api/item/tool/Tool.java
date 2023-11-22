@@ -62,6 +62,11 @@ public interface Tool extends ToolMaterial {
 		return new SwordItem(this, (int) getDamage(damage), getSpeed(1.6F), settings);
 	}
 	
+	@Override
+	default float getAttackDamage() {
+		return getMaterialDamage();
+	}
+	
 	/**
 	 * 获取伤害
 	 *

@@ -54,9 +54,9 @@ public class NewMcVerNotifyScreen extends UpdateScreen {
 		int buttonY = (height - (height - screenHeight) / 2);
 		int halfButtonWidth = fullButtonWidth / 2 - 1;
 		int halfButtonX = fullButtonX + halfButtonWidth + 2;
-		addDrawableChild(ScreenUtil.linkButton(parent, updateShow.getMod(), ModBasicData.LinkType.SUPPORT, canTrust)
+		addDrawableChild(ScreenUtil.linkButton(this, updateShow.getMod(), ModBasicData.LinkType.SUPPORT, canTrust)
 				.dimensions(fullButtonX, buttonY - BUTTON_SPACING * 4, halfButtonWidth, BUTTON_HEIGHT).build());
-		addDrawableChild(ScreenUtil.linkButton(parent, updateShow.getMod(), ModBasicData.LinkType.COMMUNITY, canTrust)
+		addDrawableChild(ScreenUtil.linkButton(this, updateShow.getMod(), ModBasicData.LinkType.COMMUNITY, canTrust)
 				.dimensions(halfButtonX, buttonY - BUTTON_SPACING * 4, halfButtonWidth, BUTTON_HEIGHT).build());
 		addDrawableChild(updateConfigButton().dimensions(fullButtonX, buttonY - BUTTON_SPACING * 3, fullButtonWidth, BUTTON_HEIGHT).build());
 		addDrawableChild(updateModeButton(fullButtonX, buttonY - BUTTON_SPACING * 2, fullButtonWidth, BUTTON_HEIGHT));

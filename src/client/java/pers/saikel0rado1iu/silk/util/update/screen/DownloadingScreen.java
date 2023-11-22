@@ -17,7 +17,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.MultilineTextWidget;
 import net.minecraft.text.Text;
 import pers.saikel0rado1iu.silk.Silk;
-import pers.saikel0rado1iu.silk.util.ScreenUtil;
+import pers.saikel0rado1iu.silk.util.TextUtil;
 import pers.saikel0rado1iu.silk.util.update.UpdateData;
 import pers.saikel0rado1iu.silk.util.update.UpdateShow;
 
@@ -55,7 +55,7 @@ public class DownloadingScreen extends UpdateScreen {
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 		super.render(context, mouseX, mouseY, delta);
-		messageText.setMessage(Text.translatable(ScreenUtil.widgetText(Silk.DATA, "downloading"), updateShow.getMod().getLocalizedName(), updateShow.getUpdateProgress()));
+		messageText.setMessage(Text.translatable(TextUtil.widgetText(Silk.DATA, "downloading"), updateShow.getMod().getLocalizedName(), updateShow.getUpdateProgress()));
 		messageText.setPosition((width - messageText.getWidth()) / 2, messageText.getY());
 	}
 	

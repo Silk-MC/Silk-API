@@ -21,6 +21,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.util.ScreenUtil;
+import pers.saikel0rado1iu.silk.util.TextUtil;
 import pers.saikel0rado1iu.silk.util.update.UpdateShow;
 
 /**
@@ -48,7 +49,7 @@ public class ConfirmDownloadScreen extends UpdateScreen {
 		int halfButtonWidth = fullButtonWidth / 2 - 1;
 		int halfButtonX = fullButtonX + halfButtonWidth + 2;
 		// 添加信息
-		MultilineTextWidget messageText = new MultilineTextWidget(0, 0, Text.translatable(ScreenUtil.widgetText(Silk.DATA, KEY)), textRenderer)
+		MultilineTextWidget messageText = new MultilineTextWidget(0, 0, Text.translatable(TextUtil.widgetText(Silk.DATA, KEY)), textRenderer)
 				.setMaxWidth(screenWidth - INTERVAL);
 		int height1 = height - (height - screenHeight) / 2 - BUTTON_SPACING * 2;
 		int height2 = (height - screenHeight) / 2 + textRenderer.fontHeight + ICON_SIZE + INTERVAL * 2 - messageText.getHeight();
@@ -56,7 +57,7 @@ public class ConfirmDownloadScreen extends UpdateScreen {
 		messageText.setPosition((width - messageText.getWidth()) / 2, height2 + height3 / 2);
 		addDrawableChild(messageText);
 		// 添加按钮
-		addDrawableChild(updateButton = ButtonWidget.builder(Text.translatable(ScreenUtil.configText(Silk.DATA, KEY)), button -> {
+		addDrawableChild(updateButton = ButtonWidget.builder(Text.translatable(TextUtil.configText(Silk.DATA, KEY)), button -> {
 			close();
 			Util.getOperatingSystem().open("https://modrinth.com/mod/" + updateShow.getMod().getSlug() + "/version/" + updateShow.getUpdateThread().getUpdateModVer());
 			MinecraftClient.getInstance().setScreen(new DownloadingScreen(parent, updateShow, title));

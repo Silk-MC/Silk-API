@@ -38,26 +38,6 @@ import java.nio.file.Path;
 @SilkApi
 public interface ScreenUtil {
 	@SilkApi
-	static String configText(ModBasicData mod, String key) {
-		return "config." + mod.getId() + '.' + key + ("".equals(key) ? "text" : ".text");
-	}
-	
-	@SilkApi
-	static String configTip(ModBasicData mod, String key) {
-		return "config." + mod.getId() + '.' + key + ("".equals(key) ? "tip" : ".tip");
-	}
-	
-	@SilkApi
-	static String widgetTitle(ModBasicData mod, String key) {
-		return "title." + mod.getId() + '.' + key;
-	}
-	
-	@SilkApi
-	static String widgetText(ModBasicData mod, String key) {
-		return "text." + mod.getId() + '.' + key;
-	}
-	
-	@SilkApi
 	static ButtonWidget.Builder backButton(Screen screen) {
 		return ButtonWidget.builder(ScreenTexts.BACK, (button) -> screen.close());
 	}
@@ -99,7 +79,7 @@ public interface ScreenUtil {
 	
 	@SilkApi
 	static ButtonWidget.Builder linkButton(Screen parent, ModBasicData mod, ModBasicData.LinkType linkType, boolean canTrust) {
-		Text text = Text.translatable(configText(mod, linkType.toString().toLowerCase()));
+		Text text = Text.translatable(TextUtil.widgetText(mod, linkType.toString().toLowerCase()));
 		return mod.getLink(linkType).isPresent() ? linkButton(parent, text, mod.getLink(linkType).get().toString(), canTrust) : linkButton(parent, text, Silk.DATA.getLink(linkType).orElseThrow().toString(), true);
 	}
 	
@@ -122,9 +102,9 @@ public interface ScreenUtil {
 	 * 读取的更新日志位置于资源包根目录下的 log 文件夹内
 	 */
 	@SilkApi
-	static String readChangelog(ModBasicData mod) {
+	static String readChangelog() {
 		try {
-			URL path = ScreenUtil.class.getResource("/assets/" + mod.getId() + "/log/" + LocalizationUtil.getLanguage() + ".txt");
+			URL path = ScreenUtil.class.getResource("/log/" + LocalizationUtil.getLanguage() + ".txt");
 			if (path == null) return "Changelog does not exist!" + Silk.DATA.getInfo();
 			Path logPath = Path.of(path.toURI());
 			StringBuilder log = new StringBuilder().append(Files.readString(logPath, StandardCharsets.UTF_8));

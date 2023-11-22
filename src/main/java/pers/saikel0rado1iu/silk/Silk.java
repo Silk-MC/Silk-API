@@ -13,11 +13,11 @@ package pers.saikel0rado1iu.silk;
 
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
-import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.api.ModExpansionData;
+import pers.saikel0rado1iu.silk.api.ModExtendedData;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.Optional;
 
 /**
@@ -26,7 +26,7 @@ import java.util.Optional;
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  */
-final public class Silk implements ModExpansionData {
+final public class Silk implements ModExtendedData {
 	public static final Silk DATA = new Silk();
 	
 	@ApiStatus.Internal
@@ -48,16 +48,8 @@ final public class Silk implements ModExpansionData {
 	@Override
 	public Optional<URL> getSupportLink() throws MalformedURLException {
 		String url = getMod().getMetadata().getCustomValue("modmenu").getAsObject().get("links").getAsObject().get("modmenu.support.patreon").getAsString();
+		if ("zh".equals(Locale.getDefault().getLanguage()) && "CN".equals(Locale.getDefault().getCountry()))
+			url = getMod().getMetadata().getCustomValue("modmenu").getAsObject().get("links").getAsObject().get("modmenu.support.afdian").getAsString();
 		return Optional.of(new URL(url));
-	}
-	
-	@SilkApi
-	public URL getAfdianLink() {
-		String url = getMod().getMetadata().getCustomValue("modmenu").getAsObject().get("links").getAsObject().get("modmenu.support.afdian").getAsString();
-		try {
-			return new URL(url);
-		} catch (MalformedURLException e) {
-			throw new RuntimeException(e);
-		}
 	}
 }

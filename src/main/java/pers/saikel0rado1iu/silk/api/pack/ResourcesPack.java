@@ -37,8 +37,12 @@ public final class ResourcesPack {
 		this.packRoot = packRoot;
 	}
 	
+	public static String getName(ModBasicData mod) {
+		return "resourcePack." + mod.getId() + ".name";
+	}
+	
 	@SilkApi
 	public void registry() {
-		ResourceManagerHelper.registerBuiltinResourcePack(new Identifier(packRoot), mod.getMod(), Text.translatable("resourcePack." + mod.getId() + ".name"), type);
+		ResourceManagerHelper.registerBuiltinResourcePack(new Identifier(packRoot), mod.getMod(), Text.translatable(getName(mod)), type);
 	}
 }

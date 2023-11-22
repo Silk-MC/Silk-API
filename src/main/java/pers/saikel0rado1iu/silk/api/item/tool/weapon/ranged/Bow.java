@@ -20,11 +20,14 @@ import net.minecraft.item.ArrowItem;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.world.World;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.api.registry.datagen.criterion.RangedKilledEntityCriterion;
+import pers.saikel0rado1iu.silk.api.registry.datagen.criterion.SilkCriteria;
 import pers.saikel0rado1iu.silk.util.MathUtil;
 
 /**
@@ -35,9 +38,14 @@ import pers.saikel0rado1iu.silk.util.MathUtil;
  * @since 0.1.0
  */
 @SilkApi
-public abstract class Bow extends BowItem implements BowExtend {
+public abstract class Bow extends BowItem implements SilkBowExtend {
 	public Bow(Settings settings) {
 		super(settings);
+	}
+	
+	@Override
+	public boolean isHubStretch() {
+		return false;
 	}
 	
 	/**
@@ -80,6 +88,7 @@ public abstract class Bow extends BowItem implements BowExtend {
 			// 创建箭实体
 			ArrowItem arrowItem = (ArrowItem) (useProjectile.getItem() instanceof ArrowItem ? useProjectile.getItem() : Items.ARROW);
 			PersistentProjectileEntity persistentProjectileEntity = arrowItem.createArrow(world, useProjectile, player);
+			RangedKilledEntityCriterion.putRangedNbt(persistentProjectileEntity, stack);
 			// 设置速度速度
 			persistentProjectileEntity.setVelocity(player, player.getPitch(), player.getYaw(), 0.0F, pullProgress * getMaxProjectileSpeed(), getFiringError());
 			// 设置基础伤害增加
@@ -106,15 +115,15 @@ public abstract class Bow extends BowItem implements BowExtend {
 			
 			// 生成弹丸实体
 			world.spawnEntity(persistentProjectileEntity);
+			if (player instanceof ServerPlayerEntity serverPlayer)
+				SilkCriteria.SHOT_PROJECTILE_CRITERION.trigger(serverPlayer, stack, persistentProjectileEntity, 1);
 		}
 		
 		// 播放音效
 		world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (world.getRandom().nextFloat() * 0.4F + 1.2F) + pullProgress * 0.5F);
 		if (!andDefaultProjectile && !player.getAbilities().creativeMode) {
 			useProjectile.decrement(1);
-			if (useProjectile.isEmpty()) {
-				player.getInventory().removeOne(useProjectile);
-			}
+			if (useProjectile.isEmpty()) player.getInventory().removeOne(useProjectile);
 		}
 		
 		player.incrementStat(Stats.USED.getOrCreateStat(this));

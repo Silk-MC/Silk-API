@@ -40,12 +40,12 @@ import pers.saikel0rado1iu.silk.api.item.tool.UsingFovZoom;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-final class UsingFovZoomMixin {
+interface UsingFovZoomMixin {
 	/**
 	 * 设置视角缩放
 	 */
 	@Mixin(GameRenderer.class)
-	abstract static class SetFovZoom implements AutoCloseable {
+	abstract class SetFovZoom implements AutoCloseable {
 		@Shadow
 		@Final
 		MinecraftClient client;
@@ -58,7 +58,14 @@ final class UsingFovZoomMixin {
 			if (player == null) return;
 			ItemStack activeStack = player.getActiveItem();
 			Item activeItem = activeStack.getItem();
-			if (activeItem instanceof UsingFovZoom fovZoom && fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+			if (!(activeItem instanceof UsingFovZoom fovZoom)) return;
+			if (fovZoom.onlyFirstPerson()) {
+				if (client.options.getPerspective().isFirstPerson()) {
+					float pullProgress = fovZoom.getUsingProgress(activeItem.getMaxUseTime(activeStack) - player.getItemUseTimeLeft(), activeStack);
+					float fovChangeAmount = (1 - fovZoom.getUsingFovMultiple()) * pullProgress;
+					fovMultiplier -= fovChangeAmount;
+				}
+			} else {
 				float pullProgress = fovZoom.getUsingProgress(activeItem.getMaxUseTime(activeStack) - player.getItemUseTimeLeft(), activeStack);
 				float fovChangeAmount = (1 - fovZoom.getUsingFovMultiple()) * pullProgress;
 				fovMultiplier -= fovChangeAmount;
@@ -70,7 +77,7 @@ final class UsingFovZoomMixin {
 	 * 设置鼠标移动倍数
 	 */
 	@Mixin(Mouse.class)
-	abstract static class SetMouseMoveMultiplier {
+	abstract class SetMouseMoveMultiplier {
 		@Shadow
 		@Final
 		private MinecraftClient client;
@@ -81,9 +88,17 @@ final class UsingFovZoomMixin {
 			if (player == null) return;
 			ItemStack activeStack = player.getActiveItem();
 			Item activeItem = activeStack.getItem();
-			if (activeItem instanceof UsingFovZoom fovZoom && fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+			if (!(activeItem instanceof UsingFovZoom fovZoom)) return;
+			if (fovZoom.onlyFirstPerson()) {
+				if (client.options.getPerspective().isFirstPerson()) {
+					float pullProgress = fovZoom.getUsingProgress(activeStack.getMaxUseTime() - player.getItemUseTimeLeft(), activeStack);
+					float moveMultiple = (float) (Math.pow(1 - (1 - fovZoom.getUsingFovMultiple()) * pullProgress, 3));
+					args.set(0, (double) args.get(0) * moveMultiple);
+					args.set(1, (double) args.get(1) * moveMultiple);
+				}
+			} else {
 				float pullProgress = fovZoom.getUsingProgress(activeStack.getMaxUseTime() - player.getItemUseTimeLeft(), activeStack);
-				float moveMultiple = 1 - (1 - fovZoom.getUsingFovMultiple()) * pullProgress;
+				float moveMultiple = (float) (Math.pow(1 - (1 - fovZoom.getUsingFovMultiple()) * pullProgress, 3));
 				args.set(0, (double) args.get(0) * moveMultiple);
 				args.set(1, (double) args.get(1) * moveMultiple);
 			}
@@ -95,9 +110,17 @@ final class UsingFovZoomMixin {
 			if (player == null) return;
 			ItemStack activeStack = player.getActiveItem();
 			Item activeItem = activeStack.getItem();
-			if (activeItem instanceof UsingFovZoom fovZoom && fovZoom.onlyFirstPerson() && client.options.getPerspective().isFirstPerson()) {
+			if (!(activeItem instanceof UsingFovZoom fovZoom)) return;
+			if (fovZoom.onlyFirstPerson()) {
+				if (client.options.getPerspective().isFirstPerson()) {
+					float pullProgress = fovZoom.getUsingProgress(activeStack.getMaxUseTime() - player.getItemUseTimeLeft(), activeStack);
+					float moveMultiple = (float) (Math.pow(1 - (1 - fovZoom.getUsingFovMultiple()) * pullProgress, 3));
+					args.set(0, (double) args.get(0) * moveMultiple);
+					args.set(1, (double) args.get(1) * moveMultiple);
+				}
+			} else {
 				float pullProgress = fovZoom.getUsingProgress(activeStack.getMaxUseTime() - player.getItemUseTimeLeft(), activeStack);
-				float moveMultiple = 1 - (1 - fovZoom.getUsingFovMultiple()) * pullProgress;
+				float moveMultiple = (float) (Math.pow(1 - (1 - fovZoom.getUsingFovMultiple()) * pullProgress, 3));
 				args.set(0, (double) args.get(0) * moveMultiple);
 				args.set(1, (double) args.get(1) * moveMultiple);
 			}
@@ -108,7 +131,7 @@ final class UsingFovZoomMixin {
 	 * 设置缩放抬头显示
 	 */
 	@Mixin(InGameHud.class)
-	abstract static class RenderHudOverlay {
+	abstract class RenderHudOverlay {
 		@Final
 		@Shadow
 		private MinecraftClient client;
@@ -145,7 +168,6 @@ final class UsingFovZoomMixin {
 			ItemStack activeStack = player.getActiveItem();
 			Item activeItem = activeStack.getItem();
 			if (client.options.getPerspective().isFirstPerson() && activeItem instanceof UsingFovZoom fovZoom && fovZoom.getHubOverlay().isPresent()) {
-				if (!fovZoom.onlyFirstPerson() || !client.options.getPerspective().isFirstPerson()) return;
 				if (fovZoom.isHubStretch()) renderOverlay(context, fovZoom.getHubOverlay().get(), 1.0f);
 				else renderHudOverlay(context, fovZoom.getHubOverlay().get());
 			}

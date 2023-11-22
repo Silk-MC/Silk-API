@@ -12,6 +12,7 @@
 package pers.saikel0rado1iu.silk.api.item.tool;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
 /**
@@ -25,6 +26,11 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 public interface HoldingMovementMultiplier extends ItemMovementMultiplier {
 	@SilkApi
 	float getHoldingMovementMultiple();
+	
+	@SilkApi
+	default boolean canChangeMovement(ItemStack stack) {
+		return true;
+	}
 	
 	@SilkApi
 	boolean isConflictItems(Item checkItem);

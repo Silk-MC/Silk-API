@@ -30,8 +30,8 @@ import pers.saikel0rado1iu.silk.util.update.UpdateSystem;
 abstract class UpdateInGame {
 	@Inject(method = "tick", at = @At("RETURN"))
 	private void tick(CallbackInfo ci) {
-		for (UpdateShow updateShow : UpdateSystem.getUpdateShowSet()) {
-			updateShow.showUpdate(null);
+		for (UpdateShow updateShow : UpdateSystem.getUpdateShows()) {
+			updateShow.checkAndShowUpdate(null);
 		}
 	}
 }

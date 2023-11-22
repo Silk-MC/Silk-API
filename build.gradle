@@ -5,7 +5,7 @@ plugins {
 	id 'maven-publish'
 }
 
-version = project.mod_version + "+" + project.mc_main_version
+version = project.mc_main_version + "-" + project.mod_version
 group = project.maven_group
 
 base {
@@ -32,6 +32,30 @@ loom {
 		}
 	}
 	
+	accessWidenerPath = file("src/main/resources/${mod_id}.accesswidener")
+	
+	runs {
+		// 添加一个新的 gradle 任务，会运行数据生成 API：“gradlew runDatagenClient”
+		datagenClient {
+			inherit client
+			name "Data Generation"
+			vmArg "-Dfabric-api.datagen"
+			vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
+			vmArg "-Dfabric-api.datagen.modid=${mod_id}"
+			
+			runDir "build/datagen"
+		}
+	}
+}
+
+sourceSets {
+	main {
+		resources {
+			srcDirs += [
+					'src/main/generated'
+			]
+		}
+	}
 }
 
 dependencies {

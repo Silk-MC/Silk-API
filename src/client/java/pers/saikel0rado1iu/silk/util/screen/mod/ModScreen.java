@@ -23,12 +23,15 @@ import net.minecraft.client.gui.tab.TabManager;
 import net.minecraft.client.gui.widget.GridWidget;
 import net.minecraft.client.gui.widget.SimplePositioningWidget;
 import net.minecraft.client.gui.widget.TabNavigationWidget;
+import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.util.ScreenUtil;
 import pers.saikel0rado1iu.silk.util.screen.BaseScreen;
+
+import java.util.ArrayList;
 
 import static com.mojang.blaze3d.systems.RenderSystem.setShaderColor;
 import static com.mojang.blaze3d.systems.RenderSystem.setShaderTexture;
@@ -44,12 +47,16 @@ import static net.minecraft.client.gui.screen.world.CreateWorldScreen.LIGHT_DIRT
  */
 @SilkApi
 public class ModScreen extends BaseScreen {
+	protected final ImmutableList<ScreenTab> tabs;
 	private final TabManager tabManager = new TabManager(this::addDrawableChild, this::remove);
-	private final ImmutableList<ScreenTab> tabs;
 	private final int mainTabIndex;
 	private final Identifier background;
 	private GridWidget grid;
 	private TabNavigationWidget tabNavigation;
+	private TextWidget verWidget;
+	private TextWidget licenseWidget;
+	private int tempIndex = -1;
+	private int tempSize = -1;
 	
 	@SilkApi
 	public ModScreen(Screen parent, ScreenTab tab, ScreenTab... tabs) {
@@ -69,8 +76,7 @@ public class ModScreen extends BaseScreen {
 		this.tabs = ImmutableList.copyOf(Lists.asList(tab, tabs));
 	}
 	
-	protected void tabWidgetRender(ScreenTab tab, DrawContext context, int mouseX, int mouseY, float delta) {
-		tab.render(client, textRenderer, context, mouseX, mouseY, delta, width, height);
+	protected void tabWidgetReset(ScreenTab tab) {
 		tab.drawableWidgetList.forEach(this::remove);
 		tab.selectableWidgetList.forEach(object -> remove((Element & Selectable) object));
 		tab.drawableWidgetList.clear();
@@ -78,7 +84,6 @@ public class ModScreen extends BaseScreen {
 		tab.init(client, textRenderer, width, height);
 		tab.drawableWidgetList.forEach(this::addDrawableChild);
 		tab.selectableWidgetList.forEach(object -> addSelectableChild((Element & Selectable) object));
-		tab.render(client, textRenderer, context, mouseX, mouseY, delta, width, height);
 	}
 	
 	@Override
@@ -88,20 +93,29 @@ public class ModScreen extends BaseScreen {
 		for (int count = 0; count < tabs.size(); count++) {
 			if (tabNavigation.getFocused() == null) {
 				if (count == mainTabIndex) {
-					tabWidgetRender(tabs.get(count), context, mouseX, mouseY, delta);
+					if (tempIndex != count || tempSize != width * height) tabWidgetReset(tabs.get(count));
+					tabs.get(count).render(client, textRenderer, context, mouseX, mouseY, delta, width, height);
+					tempIndex = count;
+					tempSize = width * height;
 				} else {
 					tabs.get(count).drawableWidgetList.forEach(this::remove);
 					tabs.get(count).selectableWidgetList.forEach(object -> remove((Element & Selectable) object));
 				}
 			} else {
 				if (tabNavigation.children().get(count).equals(tabNavigation.getFocused())) {
-					tabWidgetRender(tabs.get(count), context, mouseX, mouseY, delta);
+					if (tempIndex != count || tempSize != width * height) tabWidgetReset(tabs.get(count));
+					tabs.get(count).render(client, textRenderer, context, mouseX, mouseY, delta, width, height);
+					tempIndex = count;
+					tempSize = width * height;
 				} else {
 					tabs.get(count).drawableWidgetList.forEach(this::remove);
 					tabs.get(count).selectableWidgetList.forEach(object -> remove((Element & Selectable) object));
 				}
 			}
 		}
+		String modLicense = new ArrayList<>(tabs.get(0).mod.getLicenses()).isEmpty() ? "ARR" : new ArrayList<>(tabs.get(0).mod.getLicenses()).get(0);
+		verWidget.setPosition(0, height - 12);
+		licenseWidget.setPosition(width - textRenderer.getWidth(modLicense), height - 12);
 		super.render(context, mouseX, mouseY, delta);
 	}
 	
@@ -121,7 +135,10 @@ public class ModScreen extends BaseScreen {
 	
 	@Override
 	protected void init() {
-		tabs.forEach(tab -> tab.setParent(this).setBackground(background).init(client, textRenderer, width, height));
+		tabs.forEach(tab -> {
+			tab.setParent(this);
+			tab.drawableWidgetList.forEach(this::addDrawableChild);
+		});
 		tabNavigation = TabNavigationWidget.builder(tabManager, width).tabs(tabs.toArray(new Tab[0])).build();
 		addDrawableChild(tabNavigation);
 		grid = new GridWidget().setColumnSpacing(10);
@@ -133,6 +150,10 @@ public class ModScreen extends BaseScreen {
 		});
 		tabNavigation.selectTab(mainTabIndex, false);
 		initTabNavigation();
+		String modVerString = tabs.get(0).mod.getVersion();
+		addDrawableChild(verWidget = new TextWidget(0, height - 12, textRenderer.getWidth(modVerString), textRenderer.fontHeight, Text.of(modVerString), textRenderer));
+		String modLicense = new ArrayList<>(tabs.get(0).mod.getLicenses()).isEmpty() ? "ARR" : new ArrayList<>(tabs.get(0).mod.getLicenses()).get(0);
+		addDrawableChild(licenseWidget = new TextWidget(width - textRenderer.getWidth(modLicense), height - 12, textRenderer.getWidth(modLicense), textRenderer.fontHeight, Text.of(modLicense), textRenderer));
 	}
 	
 	@Override

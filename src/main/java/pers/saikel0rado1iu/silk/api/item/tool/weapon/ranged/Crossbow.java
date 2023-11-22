@@ -41,6 +41,8 @@ import net.minecraft.world.World;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.api.registry.datagen.criterion.RangedKilledEntityCriterion;
+import pers.saikel0rado1iu.silk.api.registry.datagen.criterion.SilkCriteria;
 import pers.saikel0rado1iu.silk.util.MathUtil;
 
 import java.util.ArrayList;
@@ -54,7 +56,7 @@ import java.util.List;
  * @since 0.1.0
  */
 @SilkApi
-public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
+public abstract class Crossbow extends CrossbowItem implements SilkCrossbowExtend {
 	protected boolean charged = false;
 	protected boolean loaded = false;
 	
@@ -66,7 +68,7 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 	 * 重实现 {@link CrossbowItem#createArrow(World, LivingEntity, ItemStack, ItemStack)}
 	 */
 	@SuppressWarnings("JavadocReference")
-	protected static PersistentProjectileEntity createArrow(World world, LivingEntity entity, ItemStack crossbow, ItemStack arrow) {
+	protected PersistentProjectileEntity createArrow(World world, LivingEntity entity, ItemStack crossbow, ItemStack arrow) {
 		// 创建箭实体
 		ArrowItem arrowItem = (ArrowItem) (arrow.getItem() instanceof ArrowItem ? arrow.getItem() : Items.ARROW);
 		PersistentProjectileEntity persistentProjectileEntity = arrowItem.createArrow(world, arrow, entity);
@@ -87,7 +89,7 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 	 * 重实现 {@link CrossbowItem#getSoundPitches(Random)}
 	 */
 	@SuppressWarnings("JavadocReference")
-	protected static float[] getSoundPitches(Random random) {
+	protected float[] getSoundPitches(Random random) {
 		boolean randomBool = random.nextBoolean();
 		return new float[]{1, getSoundPitch(randomBool, random), getSoundPitch(!randomBool, random)};
 	}
@@ -96,7 +98,7 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 	 * 重实现 {@link CrossbowItem#getSoundPitch(boolean, Random)}
 	 */
 	@SuppressWarnings("JavadocReference")
-	protected static float getSoundPitch(boolean flag, Random random) {
+	protected float getSoundPitch(boolean flag, Random random) {
 		float pitch = flag ? 0.63F : 0.43F;
 		return 1 / (random.nextFloat() * 0.5F + 1.8F) + pitch;
 	}
@@ -105,7 +107,7 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 	 * 重实现 {@link CrossbowItem#postShoot(World, LivingEntity, ItemStack)}
 	 */
 	@SuppressWarnings("JavadocReference")
-	protected static void postShootProjectile(World world, LivingEntity entity, ItemStack stack) {
+	protected void postShootProjectile(World world, LivingEntity entity, ItemStack stack) {
 		// 如果实体为玩家实体
 		if (entity instanceof ServerPlayerEntity serverPlayerEntity) {
 			// 触发弩的射击
@@ -120,7 +122,7 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 	 * 重实现 {@link CrossbowItem#loadProjectiles(LivingEntity, ItemStack)}
 	 */
 	@SuppressWarnings("JavadocReference")
-	protected static boolean loadAllProjectile(LivingEntity shooter, ItemStack crossbow) {
+	protected boolean loadAllProjectile(LivingEntity shooter, ItemStack crossbow) {
 		// 获取弹药数
 		int projectilesNum = EnchantmentHelper.getLevel(Enchantments.MULTISHOT, crossbow) == 0 ? 1 : 3;
 		// 如果实体为玩家且在创造模式
@@ -146,7 +148,7 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 	 * 重实现 {@link CrossbowItem#loadProjectile(LivingEntity, ItemStack, ItemStack, boolean, boolean)}
 	 */
 	@SuppressWarnings("JavadocReference")
-	protected static boolean loadProjectile(LivingEntity shooter, ItemStack crossbow, ItemStack projectile, boolean simulated, boolean creative) {
+	protected boolean loadProjectile(LivingEntity shooter, ItemStack crossbow, ItemStack projectile, boolean simulated, boolean creative) {
 		// 如果没弹药
 		if (projectile.isEmpty()) return false;
 		
@@ -167,7 +169,7 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 	 * 重实现 {@link CrossbowItem#putProjectile(ItemStack, ItemStack)}
 	 */
 	@SuppressWarnings("JavadocReference")
-	protected static void putProjectile(ItemStack crossbow, ItemStack projectile) {
+	protected void putProjectile(ItemStack crossbow, ItemStack projectile) {
 		NbtCompound nbtCompound = crossbow.getOrCreateNbt();
 		NbtList nbtList = nbtCompound.contains(CHARGED_PROJECTILES_KEY, NbtElement.LIST_TYPE) ? nbtCompound.getList(CHARGED_PROJECTILES_KEY, NbtElement.COMPOUND_TYPE) : new NbtList();
 		NbtCompound nbtCompound2 = new NbtCompound();
@@ -180,7 +182,7 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 	 * 重实现 {@link CrossbowItem#getProjectiles(ItemStack)}
 	 */
 	@SuppressWarnings("JavadocReference")
-	protected static List<ItemStack> getAllProjectile(ItemStack crossbow) {
+	protected List<ItemStack> getAllProjectile(ItemStack crossbow) {
 		NbtList nbtList;
 		ArrayList<ItemStack> list = Lists.newArrayList();
 		NbtCompound nbtCompound = crossbow.getNbt();
@@ -197,13 +199,28 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 	 * 重实现 {@link CrossbowItem#clearProjectiles(ItemStack)}
 	 */
 	@SuppressWarnings("JavadocReference")
-	protected static void clearAllProjectile(ItemStack crossbow) {
+	protected void clearAllProjectile(ItemStack crossbow) {
 		NbtCompound nbtCompound = crossbow.getNbt();
 		if (nbtCompound != null) {
 			NbtList nbtList = nbtCompound.getList(CHARGED_PROJECTILES_KEY, NbtElement.LIST_TYPE);
 			nbtList.clear();
 			nbtCompound.put(CHARGED_PROJECTILES_KEY, nbtList);
 		}
+	}
+	
+	@Override
+	public boolean isHubStretch() {
+		return false;
+	}
+	
+	@Override
+	public boolean canChangeFov(ItemStack stack) {
+		return isCharged(stack);
+	}
+	
+	@Override
+	public boolean canChangeMovement(ItemStack stack) {
+		return isCharged(stack);
 	}
 	
 	@Override
@@ -234,6 +251,7 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 				((PersistentProjectileEntity) projectileEntity).pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
 			}
 		}
+		RangedKilledEntityCriterion.putRangedNbt(projectileEntity, crossbow);
 		// 如果使用者是弩使用者
 		if (shooter instanceof CrossbowUser crossbowUser) {
 			// 直接由弩使用者发射
@@ -251,7 +269,8 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 		// 生成弹药
 		world.spawnEntity(projectileEntity);
 		// 播放音效
-		world.playSound(null, shooter.getX(), shooter.getY(), shooter.getZ(), SoundEvents.ITEM_CROSSBOW_SHOOT, SoundCategory.PLAYERS, 1.0f, soundPitch);
+		world.playSound(null, shooter.getX(), shooter.getY(), shooter.getZ(), getShootSound(), SoundCategory.PLAYERS, 1.0f, soundPitch);
+		if (shooter instanceof ServerPlayerEntity serverPlayer) SilkCriteria.SHOT_PROJECTILE_CRITERION.trigger(serverPlayer, crossbow, projectileEntity, 1);
 	}
 	
 	/**
@@ -296,7 +315,7 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 			// 获取声音类别
 			SoundCategory soundCategory = user instanceof PlayerEntity ? SoundCategory.PLAYERS : SoundCategory.HOSTILE;
 			// 播放弩装填结束音效
-			world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ITEM_CROSSBOW_LOADING_END, soundCategory, 1.0f, 1.0f / (world.getRandom().nextFloat() * 0.5f + 1.0f) + 0.2f);
+			world.playSound(null, user.getX(), user.getY(), user.getZ(), getLoadingEndSound(), soundCategory, 1.0f, 1.0f / (world.getRandom().nextFloat() * 0.5f + 1.0f) + 0.2f);
 		}
 	}
 	
@@ -339,7 +358,7 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 			// 设置“快速装填”音效
 			int quickChargeLevel = EnchantmentHelper.getLevel(Enchantments.QUICK_CHARGE, stack);
 			SoundEvent soundEvent = getQuickChargeSound(quickChargeLevel);
-			SoundEvent soundEvent2 = quickChargeLevel == 0 ? SoundEvents.ITEM_CROSSBOW_LOADING_MIDDLE : null;
+			SoundEvent soundEvent2 = quickChargeLevel == 0 ? getLoadingSound() : null;
 			// 获取张弩进度
 			float pullProgress = (float) (stack.getMaxUseTime() - remainingUseTicks) / getMaxPullTicks(stack);
 			if (pullProgress < 0.2F) {
@@ -347,7 +366,7 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 				loaded = false;
 			} else if (pullProgress >= 0.2F && !charged) {
 				charged = true;
-				world.playSound(null, user.getX(), user.getY(), user.getZ(), soundEvent, SoundCategory.PLAYERS, 0.5f, 1.0f);
+				if (soundEvent != null) world.playSound(null, user.getX(), user.getY(), user.getZ(), soundEvent, SoundCategory.PLAYERS, 0.5f, 1.0f);
 			} else if (pullProgress >= 0.5F && soundEvent2 != null && !loaded) {
 				loaded = true;
 				world.playSound(null, user.getX(), user.getY(), user.getZ(), soundEvent2, SoundCategory.PLAYERS, 0.5f, 1.0f);
@@ -367,6 +386,27 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExtend {
 			case 3 -> SoundEvents.ITEM_CROSSBOW_QUICK_CHARGE_3;
 			default -> SoundEvents.ITEM_CROSSBOW_LOADING_START;
 		};
+	}
+	
+	/**
+	 * 获取装填中音效
+	 */
+	protected SoundEvent getLoadingSound() {
+		return SoundEvents.ITEM_CROSSBOW_LOADING_MIDDLE;
+	}
+	
+	/**
+	 * 获取装填结束音效
+	 */
+	protected SoundEvent getLoadingEndSound() {
+		return SoundEvents.ITEM_CROSSBOW_LOADING_END;
+	}
+	
+	/**
+	 * 获取弩发射音效
+	 */
+	protected SoundEvent getShootSound() {
+		return SoundEvents.ITEM_CROSSBOW_SHOOT;
 	}
 	
 	/**

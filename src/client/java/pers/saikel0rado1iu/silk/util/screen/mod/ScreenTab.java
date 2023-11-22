@@ -23,7 +23,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
-import pers.saikel0rado1iu.silk.util.ScreenUtil;
+import pers.saikel0rado1iu.silk.util.TextUtil;
+import pers.saikel0rado1iu.silk.util.screen.LinkTrusted;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ import java.util.List;
  * @since 0.1.0
  */
 @SilkApi
-public abstract class ScreenTab extends GridScreenTab {
+public abstract class ScreenTab extends GridScreenTab implements LinkTrusted {
 	@SilkApi
 	public static final int TAP_TOP = 23;
 	@SilkApi
@@ -49,7 +50,7 @@ public abstract class ScreenTab extends GridScreenTab {
 	
 	@SilkApi
 	public ScreenTab(ModBasicData mod, String key) {
-		super(Text.translatable(ScreenUtil.widgetText(mod, "tab." + key)));
+		super(Text.translatable(TextUtil.widgetText(mod, "tab." + key)));
 		this.mod = mod;
 	}
 	

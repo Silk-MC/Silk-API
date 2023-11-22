@@ -37,8 +37,12 @@ public final class DataPack {
 		this.packRoot = packRoot;
 	}
 	
+	public static String getName(ModBasicData mod) {
+		return "dataPack." + mod.getId() + ".name";
+	}
+	
 	@SilkApi
 	public void registry() {
-		ResourceManagerHelper.registerBuiltinResourcePack(new Identifier(packRoot), mod.getMod(), Text.translatable("dataPack." + mod.getId() + ".name"), type);
+		ResourceManagerHelper.registerBuiltinResourcePack(new Identifier(packRoot), mod.getMod(), Text.translatable(getName(mod)), type);
 	}
 }

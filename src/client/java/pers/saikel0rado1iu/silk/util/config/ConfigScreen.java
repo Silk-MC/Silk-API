@@ -25,12 +25,15 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.util.ScreenUtil;
 import pers.saikel0rado1iu.silk.util.screen.BaseScreen;
+import pers.saikel0rado1iu.silk.util.screen.LinkTrusted;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static pers.saikel0rado1iu.silk.util.ScreenUtil.*;
+import static pers.saikel0rado1iu.silk.util.ScreenUtil.doneButton;
+import static pers.saikel0rado1iu.silk.util.TextUtil.configText;
+import static pers.saikel0rado1iu.silk.util.TextUtil.configTip;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于构建配置屏幕</font></b></p>
@@ -40,7 +43,7 @@ import static pers.saikel0rado1iu.silk.util.ScreenUtil.*;
  * @since 0.1.0
  */
 @SilkApi
-public class ConfigScreen extends BaseScreen {
+public class ConfigScreen extends BaseScreen implements LinkTrusted {
 	private final boolean isDouble;
 	private final String keyPrefix;
 	private final ConfigData configData;
@@ -179,7 +182,12 @@ public class ConfigScreen extends BaseScreen {
 				}
 			} else if (object instanceof ConfigData cd) {
 				if (cd.getType() == ConfigData.Type.DEV) continue;
-				simpleOption = SimpleOption.ofBoolean(configText(configData.mod, realKey), SimpleOption.constantTooltip(Text.of(configTip(configData.mod, realKey))), (optionText, value) -> Text.of(""), false, (value) -> MinecraftClient.getInstance().setScreen(new ConfigScreen(this, isDouble, cd, realKey + '.', Text.translatable(configText(configData.mod, realKey)))));
+				simpleOption = SimpleOption.ofBoolean(configText(configData.mod, realKey), SimpleOption.constantTooltip(Text.translatable(configTip(configData.mod, realKey))), (optionText, value) -> Text.of(""), false, (value) -> MinecraftClient.getInstance().setScreen(new ConfigScreen(this, isDouble, cd, realKey + '.', Text.translatable(configText(configData.mod, realKey))) {
+					@Override
+					public boolean linkTrusted() {
+						return ConfigScreen.this.linkTrusted();
+					}
+				}));
 			}
 			simpleOptionList.add(simpleOption);
 			if (!isDouble) {
@@ -209,12 +217,5 @@ public class ConfigScreen extends BaseScreen {
 		}
 		if (isDouble && simpleOptionList.size() % 2 == 1) optionListWidget.addOptionEntry(simpleOptionList.get(simpleOptionList.size() - 1), null);
 		return simpleOptionList;
-	}
-	
-	/**
-	 * 重写此方法以信任链接
-	 */
-	protected boolean linkTrusted() {
-		return false;
 	}
 }

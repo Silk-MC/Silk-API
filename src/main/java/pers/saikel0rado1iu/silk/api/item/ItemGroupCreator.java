@@ -33,12 +33,12 @@ import pers.saikel0rado1iu.silk.api.ModBasicData;
  * @since 0.1.0
  */
 @SilkApi
-public abstract class ItemGroupCreator {
+public interface ItemGroupCreator {
 	/**
 	 * 使用自带的物品作为标志生成物品组，物品组 ID 为 itemGroup.namespace.id
 	 */
 	@SilkApi
-	protected static RegistryKey<ItemGroup> create(Item icon, ModBasicData namespace, String id) {
+	static RegistryKey<ItemGroup> create(Item icon, ModBasicData namespace, String id) {
 		Registry.register(Registries.ITEM_GROUP, new Identifier(namespace.getId(), id),
 				FabricItemGroup.builder().icon(() -> new ItemStack(icon)).displayName(getGroupText(namespace, id)).build());
 		return RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(namespace.getId(), id));
@@ -49,7 +49,7 @@ public abstract class ItemGroupCreator {
 	 * 物品组 ID 为 itemGroup.namespace.id
 	 */
 	@SilkApi
-	protected static RegistryKey<ItemGroup> create(ModBasicData namespace, String id) {
+	static RegistryKey<ItemGroup> create(ModBasicData namespace, String id) {
 		Item icon = new Item(new FabricItemSettings());
 		Registry.register(Registries.ITEM, new Identifier(namespace.getId(), getIconId(id)), icon);
 		Registry.register(Registries.ITEM_GROUP, new Identifier(namespace.getId(), id),
@@ -57,11 +57,11 @@ public abstract class ItemGroupCreator {
 		return RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(namespace.getId(), id));
 	}
 	
-	private static Text getGroupText(ModBasicData namespace, String id) {
+	static Text getGroupText(ModBasicData namespace, String id) {
 		return Text.translatable("itemGroup." + namespace.getId() + "." + id);
 	}
 	
-	private static String getIconId(String id) {
+	static String getIconId(String id) {
 		return "group_icon_" + id;
 	}
 }
