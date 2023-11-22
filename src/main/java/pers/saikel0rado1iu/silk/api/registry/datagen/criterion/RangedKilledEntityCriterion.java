@@ -12,6 +12,7 @@
 package pers.saikel0rado1iu.silk.api.registry.datagen.criterion;
 
 import com.google.gson.JsonObject;
+import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterionConditions;
 import net.minecraft.entity.Entity;
@@ -114,6 +115,11 @@ public class RangedKilledEntityCriterion extends AbstractCriterion<RangedKilledE
 		public Conditions killed(NumberRange.IntRange killed) {
 			this.killed = killed;
 			return this;
+		}
+		
+		@SilkApi
+		public AdvancementCriterion<Conditions> create() {
+			return SilkCriteria.RANGED_KILLED_ENTITY_CRITERION.create(this);
 		}
 		
 		@Override

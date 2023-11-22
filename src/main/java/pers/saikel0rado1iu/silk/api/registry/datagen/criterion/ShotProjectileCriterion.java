@@ -12,6 +12,7 @@
 package pers.saikel0rado1iu.silk.api.registry.datagen.criterion;
 
 import com.google.gson.JsonObject;
+import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterionConditions;
 import net.minecraft.entity.Entity;
@@ -75,6 +76,11 @@ public class ShotProjectileCriterion extends AbstractCriterion<ShotProjectileCri
 		public static Conditions ranged(ItemConvertible ranged) {
 			Optional<ItemPredicate> itemPredicates = Optional.of(ItemPredicate.Builder.create().items(ranged.asItem()).build());
 			return ranged(itemPredicates);
+		}
+		
+		@SilkApi
+		public AdvancementCriterion<Conditions> create() {
+			return SilkCriteria.SHOT_PROJECTILE_CRITERION.create(this);
 		}
 		
 		@SilkApi
