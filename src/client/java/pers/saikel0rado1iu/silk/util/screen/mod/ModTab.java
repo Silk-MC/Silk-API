@@ -52,7 +52,9 @@ public class ModTab extends ScreenTab {
 		int buttonHeight = 20;
 		addWidget(ButtonWidget.builder(Text.of(""), button -> {
 		}).dimensions(width / 60 + iconAdd, TAP_TOP + INTERVAL, LOGO_SIDE, LOGO_SIDE).build());
-		addWidget(IconWidget.create(width / 60 + iconAdd + 1, TAP_TOP + INTERVAL + 1, mod.getIcon().orElse(Silk.DATA.getIcon().orElseThrow()), LOGO_SIDE - 2, LOGO_SIDE - 2));
+		IconWidget iconWidget;
+		addWidget(iconWidget = IconWidget.create(LOGO_SIDE - 2, LOGO_SIDE - 2, mod.getIcon().orElse(Silk.DATA.getIcon().orElseThrow()), LOGO_SIDE - 2, LOGO_SIDE - 2));
+		iconWidget.setPosition(width / 60 + iconAdd + 1, TAP_TOP + INTERVAL + 1);
 		addWidget(ScreenUtil.linkButton(parent, mod, ModBasicData.LinkType.HOMEPAGE, linkTrusted()).dimensions(buttonX, TAP_TOP + INTERVAL, width / 2 - width / 60 - buttonX - iconAdd, buttonHeight).build());
 		addWidget(ScreenUtil.linkButton(parent, mod, ModBasicData.LinkType.SUPPORT, linkTrusted()).dimensions(buttonX, ((TAP_TOP + INTERVAL) + (TAP_TOP + INTERVAL + LOGO_SIDE - buttonHeight)) / 2, width / 2 - width / 60 - buttonX - iconAdd, buttonHeight).build());
 		addWidget(ScreenUtil.linkButton(parent, mod, ModBasicData.LinkType.COMMUNITY, linkTrusted()).dimensions(buttonX, TAP_TOP + INTERVAL + LOGO_SIDE - buttonHeight, width / 2 - width / 60 - buttonX - iconAdd, buttonHeight).build());
