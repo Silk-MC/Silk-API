@@ -72,8 +72,6 @@ interface WorldPresetCustomButtonCallbackMixin {
 		 */
 		@Override
 		public void tick() {
-			if (tabManager.getCurrentTab() != null && !tabManager.getCurrentTab().getTitle().equals(Text.translatable("createWorld.tab.world.title")))
-				WORLD_CUSTOMS.forEach((worldType, buttonWidget) -> buttonWidget.visible = false);
 			if (customizeButton == null) return;
 			if (WorldPresetCustomButtonCallback.EVENT.invoker().canAdd(worldCreator.getWorldType(), client, parent) != null) {
 				ButtonWidget custom = WORLD_CUSTOMS.get(worldCreator.getWorldType());
@@ -83,6 +81,8 @@ interface WorldPresetCustomButtonCallbackMixin {
 			} else {
 				customizeButton.visible = true;
 			}
+			if (tabManager.getCurrentTab() != null && !tabManager.getCurrentTab().getTitle().equals(Text.translatable("createWorld.tab.world.title")))
+				WORLD_CUSTOMS.forEach((worldType, buttonWidget) -> buttonWidget.visible = false);
 		}
 	}
 	
