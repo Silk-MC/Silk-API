@@ -19,7 +19,7 @@ import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.stream.JsonWriter;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import net.minecraft.advancement.Advancement;
+import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.data.DataOutput;
 import net.minecraft.data.DataWriter;
 import net.minecraft.registry.RegistryKey;
@@ -87,13 +87,13 @@ public abstract class SilkLanguageProvider extends FabricLanguageProvider {
 	}
 	
 	@SilkApi
-	public static String getAdvancementTitleKey(Advancement advancement) {
-		return advancement.display().orElseThrow().getTitle().getString();
+	public static String getAdvancementTitleKey(AdvancementEntry advancement) {
+		return advancement.value().display().orElseThrow().getTitle().getString();
 	}
 	
 	@SilkApi
-	public static String getAdvancementDescriptionKey(Advancement advancement) {
-		return advancement.display().orElseThrow().getDescription().getString();
+	public static String getAdvancementDescriptionKey(AdvancementEntry advancement) {
+		return advancement.value().display().orElseThrow().getDescription().getString();
 	}
 	
 	@SuppressWarnings("UnstableApiUsage")
