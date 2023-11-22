@@ -132,6 +132,7 @@ public class ModScreen extends BaseScreen {
 		} else {
 			context.drawTexture(LIGHT_DIRT_BACKGROUND_TEXTURE, 0, 0, 0, 0, 0, width, height, 32, 32);
 		}
+		context.drawTexture(FOOTER_SEPARATOR_TEXTURE, 0, MathHelper.roundUpToMultiple(height - 36 - 2, 2), 0.0F, 0.0F, width, 2, 32, 2);
 	}
 	
 	@Override
