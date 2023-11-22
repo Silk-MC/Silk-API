@@ -100,9 +100,9 @@ public class ConfigScreen extends BaseScreen implements LinkTrusted {
 			});
 		}
 		renderBackground(context, mouseX, mouseY, tickDelta);
+		super.render(context, mouseX, mouseY, tickDelta);
 		optionButtons.render(context, mouseX, mouseY, tickDelta);
 		context.drawCenteredTextWithShadow(textRenderer, title, width / 2, 20, 0xFFFFFF);
-		super.render(context, mouseX, mouseY, tickDelta);
 	}
 	
 	@Override

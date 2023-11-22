@@ -90,6 +90,7 @@ public class ModScreen extends BaseScreen {
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
 		renderBackground(context, mouseX, mouseY, delta);
 		context.drawTexture(FOOTER_SEPARATOR_TEXTURE, 0, MathHelper.roundUpToMultiple(height - 36 - 2, 2), 0, 0, width, 2, 32, 2);
+		super.render(context, mouseX, mouseY, delta);
 		for (int count = 0; count < tabs.size(); count++) {
 			if (tabNavigation.getFocused() == null) {
 				if (count == mainTabIndex) {
@@ -113,10 +114,10 @@ public class ModScreen extends BaseScreen {
 				}
 			}
 		}
+		tabNavigation.render(context, mouseX, mouseY, delta);
 		String modLicense = new ArrayList<>(tabs.get(0).mod.getLicenses()).isEmpty() ? "ARR" : new ArrayList<>(tabs.get(0).mod.getLicenses()).get(0);
 		verWidget.setPosition(0, height - 12);
 		licenseWidget.setPosition(width - textRenderer.getWidth(modLicense), height - 12);
-		super.render(context, mouseX, mouseY, delta);
 	}
 	
 	@Override
