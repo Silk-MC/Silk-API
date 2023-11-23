@@ -18,6 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Position;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.chunk.light.ChunkLightProvider;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
@@ -48,7 +49,7 @@ public abstract class SpreadableSoilBlock extends SpreadableBlock {
 		return world.getBlockState(pos).isOf(Blocks.DIRT) && canSurvive(state, world, pos) && !world.getFluidState(pos.up()).isIn(FluidTags.WATER);
 	}
 	
-	protected BlockState getSpreadableBlockState(ServerWorld world, BlockPos pos) {
+	protected BlockState getSpreadableBlockState(StructureWorldAccess world, BlockPos pos) {
 		return getDefaultState().with(SNOWY, world.getBlockState(pos.up()).isOf(Blocks.SNOW));
 	}
 	
@@ -88,8 +89,12 @@ public abstract class SpreadableSoilBlock extends SpreadableBlock {
 	
 	@Override
 	public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+		randomTickForWorldGen(state, world, pos, random);
+	}
+	
+	public void randomTickForWorldGen(BlockState state, StructureWorldAccess world, BlockPos pos, Random random) {
 		if (!canSurvive(state, world, pos)) {
-			world.setBlockState(pos, getDegeneratedBlockState());
+			world.setBlockState(pos, getDegeneratedBlockState(), Block.NOTIFY_ALL);
 			return;
 		}
 		if (world.getLightLevel(pos.up()) >= Block.REDRAW_ON_MAIN_THREAD + 1) {
@@ -113,7 +118,7 @@ public abstract class SpreadableSoilBlock extends SpreadableBlock {
 			for (int i = 0; i < getSpreadableOdds(); i++) {
 				BlockPos blockPos = pos.add((int) (random.nextInt((int) range.getX()) - halfRange.getX()), (int) (random.nextInt((int) range.getY()) - halfRange.getY()), (int) (random.nextInt((int) range.getZ()) - halfRange.getZ()));
 				if (!canSpread(getSpreadableBlockState(world, blockPos), world, blockPos)) continue;
-				world.setBlockState(getSpreadableOffset(blockPos), getSpreadableBlockState(world, blockPos));
+				world.setBlockState(getSpreadableOffset(blockPos), getSpreadableBlockState(world, blockPos), Block.NOTIFY_ALL);
 			}
 		}
 	}
