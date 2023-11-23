@@ -9,13 +9,13 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.api.registry.datagen.criterion;
+package pers.saikel0rado1iu.silk.api.registry.gen.data.criterion;
 
 import net.minecraft.advancement.criterion.Criteria;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.api.registry.datagen.SilkCriterion;
+import pers.saikel0rado1iu.silk.api.registry.gen.data.SilkCriterion;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于补充原版的标准以便在模组中使用</font></b></p>

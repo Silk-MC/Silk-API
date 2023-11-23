@@ -34,7 +34,7 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.api.registry.datagen.recipe.SilkRecipeSerializers;
+import pers.saikel0rado1iu.silk.api.registry.gen.data.recipe.SilkRecipeSerializers;
 
 import java.util.LinkedHashMap;
 import java.util.List;

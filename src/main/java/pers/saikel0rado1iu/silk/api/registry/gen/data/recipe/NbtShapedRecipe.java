@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.api.registry.datagen.recipe;
+package pers.saikel0rado1iu.silk.api.registry.gen.data.recipe;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Sets;
