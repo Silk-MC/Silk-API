@@ -29,8 +29,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import pers.saikel0rado1iu.silk.api.registry.datagen.criterion.RangedKilledEntityCriterion;
-import pers.saikel0rado1iu.silk.api.registry.datagen.criterion.SilkCriteria;
+import pers.saikel0rado1iu.silk.api.registry.gen.data.criterion.RangedKilledEntityCriterion;
+import pers.saikel0rado1iu.silk.api.registry.gen.data.criterion.SilkCriteria;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">设置远程武器击杀实体标准触发</font></b></p>

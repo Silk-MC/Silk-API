@@ -9,29 +9,30 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.api.registry.datagen.recipe;
+package pers.saikel0rado1iu.silk.api.registry.gen.data;
 
-import org.jetbrains.annotations.ApiStatus;
-import pers.saikel0rado1iu.silk.Silk;
+import net.minecraft.recipe.Recipe;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.api.registry.datagen.SilkRecipeSerializer;
-import pers.saikel0rado1iu.silk.api.registry.datagen.criterion.SilkCriteria;
+import pers.saikel0rado1iu.silk.api.ModBasicData;
+import pers.saikel0rado1iu.silk.api.ModMain;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用于补充原版的配方序列化器以便在模组中使用</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">用于模组所有配方序列化器组成配方序列化器集与配方序列化器注册</font></b></p>
+ * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#blocks()}方法</p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-public interface SilkRecipeSerializers {
-	@ApiStatus.Internal
-	SilkCriteria INSTANCE = new SilkCriteria() {
-		@Override
-		public String toString() {
-			return "SilkRecipeSerializers";
-		}
-	};
+@SilkApi
+public interface SilkRecipeSerializer {
 	@SilkApi
-	NbtShapedRecipe.Serializer NBT_SHAPED = SilkRecipeSerializer.create(new NbtShapedRecipe.Serializer(), Silk.DATA, "crafting_nbt_shaped");
+	static <R extends Recipe<?>, S extends RecipeSerializer<R>> S create(S serializer, ModBasicData mod, String id) {
+		Registry.register(Registries.RECIPE_SERIALIZER, new Identifier(mod.getId(), id), serializer);
+		return serializer;
+	}
 }

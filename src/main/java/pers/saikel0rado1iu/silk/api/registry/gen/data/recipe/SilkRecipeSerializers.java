@@ -9,33 +9,29 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.api.registry.datagen;
+package pers.saikel0rado1iu.silk.api.registry.gen.data.recipe;
 
-import net.minecraft.advancement.criterion.AbstractCriterion;
-import net.minecraft.advancement.criterion.AbstractCriterionConditions;
+import org.jetbrains.annotations.ApiStatus;
+import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.api.ModMain;
-
-import java.util.function.Consumer;
+import pers.saikel0rado1iu.silk.api.registry.gen.data.SilkRecipeSerializer;
+import pers.saikel0rado1iu.silk.api.registry.gen.data.criterion.SilkCriteria;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用于模组所有标准与标准注册</font></b></p>
- * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#datagen()}方法</p>
+ * <p><b style="color:FFC800"><font size="+1">用于补充原版的配方序列化器以便在模组中使用</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-@SilkApi
-public interface SilkCriterion {
+public interface SilkRecipeSerializers {
+	@ApiStatus.Internal
+	SilkCriteria INSTANCE = new SilkCriteria() {
+		@Override
+		public String toString() {
+			return "SilkRecipeSerializers";
+		}
+	};
 	@SilkApi
-	static <C extends AbstractCriterionConditions, T extends AbstractCriterion<C>> T create(T criterion) {
-		return criterion;
-	}
-	
-	@SilkApi
-	static <C extends AbstractCriterionConditions, T extends AbstractCriterion<C>> T create(T criterion, Consumer<T> criterionRegister) {
-		criterionRegister.accept(criterion);
-		return criterion;
-	}
+	NbtShapedRecipe.Serializer NBT_SHAPED = SilkRecipeSerializer.create(new NbtShapedRecipe.Serializer(), Silk.DATA, "crafting_nbt_shaped");
 }
