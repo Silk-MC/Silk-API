@@ -9,44 +9,44 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.api.registry.gen.world.feature;
+package pers.saikel0rado1iu.silk.api.registry.gen.world;
 
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.FeatureConfig;
+import net.minecraft.world.gen.foliage.FoliagePlacer;
+import net.minecraft.world.gen.foliage.FoliagePlacerType;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.api.registry.SilkWorldData;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用于模组所有地物与注册</font></b></p>
- * <p style="color:FFC800">模组作者需要在 {@link SilkWorldData} 中覆盖 {@link SilkWorldData#features()}方法</p>
+ * <p><b style="color:FFC800"><font size="+1">用于模组所有树叶放置器类型与注册</font></b></p>
+ * <p style="color:FFC800">模组作者需要在 {@link SilkWorldData} 中覆盖 {@link SilkWorldData#foliagePlacerTypes()}方法</p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
 @SilkApi
-public abstract class SilkFeature {
-	protected static <FC extends FeatureConfig> Builder<FC> builder(Feature<FC> feature) {
-		return new Builder<>(feature);
+public abstract class SilkFoliagePlacerType {
+	protected static <P extends FoliagePlacer> Builder<P> builder(FoliagePlacerType<P> foliagePlacerType) {
+		return new Builder<>(foliagePlacerType);
 	}
 	
 	@SilkApi
-	public static final class Builder<FC extends FeatureConfig> {
-		private final Feature<FC> feature;
+	public static final class Builder<P extends FoliagePlacer> {
+		private final FoliagePlacerType<P> foliagePlacerType;
 		
 		@SilkApi
-		private Builder(Feature<FC> feature) {
-			this.feature = feature;
+		private Builder(FoliagePlacerType<P> foliagePlacerType) {
+			this.foliagePlacerType = foliagePlacerType;
 		}
 		
 		@SilkApi
-		public Feature<FC> build(ModBasicData mod, String id) {
-			Registry.register(Registries.FEATURE, new Identifier(mod.getId(), id), feature);
-			return feature;
+		public FoliagePlacerType<P> build(ModBasicData mod, String id) {
+			Registry.register(Registries.FOLIAGE_PLACER_TYPE, new Identifier(mod.getId(), id), foliagePlacerType);
+			return foliagePlacerType;
 		}
 	}
 }

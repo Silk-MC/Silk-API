@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.api.registry.gen.world.treedecorator;
+package pers.saikel0rado1iu.silk.api.registry.gen.world;
 
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
