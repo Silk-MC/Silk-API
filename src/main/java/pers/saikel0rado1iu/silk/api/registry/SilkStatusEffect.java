@@ -11,7 +11,6 @@
 
 package pers.saikel0rado1iu.silk.api.registry;
 
-import com.google.common.collect.Sets;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -20,10 +19,8 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.api.ModMain;
 
-import java.util.Set;
-
 /**
- * <p><b style="color:FFC800"><font size="+1">用于模组所有状态效果组成状态效果集与状态效果注册</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">用于模组所有状态效果与注册</font></b></p>
  * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#statusEffects()}方法</p>
  * <style="color:FFC800">
  *
@@ -32,8 +29,6 @@ import java.util.Set;
  */
 @SilkApi
 public abstract class SilkStatusEffect {
-	public static final Set<StatusEffect> ALL_MOD_STATUS_EFFECTS = Sets.newLinkedHashSetWithExpectedSize(8);
-	
 	protected static <E extends StatusEffect> Builder<E> builder(E statusEffect) {
 		return new Builder<>(statusEffect);
 	}
@@ -44,13 +39,7 @@ public abstract class SilkStatusEffect {
 		
 		@SilkApi
 		private Builder(E statusEffect) {
-			ALL_MOD_STATUS_EFFECTS.add(this.statusEffect = statusEffect);
-		}
-		
-		@SilkApi
-		public Builder<E> put(Set<StatusEffect> soundEvents) {
-			soundEvents.add(statusEffect);
-			return this;
+			this.statusEffect = statusEffect;
 		}
 		
 		@SilkApi

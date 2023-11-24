@@ -50,7 +50,7 @@ public abstract class ModMain implements ModInitializer {
 		datagen();
 		items();
 		blocks();
-		features();
+		worldData();
 		entityTypes();
 		soundEvents();
 		statusEffects();
@@ -75,7 +75,7 @@ public abstract class ModMain implements ModInitializer {
 	}
 	
 	/**
-	 * 提供来自模组的物品集以供注册
+	 * 提供来自模组的物品以供注册
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
@@ -84,7 +84,7 @@ public abstract class ModMain implements ModInitializer {
 	}
 	
 	/**
-	 * 提供来自模组的方块集以供注册
+	 * 提供来自模组的方块以供注册
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
@@ -93,16 +93,16 @@ public abstract class ModMain implements ModInitializer {
 	}
 	
 	/**
-	 * 提供来自模组的地物集以供注册
+	 * 提供来自模组的地物以供注册
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
-	public SilkFeature features() {
+	public SilkWorldData worldData() {
 		return null;
 	}
 	
 	/**
-	 * 提供来自模组的实体类型集以供注册
+	 * 提供来自模组的实体类型以供注册
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
@@ -111,7 +111,7 @@ public abstract class ModMain implements ModInitializer {
 	}
 	
 	/**
-	 * 提供来自模组的声音事件集以供注册
+	 * 提供来自模组的声音事件以供注册
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
@@ -120,7 +120,7 @@ public abstract class ModMain implements ModInitializer {
 	}
 	
 	/**
-	 * 提供来自模组的状态效果集以供注册
+	 * 提供来自模组的状态效果以供注册
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
@@ -129,7 +129,7 @@ public abstract class ModMain implements ModInitializer {
 	}
 	
 	/**
-	 * 提供来自模组的粒子集以供注册
+	 * 提供来自模组的粒子以供注册
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
@@ -138,7 +138,7 @@ public abstract class ModMain implements ModInitializer {
 	}
 	
 	/**
-	 * 提供来自模组的方块实体类型集以供注册
+	 * 提供来自模组的方块实体类型以供注册
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly

@@ -59,7 +59,7 @@ public abstract class ModClient implements ClientModInitializer {
 	public abstract void client(ModBasicData mod);
 	
 	/**
-	 * 提供来自模组的物品集以供注册
+	 * 提供来自模组的物品以供注册
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
@@ -68,7 +68,7 @@ public abstract class ModClient implements ClientModInitializer {
 	}
 	
 	/**
-	 * 提供来自模组的方块集以供注册
+	 * 提供来自模组的方块以供注册
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
@@ -77,7 +77,7 @@ public abstract class ModClient implements ClientModInitializer {
 	}
 	
 	/**
-	 * 提供来自模组的模型图层集以供注册
+	 * 提供来自模组的模型图层以供注册
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
@@ -86,7 +86,7 @@ public abstract class ModClient implements ClientModInitializer {
 	}
 	
 	/**
-	 * 提供来自模组的实体集以供注册
+	 * 提供来自模组的实体以供注册
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
@@ -95,7 +95,7 @@ public abstract class ModClient implements ClientModInitializer {
 	}
 	
 	/**
-	 * 提供来自模组的粒子集以供注册
+	 * 提供来自模组的粒子以供注册
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly

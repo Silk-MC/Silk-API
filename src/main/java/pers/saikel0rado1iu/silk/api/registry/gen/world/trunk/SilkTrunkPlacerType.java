@@ -9,44 +9,44 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.api.registry;
+package pers.saikel0rado1iu.silk.api.registry.gen.world.trunk;
 
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.gen.trunk.TrunkPlacer;
+import net.minecraft.world.gen.trunk.TrunkPlacerType;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
-import pers.saikel0rado1iu.silk.api.ModMain;
+import pers.saikel0rado1iu.silk.api.registry.SilkWorldData;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用于模组所有方块实体类型与注册</font></b></p>
- * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#blockEntities()}方法</p>
+ * <p><b style="color:FFC800"><font size="+1">用于模组所有树干放置器类型与注册</font></b></p>
+ * <p style="color:FFC800">模组作者需要在 {@link SilkWorldData} 中覆盖 {@link SilkWorldData#foliagePlacerTypes()}方法</p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
 @SilkApi
-public abstract class SilkBlockEntity {
-	protected static <E extends BlockEntity> Builder<E> builder(BlockEntityType<E> blockEntityType) {
-		return new Builder<>(blockEntityType);
+public abstract class SilkTrunkPlacerType {
+	protected static <P extends TrunkPlacer> Builder<P> builder(TrunkPlacerType<P> trunkPlacerType) {
+		return new Builder<>(trunkPlacerType);
 	}
 	
 	@SilkApi
-	public static final class Builder<E extends BlockEntity> {
-		private final BlockEntityType<E> blockEntityType;
+	public static final class Builder<P extends TrunkPlacer> {
+		private final TrunkPlacerType<P> trunkPlacerType;
 		
 		@SilkApi
-		private Builder(BlockEntityType<E> blockEntityType) {
-			this.blockEntityType = blockEntityType;
+		private Builder(TrunkPlacerType<P> trunkPlacerType) {
+			this.trunkPlacerType = trunkPlacerType;
 		}
 		
 		@SilkApi
-		public BlockEntityType<E> build(ModBasicData mod, String id) {
-			Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(mod.getId(), id), blockEntityType);
-			return blockEntityType;
+		public TrunkPlacerType<P> build(ModBasicData mod, String id) {
+			Registry.register(Registries.TRUNK_PLACER_TYPE, new Identifier(mod.getId(), id), trunkPlacerType);
+			return trunkPlacerType;
 		}
 	}
 }
