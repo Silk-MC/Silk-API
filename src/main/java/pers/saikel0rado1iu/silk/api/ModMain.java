@@ -50,12 +50,12 @@ public abstract class ModMain implements ModInitializer {
 		datagen();
 		items();
 		blocks();
-		worldData();
 		entityTypes();
 		soundEvents();
 		statusEffects();
 		particleTypes();
 		blockEntities();
+		if (worldData() != null) worldData().register();
 		if (modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null) modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}
 	
