@@ -14,10 +14,10 @@ package pers.saikel0rado1iu.silk.api.registry;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModMain;
-import pers.saikel0rado1iu.silk.api.registry.gen.world.feature.SilkFeature;
-import pers.saikel0rado1iu.silk.api.registry.gen.world.foliage.SilkFoliagePlacerType;
-import pers.saikel0rado1iu.silk.api.registry.gen.world.treedecorator.SilkTreeDecoratorType;
-import pers.saikel0rado1iu.silk.api.registry.gen.world.trunk.SilkTrunkPlacerType;
+import pers.saikel0rado1iu.silk.api.registry.gen.world.SilkFeature;
+import pers.saikel0rado1iu.silk.api.registry.gen.world.SilkFoliagePlacerType;
+import pers.saikel0rado1iu.silk.api.registry.gen.world.SilkTreeDecoratorType;
+import pers.saikel0rado1iu.silk.api.registry.gen.world.SilkTrunkPlacerType;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于模组所有的世界数据注册</font></b></p>
