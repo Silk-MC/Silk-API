@@ -11,7 +11,6 @@
 
 package pers.saikel0rado1iu.silk.api.registry;
 
-import com.google.common.collect.Sets;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
@@ -22,11 +21,10 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.api.ModMain;
 
-import java.util.Set;
 import java.util.function.Consumer;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用于模组所有方块组成方块集与方块注册</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">用于模组所有方块与注册</font></b></p>
  * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#blocks()}方法</p>
  * <style="color:FFC800">
  *
@@ -35,8 +33,6 @@ import java.util.function.Consumer;
  */
 @SilkApi
 public abstract class SilkBlock {
-	public static final Set<Block> ALL_MOD_BLOCKS = Sets.newLinkedHashSetWithExpectedSize(8);
-	
 	protected static <B extends Block> Builder<B> builder(B block) {
 		return new Builder<>(block);
 	}
@@ -56,13 +52,7 @@ public abstract class SilkBlock {
 		
 		@SilkApi
 		private Builder(B block) {
-			ALL_MOD_BLOCKS.add(this.block = block);
-		}
-		
-		@SilkApi
-		public Builder<B> put(Set<Block> blocks) {
-			blocks.add(block);
-			return this;
+			this.block = block;
 		}
 		
 		@SilkApi

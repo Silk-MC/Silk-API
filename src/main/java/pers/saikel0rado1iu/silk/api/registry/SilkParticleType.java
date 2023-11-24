@@ -11,7 +11,6 @@
 
 package pers.saikel0rado1iu.silk.api.registry;
 
-import com.google.common.collect.Sets;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.particle.ParticleType;
@@ -22,11 +21,10 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.api.ModMain;
 
-import java.util.Set;
 import java.util.function.Consumer;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用于模组所有粒子组成粒子集与粒子注册</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">用于模组所有粒子与注册</font></b></p>
  * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#particleTypes()}方法</p>
  * <style="color:FFC800">
  *
@@ -35,8 +33,6 @@ import java.util.function.Consumer;
  */
 @SilkApi
 public abstract class SilkParticleType {
-	public static final Set<ParticleType<?>> ALL_MOD_PARTICLE_TYPES = Sets.newLinkedHashSetWithExpectedSize(8);
-	
 	protected static <P extends ParticleType<?>> Builder<P> builder(P particle) {
 		return new Builder<>(particle);
 	}
@@ -56,13 +52,7 @@ public abstract class SilkParticleType {
 		
 		@SilkApi
 		private Builder(P particle) {
-			ALL_MOD_PARTICLE_TYPES.add(this.particle = particle);
-		}
-		
-		@SilkApi
-		public Builder<P> put(Set<ParticleType<?>> particles) {
-			particles.add(particle);
-			return this;
+			this.particle = particle;
 		}
 		
 		@SilkApi

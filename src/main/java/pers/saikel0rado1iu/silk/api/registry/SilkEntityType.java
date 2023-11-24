@@ -11,7 +11,6 @@
 
 package pers.saikel0rado1iu.silk.api.registry;
 
-import com.google.common.collect.Sets;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.Entity;
@@ -23,11 +22,10 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.api.ModMain;
 
-import java.util.Set;
 import java.util.function.Consumer;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用于模组所有实体类型组成实体类型集与实体类型注册</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">用于模组所有实体类型与注册</font></b></p>
  * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#entityTypes()}方法</p>
  * <style="color:FFC800">
  *
@@ -44,7 +42,6 @@ public abstract class SilkEntityType {
 	public static final int PROJECTILE_RANGE = 4;
 	@SilkApi
 	public static final int PROJECTILE_UPDATE_RATE = 20;
-	public static final Set<EntityType<?>> ALL_MOD_ENTITY_TYPES = Sets.newLinkedHashSetWithExpectedSize(8);
 	
 	protected static <E extends Entity> Builder<E> builder(EntityType<E> entityType) {
 		return new Builder<>(entityType);
@@ -65,13 +62,7 @@ public abstract class SilkEntityType {
 		
 		@SilkApi
 		private Builder(EntityType<E> entityType) {
-			ALL_MOD_ENTITY_TYPES.add(this.entityType = entityType);
-		}
-		
-		@SilkApi
-		public Builder<E> put(Set<EntityType<?>> entityType) {
-			entityType.add(this.entityType);
-			return this;
+			this.entityType = entityType;
 		}
 		
 		@SilkApi

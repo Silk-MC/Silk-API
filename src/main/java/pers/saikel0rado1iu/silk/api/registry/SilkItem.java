@@ -11,7 +11,6 @@
 
 package pers.saikel0rado1iu.silk.api.registry;
 
-import com.google.common.collect.Sets;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -26,11 +25,10 @@ import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.api.ModMain;
 
 import java.util.Arrays;
-import java.util.Set;
 import java.util.function.Consumer;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用于模组所有物品组成物品集与物品注册</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">用于模组所有物品与注册</font></b></p>
  * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#items()}方法</p>
  * <style="color:FFC800">
  *
@@ -39,8 +37,6 @@ import java.util.function.Consumer;
  */
 @SilkApi
 public abstract class SilkItem {
-	public static final Set<Item> ALL_MOD_ITEMS = Sets.newLinkedHashSetWithExpectedSize(8);
-	
 	protected static <I extends Item> Builder<I> builder(I item) {
 		return new Builder<>(item);
 	}
@@ -60,19 +56,13 @@ public abstract class SilkItem {
 		
 		@SilkApi
 		private Builder(I item) {
-			ALL_MOD_ITEMS.add(this.item = item);
+			this.item = item;
 		}
 		
 		@SilkApi
 		@SafeVarargs
 		public final Builder<I> group(RegistryKey<ItemGroup>... groups) {
 			Arrays.stream(groups).forEach(group -> ItemGroupEvents.modifyEntriesEvent(group).register(content -> content.add(item)));
-			return this;
-		}
-		
-		@SilkApi
-		public Builder<I> put(Set<Item> items) {
-			items.add(item);
 			return this;
 		}
 		

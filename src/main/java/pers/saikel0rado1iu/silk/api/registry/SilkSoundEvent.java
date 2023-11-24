@@ -11,17 +11,14 @@
 
 package pers.saikel0rado1iu.silk.api.registry;
 
-import com.google.common.collect.Sets;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvent;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModMain;
 
-import java.util.Set;
-
 /**
- * <p><b style="color:FFC800"><font size="+1">用于模组所有声音事件组成声音事件集与声音事件注册</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">用于模组所有声音事件与注册</font></b></p>
  * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#soundEvents()}方法</p>
  * <style="color:FFC800">
  *
@@ -30,8 +27,6 @@ import java.util.Set;
  */
 @SilkApi
 public abstract class SilkSoundEvent {
-	public static final Set<SoundEvent> ALL_MOD_SOUND_EVENTS = Sets.newLinkedHashSetWithExpectedSize(8);
-	
 	protected static <S extends SoundEvent> Builder<S> builder(S soundEvent) {
 		return new Builder<>(soundEvent);
 	}
@@ -42,13 +37,7 @@ public abstract class SilkSoundEvent {
 		
 		@SilkApi
 		private Builder(S soundEvent) {
-			ALL_MOD_SOUND_EVENTS.add(this.soundEvent = soundEvent);
-		}
-		
-		@SilkApi
-		public Builder<S> put(Set<SoundEvent> soundEvents) {
-			soundEvents.add(soundEvent);
-			return this;
+			this.soundEvent = soundEvent;
 		}
 		
 		@SilkApi
