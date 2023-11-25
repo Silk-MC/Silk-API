@@ -9,31 +9,25 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.mixin.api.callback;
+package pers.saikel0rado1iu.silk.api.registry.gen.world;
 
 import net.minecraft.world.biome.source.MultiNoiseBiomeSourceParameterList;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
+import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.callback.RegisterMultiNoiseBiomeSourceParameterListPresetCallback;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.function.Supplier;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">设置注册多重噪声生物群系源参数列表预设的回调</font></b></p>
+ * <p><b style="color:FFC800"><font size="+1">多重噪声生物群系源参数列表预设注册器</font></b></p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-@Mixin(MultiNoiseBiomeSourceParameterList.Preset.class)
-abstract class RegisterMultiNoiseBiomeSourceParameterListPresetCallbackMixin {
-	@SuppressWarnings("unchecked")
-	@ModifyArg(method = "<clinit>", at = @At(value = "INVOKE", target = "L java/util/stream/Stream;of([L java/lang/Object;)L java/util/stream/Stream;"))
-	private static <T> T[] register(T[] byId) {
-		List<T> presets = new ArrayList<>(List.of(byId));
-		RegisterMultiNoiseBiomeSourceParameterListPresetCallback.EVENT.invoker().register((List<MultiNoiseBiomeSourceParameterList.Preset>) presets);
-		return (T[]) presets.toArray(new Object[0]);
+@SilkApi
+public interface MultiNoiseBiomeSourceParameterListPresetRegistry {
+	@SilkApi
+	static void add(Supplier<MultiNoiseBiomeSourceParameterList.Preset> preset) {
+		RegisterMultiNoiseBiomeSourceParameterListPresetCallback.EVENT.register(list -> list.add(preset.get()));
 	}
 }

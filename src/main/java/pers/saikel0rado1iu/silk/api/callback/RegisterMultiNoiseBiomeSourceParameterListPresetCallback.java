@@ -13,6 +13,7 @@ package pers.saikel0rado1iu.silk.api.callback;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
+import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
 import net.minecraft.world.biome.source.MultiNoiseBiomeSourceParameterList;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
@@ -20,7 +21,7 @@ import java.util.List;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">用于注册多重噪声生物群系源参数列表预设的回调</font></b></p>
- * <p style="color:FFC800">模组作者需要在 {@link net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint} 中注册才能生效</p>
+ * <p style="color:FFC800">模组作者需要在 {@link PreLaunchEntrypoint} 中注册才能生效</p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
@@ -30,10 +31,8 @@ import java.util.List;
 public interface RegisterMultiNoiseBiomeSourceParameterListPresetCallback {
 	@SilkApi
 	Event<RegisterMultiNoiseBiomeSourceParameterListPresetCallback> EVENT = EventFactory.createArrayBacked(RegisterMultiNoiseBiomeSourceParameterListPresetCallback.class, listeners -> list -> {
-		List<MultiNoiseBiomeSourceParameterList.Preset> presetList = list;
-		for (RegisterMultiNoiseBiomeSourceParameterListPresetCallback event : listeners) presetList = event.register(presetList);
-		return presetList;
+		for (RegisterMultiNoiseBiomeSourceParameterListPresetCallback event : listeners) event.register(list);
 	});
 	
-	List<MultiNoiseBiomeSourceParameterList.Preset> register(List<MultiNoiseBiomeSourceParameterList.Preset> list);
+	void register(List<MultiNoiseBiomeSourceParameterList.Preset> list);
 }
