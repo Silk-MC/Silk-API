@@ -49,13 +49,13 @@ public abstract class ModMain implements ModInitializer {
 	public void onInitialize() {
 		main(mod);
 		datagen();
-		if (items() != null) mod.logger().info("register " + items().getClass().getSimpleName() + Silk.DATA.getInfo());
-		if (blocks() != null) mod.logger().info("register " + blocks().getClass().getSimpleName() + Silk.DATA.getInfo());
-		if (entityTypes() != null) mod.logger().info("register " + entityTypes().getClass().getSimpleName() + Silk.DATA.getInfo());
-		if (soundEvents() != null) mod.logger().info("register " + soundEvents().getClass().getSimpleName() + Silk.DATA.getInfo());
-		if (statusEffects() != null) mod.logger().info("register " + statusEffects().getClass().getSimpleName() + Silk.DATA.getInfo());
-		if (particleTypes() != null) mod.logger().info("register " + particleTypes().getClass().getSimpleName() + Silk.DATA.getInfo());
-		if (blockEntities() != null) mod.logger().info("register " + blockEntities().getClass().getSimpleName() + Silk.DATA.getInfo());
+		if (items() != null) mod.logger().info("register " + items().getClass().getSimpleName() + "(logic)" + Silk.DATA.getInfo());
+		if (blocks() != null) mod.logger().info("register " + blocks().getClass().getSimpleName() + "(logic)" + Silk.DATA.getInfo());
+		if (entityTypes() != null) mod.logger().info("register " + entityTypes().getClass().getSimpleName() + "(logic)" + Silk.DATA.getInfo());
+		if (soundEvents() != null) mod.logger().info("register " + soundEvents().getClass().getSimpleName() + "(logic)" + Silk.DATA.getInfo());
+		if (statusEffects() != null) mod.logger().info("register " + statusEffects().getClass().getSimpleName() + "(logic)" + Silk.DATA.getInfo());
+		if (particleTypes() != null) mod.logger().info("register " + particleTypes().getClass().getSimpleName() + "(logic)" + Silk.DATA.getInfo());
+		if (blockEntities() != null) mod.logger().info("register " + blockEntities().getClass().getSimpleName() + "(logic)" + Silk.DATA.getInfo());
 		if (worldData() != null) worldData().register(mod);
 		if (modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null) modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}
