@@ -13,8 +13,6 @@ package pers.saikel0rado1iu.silk;
 
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.api.ModMain;
-import pers.saikel0rado1iu.silk.api.registry.gen.data.criterion.SilkCriteria;
-import pers.saikel0rado1iu.silk.api.registry.gen.data.recipe.SilkRecipeSerializers;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">注册 Silk 的必要数据</font></b></p>
@@ -36,11 +34,5 @@ public final class Main extends ModMain {
 	 */
 	@Override
 	public void main(ModBasicData mod) {
-	}
-	
-	@Override
-	public void datagen() {
-		Silk.DATA.logger().info("register " + SilkCriteria.INSTANCE);
-		Silk.DATA.logger().info("register " + SilkRecipeSerializers.INSTANCE);
 	}
 }

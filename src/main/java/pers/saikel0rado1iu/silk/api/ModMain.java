@@ -48,14 +48,14 @@ public abstract class ModMain implements ModInitializer {
 	public void onInitialize() {
 		main(mod);
 		datagen();
-		items();
-		blocks();
-		entityTypes();
-		soundEvents();
-		statusEffects();
-		particleTypes();
-		blockEntities();
-		if (worldData() != null) worldData().register();
+		if (items() != null) mod.logger().info(items().getClass().getSimpleName());
+		if (blocks() != null) mod.logger().info(blocks().getClass().getSimpleName());
+		if (entityTypes() != null) mod.logger().info(entityTypes().getClass().getSimpleName());
+		if (soundEvents() != null) mod.logger().info(soundEvents().getClass().getSimpleName());
+		if (statusEffects() != null) mod.logger().info(statusEffects().getClass().getSimpleName());
+		if (particleTypes() != null) mod.logger().info(particleTypes().getClass().getSimpleName());
+		if (blockEntities() != null) mod.logger().info(blockEntities().getClass().getSimpleName());
+		if (worldData() != null) worldData().register(mod);
 		if (modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null) modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}
 	
