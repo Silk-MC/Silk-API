@@ -42,11 +42,11 @@ public abstract class ModClient implements ClientModInitializer {
 	@ApiStatus.Internal
 	public void onInitializeClient() {
 		client(mod);
-		items();
-		blocks();
-		modelLayers();
-		entityTypes();
-		particleTypes();
+		if (items() != null) mod.logger().info(items().getClass().getSimpleName());
+		if (blocks() != null) mod.logger().info(blocks().getClass().getSimpleName());
+		if (modelLayers() != null) mod.logger().info(modelLayers().getClass().getSimpleName());
+		if (entityTypes() != null) mod.logger().info(entityTypes().getClass().getSimpleName());
+		if (particleTypes() != null) mod.logger().info(particleTypes().getClass().getSimpleName());
 		if (modResourcesPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null)
 			modResourcesPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}
