@@ -43,11 +43,11 @@ public abstract class ModClient implements ClientModInitializer {
 	@ApiStatus.Internal
 	public void onInitializeClient() {
 		client(mod);
-		if (items() != null) mod.logger().info("register " + items().getClass().getSimpleName() + "(client)" + Silk.DATA.getInfo());
-		if (blocks() != null) mod.logger().info("register " + blocks().getClass().getSimpleName() + "(client)" + Silk.DATA.getInfo());
-		if (modelLayers() != null) mod.logger().info("register " + modelLayers().getClass().getSimpleName() + "(client)" + Silk.DATA.getInfo());
-		if (entityTypes() != null) mod.logger().info("register " + entityTypes().getClass().getSimpleName() + "(client)" + Silk.DATA.getInfo());
-		if (particleTypes() != null) mod.logger().info("register " + particleTypes().getClass().getSimpleName() + "(client)" + Silk.DATA.getInfo());
+		if (items() != null) mod.logger().info("register " + items().getClass().getSimpleName() + " (client)" + Silk.DATA.getInfo());
+		if (blocks() != null) mod.logger().info("register " + blocks().getClass().getSimpleName() + " (client)" + Silk.DATA.getInfo());
+		if (modelLayers() != null) mod.logger().info("register " + modelLayers().getClass().getSimpleName() + " (client)" + Silk.DATA.getInfo());
+		if (entityTypes() != null) mod.logger().info("register " + entityTypes().getClass().getSimpleName() + " (client)" + Silk.DATA.getInfo());
+		if (particleTypes() != null) mod.logger().info("register " + particleTypes().getClass().getSimpleName() + " (client)" + Silk.DATA.getInfo());
 		if (modResourcesPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null)
 			modResourcesPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}

@@ -33,12 +33,12 @@ import pers.saikel0rado1iu.silk.api.registry.gen.world.SilkTrunkPlacerType;
 public abstract class SilkWorldData {
 	@ApiStatus.Internal
 	public void register(ModBasicData mod) {
-		if (features() != null) mod.logger().info("register " + features().getClass().getSimpleName() + "(world_gen)" + Silk.DATA.getInfo());
-		if (trunkPlacerTypes() != null) mod.logger().info("register " + trunkPlacerTypes().getClass().getSimpleName() + "(world_gen)" + Silk.DATA.getInfo());
+		if (features() != null) mod.logger().info("register " + features().getClass().getSimpleName() + " (world_gen)" + Silk.DATA.getInfo());
+		if (trunkPlacerTypes() != null) mod.logger().info("register " + trunkPlacerTypes().getClass().getSimpleName() + " (world_gen)" + Silk.DATA.getInfo());
 		if (foliagePlacerTypes() != null)
-			mod.logger().info("register " + foliagePlacerTypes().getClass().getSimpleName() + "(world_gen)" + Silk.DATA.getInfo());
+			mod.logger().info("register " + foliagePlacerTypes().getClass().getSimpleName() + " (world_gen)" + Silk.DATA.getInfo());
 		if (treeDecoratorTypes() != null)
-			mod.logger().info("register " + treeDecoratorTypes().getClass().getSimpleName() + "(world_gen)" + Silk.DATA.getInfo());
+			mod.logger().info("register " + treeDecoratorTypes().getClass().getSimpleName() + " (world_gen)" + Silk.DATA.getInfo());
 	}
 	
 	/**
