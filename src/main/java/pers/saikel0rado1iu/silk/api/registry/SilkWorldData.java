@@ -12,6 +12,7 @@
 package pers.saikel0rado1iu.silk.api.registry;
 
 import org.jetbrains.annotations.ApiStatus;
+import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.api.ModMain;
@@ -32,10 +33,10 @@ import pers.saikel0rado1iu.silk.api.registry.gen.world.SilkTrunkPlacerType;
 public abstract class SilkWorldData {
 	@ApiStatus.Internal
 	public void register(ModBasicData mod) {
-		if (features() != null) mod.logger().info(features().getClass().getSimpleName());
-		if (trunkPlacerTypes() != null) mod.logger().info(trunkPlacerTypes().getClass().getSimpleName());
-		if (foliagePlacerTypes() != null) mod.logger().info(foliagePlacerTypes().getClass().getSimpleName());
-		if (treeDecoratorTypes() != null) mod.logger().info(treeDecoratorTypes().getClass().getSimpleName());
+		if (features() != null) mod.logger().info("register " + features().getClass().getSimpleName() + Silk.DATA.getInfo());
+		if (trunkPlacerTypes() != null) mod.logger().info("register " + trunkPlacerTypes().getClass().getSimpleName() + Silk.DATA.getInfo());
+		if (foliagePlacerTypes() != null) mod.logger().info("register " + foliagePlacerTypes().getClass().getSimpleName() + Silk.DATA.getInfo());
+		if (treeDecoratorTypes() != null) mod.logger().info("register " + treeDecoratorTypes().getClass().getSimpleName() + Silk.DATA.getInfo());
 	}
 	
 	/**

@@ -14,6 +14,7 @@ package pers.saikel0rado1iu.silk.api;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import org.jetbrains.annotations.ApiStatus;
+import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.pack.DataPack;
 import pers.saikel0rado1iu.silk.api.registry.*;
@@ -48,13 +49,13 @@ public abstract class ModMain implements ModInitializer {
 	public void onInitialize() {
 		main(mod);
 		datagen();
-		if (items() != null) mod.logger().info(items().getClass().getSimpleName());
-		if (blocks() != null) mod.logger().info(blocks().getClass().getSimpleName());
-		if (entityTypes() != null) mod.logger().info(entityTypes().getClass().getSimpleName());
-		if (soundEvents() != null) mod.logger().info(soundEvents().getClass().getSimpleName());
-		if (statusEffects() != null) mod.logger().info(statusEffects().getClass().getSimpleName());
-		if (particleTypes() != null) mod.logger().info(particleTypes().getClass().getSimpleName());
-		if (blockEntities() != null) mod.logger().info(blockEntities().getClass().getSimpleName());
+		if (items() != null) mod.logger().info("register " + items().getClass().getSimpleName() + Silk.DATA.getInfo());
+		if (blocks() != null) mod.logger().info("register " + blocks().getClass().getSimpleName() + Silk.DATA.getInfo());
+		if (entityTypes() != null) mod.logger().info("register " + entityTypes().getClass().getSimpleName() + Silk.DATA.getInfo());
+		if (soundEvents() != null) mod.logger().info("register " + soundEvents().getClass().getSimpleName() + Silk.DATA.getInfo());
+		if (statusEffects() != null) mod.logger().info("register " + statusEffects().getClass().getSimpleName() + Silk.DATA.getInfo());
+		if (particleTypes() != null) mod.logger().info("register " + particleTypes().getClass().getSimpleName() + Silk.DATA.getInfo());
+		if (blockEntities() != null) mod.logger().info("register " + blockEntities().getClass().getSimpleName() + Silk.DATA.getInfo());
 		if (worldData() != null) worldData().register(mod);
 		if (modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null) modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}
