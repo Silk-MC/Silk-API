@@ -20,7 +20,7 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
  * @since 0.1.0
  */
-public interface PlayerDataUtil {
+public interface PlayerUtil {
 	@SilkApi
 	int HEALTH = 20;
 	@SilkApi
