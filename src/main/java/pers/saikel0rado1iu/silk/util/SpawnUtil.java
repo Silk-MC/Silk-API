@@ -11,6 +11,7 @@
 
 package pers.saikel0rado1iu.silk.util;
 
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.mob.MobEntity;
@@ -20,6 +21,7 @@ import net.minecraft.world.LightType;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.SpawnSettings;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
 import java.util.function.Function;
@@ -28,8 +30,9 @@ import java.util.function.Function;
  * <p><b style="color:FFC800"><font size="+1">有关控制生物的特殊生成的部分数值与实用方法</font></b></p>
  * <p style="color:FFC800">此方法主要用于类似怪物类生物的生成，而不是动物类生物的生成。
  * 如果要实现动物类的生成要在 {@link Builder#otherChecker(SpawnRestriction.SpawnPredicate)} 中手动添加检测器</p>
- * <p style="color:FF0000">！注意！在特殊情况下，此方法可能看起来失效。此时需要将 {@link MobEntity#canSpawn(WorldView)} 与 {@link MobEntity#canSpawn(WorldAccess, SpawnReason)}
- * 返回 true 则可以修复此问题。但无法预测此操作可能带来的完整效果，但经过测试，绝大部分情况下并不会破坏生成规则</p>
+ * <p style="color:FF0000">！注意！在大部分情况下，此方法可能看起来失效。这是因为在 {@link SpawnSettings.Builder#spawn(SpawnGroup, SpawnSettings.SpawnEntry)}
+ * 中的设置的生成组规则大过自定义规则。此时将 {@link MobEntity#canSpawn(WorldView)} 与 {@link MobEntity#canSpawn(WorldAccess, SpawnReason)}
+ * 返回 true 则可以修复大部分怪物生成问题，生物会照样在区块生成时生成。虽无法预测此操作可能带来的完整效果，但经过测试，绝大部分情况下并不会破坏生成规则</p>
  * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
