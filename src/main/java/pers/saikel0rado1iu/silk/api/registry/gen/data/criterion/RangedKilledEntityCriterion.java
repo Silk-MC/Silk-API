@@ -18,6 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.predicate.NumberRange;
@@ -138,7 +139,7 @@ public class RangedKilledEntityCriterion extends AbstractCriterion<RangedKilledE
 			if (projectile == null) return false;
 			NbtCompound nbtCompound = projectile.writeNbt(new NbtCompound()).getCompound("fromRanged");
 			String[] id = nbtCompound.getString("id").split(":");
-			ItemStack stack = new ItemStack(Registries.ITEM.get(new Identifier(id[0], id[1])));
+			ItemStack stack = new ItemStack("".equals(id[0]) ? Items.AIR : Registries.ITEM.get(new Identifier(id[0], id[1])));
 			stack.setNbt(nbtCompound.getCompound("nbt"));
 			boolean hasRanged = this.ranged.test(stack);
 			if (!hasRanged) return false;
