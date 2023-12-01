@@ -207,7 +207,7 @@ public final class CheckUpdateThread extends Thread {
 		List<String> verList = new ArrayList<>(4);
 		JsonArray verArray = data.getAsJsonArray("game_versions");
 		for (JsonElement object : verArray) verList.add(object.getAsString());
-		String latestMinecraftVer = "";
+		String latestMinecraftVer = verList.get(0);
 		for (int count = 0; count < verList.size() - 1; count++) {
 			latestMinecraftVer = compareMcVer(verList.get(count), verList.get(count + 1)) < 0 ? verList.get(count) : verList.get(count + 1);
 		}
@@ -258,11 +258,12 @@ public final class CheckUpdateThread extends Thread {
 			}
 			data.load();
 			if (data.getShowChangelog() && data.getCanShowChangelog()) return MOD_LOG;
-			return UPDATE_FAIL;
+			canCheckUpdate = false;
+			return DONE;
 		} catch (IOException e) {
 			return UPDATE_FAIL;
 		}
 	}
 	
-	public enum State {NONE, NEW_MC_VER, THIS_MC_VER, MOD_LOG, STOP_UPDATE, UPDATE_FAIL}
+	public enum State {NONE, DONE, NEW_MC_VER, THIS_MC_VER, MOD_LOG, STOP_UPDATE, UPDATE_FAIL}
 }

@@ -155,6 +155,8 @@ public class UpdateShow {
 					MinecraftClient.getInstance().setScreen(new UpdateFailWarningScreen(parent, this, isTrustedLink));
 				else UpdateToast.setToast(new UpdateFailWarningToast(this));
 			}
+			case DONE -> {
+			}
 			case NONE -> getMod().logger().info("Checking the new version of mod..." + Silk.DATA.getInfo());
 		}
 	}
@@ -170,6 +172,8 @@ public class UpdateShow {
 			case STOP_UPDATE -> UpdateToast.setToast(new StopUpdateWarningToast(this));
 			case UPDATE_FAIL -> UpdateToast.setToast(new UpdateFailWarningToast(this));
 			case NONE -> getMod().logger().info("Checking the new version of mod..." + Silk.DATA.getInfo());
+			case DONE -> {
+			}
 		}
 	}
 }
