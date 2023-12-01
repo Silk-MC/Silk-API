@@ -134,6 +134,7 @@ public class RangedKilledEntityCriterion extends AbstractCriterion<RangedKilledE
 		
 		public boolean matches(ServerPlayerEntity player, LootContext killedEntityContext, Entity projectile, int count) {
 			if (target.isPresent() && !target.get().test(killedEntityContext)) return false;
+			if (projectile == null) return false;
 			NbtCompound nbtCompound = projectile.writeNbt(new NbtCompound()).getCompound("fromRanged");
 			String[] id = nbtCompound.getString("id").split(":");
 			ItemStack stack = new ItemStack(Registries.ITEM.get(new Identifier(id[0], id[1])));
