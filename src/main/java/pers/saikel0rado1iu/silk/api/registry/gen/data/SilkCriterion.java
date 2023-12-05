@@ -12,7 +12,6 @@
 package pers.saikel0rado1iu.silk.api.registry.gen.data;
 
 import net.minecraft.advancement.criterion.AbstractCriterion;
-import net.minecraft.advancement.criterion.AbstractCriterionConditions;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.api.ModMain;
@@ -30,12 +29,12 @@ import java.util.function.Consumer;
 @SilkApi
 public interface SilkCriterion {
 	@SilkApi
-	static <C extends AbstractCriterionConditions, T extends AbstractCriterion<C>> T create(T criterion) {
+	static <C extends AbstractCriterion.Conditions, T extends AbstractCriterion<C>> T create(T criterion) {
 		return criterion;
 	}
 	
 	@SilkApi
-	static <C extends AbstractCriterionConditions, T extends AbstractCriterion<C>> T create(T criterion, Consumer<T> criterionRegister) {
+	static <C extends AbstractCriterion.Conditions, T extends AbstractCriterion<C>> T create(T criterion, Consumer<T> criterionRegister) {
 		criterionRegister.accept(criterion);
 		return criterion;
 	}

@@ -11,10 +11,10 @@
 
 package pers.saikel0rado1iu.silk.api.registry.gen.data.criterion;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterion;
-import net.minecraft.advancement.criterion.AbstractCriterionConditions;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemConvertible;
@@ -23,13 +23,13 @@ import net.minecraft.item.Items;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.predicate.NumberRange;
-import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
 import net.minecraft.predicate.entity.EntityPredicate;
 import net.minecraft.predicate.entity.LootContextPredicate;
 import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.dynamic.Codecs;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
 import java.util.Optional;
@@ -54,15 +54,6 @@ public class RangedKilledEntityCriterion extends AbstractCriterion<RangedKilledE
 		projectile.writeNbt(nbtCompound);
 	}
 	
-	@Override
-	protected Conditions conditionsFromJson(JsonObject jsonObject, Optional<LootContextPredicate> lootContextPredicate, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
-		Optional<LootContextPredicate> target = EntityPredicate.contextPredicateFromJson(jsonObject, "target", advancementEntityPredicateDeserializer);
-		Optional<ItemPredicate> ranged = ItemPredicate.fromJson(jsonObject.get("ranged"));
-		Optional<EntityPredicate> projectile = EntityPredicate.fromJson(jsonObject.get("projectile"));
-		NumberRange.IntRange killed = NumberRange.IntRange.fromJson(jsonObject.get("killed"));
-		return new Conditions(lootContextPredicate, target, ranged, projectile, killed);
-	}
-	
 	@SilkApi
 	public void trigger(ServerPlayerEntity player, Entity entity, DamageSource damageSource) {
 		trigger(player, entity, damageSource, 1);
@@ -74,63 +65,44 @@ public class RangedKilledEntityCriterion extends AbstractCriterion<RangedKilledE
 		trigger(player, conditions -> conditions.matches(player, lootContext, damageSource.getSource(), killed));
 	}
 	
-	public static class Conditions extends AbstractCriterionConditions {
-		private final Optional<ItemPredicate> ranged;
-		private Optional<LootContextPredicate> target;
-		private Optional<EntityPredicate> projectile;
-		private NumberRange.IntRange killed;
-		private int count = 0;
+	@Override
+	public Codec<Conditions> getConditionsCodec() {
+		return Conditions.CODEC;
+	}
+	
+	public record Conditions(Optional<LootContextPredicate> player, Optional<LootContextPredicate> target, Optional<ItemPredicate> ranged,
+	                         Optional<EntityPredicate> projectile, NumberRange.IntRange killed, int[] count) implements AbstractCriterion.Conditions {
+		public static final Codec<Conditions> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+						Codecs.createStrictOptionalFieldCodec(EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC, "player").forGetter(Conditions::player),
+						Codecs.createStrictOptionalFieldCodec(EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC, "target").forGetter(Conditions::target),
+						Codecs.createStrictOptionalFieldCodec(ItemPredicate.CODEC, "ranged").forGetter(Conditions::ranged),
+						Codecs.createStrictOptionalFieldCodec(EntityPredicate.CODEC, "projectile").forGetter(Conditions::projectile),
+						Codecs.createStrictOptionalFieldCodec(NumberRange.IntRange.CODEC, "killed", NumberRange.IntRange.ANY).forGetter(Conditions::killed))
+				.apply(instance, Conditions::new));
 		
 		public Conditions(Optional<LootContextPredicate> player, Optional<LootContextPredicate> target, Optional<ItemPredicate> ranged, Optional<EntityPredicate> projectile, NumberRange.IntRange killed) {
-			super(player);
-			this.target = target;
-			this.ranged = ranged;
-			this.projectile = projectile;
-			this.killed = killed;
+			this(player, target, ranged, projectile, killed, new int[]{0});
 		}
 		
 		@SilkApi
-		public static Conditions ranged(Optional<ItemPredicate> ranged) {
-			return new Conditions(Optional.empty(), Optional.empty(), ranged, Optional.empty(), NumberRange.IntRange.ANY);
+		public static Builder ranged(Optional<ItemPredicate> ranged) {
+			return new Builder(ranged);
 		}
 		
 		@SilkApi
-		public static Conditions ranged(ItemConvertible ranged) {
+		public static Builder ranged(ItemConvertible ranged) {
 			ItemPredicate itemPredicates = ItemPredicate.Builder.create().items(ranged.asItem()).build();
 			return ranged(Optional.of(itemPredicates));
 		}
 		
-		@SilkApi
-		public Conditions target(EntityPredicate target) {
-			this.target = Optional.of(EntityPredicate.asLootContextPredicate(target));
-			return this;
-		}
-		
-		@SilkApi
-		public Conditions projectile(Optional<EntityPredicate> projectile) {
-			this.projectile = projectile;
-			return this;
-		}
-		
-		@SilkApi
-		public Conditions killed(NumberRange.IntRange killed) {
-			this.killed = killed;
-			return this;
+		@Override
+		public Optional<LootContextPredicate> player() {
+			return player;
 		}
 		
 		@SilkApi
 		public AdvancementCriterion<Conditions> create() {
 			return SilkCriteria.RANGED_KILLED_ENTITY_CRITERION.create(this);
-		}
-		
-		@Override
-		public JsonObject toJson() {
-			JsonObject jsonObject = super.toJson();
-			target.ifPresent(lootContextPredicate -> jsonObject.add("target", lootContextPredicate.toJson()));
-			ranged.ifPresent(itemPredicate -> jsonObject.add("ranged", itemPredicate.toJson()));
-			projectile.ifPresent(entityPredicate -> jsonObject.add("projectile", entityPredicate.toJson()));
-			jsonObject.add("killed", killed.toJson());
-			return jsonObject;
 		}
 		
 		public boolean matches(ServerPlayerEntity player, LootContext killedEntityContext, Entity projectile, int count) {
@@ -143,7 +115,44 @@ public class RangedKilledEntityCriterion extends AbstractCriterion<RangedKilledE
 			boolean hasRanged = ranged.isPresent() && ranged.get().test(stack);
 			if (!hasRanged) return false;
 			if (this.projectile.isPresent() && !this.projectile.get().test(player, projectile)) return false;
-			return killed.test(this.count += count);
+			return killed.test(this.count[0] += count);
+		}
+		
+		public static final class Builder {
+			private final Optional<ItemPredicate> ranged;
+			private Optional<LootContextPredicate> target;
+			private Optional<EntityPredicate> projectile;
+			private NumberRange.IntRange killed;
+			
+			private Builder(Optional<ItemPredicate> ranged) {
+				this.ranged = ranged;
+				this.target = Optional.empty();
+				this.projectile = Optional.empty();
+				this.killed = NumberRange.IntRange.ANY;
+			}
+			
+			@SilkApi
+			public Builder target(EntityPredicate target) {
+				this.target = Optional.of(EntityPredicate.asLootContextPredicate(target));
+				return this;
+			}
+			
+			@SilkApi
+			public Builder projectile(Optional<EntityPredicate> projectile) {
+				this.projectile = projectile;
+				return this;
+			}
+			
+			@SilkApi
+			public Builder killed(NumberRange.IntRange killed) {
+				this.killed = killed;
+				return this;
+			}
+			
+			@SilkApi
+			public Conditions build() {
+				return new Conditions(Optional.empty(), target, ranged, projectile, killed);
+			}
 		}
 	}
 }

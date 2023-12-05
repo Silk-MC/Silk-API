@@ -11,19 +11,19 @@
 
 package pers.saikel0rado1iu.silk.api.registry.gen.data.criterion;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.criterion.AbstractCriterion;
-import net.minecraft.advancement.criterion.AbstractCriterionConditions;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.predicate.NumberRange;
-import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer;
 import net.minecraft.predicate.entity.EntityPredicate;
 import net.minecraft.predicate.entity.LootContextPredicate;
 import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.dynamic.Codecs;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
 import java.util.Optional;
@@ -36,14 +36,6 @@ import java.util.Optional;
  */
 @SilkApi
 public class ShotProjectileCriterion extends AbstractCriterion<ShotProjectileCriterion.Conditions> {
-	@Override
-	protected Conditions conditionsFromJson(JsonObject jsonObject, Optional<LootContextPredicate> lootContextPredicate, AdvancementEntityPredicateDeserializer advancementEntityPredicateDeserializer) {
-		Optional<ItemPredicate> ranged = ItemPredicate.fromJson(jsonObject.get("ranged"));
-		Optional<EntityPredicate> projectile = EntityPredicate.fromJson(jsonObject.get("projectile"));
-		NumberRange.IntRange count = NumberRange.IntRange.fromJson(jsonObject.get("count"));
-		return new Conditions(lootContextPredicate, ranged, projectile, count);
-	}
-	
 	@SilkApi
 	public void trigger(ServerPlayerEntity player, ItemStack ranged, Entity projectile) {
 		trigger(player, ranged, projectile, 1);
@@ -54,28 +46,38 @@ public class ShotProjectileCriterion extends AbstractCriterion<ShotProjectileCri
 		trigger(player, conditions -> conditions.matches(player, ranged, projectile, count));
 	}
 	
-	public static class Conditions extends AbstractCriterionConditions {
-		private final Optional<ItemPredicate> ranged;
-		private Optional<EntityPredicate> projectile;
-		private NumberRange.IntRange count;
-		private int counts = 0;
+	@Override
+	public Codec<Conditions> getConditionsCodec() {
+		return Conditions.CODEC;
+	}
+	
+	public record Conditions(Optional<LootContextPredicate> player, Optional<ItemPredicate> ranged, Optional<EntityPredicate> projectile,
+	                         NumberRange.IntRange count, int[] counts) implements AbstractCriterion.Conditions {
+		public static final Codec<Conditions> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+						Codecs.createStrictOptionalFieldCodec(EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC, "player").forGetter(Conditions::player),
+						Codecs.createStrictOptionalFieldCodec(ItemPredicate.CODEC, "ranged").forGetter(Conditions::ranged),
+						Codecs.createStrictOptionalFieldCodec(EntityPredicate.CODEC, "projectile").forGetter(Conditions::projectile),
+						Codecs.createStrictOptionalFieldCodec(NumberRange.IntRange.CODEC, "count", NumberRange.IntRange.ANY).forGetter(Conditions::count))
+				.apply(instance, Conditions::new));
 		
 		public Conditions(Optional<LootContextPredicate> player, Optional<ItemPredicate> ranged, Optional<EntityPredicate> projectile, NumberRange.IntRange count) {
-			super(player);
-			this.ranged = ranged;
-			this.projectile = projectile;
-			this.count = count;
+			this(player, ranged, projectile, count, new int[]{0});
 		}
 		
 		@SilkApi
-		public static Conditions ranged(Optional<ItemPredicate> ranged) {
-			return new Conditions(Optional.empty(), ranged, Optional.empty(), NumberRange.IntRange.ANY);
+		public static Builder ranged(Optional<ItemPredicate> ranged) {
+			return new Builder(ranged);
 		}
 		
 		@SilkApi
-		public static Conditions ranged(ItemConvertible ranged) {
+		public static Builder ranged(ItemConvertible ranged) {
 			Optional<ItemPredicate> itemPredicates = Optional.of(ItemPredicate.Builder.create().items(ranged.asItem()).build());
 			return ranged(itemPredicates);
+		}
+		
+		@Override
+		public Optional<LootContextPredicate> player() {
+			return player;
 		}
 		
 		@SilkApi
@@ -83,32 +85,40 @@ public class ShotProjectileCriterion extends AbstractCriterion<ShotProjectileCri
 			return SilkCriteria.SHOT_PROJECTILE_CRITERION.create(this);
 		}
 		
-		@SilkApi
-		public Conditions projectile(Optional<EntityPredicate> projectile) {
-			this.projectile = projectile;
-			return this;
-		}
-		
-		@SilkApi
-		public Conditions count(NumberRange.IntRange count) {
-			this.count = count;
-			return this;
-		}
-		
-		@Override
-		public JsonObject toJson() {
-			JsonObject jsonObject = super.toJson();
-			ranged.ifPresent(itemPredicate -> jsonObject.add("ranged", itemPredicate.toJson()));
-			projectile.ifPresent(entityPredicate -> jsonObject.add("projectile", entityPredicate.toJson()));
-			jsonObject.add("count", count.toJson());
-			return jsonObject;
-		}
-		
 		public boolean matches(ServerPlayerEntity player, ItemStack ranged, Entity projectile, int count) {
 			boolean hasRanged = this.ranged.isPresent() && this.ranged.get().test(ranged);
 			if (!hasRanged) return false;
 			if (this.projectile.isPresent() && !this.projectile.get().test(player, projectile)) return false;
-			return this.count.test(counts += count);
+			return this.count.test(counts[0] += count);
+		}
+		
+		public static final class Builder {
+			private final Optional<ItemPredicate> ranged;
+			private Optional<EntityPredicate> projectile;
+			private NumberRange.IntRange count;
+			
+			private Builder(Optional<ItemPredicate> ranged) {
+				this.ranged = ranged;
+				this.projectile = Optional.empty();
+				this.count = NumberRange.IntRange.ANY;
+			}
+			
+			@SilkApi
+			public Builder projectile(Optional<EntityPredicate> projectile) {
+				this.projectile = projectile;
+				return this;
+			}
+			
+			@SilkApi
+			public Builder count(NumberRange.IntRange count) {
+				this.count = count;
+				return this;
+			}
+			
+			@SilkApi
+			public Conditions build() {
+				return new Conditions(Optional.empty(), ranged, projectile, count);
+			}
 		}
 	}
 }
