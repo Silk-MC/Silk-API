@@ -13,33 +13,29 @@ package pers.saikel0rado1iu.silk.gen.data.recipe;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import net.minecraft.advancement.*;
+import net.minecraft.advancement.Advancement;
+import net.minecraft.advancement.AdvancementCriterion;
+import net.minecraft.advancement.AdvancementRequirements;
+import net.minecraft.advancement.AdvancementRewards;
 import net.minecraft.advancement.criterion.RecipeUnlockedCriterion;
+import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.RecipeExporter;
-import net.minecraft.data.server.recipe.RecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.visitor.StringNbtWriter;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.recipe.RawShapedRecipe;
 import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.api.registry.gen.data.recipe.SilkRecipeSerializers;
+import pers.saikel0rado1iu.silk.api.registry.gen.data.recipe.NbtShapedRecipe;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * <p><b style="color:FFC800"><font size="+1">NBT 有序配方 JSON 构建器</font></b></p>
@@ -124,36 +120,17 @@ public class NbtShapedRecipeJsonBuilder extends ShapedRecipeJsonBuilder {
 	
 	@Override
 	public void offerTo(RecipeExporter exporter, Identifier recipeId) {
-		validate(recipeId);
+		RawShapedRecipe rawShapedRecipe = validate(recipeId);
 		Advancement.Builder builder = exporter.getAdvancementBuilder().criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeId)).rewards(AdvancementRewards.Builder.recipe(recipeId)).criteriaMerger(AdvancementRequirements.CriterionMerger.OR);
 		criteria.forEach(builder::criterion);
-		exporter.accept(new NbtShapedRecipeJsonProvider(recipeId, output, group == null ? "" : group, getCraftingCategory(category), pattern, inputs, builder.build(recipeId.withPrefixedPath("recipes/" + category.getName() + "/")), showNotification));
+		exporter.accept(recipeId, new NbtShapedRecipe(group == null ? "" : group, CraftingRecipeJsonBuilder.toCraftingCategory(category), rawShapedRecipe, output, showNotification), builder.build(recipeId.withPrefixedPath("recipes/" + category.getName() + "/")));
 	}
 	
-	private void validate(Identifier recipeId) {
-		if (pattern.isEmpty()) {
-			throw new IllegalStateException("No pattern is defined for shaped recipe " + recipeId + "!");
-		} else {
-			Set<Character> set = Sets.newHashSet(inputs.keySet());
-			set.remove(' ');
-			
-			for (String string : pattern) {
-				for (int i = 0; i < string.length(); ++i) {
-					char c = string.charAt(i);
-					if (!this.inputs.containsKey(c) && c != ' ')
-						throw new IllegalStateException("Pattern in recipe " + recipeId + " uses undefined symbol '" + c + "'");
-					
-					set.remove(c);
-				}
-			}
-			
-			if (!set.isEmpty()) throw new IllegalStateException("Ingredients are defined but not used in pattern for recipe " + recipeId);
-			else if (pattern.size() == 1 && pattern.get(0).length() == 1)
-				throw new IllegalStateException("Shaped recipe " + recipeId + " only takes in a single item - should it be a shapeless recipe instead?");
-			else if (criteria.isEmpty()) throw new IllegalStateException("No way of obtaining recipe " + recipeId);
-		}
+	protected RawShapedRecipe validate(Identifier recipeId) {
+		if (this.criteria.isEmpty()) throw new IllegalStateException("No way of obtaining recipe " + recipeId);
+		else return RawShapedRecipe.create(this.inputs, this.pattern);
 	}
-	
+/*
 	public static class NbtShapedRecipeJsonProvider extends RecipeJsonBuilder.CraftingRecipeJsonProvider {
 		private final Identifier recipeId;
 		private final ItemStack output;
@@ -214,5 +191,5 @@ public class NbtShapedRecipeJsonBuilder extends ShapedRecipeJsonBuilder {
 		public AdvancementEntry advancement() {
 			return advancement;
 		}
-	}
+	}*/
 }
