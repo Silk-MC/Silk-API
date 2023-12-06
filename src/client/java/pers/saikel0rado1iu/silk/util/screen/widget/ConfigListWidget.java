@@ -36,11 +36,11 @@ public class ConfigListWidget extends OptionListWidget implements CustomBackgrou
 	protected Identifier background;
 	
 	public ConfigListWidget(MinecraftClient minecraftClient, int width, int height, int top, int bottom, int itemHeight) {
-		super(minecraftClient, width, height, top, bottom, itemHeight);
+		super(minecraftClient, width, height, bottom, itemHeight);
 	}
 	
 	@Override
-	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+	public void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
 		int scrollbarPositionX = getScrollbarPositionX();
 		int posX = scrollbarPositionX + 6;
 		RenderSystem.setShaderColor(0.25F, 0.25F, 0.25F, 1.0F);
@@ -51,7 +51,7 @@ public class ConfigListWidget extends OptionListWidget implements CustomBackgrou
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		
 		int rowLeft = getRowLeft();
-		int scrollAmount = top + 4 - (int) getScrollAmount();
+		int scrollAmount = getY() + 4 - (int) getScrollAmount();
 		enableScissor(context);
 		
 		renderHeader(context, rowLeft, scrollAmount);
@@ -59,16 +59,16 @@ public class ConfigListWidget extends OptionListWidget implements CustomBackgrou
 		renderList(context, mouseX, mouseY, delta);
 		context.disableScissor();
 		RenderSystem.setShaderTexture(0, LIGHT_DIRT_BACKGROUND_TEXTURE);
-		context.drawTexture(LIGHT_DIRT_BACKGROUND_TEXTURE, left, 0, 0.0F, 0.0F, width, top, 32, 32);
-		context.fillGradient(left, top, right, top + 4, -16777216, 0);
+		context.drawTexture(LIGHT_DIRT_BACKGROUND_TEXTURE, getX(), 0, 0.0F, 0.0F, width, getY(), 32, 32);
+		context.fillGradient(getX(), getY(), getRight(), getY() + 4, -16777216, 0);
 		
 		int maxScroll = getMaxScroll();
 		if (maxScroll > 0) {
-			int pos = (int) ((float) ((bottom - top) * (bottom - top)) / (float) getMaxPosition());
-			pos = MathHelper.clamp(pos, 32, bottom - top - 8);
-			int o = Math.max(top, (int) getScrollAmount() * (bottom - top - pos) / maxScroll + top);
+			int pos = (int) ((float) ((getBottom() - getY()) * (getBottom() - getY())) / (float) getMaxPosition());
+			pos = MathHelper.clamp(pos, 32, getBottom() - getY() - 8);
+			int o = Math.max(getY(), (int) getScrollAmount() * (getBottom() - getY() - pos) / maxScroll + getY());
 			
-			context.fill(scrollbarPositionX, top, posX, bottom, -16777216);
+			context.fill(scrollbarPositionX, getY(), posX, getBottom(), -16777216);
 			context.fill(scrollbarPositionX, o, posX, o + pos, -8355712);
 			context.fill(scrollbarPositionX, o, posX - 1, o + pos - 1, -4144960);
 		}
