@@ -1,6 +1,6 @@
 /*
  * This file is part of Silk API.
- * Copyright (C) 2023 Saikel Orado Liu
+ * CopygetRight() (C) 2023 Saikel Orado Liu
  *
  * Silk API is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
  *
@@ -73,7 +73,7 @@ public class TextListWidget extends EntryListWidget<TextListWidget.TextEntry> im
 	protected Identifier background;
 	
 	public TextListWidget(MinecraftClient client, int width, int height, int top, int bottom, int entryHeight, String text) {
-		super(client, width, height, top, bottom, entryHeight);
+		super(client, width, height, bottom, entryHeight);
 		this.text = text;
 		textRenderer = client.textRenderer;
 	}
@@ -90,15 +90,11 @@ public class TextListWidget extends EntryListWidget<TextListWidget.TextEntry> im
 	
 	@Override
 	protected int getScrollbarPositionX() {
-		return width - 6 + left;
+		return width - 6 + getX();
 	}
 	
 	@Override
-	public void appendNarrations(NarrationMessageBuilder builder) {
-	}
-	
-	@Override
-	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+	public void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
 		clearEntries();
 		if (!text.isEmpty()) {
 			int interval = 6;
@@ -113,15 +109,15 @@ public class TextListWidget extends EntryListWidget<TextListWidget.TextEntry> im
 		RenderSystem.setShaderTexture(0, getBackground() == null ? OPTIONS_BACKGROUND_TEXTURE : getBackground());
 		bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
 		if (getBackground() == OPTIONS_BACKGROUND_TEXTURE || getBackground() == LIGHT_DIRT_BACKGROUND_TEXTURE) {
-			bufferBuilder.vertex(left, bottom, 0).texture(left / 32F, (bottom + (int) getScrollAmount()) / 32F).color(32, 32, 32, 255).next();
-			bufferBuilder.vertex(right, bottom, 0).texture(right / 32F, (bottom + (int) getScrollAmount()) / 32F).color(32, 32, 32, 255).next();
-			bufferBuilder.vertex(right, top, 0).texture(right / 32F, (top + (int) getScrollAmount()) / 32F).color(32, 32, 32, 255).next();
-			bufferBuilder.vertex(left, top, 0).texture(left / 32F, (top + (int) getScrollAmount()) / 32F).color(32, 32, 32, 255).next();
+			bufferBuilder.vertex(getX(), getBottom(), 0).texture(getX() / 32F, (getBottom() + (int) getScrollAmount()) / 32F).color(32, 32, 32, 255).next();
+			bufferBuilder.vertex(getRight(), getBottom(), 0).texture(getRight() / 32F, (getBottom() + (int) getScrollAmount()) / 32F).color(32, 32, 32, 255).next();
+			bufferBuilder.vertex(getRight(), getY(), 0).texture(getRight() / 32F, (getY() + (int) getScrollAmount()) / 32F).color(32, 32, 32, 255).next();
+			bufferBuilder.vertex(getX(), getY(), 0).texture(getX() / 32F, (getY() + (int) getScrollAmount()) / 32F).color(32, 32, 32, 255).next();
 		} else if (getBackground() != null) {
-			bufferBuilder.vertex(left, bottom, 0).texture(left, (bottom + (int) getScrollAmount())).color(32, 32, 32, 255).next();
-			bufferBuilder.vertex(right, bottom, 0).texture(right, (bottom + (int) getScrollAmount())).color(32, 32, 32, 255).next();
-			bufferBuilder.vertex(right, top, 0).texture(right, (top + (int) getScrollAmount())).color(32, 32, 32, 255).next();
-			bufferBuilder.vertex(left, top, 0).texture(left, (top + (int) getScrollAmount())).color(32, 32, 32, 255).next();
+			bufferBuilder.vertex(getX(), getBottom(), 0).texture(getX(), (getBottom() + (int) getScrollAmount())).color(32, 32, 32, 255).next();
+			bufferBuilder.vertex(getRight(), getBottom(), 0).texture(getRight(), (getBottom() + (int) getScrollAmount())).color(32, 32, 32, 255).next();
+			bufferBuilder.vertex(getRight(), getY(), 0).texture(getRight(), (getY() + (int) getScrollAmount())).color(32, 32, 32, 255).next();
+			bufferBuilder.vertex(getX(), getY(), 0).texture(getX(), (getY() + (int) getScrollAmount())).color(32, 32, 32, 255).next();
 		}
 		tessellator.draw();
 		
@@ -132,14 +128,14 @@ public class TextListWidget extends EntryListWidget<TextListWidget.TextEntry> im
 		RenderSystem.setShader(GameRenderer::getPositionColorProgram);
 		
 		bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-		bufferBuilder.vertex(left, (top + 4), 0).color(0, 0, 0, 0).next();
-		bufferBuilder.vertex(right, (top + 4), 0).color(0, 0, 0, 0).next();
-		bufferBuilder.vertex(right, top, 0).color(0, 0, 0, 255).next();
-		bufferBuilder.vertex(left, top, 0).color(0, 0, 0, 255).next();
-		bufferBuilder.vertex(left, bottom, 0).color(0, 0, 0, 255).next();
-		bufferBuilder.vertex(right, bottom, 0).color(0, 0, 0, 255).next();
-		bufferBuilder.vertex(right, (bottom - 4), 0).color(0, 0, 0, 0).next();
-		bufferBuilder.vertex(left, (bottom - 4), 0).color(0, 0, 0, 0).next();
+		bufferBuilder.vertex(getX(), (getY() + 4), 0).color(0, 0, 0, 0).next();
+		bufferBuilder.vertex(getRight(), (getY() + 4), 0).color(0, 0, 0, 0).next();
+		bufferBuilder.vertex(getRight(), getY(), 0).color(0, 0, 0, 255).next();
+		bufferBuilder.vertex(getX(), getY(), 0).color(0, 0, 0, 255).next();
+		bufferBuilder.vertex(getX(), getBottom(), 0).color(0, 0, 0, 255).next();
+		bufferBuilder.vertex(getRight(), getBottom(), 0).color(0, 0, 0, 255).next();
+		bufferBuilder.vertex(getRight(), (getBottom() - 4), 0).color(0, 0, 0, 0).next();
+		bufferBuilder.vertex(getX(), (getBottom() - 4), 0).color(0, 0, 0, 0).next();
 		tessellator.draw();
 		
 		renderList(context, mouseX, mouseY, delta);
@@ -148,21 +144,25 @@ public class TextListWidget extends EntryListWidget<TextListWidget.TextEntry> im
 		RenderSystem.disableBlend();
 	}
 	
+	@Override
+	protected void appendClickableNarrations(NarrationMessageBuilder builder) {
+	}
+	
 	public void renderScrollBar(BufferBuilder bufferBuilder, Tessellator tessellator) {
 		int scrollbarStartX = getScrollbarPositionX();
 		int scrollbarEndX = scrollbarStartX + 6;
 		int maxScroll = getMaxScroll();
 		if (maxScroll > 0) {
-			int value = (int) ((float) ((bottom - top) * (bottom - top)) / (float) getMaxPosition());
-			value = MathHelper.clamp(value, 32, bottom - top - 8);
-			int y = Math.max(top, (int) getScrollAmount() * (bottom - top - value) / maxScroll + top);
+			int value = (int) ((float) ((getBottom() - getY()) * (getBottom() - getY())) / (float) getMaxPosition());
+			value = MathHelper.clamp(value, 32, getBottom() - getY() - 8);
+			int y = Math.max(getY(), (int) getScrollAmount() * (getBottom() - getY() - value) / maxScroll + getY());
 			
 			RenderSystem.setShader(GameRenderer::getPositionColorProgram);
 			bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-			bufferBuilder.vertex(scrollbarStartX, bottom, 0).color(0, 0, 0, 255).next();
-			bufferBuilder.vertex(scrollbarEndX, bottom, 0).color(0, 0, 0, 255).next();
-			bufferBuilder.vertex(scrollbarEndX, top, 0).color(0, 0, 0, 255).next();
-			bufferBuilder.vertex(scrollbarStartX, top, 0).color(0, 0, 0, 255).next();
+			bufferBuilder.vertex(scrollbarStartX, getBottom(), 0).color(0, 0, 0, 255).next();
+			bufferBuilder.vertex(scrollbarEndX, getBottom(), 0).color(0, 0, 0, 255).next();
+			bufferBuilder.vertex(scrollbarEndX, getY(), 0).color(0, 0, 0, 255).next();
+			bufferBuilder.vertex(scrollbarStartX, getY(), 0).color(0, 0, 0, 255).next();
 			bufferBuilder.vertex(scrollbarStartX, y + value, 0).color(128, 128, 128, 255).next();
 			bufferBuilder.vertex(scrollbarEndX, y + value, 0).color(128, 128, 128, 255).next();
 			bufferBuilder.vertex(scrollbarEndX, y, 0).color(128, 128, 128, 255).next();
@@ -207,7 +207,7 @@ public class TextListWidget extends EntryListWidget<TextListWidget.TextEntry> im
 		
 		@Override
 		public void render(DrawContext context, int index, int y, int x, int itemWidth, int itemHeight, int mouseX, int mouseY, boolean isSelected, float delta) {
-			if (widget.top > y || widget.bottom - textRenderer.fontHeight < y) return;
+			if (widget.getY() > y || widget.getBottom() - textRenderer.fontHeight < y) return;
 			context.drawTextWithShadow(textRenderer, text, updateTextEntry ? x + indent + 11 : x + indent, y, 0xFFFFFF);
 		}
 		
