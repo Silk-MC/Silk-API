@@ -14,6 +14,7 @@ package pers.saikel0rado1iu.silk.mixin.gen.data;
 import net.minecraft.data.server.recipe.*;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.collection.DefaultedList;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -21,7 +22,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import pers.saikel0rado1iu.silk.util.Minecraft;
 
-import java.util.List;
 import java.util.Map;
 
 import static pers.saikel0rado1iu.silk.gen.data.SilkRecipeJsonBuilder.getInput;
@@ -63,7 +63,7 @@ interface SilkRecipeJsonBuilderMixin {
 	abstract class ShapelessRecipeJsonBuilderMixin implements CraftingRecipeJsonBuilder {
 		@Shadow
 		@Final
-		private List<Ingredient> inputs;
+		private DefaultedList<Ingredient> inputs;
 		
 		@ModifyVariable(method = "offerTo", at = @At("HEAD"), ordinal = 0, argsOnly = true)
 		private Identifier offerTo(Identifier identifier) {
