@@ -118,8 +118,7 @@ public class ConfigScreen extends BaseScreen implements LinkTrusted {
 		// 添加完成按钮
 		addDrawableChild(doneButton(this).dimensions(width / 2 - 100, height - 26, 200, 20).build());
 		// 添加黑色透明窗口
-		optionListWidget = new OptionListWidget(client, width, height, height - 32, 25);
-		// optionListWidget.setX(32);
+		optionListWidget = new OptionListWidget(client, width, height - 32 - 32, 32, 25);
 		if (configData.type == ConfigData.Type.DEV) return;
 		simpleOptionList = addSimpleOption();
 		addSelectableChild(optionListWidget);

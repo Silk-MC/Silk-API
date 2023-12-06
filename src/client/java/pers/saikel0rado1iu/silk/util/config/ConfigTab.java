@@ -61,7 +61,7 @@ public class ConfigTab extends ScreenTab {
 	@Override
 	public void init(MinecraftClient client, TextRenderer textRenderer, int width, int height) {
 		// 添加黑色透明窗口
-		configListWidget = new ConfigListWidget(client, width, height, 32, height - 40, 25);
+		configListWidget = new ConfigListWidget(client, width, 32, height - 40, 25);
 		if (configData.type == ConfigData.Type.DEV) return;
 		simpleOptionList = addSimpleOption();
 		addWidget(configListWidget);

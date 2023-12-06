@@ -51,7 +51,7 @@ public class ShowChangelogScreen extends UpdateScreen {
 		int halfButtonWidth = fullButtonWidth / 2 - 1;
 		int halfButtonX = fullButtonX + halfButtonWidth + 2;
 		addSelectableChild(changelogWidget = new TextListWidget(client,
-				screenWidth - INTERVAL, screenHeight - INTERVAL,
+				screenWidth - INTERVAL,
 				(height - screenHeight) / 2 + BUTTON_HEIGHT + ICON_SIZE + buttonSpacing * 2 - BUTTON_HEIGHT,
 				buttonY - buttonSpacing - INTERVAL / 2,
 				textRenderer.fontHeight, ScreenUtil.readChangelog()));

@@ -35,8 +35,8 @@ import static pers.saikel0rado1iu.silk.util.screen.mod.ScreenTab.TAP_BOTTOM;
 public class ConfigListWidget extends OptionListWidget implements CustomBackground {
 	protected Identifier background;
 	
-	public ConfigListWidget(MinecraftClient minecraftClient, int width, int height, int top, int bottom, int itemHeight) {
-		super(minecraftClient, width, height, bottom, itemHeight);
+	public ConfigListWidget(MinecraftClient minecraftClient, int width, int top, int bottom, int itemHeight) {
+		super(minecraftClient, width, bottom - top, top, itemHeight);
 	}
 	
 	@Override

@@ -72,8 +72,8 @@ public class TextListWidget extends EntryListWidget<TextListWidget.TextEntry> im
 	protected final TextRenderer textRenderer;
 	protected Identifier background;
 	
-	public TextListWidget(MinecraftClient client, int width, int height, int top, int bottom, int entryHeight, String text) {
-		super(client, width, height, bottom, entryHeight);
+	public TextListWidget(MinecraftClient client, int width, int top, int bottom, int entryHeight, String text) {
+		super(client, width, bottom - top, top, entryHeight);
 		this.text = text;
 		textRenderer = client.textRenderer;
 	}
