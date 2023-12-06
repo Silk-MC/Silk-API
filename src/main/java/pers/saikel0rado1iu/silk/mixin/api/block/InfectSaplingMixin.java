@@ -32,7 +32,7 @@ import pers.saikel0rado1iu.silk.api.block.InfectSapling;
 @Mixin(SaplingBlock.class)
 abstract class InfectSaplingMixin {
 	@Inject(method = "generate", at = @At(value = "INVOKE",
-			target = "L net/minecraft/block/sapling/SaplingGenerator;generate(L net/minecraft/server/world/ServerWorld;L net/minecraft/world/gen/chunk/ChunkGenerator;L net/minecraft/util/math/BlockPos;L net/minecraft/block/BlockState;L net/minecraft/util/math/random/Random;)Z"),
+			target = "L net/minecraft/block/SaplingGenerator;generate(L net/minecraft/server/world/ServerWorld;L net/minecraft/world/gen/chunk/ChunkGenerator;L net/minecraft/util/math/BlockPos;L net/minecraft/block/BlockState;L net/minecraft/util/math/random/Random;)Z"),
 			cancellable = true)
 	private void generate(ServerWorld world, BlockPos pos, BlockState state, Random random, CallbackInfo ci) {
 		if (world.getBlockState(pos.down()).getBlock() instanceof InfectSapling infectSapling) {
