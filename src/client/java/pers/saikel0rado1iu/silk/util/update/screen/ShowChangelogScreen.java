@@ -55,7 +55,7 @@ public class ShowChangelogScreen extends UpdateScreen {
 				(height - screenHeight) / 2 + BUTTON_HEIGHT + ICON_SIZE + buttonSpacing * 2 - BUTTON_HEIGHT,
 				buttonY - buttonSpacing - INTERVAL / 2,
 				textRenderer.fontHeight, ScreenUtil.readChangelog()));
-		changelogWidget.setLeftPos(fullButtonX);
+		changelogWidget.setX(fullButtonX);
 		// 添加按钮
 		addDrawableChild(ScreenUtil.linkButton(this, updateShow.getMod(), ModBasicData.LinkType.SUPPORT, canTrust)
 				.dimensions(fullButtonX, (height - screenHeight) / 2 + BUTTON_HEIGHT + ICON_SIZE + buttonSpacing - BUTTON_HEIGHT, halfButtonWidth, BUTTON_HEIGHT).build());
