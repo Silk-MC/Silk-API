@@ -133,7 +133,7 @@ public final class ModUpdateThread extends Thread {
 	private void manualDownload(URL downloadLink) {
 		// 使用默认浏览器打开模组官网
 		//noinspection ResultOfMethodCallIgnored
-		ConfirmLinkScreen.opening(downloadLink.toString(), null, true);
+		ConfirmLinkScreen.opening(null, downloadLink.toString());
 	}
 	
 	private void autoDownload(URL downloadLink) {
