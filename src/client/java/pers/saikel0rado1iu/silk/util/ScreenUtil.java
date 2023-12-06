@@ -17,6 +17,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
+import net.minecraft.util.Util;
 import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
@@ -69,7 +70,10 @@ public interface ScreenUtil {
 	
 	@SilkApi
 	static ButtonWidget.Builder linkButton(Screen parent, Text text, String url, boolean canTrust) {
-		return ButtonWidget.builder(text, ConfirmLinkScreen.opening(url, parent, canTrust));
+		return ButtonWidget.builder(text, button -> MinecraftClient.getInstance().setScreen(new ConfirmLinkScreen(confirmed -> {
+			if (confirmed) Util.getOperatingSystem().open(url);
+			MinecraftClient.getInstance().setScreen(parent);
+		}, url, true)));
 	}
 	
 	@SilkApi
