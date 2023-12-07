@@ -48,9 +48,10 @@ interface CustomEnchantmentMixin {
 		@SuppressWarnings("EqualsBetweenInconvertibleTypes")
 		@Inject(method = "isAcceptableItem", at = @At("RETURN"), cancellable = true)
 		private void acceptEnchantment(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-			if (stack.getItem() instanceof CustomEnchantment item && item.getEnchantments().stream()
-					.anyMatch(enchantment -> enchantment.equals(this))) cir.setReturnValue(true);
-			else cir.setReturnValue(false);
+			if (stack.getItem() instanceof CustomEnchantment item) {
+				if (item.getEnchantments().stream().anyMatch(enchantment -> enchantment.equals(this))) cir.setReturnValue(true);
+				else cir.setReturnValue(false);
+			}
 		}
 	}
 	
