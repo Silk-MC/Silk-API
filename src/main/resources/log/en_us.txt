@@ -1,2 +1,10 @@
+v0.1.1	2023/12/07
+## 0.1.1 Bug Fixes
+- Logic
+	- Fixed an issue where vanilla Minecraft items could only be enchanted with 'Unbreaking'
+- Client
+	- Fixed an issue where mod log reading was overwritten by api logs
+
+
 v1.20.2-0.1.0	2023/12/01
 	1. 'Silk API' is officially released!
