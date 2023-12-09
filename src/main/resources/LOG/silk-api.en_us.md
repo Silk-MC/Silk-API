@@ -1,4 +1,10 @@
-v0.1.1	2023/12/07
+v0.1.2	2023/12/09
+## 0.1.2 Bug Fixes
+- Client
+	- Once again, fixed the problem of mod log reading being overwritten by API logs, and modified the log path and log template.
+
+
+v0.1.1	2023/12/08
 ## 0.1.1 Bug Fixes
 - Logic
 	- Fixed an issue where vanilla Minecraft items could only be enchanted with 'Unbreaking'
