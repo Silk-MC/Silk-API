@@ -103,13 +103,15 @@ public interface ScreenUtil {
 	}
 	
 	/**
-	 * 读取的更新日志位置于资源包根目录下的 log 文件夹内
+	 * <p>读取的更新日志</p>
+	 * <p>读取的更新日志位置于资源包根目录下的 LOG 文件夹内，</p>
+	 * <p>不同语言的日志文件是 [模组 ID].(语言代码).md。</p>
 	 */
 	@SilkApi
 	static String readChangelog(ModBasicData mod) {
 		try {
-			URL path = mod.getClass().getResource("/log/" + LocalizationUtil.getLanguage() + ".txt");
-			if (path == null) path = ScreenUtil.class.getResource("/log/en_us.txt");
+			URL path = mod.getClass().getResource("/LOG/" + mod.getId() + '.' + LocalizationUtil.getLanguage() + ".md");
+			if (path == null) path = ScreenUtil.class.getResource("/LOG/" + mod.getId() + ".en_us.md");
 			if (path == null) return "Changelog does not exist!" + Silk.DATA.getInfo();
 			Path logPath = Path.of(path.toURI());
 			StringBuilder log = new StringBuilder().append(Files.readString(logPath, StandardCharsets.UTF_8));
