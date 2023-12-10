@@ -11,14 +11,17 @@
 [![CurseForge Downloads](https://img.shields.io/curseforge/dt/902155?style=flat-square&logo=curseforge&color=E06D44)](https://www.curseforge.com/minecraft/mc-mods/silk-api)
 [![API Version](https://img.shields.io/modrinth/v/3je4UK0t?style=flat-square&logo=github&color=FFFFFF)](https://github.com/Silk-MC/Silk-API)
 
+**Fabric API extensions for making fancy functionality**  
+**用于制作具有牛逼哄哄功能的 Fabric API 扩展**
+
 <a href="https://github.com/Silk-MC/Silk-API/wiki">
-<img src="https://cdn.simpleicons.org/wikipedia/" alt="Simple Icons" width=64>
+<img src="https://cdn.simpleicons.org/wikipedia/FFFFFF" alt="Simple Icons" width=64>
 </a>
 <a href="https://discord.com/invite/ZJuQyH2RBz">
 <img src="https://cdn.simpleicons.org/discord" alt="Simple Icons" width=64>
 </a>
 <a href="https://www.patreon.com/GameGeek_Saikel">
-<img src="https://cdn.simpleicons.org/patreon" alt="Simple Icons" width=64>
+<img src="https://cdn.simpleicons.org/patreon/FFFFFF" alt="Simple Icons" width=64>
 </a>
 
 </div>
