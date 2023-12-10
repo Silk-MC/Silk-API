@@ -1,4 +1,11 @@
+<!--suppress HtmlDeprecatedAttribute, CheckImageSize -->
+<div align="center">
+
 # Silk API | 丝绸开发库
+
+<img src="img/icon.png" alt="Logo" width="150" height="150" />
+
+</div>
 
 Advanced Fabric API extensions for adding fancy mod items, blocks, mobs and features. The goal is to make it easy for fabric mod developers to produce a variety
 of advanced operations  
