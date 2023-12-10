@@ -11,8 +11,23 @@
 [![CurseForge Downloads](https://img.shields.io/curseforge/dt/902155?style=flat-square&logo=curseforge&color=E06D44)](https://www.curseforge.com/minecraft/mc-mods/silk-api)
 [![API Version](https://img.shields.io/modrinth/v/3je4UK0t?style=flat-square&logo=github&color=FFFFFF)](https://github.com/Silk-MC/Silk-API)
 
+<a href="https://github.com/Silk-MC/Silk-API/wiki">
+<img src="https://cdn.simpleicons.org/wikipedia/" alt="Simple Icons" width=64>
+</a>
+<a href="https://discord.com/invite/ZJuQyH2RBz">
+<img src="https://cdn.simpleicons.org/discord" alt="Simple Icons" width=64>
+</a>
+<a href="https://www.patreon.com/GameGeek_Saikel">
+<img src="https://cdn.simpleicons.org/patreon" alt="Simple Icons" width=64>
+</a>
+
 </div>
 
+---
+
+### What is Silk API? | 什么是丝绸开发库？
+
 Advanced Fabric API extensions for adding fancy mod items, blocks, mobs and features. The goal is to make it easy for fabric mod developers to produce a variety
-of advanced operations  
+of advanced operations
+
 用于添加牛逼哄哄的模组物品、方块、实体与特性的高级 Fabric API 扩展。其目的在于方便 fabric 模组开发者进行各种高级操作
