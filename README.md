@@ -28,7 +28,7 @@
 
 ---
 
-## What is Silk API? | 什么是「丝绸开发库」？
+## What is Silk API | 什么是「丝绸开发库」
 
 **Advanced Fabric API extensions for adding fancy mod items, blocks, mobs and features. The goal is to make it easy for fabric mod developers to produce a
 variety of advanced operations**
@@ -37,11 +37,22 @@ variety of advanced operations**
 
 - Silk API is an Fabric API-based extension core library that contains classes, methods, and interfaces that implement advanced Mod tools, blocks, entities,
   or features.
-- 「丝绸开发库」是一个基于 Fabric API 的扩展核心库，其中包含了实现高级模组物品、方块、实体或功能的类、方法和接口。
+  <br>
+  「丝绸开发库」是一个基于 Fabric API 的扩展核心库，其中包含了实现高级模组物品、方块、实体或功能的类、方法和接口。
 - Silk API is fast and easy to develop, and you can add unparalleled new items to your Mod by simply implementing a few interfaces.
-- 「丝绸开发库」开发快速且简单，您只需实现几个接口就可以将无与伦比的新物品添加到您的模组中。
+  <br>
+  「丝绸开发库」开发快速且简单，您只需实现几个接口就可以将无与伦比的新物品添加到您的模组中。
 - The goal of Silk API is to become an advanced Mod development template, which can greatly facilitate the call, extension and linkage between different
   Mod. Bring a different ecological experience to the Fabric Mod environment.
-- 「丝绸开发库」的目标是成为一个先进的模组开发模板，可以极大地方便不同模组之间的调用、扩展和联动。为 Fabric Mod 环境带来不一样的生态体验。
+  <br>
+  「丝绸开发库」的目标是成为一个先进的模组开发模板，可以极大地方便不同模组之间的调用、扩展和联动。为 Fabric Mod 环境带来不一样的生态体验。
 - Silk API is available to everyone, even if you only want to use some of it!
-- 「丝绸开发库」可供所有人使用，即使您只想使用其中一部分！
+  <br>
+  「丝绸开发库」可供所有人使用，即使您只想使用其中一部分！
+
+---
+
+## How to use Silk API | 如何使用「丝绸开发库」
+
+- Go to this Wiki to learn how to use Silk API for Mod development: https://github.com/Silk-MC/Silk-API/wiki/en_us:home
+- 前往此百科了解如何使用「丝绸开发库」进行模组开发: https://github.com/Silk-MC/Silk-API/wiki/zh_cn:home
