@@ -54,5 +54,5 @@ variety of advanced operations**
 
 ## How to use Silk API | 如何使用「丝绸开发库」
 
-- Go to this Wiki to learn how to use Silk API for Mod development: https://github.com/Silk-MC/Silk-API/wiki/en_us:home
-- 前往此百科了解如何使用「丝绸开发库」进行模组开发: https://github.com/Silk-MC/Silk-API/wiki/zh_cn:home
+- Go to this Wiki to learn how to use Silk API for Mod development: [Silk API Development Guide](https://github.com/Silk-MC/Silk-API/wiki/en_us:home)
+- 前往此百科了解如何使用「丝绸开发库」进行模组开发: [「丝绸开发库」开发指南](https://github.com/Silk-MC/Silk-API/wiki/zh_cn:home)
