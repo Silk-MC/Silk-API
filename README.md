@@ -14,15 +14,9 @@
 **Fabric API extensions for making fancy functionality**  
 **用于制作具有牛逼哄哄功能的 Fabric API 扩展**
 
-<a href="https://github.com/Silk-MC/Silk-API/wiki">
-<img src="https://cdn.simpleicons.org/wikipedia/FFFFFF" alt="Simple Icons" width=64>
-</a>
-<a href="https://discord.com/invite/ZJuQyH2RBz">
-<img src="https://cdn.simpleicons.org/discord" alt="Simple Icons" width=64>
-</a>
-<a href="https://www.patreon.com/GameGeek_Saikel">
-<img src="https://cdn.simpleicons.org/patreon/FFFFFF" alt="Simple Icons" width=64>
-</a>
+[<img alt="Wiki" height="64" src="https://cdn.simpleicons.org/wikipedia/FFFFFF]" width="64"/>](https://github.com/Silk-MC/Silk-API/wiki)
+[<img alt="Discord" height="64" src="https://cdn.simpleicons.org/discord" width="64"/>](https://discord.com/invite/ZJuQyH2RBz)
+[<img alt="Patreon" height="64" src="https://cdn.simpleicons.org/patreon/FFFFFF" width="64"/>](https://www.patreon.com/GameGeek_Saikel)
 
 </div>
 
