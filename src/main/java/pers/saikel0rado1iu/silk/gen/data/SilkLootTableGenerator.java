@@ -29,10 +29,9 @@ import pers.saikel0rado1iu.silk.api.ModBasicData;
 import java.util.function.BiConsumer;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用于提供模组中常用但未提供更方便方法的战利品表方法</font></b></p>
- * <style="color:FFC800">
+ * <h2 style="color:FFC800">用于提供模组中常用但未提供更方便方法的战利品表方法</h2>
  *
- * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  */
 @SilkApi
 public interface SilkLootTableGenerator {

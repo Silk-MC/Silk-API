@@ -41,10 +41,9 @@ import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用于提供一些不常用的本地化翻译方法，并且将 {@link FabricLanguageProvider} 中的 {@link TreeMap} 替换为 {@link LinkedTreeMap}</font></b></p>
- * <style="color:FFC800">
+ * <h2 style="color:FFC800">用于提供一些不常用的本地化翻译方法，并且将 {@link FabricLanguageProvider} 中的 {@link TreeMap} 替换为 {@link LinkedTreeMap}</h2>
  *
- * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0
  */
 @SilkApi

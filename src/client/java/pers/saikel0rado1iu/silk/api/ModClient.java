@@ -20,10 +20,9 @@ import pers.saikel0rado1iu.silk.api.pack.ResourcesPack;
 import pers.saikel0rado1iu.silk.api.registry.*;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用作模组客户端主类，继承自 {@link ClientModInitializer}。所有模组注册或操作由此开始</font></b></p>
- * <style="color:FFC800">
+ * <h2 style="color:FFC800">用作模组客户端主类，继承自 {@link ClientModInitializer}。所有模组注册或操作由此开始</h2>
  *
- * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0
  */
 @SilkApi

@@ -38,7 +38,6 @@ import static net.minecraft.entity.effect.StatusEffectInstance.INFINITE;
 
 /**
  * <se><b style="color:FFC800"><font size="+1">设置自带状态效果的物品</font></b></se>
- * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><se>
  * @since 0.1.0

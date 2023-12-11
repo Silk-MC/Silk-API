@@ -22,10 +22,9 @@ import pers.saikel0rado1iu.silk.util.TextUtil;
 import pers.saikel0rado1iu.silk.util.update.UpdateShow;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用于创建一个统一原版风格的模组主页并提供简单更新按钮</font></b></p>
- * <style="color:FFC800">
+ * <h2 style="color:FFC800">用于创建一个统一原版风格的模组主页并提供简单更新按钮</h2>
  *
- * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0
  */
 @SilkApi

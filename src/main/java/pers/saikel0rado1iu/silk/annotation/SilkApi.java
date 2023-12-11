@@ -16,10 +16,9 @@ import org.jetbrains.annotations.ApiStatus;
 import java.lang.annotation.*;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">使用了此注解的所有元素都被识别为 Silk API 的一部分，以取消 'unused' 警告</font></b></p>
- * <style="color:FFC800">
+ * <h2 style="color:FFC800">使用了此注解的所有元素都被识别为 Silk API 的一部分，以取消 'unused' 警告</h2>
  *
- * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0
  */
 @SilkApi

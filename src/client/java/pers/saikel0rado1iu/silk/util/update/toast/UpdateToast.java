@@ -30,10 +30,9 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">基础更新提示类，所有更新提示书签都在此基础上扩展</font></b></p>
- * <style="color:FFC800">
+ * <h2 style="color:FFC800">基础更新提示类，所有更新提示书签都在此基础上扩展</h2>
  *
- * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0
  */
 @SilkApi
