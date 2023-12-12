@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write
+      packages: read|write|none
 
     steps:
       - uses: actions/checkout@v3
