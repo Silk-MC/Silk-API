@@ -123,7 +123,7 @@ publishing {
 		// 这里的存储库将用于发布您的工件, 而不是用于检索依赖项.
 		maven {
 			name = "GitHubPackages"
-			url = "https://maven.pkg.github.com/Saikel-Orado-Liu/Silk-Api"
+			url = "https://maven.pkg.github.com/Silk-MC/Silk-API"
 			credentials {
 				username = System.getenv("GITHUB_ACTOR")
 				password = System.getenv("GITHUB_TOKEN")
