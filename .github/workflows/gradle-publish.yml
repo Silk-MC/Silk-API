@@ -37,4 +37,4 @@ jobs:
           arguments: publish
         env:
           USERNAME: ${{ github.actor }}
-          TOKEN: ${{ secrets.SILK_API_MAVEN_PACKAGES }}
+          TOKEN: ${{ secrets.TOKEN }}
