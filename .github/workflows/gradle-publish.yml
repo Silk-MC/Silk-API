@@ -26,15 +26,15 @@ jobs:
           settings-path: ${{ github.workspace }} # settings.xml 文件的位置
 
       - name: Build with Gradle
-        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+        uses: gradle/wrapper-validation-action@ccb4328a959376b642e027874838f60f8e596de3 # v2.6.0
         with:
           arguments: build
 
       # USERNAME 和 TOKEN 需要与 build.gradle 的 publishing 部分中使用的凭据环境变量相对应
       - name: Publish to GitHub Packages
-        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+        uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629 # v2.6.0
         with:
           arguments: publish
         env:
-          # USERNAME: ${{ github.actor }}
+          USERNAME: ${{ github.actor }}
           TOKEN: ${{ secrets.TOKEN }}
