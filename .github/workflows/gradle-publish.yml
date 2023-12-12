@@ -37,4 +37,4 @@ jobs:
           arguments: publish
         env:
           USERNAME: ${{ github.actor }}
-          TOKEN: ${{ secrets.TOKEN }}
+          TOKEN: ${{ secrets.JAVA_TOKEN }}
