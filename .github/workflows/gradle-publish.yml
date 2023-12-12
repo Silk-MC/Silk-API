@@ -30,7 +30,7 @@ jobs:
         with:
           arguments: build
 
-      # USERNAME 和 TOKEN 需要与 build.gradle 的 publishing 部分中使用的凭据环境变量相对应
+      # USERNAME 和 TOKEN 需要与 build.gradle 的 publishing 部分中使用的凭据环境变量相对应?
       - name: Publish to GitHub Packages
         uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
         with:
