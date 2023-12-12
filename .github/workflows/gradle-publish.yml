@@ -36,5 +36,5 @@ jobs:
         with:
           arguments: publish
         env:
-          USERNAME: "Silk-MC"
+          USERNAME: ${{ github.actor }}
           TOKEN: ${{ secrets.TOKEN }}
