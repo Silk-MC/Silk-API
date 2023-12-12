@@ -122,6 +122,8 @@ publishing {
 		// 注意: 这个语句块与顶层的块功能不同.
 		// 这里的存储库将用于发布您的工件, 而不是用于检索依赖项.
 		maven {
+			allowInsecureProtocol = true
+			
 			name = "GitHubPackages"
 			url = "https://maven.pkg.github.com/Silk-MC/Silk-API"
 			credentials {
