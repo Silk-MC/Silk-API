@@ -1,0 +1,42 @@
+# 此工作流程使用未经 GitHub 认证的操作。
+# 它们由第三方提供，并受单独的服务条款、隐私政策和支持文档的约束。
+# 此工作流程将使用 Gradle 构建包，然后在创建版本时将其发布到 GitHub Packages 有关更多信息
+# 请参阅: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#Publishing-using-gradle
+
+name: Gradle Package
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          server-id: github # pom.xml 中 distributionManagement/repository/id 字段的值
+          settings-path: ${{ github.workspace }} # settings.xml 文件的位置
+
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+        with:
+          arguments: build
+
+      # USERNAME 和 TOKEN 需要与 build.gradle 的 publishing 部分中使用的凭据环境变量相对应.
+      - name: Publish to GitHub Packages
+        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+        with:
+          arguments: publish
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
