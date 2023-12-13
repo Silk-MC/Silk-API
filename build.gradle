@@ -110,11 +110,11 @@ jar {
 
 // 配置 Maven 发布
 publishing {
-	publications {
+/*	publications {
 		mavenJava(MavenPublication) {
 			from components.java
 		}
-	}
+	}*/
 	
 	// 有关如何设置发布的信息, 请参阅 https://docs.gradle.org/current/userguide/publishing_maven.html
 	repositories {
