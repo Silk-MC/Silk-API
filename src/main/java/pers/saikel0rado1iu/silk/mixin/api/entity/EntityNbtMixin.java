@@ -23,10 +23,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">设置实体的 NBT 可直接通过 {@link Entity#writeNbt(NbtCompound)} 添加</font></b></p>
- * <style="color:FFC800">
+ * <h2 style="color:FFC800">设置实体的 NBT 可直接通过 {@link Entity#writeNbt(NbtCompound)} 添加</h2>
  *
- * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0
  */
 @Mixin(Entity.class)

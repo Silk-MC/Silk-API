@@ -30,10 +30,9 @@ import net.minecraft.world.World;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">可种植块，树苗可放置在可种植快上</font></b></p>
- * <style="color:FFC800">
+ * <h2 style="color:FFC800">可种植块，树苗可放置在可种植快上</h2>
  *
- * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0
  */
 @SilkApi

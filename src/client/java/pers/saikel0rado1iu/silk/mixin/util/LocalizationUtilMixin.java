@@ -20,10 +20,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import pers.saikel0rado1iu.silk.util.LocalizationUtil;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用于本地化实用工具的混入操作</font></b></p>
- * <style="color:FFC800">
+ * <h2 style="color:FFC800">用于本地化实用工具的混入操作</h2>
  *
- * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0
  */
 @Mixin(LanguageManager.class)

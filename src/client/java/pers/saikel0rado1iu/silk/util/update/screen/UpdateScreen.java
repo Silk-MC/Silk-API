@@ -41,10 +41,9 @@ import static pers.saikel0rado1iu.silk.util.update.UpdateData.Mode.MANUAL_DOWNLO
 import static pers.saikel0rado1iu.silk.util.update.UpdateData.UPDATE_MODE;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">基础更新屏幕类，所有更新提示都在此基础上拓展</font></b></p>
- * <style="color:FFC800">
+ * <h2 style="color:FFC800">基础更新屏幕类，所有更新提示都在此基础上拓展</h2>
  *
- * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0
  */
 public abstract class UpdateScreen extends BaseScreen {

@@ -24,10 +24,9 @@ import pers.saikel0rado1iu.silk.util.TextUtil;
 import java.util.Objects;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用于添加一个按钮的功能未添加时所用的占位屏幕</font></b></p>
- * <style="color:FFC800">
+ * <h2 style="color:FFC800">用于添加一个按钮的功能未添加时所用的占位屏幕</h2>
  *
- * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0
  */
 @SilkApi

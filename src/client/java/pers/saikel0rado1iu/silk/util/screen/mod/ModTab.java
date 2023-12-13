@@ -26,8 +26,7 @@ import pers.saikel0rado1iu.silk.util.TextUtil;
 import pers.saikel0rado1iu.silk.util.screen.widget.TextListWidget;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用于模组主页选项卡</font></b></p>
- * <style="color:FFC800">
+ * <h2 style="color:FFC800">用于模组主页选项卡</h2>
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88interval31138?s=64&v=4"><p>
  * @since 0.1.0

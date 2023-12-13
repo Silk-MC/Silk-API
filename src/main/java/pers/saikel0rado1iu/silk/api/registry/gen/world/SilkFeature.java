@@ -21,11 +21,11 @@ import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.api.registry.SilkWorldData;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">用于模组所有地物与注册</font></b></p>
+ * <h2 style="color:FFC800">用于模组所有地物与注册</font></b></p>
  * <p style="color:FFC800">模组作者需要在 {@link SilkWorldData} 中覆盖 {@link SilkWorldData#features()}方法</p>
  * <style="color:FFC800">
  *
- * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0
  */
 @SilkApi

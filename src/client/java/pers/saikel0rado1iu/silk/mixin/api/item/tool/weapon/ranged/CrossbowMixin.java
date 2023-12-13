@@ -27,10 +27,9 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">设置弩的物品渲染</font></b></p>
- * <style="color:FFC800">
+ * <h2 style="color:FFC800">设置弩的物品渲染</h2>
  *
- * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0
  */
 interface CrossbowMixin {

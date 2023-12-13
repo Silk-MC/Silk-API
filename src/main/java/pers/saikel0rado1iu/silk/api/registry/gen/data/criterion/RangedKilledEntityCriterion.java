@@ -35,11 +35,11 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import java.util.Optional;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">远程武器击杀实体标准</font></b></p>
+ * <h2 style="color:FFC800">远程武器击杀实体标准</font></b></p>
  * <p style="color:FFC800">远程武器是通过发射弹射物中储存的物品 NBT 来判断的，此 NBT 需要开发使用 {@link RangedKilledEntityCriterion#putRangedNbt(Entity, ItemStack)} 手动添加到弹射物中。{@link Entity#writeNbt(NbtCompound)} 已被注入，使可以记录参数中 NBT</p>
  * <style="color:FFC800">
  *
- * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0
  */
 @SilkApi
