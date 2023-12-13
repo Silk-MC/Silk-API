@@ -37,4 +37,4 @@ jobs:
           arguments: publish
         env:
           GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: 12321321321
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
