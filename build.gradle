@@ -110,11 +110,11 @@ jar {
 
 // 配置 Maven 发布
 publishing {
-/*	publications {
-		mavenJava(MavenPublication) {
-			from components.java
+	publications {
+		gpr(MavenPublication) {
+			from(components.java)
 		}
-	}*/
+	}
 	
 	// 有关如何设置发布的信息, 请参阅 https://docs.gradle.org/current/userguide/publishing_maven.html
 	repositories {
@@ -125,8 +125,8 @@ publishing {
 			name = "GitHubPackages"
 			url = "https://maven.pkg.github.com/silk-mc/silk-api"
 			credentials {
-				username =  System.getenv("GITHUB_ACTOR")
-				password =  System.getenv("GITHUB_TOKEN")
+				username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+				password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
 			}
 		}
 	}
