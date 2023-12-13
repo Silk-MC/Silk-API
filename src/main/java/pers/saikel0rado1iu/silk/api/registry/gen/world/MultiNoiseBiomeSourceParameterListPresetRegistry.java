@@ -18,10 +18,9 @@ import pers.saikel0rado1iu.silk.api.callback.RegisterMultiNoiseBiomeSourceParame
 import java.util.function.Supplier;
 
 /**
- * <p><b style="color:FFC800"><font size="+1">多重噪声生物群系源参数列表预设注册器</font></b></p>
- * <style="color:FFC800">
+ * <h2 style="color:FFC800">多重噪声生物群系源参数列表预设注册器</h2>
  *
- * @author <a href="https://github.com/Saikel-Orado-Liu"><img src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"><p>
+ * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0
  */
 @SilkApi
