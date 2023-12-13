@@ -125,9 +125,8 @@ publishing {
 			name = "GitHubPackages"
 			url = "https://maven.pkg.github.com/silk-mc/silk-api"
 			credentials {
-				username =  System.getenv("GITHUB_ACTOR")
-				password =  System.getenv("GITHUB_TOKEN")
-				println "GitHubPackages Publish Artifact:\n\tusername=$username\n\ttoken=$password"
+				username = System.getenv("GITHUB_ACTOR")
+				password = System.getenv("GITHUB_TOKEN")
 			}
 		}
 	}

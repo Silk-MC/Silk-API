@@ -5,7 +5,9 @@
 
 name: Gradle Package
 
-on: push
+on:
+  release:
+    types: [ published ]
 
 jobs:
   build:
