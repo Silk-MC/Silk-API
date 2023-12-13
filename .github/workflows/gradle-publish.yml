@@ -7,6 +7,10 @@ name: Gradle Package
 
 on: push
 
+env:
+  GITHUB_ACTOR: ${{ github.actor }}
+  GITHUB_TOKEN: ${{ secrets.TOKEN }}
+
 jobs:
   build:
 

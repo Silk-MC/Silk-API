@@ -111,8 +111,8 @@ jar {
 // 配置 Maven 发布
 publishing {
 	publications {
-		gpr(MavenPublication) {
-			from(components.java)
+		mavenJava(MavenPublication) {
+			from components.java
 		}
 	}
 	
@@ -125,8 +125,8 @@ publishing {
 			name = "GitHubPackages"
 			url = "https://maven.pkg.github.com/silk-mc/silk-api"
 			credentials {
-				username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
-				password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+				username =  System.getenv("GITHUB_ACTOR")
+				password =  System.getenv("GITHUB_TOKEN")
 			}
 		}
 	}
