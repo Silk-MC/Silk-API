@@ -114,8 +114,19 @@ public interface ScreenUtil {
 			if (path == null) return "Changelog does not exist!" + Silk.DATA.getInfo();
 			Path logPath = Path.of(path.toURI());
 			StringBuilder log = new StringBuilder().append(Files.readString(logPath, StandardCharsets.UTF_8));
-			log = new StringBuilder(log.toString().replaceAll("\r", "\n"));
-			log = new StringBuilder(log.toString().replaceAll("\n\n", "\n"));
+			// 把 md 标题切换为 mc 粗体
+			for (int count = 0; count < 5; count++) log = new StringBuilder(log.toString().replaceAll("## ", "# "));
+			String[] str = log.toString().replaceAll("\r", "\n").replaceAll("\n\n", "\n").split("\n");
+			for (int count = 0; count < str.length; count++) {
+				if (str[count].contains("# ")) {
+					log.setLength(0);
+					str[count] = log.append(str[count].replaceFirst("# ", "§l")).append("§r").toString();
+				}
+			}
+			log.setLength(0);
+			for (String s : str) log.append(s).append("\n");
+			// 处理其他转换
+			log = new StringBuilder(log.toString().replaceAll("- ", "・"));
 			if (LocalizationUtil.isChinese()) log = new StringBuilder(log.toString().replaceAll("\t", "　").replaceAll(" ", "·"));
 			else log = new StringBuilder(log.toString().replaceAll("\t", "  "));
 			return log.toString();
