@@ -11,16 +11,12 @@
 
 package pers.saikel0rado1iu.silk.gen.world;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.gen.ModDataGeneration;
-
-import java.util.concurrent.CompletableFuture;
 
 /**
  * <h2 style="color:FFC800">用于提供世界生成的方便方法</h2>
@@ -30,13 +26,13 @@ import java.util.concurrent.CompletableFuture;
  * @since 0.1.0
  */
 @SilkApi
-public abstract class SilkWorldGenerator extends FabricDynamicRegistryProvider {
-	public SilkWorldGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
-		super(output, registriesFuture);
-	}
+public abstract class SilkWorldGenerator {
+	@ApiStatus.Internal
+	public static final SilkWorldGenerator EMPTY = new SilkWorldGenerator() {
+	};
 	
-	@Override
-	protected void configure(RegistryWrapper.WrapperLookup registries, Entries entries) {
+	@ApiStatus.Internal
+	public void configure(RegistryWrapper.WrapperLookup registries, FabricDynamicRegistryProvider.Entries entries) {
 		entries.addAll(registries.getWrapperOrThrow(RegistryKeys.BIOME));
 		entries.addAll(registries.getWrapperOrThrow(RegistryKeys.CONFIGURED_CARVER));
 		entries.addAll(registries.getWrapperOrThrow(RegistryKeys.CONFIGURED_FEATURE));
@@ -105,12 +101,5 @@ public abstract class SilkWorldGenerator extends FabricDynamicRegistryProvider {
 	@ApiStatus.OverrideOnly
 	public SilkWorldPreset worldPresets() {
 		return SilkWorldPreset.EMPTY;
-	}
-	
-	public abstract ModBasicData getMod();
-	
-	@Override
-	public String getName() {
-		return getMod().getId();
 	}
 }
