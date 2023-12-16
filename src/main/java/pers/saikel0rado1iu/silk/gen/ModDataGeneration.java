@@ -13,11 +13,17 @@ package pers.saikel0rado1iu.silk.gen;
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
 import net.minecraft.registry.RegistryBuilder;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.RegistryWrapper;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
+import pers.saikel0rado1iu.silk.gen.data.SilkDamageType;
 import pers.saikel0rado1iu.silk.gen.world.SilkWorldGenerator;
+
+import java.util.concurrent.CompletableFuture;
 
 /**
  * <h2 style="color:FFC800">用作模组数据生成主类，继承自 {@link DataGeneratorEntrypoint}。所有数据生成注册或操作由此开始</h2>
@@ -26,12 +32,12 @@ import pers.saikel0rado1iu.silk.gen.world.SilkWorldGenerator;
  * @since 0.1.0
  */
 public abstract class ModDataGeneration implements DataGeneratorEntrypoint {
-	private SilkWorldGenerator worldGenerator;
+	private DynamicRegistry dynamicRegistry;
 	
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
 		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
-		if (null != worldGen()) worldGenerator = pack.addProvider(worldGen());
+		dynamicRegistry = pack.addProvider((output, registriesFuture) -> new DynamicRegistry(output, registriesFuture, fabricDataGenerator.getModId()));
 		datagen(pack);
 	}
 	
@@ -47,24 +53,61 @@ public abstract class ModDataGeneration implements DataGeneratorEntrypoint {
 	 */
 	@SilkApi
 	@ApiStatus.OverrideOnly
-	public FabricDataGenerator.Pack.RegistryDependentFactory<SilkWorldGenerator> worldGen() {
-		return null;
+	public SilkWorldGenerator worldGen() {
+		return SilkWorldGenerator.EMPTY;
 	}
+	
+	/**
+	 * 提供来自模组的伤害类型以供注册、生成
+	 */
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public SilkDamageType damageType() {
+		return SilkDamageType.EMPTY;
+	}
+	
+	/**
+	 * 声明需要动态注册的项目
+	 */
+	public abstract void dynamicRegistry(RegistryWrapper.WrapperLookup registries, FabricDynamicRegistryProvider.Entries entries);
 	
 	@Override
 	public void buildRegistry(RegistryBuilder registryBuilder) {
 		try {
-			if (worldGenerator == null) Thread.sleep(250);
-			if (worldGenerator != null) {
-				registryBuilder.addRegistry(RegistryKeys.BIOME, worldGenerator.biomes()::bootstrap);
-				registryBuilder.addRegistry(RegistryKeys.CONFIGURED_FEATURE, worldGenerator.configuredFeatures()::bootstrap);
-				registryBuilder.addRegistry(RegistryKeys.MULTI_NOISE_BIOME_SOURCE_PARAMETER_LIST, worldGenerator.multiNoiseBiomeSourceParameterLists()::bootstrap);
-				registryBuilder.addRegistry(RegistryKeys.CHUNK_GENERATOR_SETTINGS, worldGenerator.chunkGeneratorSettings()::bootstrap);
-				registryBuilder.addRegistry(RegistryKeys.PLACED_FEATURE, worldGenerator.placedFeatures()::bootstrap);
-				registryBuilder.addRegistry(RegistryKeys.WORLD_PRESET, worldGenerator.worldPresets()::bootstrap);
+			if (dynamicRegistry == null) Thread.sleep(250);
+			if (dynamicRegistry != null) {
+				registryBuilder.addRegistry(RegistryKeys.DAMAGE_TYPE, damageType()::bootstrap);
+				// worldGen()
+				registryBuilder.addRegistry(RegistryKeys.BIOME, worldGen().biomes()::bootstrap);
+				registryBuilder.addRegistry(RegistryKeys.CONFIGURED_FEATURE, worldGen().configuredFeatures()::bootstrap);
+				registryBuilder.addRegistry(RegistryKeys.MULTI_NOISE_BIOME_SOURCE_PARAMETER_LIST, worldGen().multiNoiseBiomeSourceParameterLists()::bootstrap);
+				registryBuilder.addRegistry(RegistryKeys.CHUNK_GENERATOR_SETTINGS, worldGen().chunkGeneratorSettings()::bootstrap);
+				registryBuilder.addRegistry(RegistryKeys.PLACED_FEATURE, worldGen().placedFeatures()::bootstrap);
+				registryBuilder.addRegistry(RegistryKeys.WORLD_PRESET, worldGen().worldPresets()::bootstrap);
 			}
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
+		}
+	}
+	
+	private final class DynamicRegistry extends FabricDynamicRegistryProvider {
+		private final String modId;
+		
+		public DynamicRegistry(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture, String modId) {
+			super(output, registriesFuture);
+			this.modId = modId;
+		}
+		
+		@Override
+		protected void configure(RegistryWrapper.WrapperLookup registries, Entries entries) {
+			ModDataGeneration.this.dynamicRegistry(registries, entries);
+			ModDataGeneration.this.damageType().configure(registries, entries);
+			ModDataGeneration.this.worldGen().configure(registries, entries);
+		}
+		
+		@Override
+		public String getName() {
+			return modId;
 		}
 	}
 }
