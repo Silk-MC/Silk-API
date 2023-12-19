@@ -15,14 +15,13 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -46,17 +45,15 @@ public class PlantableBlock extends Block {
 	 */
 	@SuppressWarnings("deprecation")
 	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		ItemStack stack = player.getStackInHand(hand);
-		Item item = stack.getItem();
+	public ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
 		if (hit.getSide() == Direction.UP && stack.isIn(ItemTags.SAPLINGS)) {
 			world.playSound(null, pos, SoundEvents.ITEM_CROP_PLANT, SoundCategory.BLOCKS, 1.0F, 1.0F);
-			world.setBlockState(pos.up(), ((BlockItem) item).getBlock().getDefaultState());
+			world.setBlockState(pos.up(), ((BlockItem) stack.getItem()).getBlock().getDefaultState());
 			if (!world.isClient) if (!player.isCreative()) stack.decrement(1);
 			
-			player.incrementStat(Stats.USED.getOrCreateStat(item));
-			return ActionResult.success(world.isClient);
+			player.incrementStat(Stats.USED.getOrCreateStat(stack.getItem()));
+			return ItemActionResult.success(world.isClient);
 		}
-		return super.onUse(state, world, pos, player, hand, hit);
+		return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
 	}
 }
