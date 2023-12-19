@@ -21,6 +21,7 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolItem;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -52,7 +53,11 @@ abstract class WithStatusEffectsMixin extends Entity implements Attackable {
 	}
 	
 	@Shadow
-	public abstract boolean removeStatusEffect(StatusEffect type);
+	@Nullable
+	public abstract StatusEffectInstance getStatusEffect(RegistryEntry<StatusEffect> effect);
+	
+	@Shadow
+	public abstract boolean removeStatusEffect(RegistryEntry<StatusEffect> effect);
 	
 	@Shadow
 	public abstract ItemStack getEquippedStack(EquipmentSlot var1);
@@ -61,8 +66,6 @@ abstract class WithStatusEffectsMixin extends Entity implements Attackable {
 	@Shadow
 	public abstract Iterable<ItemStack> getArmorItems();
 	
-	@Shadow
-	public abstract @Nullable StatusEffectInstance getStatusEffect(StatusEffect effect);
 	
 	@Shadow
 	public abstract Collection<StatusEffectInstance> getStatusEffects();
@@ -141,16 +144,16 @@ abstract class WithStatusEffectsMixin extends Entity implements Attackable {
 				// 是否能触发效果
 				if (kitsSet.get(kit) >= threshold) {
 					int level = (int) Math.min(maxLevel, stackingLevel * (kitsSet.get(kit) - threshold));
-					StatusEffectInstance e = new StatusEffectInstance(effect, INFINITE, level);
-					StatusEffectInstance i = getStatusEffect(effect);
+					StatusEffectInstance e = new StatusEffectInstance(RegistryEntry.of(effect), INFINITE, level);
+					StatusEffectInstance i = getStatusEffect(RegistryEntry.of(effect));
 					if (i != null) {
 						if (i.getAmplifier() >= level && i.getDuration() > INFINITE) return;
-						removeStatusEffect(effect);
+						removeStatusEffect(RegistryEntry.of(effect));
 					}
 					instances.add(e);
 					addStatusEffect(e);
 				} else {
-					StatusEffectInstance i = getStatusEffect(effect);
+					StatusEffectInstance i = getStatusEffect(RegistryEntry.of(effect));
 					if (i != null) {
 						if (i.getDuration() == INFINITE) getStatusEffects().remove(i);
 					}
