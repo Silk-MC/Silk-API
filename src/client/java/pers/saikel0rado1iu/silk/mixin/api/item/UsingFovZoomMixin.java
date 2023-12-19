@@ -136,31 +136,25 @@ interface UsingFovZoomMixin {
 		private MinecraftClient client;
 		
 		@Shadow
-		private int scaledWidth;
-		
-		@Shadow
-		private int scaledHeight;
-		
-		@Shadow
 		protected abstract void renderOverlay(DrawContext context, Identifier texture, float opacity);
 		
 		@Unique
 		private void renderHudOverlay(DrawContext context, Identifier texture) {
-			float sideLength = (float) Math.min(scaledWidth, scaledHeight);
-			float sideScale = Math.min((float) scaledWidth / sideLength, (float) scaledHeight / sideLength);
+			float sideLength = (float) Math.min(context.getScaledWindowWidth(), context.getScaledWindowHeight());
+			float sideScale = Math.min((float) context.getScaledWindowWidth() / sideLength, (float) context.getScaledWindowHeight() / sideLength);
 			int sideSize = MathHelper.floor(sideLength * sideScale);
-			int leftWidth = (scaledWidth - sideSize) / 2;
-			int upHeight = (scaledHeight - sideSize) / 2;
+			int leftWidth = (context.getScaledWindowWidth() - sideSize) / 2;
+			int upHeight = (context.getScaledWindowHeight() - sideSize) / 2;
 			int rightWidth = leftWidth + sideSize;
 			int downHeight = upHeight + sideSize;
 			context.drawTexture(texture, leftWidth, upHeight, -90, 0.0f, 0.0f, sideSize, sideSize, sideSize, sideSize);
-			context.fill(RenderLayer.getGuiOverlay(), 0, downHeight, scaledWidth, scaledHeight, -90, -16777216);
-			context.fill(RenderLayer.getGuiOverlay(), 0, 0, scaledWidth, upHeight, -90, -16777216);
+			context.fill(RenderLayer.getGuiOverlay(), 0, downHeight, context.getScaledWindowWidth(), context.getScaledWindowHeight(), -90, -16777216);
+			context.fill(RenderLayer.getGuiOverlay(), 0, 0, context.getScaledWindowWidth(), upHeight, -90, -16777216);
 			context.fill(RenderLayer.getGuiOverlay(), 0, upHeight, leftWidth, downHeight, -90, -16777216);
-			context.fill(RenderLayer.getGuiOverlay(), rightWidth, upHeight, scaledWidth, downHeight, -90, -16777216);
+			context.fill(RenderLayer.getGuiOverlay(), rightWidth, upHeight, context.getScaledWindowWidth(), downHeight, -90, -16777216);
 		}
 		
-		@Inject(method = "render", at = @At(value = "INVOKE", target = "L net/minecraft/client/option/Perspective;isFirstPerson()Z", shift = At.Shift.BY))
+		@Inject(method = "method_55798", at = @At(value = "INVOKE", target = "L net/minecraft/client/option/Perspective;isFirstPerson()Z", shift = At.Shift.BY))
 		private void setRender(DrawContext context, float tickDelta, CallbackInfo ci) {
 			ClientPlayerEntity player = client.player;
 			if (player == null) return;
