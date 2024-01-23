@@ -21,7 +21,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.StringNbtReader;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.recipe.RawShapedRecipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.ShapedRecipe;
@@ -81,6 +82,24 @@ public class NbtShapedRecipe extends ShapedRecipe {
 						NBT_RECIPE_RESULT_CODEC.fieldOf("result").forGetter(recipe -> ((NbtShapedRecipe) recipe).result),
 						Codecs.createStrictOptionalFieldCodec(Codec.BOOL, "show_notification", true).forGetter(recipe -> ((NbtShapedRecipe) recipe).showNotification))
 				.apply(instance, NbtShapedRecipe::new));
+		public static final PacketCodec<RegistryByteBuf, ShapedRecipe> PACKET_CODEC = PacketCodec.ofStatic(Serializer::write, Serializer::read);
+		
+		public static ShapedRecipe read(RegistryByteBuf buf) {
+			String string = buf.readString();
+			CraftingRecipeCategory craftingRecipeCategory = buf.readEnumConstant(CraftingRecipeCategory.class);
+			RawShapedRecipe rawShapedRecipe = RawShapedRecipe.PACKET_CODEC.decode(buf);
+			ItemStack itemStack = ItemStack.PACKET_CODEC.decode(buf);
+			return new ShapedRecipe(string, craftingRecipeCategory, rawShapedRecipe, itemStack, buf.readBoolean());
+		}
+		
+		public static void write(RegistryByteBuf buf, ShapedRecipe shapedRecipe) {
+			if (!(shapedRecipe instanceof NbtShapedRecipe nbtShapedRecipe)) return;
+			buf.writeString(nbtShapedRecipe.group);
+			buf.writeEnumConstant(nbtShapedRecipe.category);
+			RawShapedRecipe.PACKET_CODEC.encode(buf, nbtShapedRecipe.raw);
+			ItemStack.PACKET_CODEC.encode(buf, nbtShapedRecipe.result);
+			buf.writeBoolean(nbtShapedRecipe.showNotification);
+		}
 		
 		@Override
 		public Codec<ShapedRecipe> codec() {
@@ -88,22 +107,8 @@ public class NbtShapedRecipe extends ShapedRecipe {
 		}
 		
 		@Override
-		public ShapedRecipe read(PacketByteBuf packetByteBuf) {
-			String string = packetByteBuf.readString();
-			CraftingRecipeCategory craftingRecipeCategory = packetByteBuf.readEnumConstant(CraftingRecipeCategory.class);
-			RawShapedRecipe rawShapedRecipe = RawShapedRecipe.readFromBuf(packetByteBuf);
-			ItemStack itemStack = packetByteBuf.readItemStack();
-			return new ShapedRecipe(string, craftingRecipeCategory, rawShapedRecipe, itemStack, packetByteBuf.readBoolean());
-		}
-		
-		@Override
-		public void write(PacketByteBuf packetByteBuf, ShapedRecipe shapedRecipe) {
-			if (!(shapedRecipe instanceof NbtShapedRecipe nbtShapedRecipe)) return;
-			packetByteBuf.writeString(nbtShapedRecipe.group);
-			packetByteBuf.writeEnumConstant(nbtShapedRecipe.category);
-			nbtShapedRecipe.raw.writeToBuf(packetByteBuf);
-			packetByteBuf.writeItemStack(nbtShapedRecipe.result);
-			packetByteBuf.writeBoolean(nbtShapedRecipe.showNotification);
+		public PacketCodec<RegistryByteBuf, ShapedRecipe> packetCodec() {
+			return PACKET_CODEC;
 		}
 	}
 }
