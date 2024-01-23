@@ -185,7 +185,7 @@ interface HoldingFovZoomMixin {
 			context.fill(RenderLayer.getGuiOverlay(), rightWidth, upHeight, context.getScaledWindowWidth(), downHeight, -90, -16777216);
 		}
 		
-		@Inject(method = "method_55798", at = @At(value = "INVOKE", target = "L net/minecraft/client/option/Perspective;isFirstPerson()Z", shift = At.Shift.BY))
+		@Inject(method = "renderMiscOverlays", at = @At(value = "INVOKE", target = "L net/minecraft/client/option/Perspective;isFirstPerson()Z", shift = At.Shift.BY))
 		private void setRender(DrawContext context, float tickDelta, CallbackInfo ci) {
 			ClientPlayerEntity player = client.player;
 			if (player == null) return;
