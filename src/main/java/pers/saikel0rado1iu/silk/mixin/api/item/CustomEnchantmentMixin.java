@@ -15,11 +15,10 @@ import com.google.common.collect.Lists;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentLevelEntry;
-import net.minecraft.enchantment.EnchantmentTarget;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
+import org.jetbrains.annotations.ApiStatus;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -58,9 +57,12 @@ interface CustomEnchantmentMixin {
 	 * 设置附魔台附魔能够附魔自定义魔咒
 	 */
 	@Mixin(EnchantmentHelper.class)
+	@ApiStatus.Obsolete
 	abstract class SetTableEnchantment {
 		/**
-		 * 设置附魔判断为 {@link Enchantment#isAcceptableItem(ItemStack)} 而不是 {@link EnchantmentTarget#isAcceptableItem(Item)}
+		 * *已过时*
+		 * <p>
+		 * 设置附魔判断为 {@link Enchantment#isAcceptableItem(ItemStack)} 而不是 EnchantmentTarget#isAcceptableItem(Item)
 		 */
 		@Inject(method = "getPossibleEntries", at = @At("RETURN"), cancellable = true)
 		private static void setEnchantment(int power, ItemStack stack, boolean treasureAllowed, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir) {
