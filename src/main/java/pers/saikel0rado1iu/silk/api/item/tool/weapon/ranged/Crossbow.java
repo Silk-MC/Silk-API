@@ -264,7 +264,7 @@ public abstract class Crossbow extends CrossbowItem implements SilkCrossbowExten
 			projectileEntity.setVelocity(vector3f.x(), vector3f.y(), vector3f.z(), speed, divergence);
 		}
 		// 设置弩损伤
-		crossbow.damage(projectileIsFireworkRocket ? 3 : 1, shooter, e -> e.sendToolBreakStatus(hand));
+		crossbow.damage(projectileIsFireworkRocket ? 3 : 1, shooter, LivingEntity.getSlotForHand(hand));
 		// 生成弹药
 		world.spawnEntity(projectileEntity);
 		// 播放音效

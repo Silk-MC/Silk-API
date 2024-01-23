@@ -107,7 +107,7 @@ public abstract class Bow extends BowItem implements SilkBowExtend {
 			if (EnchantmentHelper.getLevel(Enchantments.FLAME, stack) > 0) persistentProjectileEntity.setOnFireFor(100);
 			
 			// 设置工具损伤
-			stack.damage(1, player, p -> p.sendToolBreakStatus(player.getActiveHand()));
+			stack.damage(1, player, LivingEntity.getSlotForHand(player.getActiveHand()));
 			if (andDefaultProjectile || player.getAbilities().creativeMode && (useProjectile.isOf(Items.SPECTRAL_ARROW) || useProjectile.isOf(Items.TIPPED_ARROW))) {
 				persistentProjectileEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
 			}
