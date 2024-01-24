@@ -21,6 +21,7 @@ import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -42,6 +43,8 @@ interface WorldPresetCustomButtonCallbackMixin {
 		@Final
 		@Shadow
 		private TabManager tabManager;
+		@Unique
+		private ButtonWidget custom;
 		
 		private AddButton(Text title) {
 			super(title);
@@ -73,11 +76,12 @@ interface WorldPresetCustomButtonCallbackMixin {
 		public void tick() {
 			if (customizeButton == null) return;
 			if (WorldPresetCustomButtonCallback.EVENT.invoker().canAdd(worldCreator.getWorldType(), client, parent) != null) {
-				ButtonWidget custom = WORLD_CUSTOMS.get(worldCreator.getWorldType());
+				custom = WORLD_CUSTOMS.get(worldCreator.getWorldType());
 				custom.setPosition(customizeButton.getX(), customizeButton.getY());
 				custom.visible = true;
 				customizeButton.visible = false;
 			} else {
+				if (custom != null) custom.visible = false;
 				customizeButton.visible = true;
 			}
 			if (tabManager.getCurrentTab() != null && !tabManager.getCurrentTab().getTitle().equals(Text.translatable("createWorld.tab.world.title")))
