@@ -43,7 +43,6 @@ public class PlantableBlock extends Block {
 	/**
 	 * 设置可放置树苗
 	 */
-	@SuppressWarnings("deprecation")
 	@Override
 	public ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
 		if (hit.getSide() == Direction.UP && stack.isIn(ItemTags.SAPLINGS)) {
