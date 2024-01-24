@@ -20,9 +20,19 @@
 		"api.item.tool.weapon.ranged.CrossbowMixin$ThirdPersonRender",
 		"util.LocalizationUtilMixin",
 		"util.update.UpdateInGame",
-		"util.update.UpdateInTitle"
+		"util.update.UpdateInTitle",
+		"util.world.upgrade.info.UpgradeLevelSummaryMixin$AddWorldEntryWarning",
+		"util.world.upgrade.info.UpgradeLevelSummaryMixin$FixSummaryShow",
+		"util.world.upgrade.screen.UpgradePromptScreenMixin",
+		"util.world.upgrade.screen.UpgradeWarningScreenMixin$GetParentScreen",
+		"util.world.upgrade.screen.UpgradeWarningScreenMixin$ShowScreen"
 	],
 	"injectors": {
 		"defaultRequire": 1
-	}
+	},
+	"mixins": [
+		"util.world.upgrade.info.UpgradeLevelSummaryMixin$CreateDetails",
+		"util.world.upgrade.info.UpgradeLevelSummaryMixin$CreateSummary",
+		"util.world.upgrade.info.UpgradeLevelSummaryMixin$SummaryUpdate"
+	]
 }
