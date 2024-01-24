@@ -11,7 +11,6 @@
 
 package pers.saikel0rado1iu.silk.api.item;
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -49,7 +48,7 @@ public interface ItemGroupCreator {
 	 */
 	@SilkApi
 	static RegistryKey<ItemGroup> create(ModBasicData namespace, String id) {
-		Item icon = new Item(new FabricItemSettings());
+		Item icon = new Item(new Item.Settings());
 		Registry.register(Registries.ITEM, new Identifier(namespace.getId(), getIconId(id)), icon);
 		Registry.register(Registries.ITEM_GROUP, new Identifier(namespace.getId(), id),
 				FabricItemGroup.builder().icon(() -> new ItemStack(icon)).displayName(getGroupText(namespace, id)).build());
