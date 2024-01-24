@@ -32,6 +32,7 @@ import pers.saikel0rado1iu.silk.gen.ModDataGeneration;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0
  */
+@SuppressWarnings("UnstableApiUsage")
 @SilkApi
 public abstract class SilkDamageType {
 	@ApiStatus.Internal

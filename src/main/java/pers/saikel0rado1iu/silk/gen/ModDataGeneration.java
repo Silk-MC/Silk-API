@@ -31,6 +31,7 @@ import java.util.concurrent.CompletableFuture;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0
  */
+@SuppressWarnings("UnstableApiUsage")
 public abstract class ModDataGeneration implements DataGeneratorEntrypoint {
 	private DynamicRegistry dynamicRegistry;
 	
