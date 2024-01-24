@@ -55,5 +55,7 @@ public interface WorldPresetCustomButtonCallback {
 		
 		@ApiStatus.Internal
 		public static Screen parent;
+		@ApiStatus.Internal
+		public static ButtonWidget customizeButton;
 	}
 }

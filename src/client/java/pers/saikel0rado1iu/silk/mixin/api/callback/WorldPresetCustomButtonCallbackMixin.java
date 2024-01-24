@@ -21,6 +21,7 @@ import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -42,6 +43,8 @@ interface WorldPresetCustomButtonCallbackMixin {
 		@Final
 		@Shadow
 		private TabManager tabManager;
+		@Unique
+		private ButtonWidget custom;
 		
 		private AddButton(Text title) {
 			super(title);
@@ -68,11 +71,19 @@ interface WorldPresetCustomButtonCallbackMixin {
 		
 		/**
 		 * 如果聚焦不在世界选项卡则取消显示世界自定义按钮
-		 *
-		 * @param ci 回调信息
 		 */
-		@Inject(method = "tick", at = @At("HEAD"))
-		private void tick(CallbackInfo ci) {
+		@Override
+		public void tick() {
+			if (customizeButton == null) return;
+			if (WorldPresetCustomButtonCallback.EVENT.invoker().canAdd(worldCreator.getWorldType(), client, parent) != null) {
+				custom = WORLD_CUSTOMS.get(worldCreator.getWorldType());
+				custom.setPosition(customizeButton.getX(), customizeButton.getY());
+				custom.visible = true;
+				customizeButton.visible = false;
+			} else {
+				if (custom != null) custom.visible = false;
+				customizeButton.visible = true;
+			}
 			if (tabManager.getCurrentTab() != null && !tabManager.getCurrentTab().getTitle().equals(Text.translatable("createWorld.tab.world.title")))
 				WORLD_CUSTOMS.forEach((worldType, buttonWidget) -> buttonWidget.visible = false);
 		}
@@ -88,21 +99,9 @@ interface WorldPresetCustomButtonCallbackMixin {
 			super(title);
 		}
 		
-		/**
-		 * 处理在合适的时机正确地显示模组自带的自定义按钮
-		 *
-		 * @param ci 回调信息
-		 */
-		@Inject(method = "tick", at = @At("HEAD"))
-		private void tick(CallbackInfo ci) {
-			if (WorldPresetCustomButtonCallback.EVENT.invoker().canAdd(worldCreator.getWorldType(), client, parent) != null) {
-				ButtonWidget custom = WORLD_CUSTOMS.get(worldCreator.getWorldType());
-				custom.setPosition(customizeButton.getX(), customizeButton.getY());
-				custom.visible = true;
-				customizeButton.visible = false;
-			} else {
-				customizeButton.visible = true;
-			}
+		@Inject(method = "<init>", at = @At("TAIL"))
+		private void init(CreateWorldScreen createWorldScreen, CallbackInfo ci) {
+			WorldPresetCustomButtonCallback.Data.customizeButton = this.customizeButton;
 		}
 	}
 }
