@@ -114,6 +114,8 @@ publishing {
 		mavenJava(MavenPublication) {
 			artifactId archivesBaseName
 			from components.java
+			// 上传源码
+			artifact sourcesJar
 		}
 	}
 	
