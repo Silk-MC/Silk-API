@@ -1,3 +1,21 @@
+## 0.2.0---2024/01/24
+
+### Features：
+
+- Logic
+	- Added a 'World Upgrade System' that allows registering a world upgrader to allow players to upgrade the world.
+	- Added chunk generator codec register. (ChunkGeneratorCodecRegistry)
+	- Added customizable chunk generator interface. (CustomChunkGenerator)
+	- Added modifiable vanilla noise chunk generator. (SilkNoiseChunkGenerator)
+
+### Change：
+
+- Logic
+	- Added the methods of SilkVanillaBiomeParameters to make them easier to use.
+
+- Client
+	- Fixed the button display problem of WorldPresetCustomButtonCallbackMixin, now the world preset's custom button can correctly override the default button.
+
 ## 0.1.3---2023/12/16
 
 ### Features：
