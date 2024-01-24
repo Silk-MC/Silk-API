@@ -10,6 +10,7 @@
 		"api.block.SilkBlockTagsMixin$CobwebsMixin$SwordBreak",
 		"api.block.SilkBlockTagsMixin$DirtMixin",
 		"api.block.SilkBlockTagsMixin$DirtVarietyMixin",
+		"api.callback.RegisterChunkGeneratorCodecCallbackMixin",
 		"api.callback.RegisterMultiNoiseBiomeSourceParameterListPresetCallbackMixin",
 		"api.criterion.RangedKilledEntityCriterionMixin$Bow",
 		"api.criterion.RangedKilledEntityCriterionMixin$Crossbow",
@@ -28,7 +29,12 @@
 		"gen.data.SilkRecipeJsonBuilderMixin$CookingRecipeJsonBuilderMixin",
 		"gen.data.SilkRecipeJsonBuilderMixin$ShapedRecipeJsonBuilderMixin",
 		"gen.data.SilkRecipeJsonBuilderMixin$ShapelessRecipeJsonBuilderMixin",
-		"gen.data.SilkRecipeJsonBuilderMixin$SingleItemRecipeJsonBuilderMixin"
+		"gen.data.SilkRecipeJsonBuilderMixin$SingleItemRecipeJsonBuilderMixin",
+		"gen.world.chunk.CustomChunkGeneratorMixin$GetSeed",
+		"gen.world.chunk.CustomChunkGeneratorMixin$LocateBiome",
+		"gen.world.chunk.CustomChunkGeneratorMixin$PopulateBiomes",
+		"gen.world.chunk.CustomChunkGeneratorMixin$PopulateNoise",
+		"gen.world.chunk.CustomChunkGeneratorMixin$RepairStructureGen"
 	],
 	"injectors": {
 		"defaultRequire": 1

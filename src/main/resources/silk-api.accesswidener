@@ -1,5 +1,17 @@
 accessWidener	v2	named
 
+accessible	class	net/minecraft/world/chunk/ChunkStatus$GenerationTask
+accessible	class	net/minecraft/world/gen/surfacebuilder/MaterialRules$MaterialRuleContext
 extendable	class	net/minecraft/world/biome/source/MultiNoiseBiomeSourceParameterList$Preset$BiomeSourceFunction
 extendable	class	net/minecraft/world/biome/source/util/VanillaBiomeParameters
+extendable	class	net/minecraft/world/gen/chunk/NoiseChunkGenerator
 extendable	class	net/minecraft/world/gen/chunk/GenerationShapeConfig
+accessible	method	net/minecraft/world/gen/chunk/ChunkNoiseSampler	sampleBlockState	()Lnet/minecraft/block/BlockState;
+accessible	method	net/minecraft/world/ChunkSerializer	createCodec	(Lnet/minecraft/registry/Registry;)Lcom/mojang/serialization/Codec;
+accessible	method	net/minecraft/world/ChunkSerializer	readStructureStarts	(Lnet/minecraft/structure/StructureContext;Lnet/minecraft/nbt/NbtCompound;J)Ljava/util/Map;
+accessible	method	net/minecraft/world/ChunkSerializer	readStructureReferences	(Lnet/minecraft/registry/DynamicRegistryManager;Lnet/minecraft/util/math/ChunkPos;Lnet/minecraft/nbt/NbtCompound;)Ljava/util/Map;
+accessible	method	net/minecraft/world/gen/surfacebuilder/MaterialRules$MaterialRuleContext	blockToChunkCoord (I)I
+accessible	method	net/minecraft/world/gen/surfacebuilder/MaterialRules$MaterialRuleContext	chunkToBlockCoord (I)I
+extendable	method	net/minecraft/world/gen/chunk/NoiseChunkGenerator	populateNoise	(Lnet/minecraft/world/gen/chunk/Blender;Lnet/minecraft/world/gen/StructureAccessor;Lnet/minecraft/world/gen/noise/NoiseConfig;Lnet/minecraft/world/chunk/Chunk;II)Lnet/minecraft/world/chunk/Chunk;
+accessible	field	net/minecraft/client/gui/screen/world/WorldListWidget$WorldEntry	level	Lnet/minecraft/world/level/storage/LevelSummary;
+accessible	field	net/minecraft/world/ChunkSerializer	CODEC	Lcom/mojang/serialization/Codec;
