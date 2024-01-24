@@ -23,7 +23,6 @@ import java.util.function.Consumer;
 /**
  * <h2 style="color:FFC800">用于模组所有模型图层组成模型图层集与模型图层注册</font></b></p>
  * <p style="color:FFC800">模组作者需要在 {@link ModClient} 中覆盖 {@link ModClient#modelLayers()}方法</p>
- * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0

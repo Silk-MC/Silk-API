@@ -21,7 +21,6 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 /**
  * <h2 style="color:FFC800">菌类成长感染</font></b></p>
  * <p style="color:FFC800">将菌类的生长后植株感染成你想要的植物，而不是感染替换蘑菇苗</p>
- * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0

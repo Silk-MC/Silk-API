@@ -27,7 +27,6 @@ import java.util.function.Consumer;
 /**
  * <h2 style="color:FFC800">用于模组所有实体类型与注册</font></b></p>
  * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#entityTypes()}方法</p>
- * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0

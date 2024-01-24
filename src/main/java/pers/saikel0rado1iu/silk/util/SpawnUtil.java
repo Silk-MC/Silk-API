@@ -33,7 +33,6 @@ import java.util.function.Function;
  * <p style="color:FF0000">！注意！在大部分情况下，此方法可能看起来失效。这是因为在 {@link SpawnSettings.Builder#spawn(SpawnGroup, SpawnSettings.SpawnEntry)}
  * 中的设置的生成组规则大过自定义规则。此时将 {@link MobEntity#canSpawn(WorldView)} 与 {@link MobEntity#canSpawn(WorldAccess, SpawnReason)}
  * 返回 true 则可以修复大部分怪物生成问题，生物会照样在区块生成时生成。虽无法预测此操作可能带来的完整效果，但经过测试，绝大部分情况下并不会破坏生成规则</p>
- * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0

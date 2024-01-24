@@ -21,7 +21,6 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 /**
  * <h2 style="color:FFC800">游戏菜单屏幕添加按钮回调</font></b></p>
  * <p style="color:FFC800">设置在游戏菜单屏幕中添加按钮</p>
- * <style="color:FFC800">
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0
