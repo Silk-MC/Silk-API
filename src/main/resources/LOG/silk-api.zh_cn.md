@@ -1,3 +1,21 @@
+## 0.2.0---2024/01/24
+
+### 功能：
+
+- 逻辑端
+	- 添加了“世界升级系统”，可注册世界升级器让玩家能升级世界
+	- 添加了区块生成器解编码器注册器（ChunkGeneratorCodecRegistry）
+	- 添加了可自定义区块生成器接口（CustomChunkGenerator）
+	- 添加了可修改的原版噪声区块生成器（SilkNoiseChunkGenerator）
+
+### 更改：
+
+- 逻辑端
+	- 添加了 SilkVanillaBiomeParameters 的方法，使其更易使用。
+
+- 客户端
+	- 修复了 WorldPresetCustomButtonCallbackMixin 的按钮显示问题，现在世界预设的自定义按钮可以正确的覆盖默认按钮了。
+
 ## 0.1.3---2023/12/16
 
 ### 功能：
