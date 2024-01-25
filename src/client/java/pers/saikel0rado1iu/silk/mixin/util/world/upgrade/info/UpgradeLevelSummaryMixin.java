@@ -212,8 +212,8 @@ interface UpgradeLevelSummaryMixin {
 			GetRegistryManagerThread.startGetRegistryManager((LevelStorage.Session) (Object) this);
 		}
 		
-		@SuppressWarnings({"unchecked", "rawtypes", "InvalidInjectorMethodSignature", "MixinAnnotationTarget"})
-		@ModifyVariable(method = "save", at = @At("STORE"), ordinal = 1, argsOnly = true)
+		@SuppressWarnings({"rawtypes", "unchecked"})
+		@ModifyVariable(method = "save", at = @At("STORE"), ordinal = 1)
 		private <T extends ChunkGenerator & UpgradeChunkGenerator> NbtCompound save(NbtCompound nbt) {
 			GetRegistryManagerThread.joinGet();
 			for (WorldUpgradeData<?> worldUpgradeData : WorldUpgradeSystem.getWorldUpgradeData()) {
