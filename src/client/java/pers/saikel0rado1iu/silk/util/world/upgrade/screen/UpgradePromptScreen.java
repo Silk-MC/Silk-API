@@ -71,8 +71,8 @@ public class UpgradePromptScreen extends BaseScreen {
 		addDrawableChild(ButtonWidget.builder(Text.translatable("selectWorld.backupJoinConfirmButton"), button -> callback.proceed(true, eraseCacheCheckbox.isChecked())).dimensions(width / 2 - 155, 100 + widgetY, 150, 20).build());
 		addDrawableChild(ButtonWidget.builder(title, button -> callback.proceed(false, eraseCacheCheckbox.isChecked())).dimensions(width / 2 - 155 + 160, 100 + widgetY, 150, 20).build());
 		addDrawableChild(ButtonWidget.builder(ScreenTexts.CANCEL, button -> Objects.requireNonNull(client).setScreen(parent)).dimensions(width / 2 - 155 + 80, 124 + widgetY, 150, 20).build());
-		addDrawableChild(eraseCacheCheckbox = new CheckboxWidget((int) ((width - eraseCacheCheckbox.getWidth() * 1.15) / 2), 76 + widgetY,
-				150, 20, Text.translatable("selectWorld.backupEraseCache"), false));
+		addDrawableChild(eraseCacheCheckbox = new CheckboxWidget(0, 0, 150, 20, Text.translatable("selectWorld.backupEraseCache"), false));
+		eraseCacheCheckbox.setPosition((int) ((width - eraseCacheCheckbox.getWidth() * 1.15 / 2) / 2), 76 + widgetY);
 	}
 	
 	private Text getPrompt() {
