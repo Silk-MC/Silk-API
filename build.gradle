@@ -118,8 +118,6 @@ publishing {
 			from components.java
 			// 发布源码
 			artifact sourcesJar
-			// 发布文档
-			artifact javadocJar
 		}
 	}
 	
