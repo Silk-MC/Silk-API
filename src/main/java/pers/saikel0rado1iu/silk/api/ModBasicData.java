@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * <h2 style="color:FFC800">用于构建基础的模组数据</font></b></p>
+ * <h2 style="color:FFC800">用于构建基础的模组数据</h2>
  * <p style="color:FFC800">推荐使用模组 ID 或模组缩写作为模组数据类名，DATA 作为实例常量名，并且私有化构造函数</p>
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>

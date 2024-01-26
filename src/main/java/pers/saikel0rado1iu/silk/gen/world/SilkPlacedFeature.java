@@ -27,7 +27,7 @@ import pers.saikel0rado1iu.silk.api.ModBasicData;
 import java.util.List;
 
 /**
- * <h2 style="color:FFC800">用于创建、注册、生成已放置的地物</font></b></p>
+ * <h2 style="color:FFC800">用于创建、注册、生成已放置的地物</h2>
  * <p style="color:FFC800">模组作者需要在 {@link SilkWorldGenerator} 中覆盖 {@link SilkWorldGenerator#placedFeatures()}方法</p>
  * <p style="color:FFC800">实例化</p>
  *

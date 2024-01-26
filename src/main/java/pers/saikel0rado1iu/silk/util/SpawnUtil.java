@@ -27,7 +27,7 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import java.util.function.Function;
 
 /**
- * <h2 style="color:FFC800">有关控制生物的特殊生成的部分数值与实用方法</font></b></p>
+ * <h2 style="color:FFC800">有关控制生物的特殊生成的部分数值与实用方法</h2>
  * <p style="color:FFC800">此方法主要用于类似怪物类生物的生成，而不是动物类生物的生成。
  * 如果要实现动物类的生成要在 {@link Builder#otherChecker(SpawnRestriction.SpawnPredicate)} 中手动添加检测器</p>
  * <p style="color:FF0000">！注意！在大部分情况下，此方法可能看起来失效。这是因为在 {@link SpawnSettings.Builder#spawn(SpawnGroup, SpawnSettings.SpawnEntry)}

@@ -18,7 +18,7 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModMain;
 
 /**
- * <h2 style="color:FFC800">用于模组所有声音事件与注册</font></b></p>
+ * <h2 style="color:FFC800">用于模组所有声音事件与注册</h2>
  * <p style="color:FFC800">模组作者需要在 {@link ModMain} 中覆盖 {@link ModMain#soundEvents()}方法</p>
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>

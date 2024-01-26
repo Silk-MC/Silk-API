@@ -18,7 +18,7 @@ import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
 /**
- * <h2 style="color:FFC800">设置默认世界预设回调</font></b></p>
+ * <h2 style="color:FFC800">设置默认世界预设回调</h2>
  * <p style="color:FFC800">设置世界预设的默认值</p>
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>

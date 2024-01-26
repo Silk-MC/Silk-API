@@ -38,7 +38,7 @@ import pers.saikel0rado1iu.silk.api.ModBasicData;
 import java.util.Map;
 
 /**
- * <h2 style="color:FFC800">用于创建、注册、生成世界预设</font></b></p>
+ * <h2 style="color:FFC800">用于创建、注册、生成世界预设</h2>
  * <p style="color:FFC800">模组作者需要在 {@link SilkWorldGenerator} 中覆盖 {@link SilkWorldGenerator#worldPresets()}方法</p>
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>

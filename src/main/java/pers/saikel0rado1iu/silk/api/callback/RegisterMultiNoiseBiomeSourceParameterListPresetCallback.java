@@ -20,7 +20,7 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import java.util.List;
 
 /**
- * <h2 style="color:FFC800">用于注册多重噪声生物群系源参数列表预设的回调</font></b></p>
+ * <h2 style="color:FFC800">用于注册多重噪声生物群系源参数列表预设的回调</h2>
  * <p style="color:FFC800">模组作者需要在 {@link PreLaunchEntrypoint} 中注册才能生效</p>
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>

@@ -22,7 +22,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * <h2 style="color:FFC800">用于自带状态效果的物品</font></b></p>
+ * <h2 style="color:FFC800">用于自带状态效果的物品</h2>
  * <p style="color:FFC800">{@link WithStatusEffects} 中所有方法返回值中的 {@link StatusEffect} 都必须一致，不然后果自负</p>
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>

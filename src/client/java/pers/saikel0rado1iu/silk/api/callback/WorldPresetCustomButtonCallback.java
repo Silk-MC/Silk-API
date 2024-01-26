@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * <h2 style="color:FFC800">世界预设自定义按钮回调</font></b></p>
+ * <h2 style="color:FFC800">世界预设自定义按钮回调</h2>
  * <p style="color:FFC800">设置在创建世界屏幕中给世界类型添加自定义按钮按钮</p>
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>

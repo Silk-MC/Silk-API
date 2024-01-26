@@ -22,7 +22,7 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 
 /**
- * <h2 style="color:FFC800">用于创建、注册、生成区块生成器设置</font></b></p>
+ * <h2 style="color:FFC800">用于创建、注册、生成区块生成器设置</h2>
  * <p style="color:FFC800">模组作者需要在 {@link SilkWorldGenerator} 中覆盖 {@link SilkWorldGenerator#chunkGeneratorSettings()}方法</p>
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
