@@ -97,6 +97,8 @@ java {
 	// 如果其存在.
 	// 如果删除此行，则不会生成源.
 	withSourcesJar()
+	// 生成文档
+	withJavadocJar()
 	
 	sourceCompatibility = JavaVersion.VERSION_17
 	targetCompatibility = JavaVersion.VERSION_17
@@ -114,8 +116,10 @@ publishing {
 		mavenJava(MavenPublication) {
 			artifactId archivesBaseName
 			from components.java
-			// 上传源码
+			// 发布源码
 			artifact sourcesJar
+			// 发布文档
+			artifact javadocJar
 		}
 	}
 	
