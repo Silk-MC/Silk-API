@@ -55,7 +55,7 @@ public interface UpgradeChunkGenerator {
 	 * 用于提供区块生成器的 {@link Codec}
 	 */
 	@SilkApi
-	Codec<? extends ChunkGenerator> getCodec();
+	Codec<? extends ChunkGenerator> codec();
 	
 	/**
 	 * 通过块坐标解析 {@link ChunkStorageData} 的数据进行判断是否可刷新坐标中的区块
