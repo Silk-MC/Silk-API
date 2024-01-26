@@ -1,3 +1,12 @@
+## 0.2.1---2024/01/27
+
+### Fixes：
+
+- Logic
+	- Fixed the problem caused by the duplicate name of getCodec() in UpgradeChunkGenerator.
+- Client
+	- Fixed the remap crash caused by the getSession() mixin in UpgradeWarningScreenMixin$ShowScreen failing on the client side.
+
 ## 0.2.0---2024/01/24
 
 ### Features：
