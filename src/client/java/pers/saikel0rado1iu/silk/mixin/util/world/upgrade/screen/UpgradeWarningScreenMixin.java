@@ -11,6 +11,7 @@
 
 package pers.saikel0rado1iu.silk.mixin.util.world.upgrade.screen;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.world.SelectWorldScreen;
 import net.minecraft.client.gui.screen.world.WorldListWidget;
@@ -23,7 +24,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import pers.saikel0rado1iu.silk.util.world.upgrade.info.UpgradeLevelSummary;
 import pers.saikel0rado1iu.silk.util.world.upgrade.screen.UpgradeWarningScreen;
@@ -62,10 +62,10 @@ interface UpgradeWarningScreenMixin {
 		@Shadow
 		protected abstract void start(LevelStorage.Session session, Runnable onCancel);
 		
-		@SuppressWarnings("InvalidInjectorMethodSignature")
-		@ModifyVariable(method = "start(L java/lang/String;L java/lang/Runnable;)V", at = @At("STORE"), name = "session")
-		private LevelStorage.Session getSession(LevelStorage.Session session) {
-			return this.session = session;
+		@Inject(method = "start(L java/lang/String;L java/lang/Runnable;)V",
+				at = @At(value = "INVOKE", target = "L net/minecraft/server/integrated/IntegratedServerLoader;start(L net/minecraft/world/level/storage/LevelStorage$Session;L java/lang/Runnable;)V"))
+		private void getSession(CallbackInfo ci, @Local LevelStorage.Session session) {
+			this.session = session;
 		}
 		
 		@Inject(method = "start(L java/lang/String;L java/lang/Runnable;)V",
