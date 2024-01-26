@@ -63,7 +63,7 @@ interface UpgradeWarningScreenMixin {
 		@Shadow
 		protected abstract void start(Screen parent, String levelName, boolean safeMode, boolean canShowBackupPrompt);
 		
-		@ModifyVariable(method = "start(L net/minecraft/client/gui/screen/Screen;L java/lang/String;ZZ)V", at = @At("STORE"), name = "session")
+		@ModifyVariable(method = "start(L net/minecraft/client/gui/screen/Screen;L java/lang/String;ZZ)V", at = @At("STORE"), ordinal = 0)
 		private LevelStorage.Session getSession(LevelStorage.Session session) {
 			return this.session = session;
 		}
