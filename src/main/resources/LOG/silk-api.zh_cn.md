@@ -1,3 +1,12 @@
+## 0.2.1---2024/01/27
+
+### 修复：
+
+- 逻辑端
+	- 修复了 UpgradeChunkGenerator 中由 getCodec() 重名导致的问题。
+- 客户端
+	- 修复了 UpgradeWarningScreenMixin$ShowScreen 中 getSession() 混入在客户端失败导致的 remap 崩溃问题。
+
 ## 0.2.0---2024/01/24
 
 ### 功能：
