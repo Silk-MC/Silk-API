@@ -194,7 +194,7 @@ interface UpgradeLevelSummaryMixin {
 				if (chunkGenerator.equals(chunkGenerator.emptyMap())) continue;
 				String version = chunkGenerator.get(UpgradeChunkGenerator.VERSION_FIELD).orElseEmptyMap().asString(UpgradeChunkGenerator.NON_VERSION);
 				Identifier generatorId = Identifier.tryParse(chunkGenerator.get("type").orElseEmptyMap().asString("foo:bar"));
-				if (generatorId != null && generatorId.equals(Registries.CHUNK_GENERATOR.getId(generator.getCodec()))) {
+				if (generatorId != null && generatorId.equals(Registries.CHUNK_GENERATOR.getId(generator.codec()))) {
 					LevelSummary summary = cir.getReturnValue();
 					cir.setReturnValue(new UpgradeLevelSummary(summary.getLevelInfo(), summary.getVersionInfo(),
 							new ModWorldInfo(worldUpgradeData.mod, generatorId, version, generator.compareVersion(version)),
@@ -222,9 +222,9 @@ interface UpgradeLevelSummaryMixin {
 				NbtCompound dimensions = nbt.getCompound("Data").getCompound("WorldGenSettings").getCompound("dimensions");
 				NbtCompound dimension;
 				if ((dimension = dimensions.getCompound(worldUpgradeData.dimension.getValue().toString())).isEmpty()) continue;
-				String generatorId = String.valueOf(Registries.CHUNK_GENERATOR.getId(generator.getCodec()));
+				String generatorId = String.valueOf(Registries.CHUNK_GENERATOR.getId(generator.codec()));
 				if (!dimension.getCompound("generator").getString("type").equals(generatorId)) continue;
-				Codec codec = generator.getCodec();
+				Codec codec = generator.codec();
 				NbtCompound nbtCompound = (NbtCompound) Util.getResult(codec.encodeStart(RegistryOps.of(NbtOps.INSTANCE, registryManager), generator), IllegalStateException::new);
 				nbtCompound.putString("type", generatorId);
 				dimension.put("generator", nbtCompound);
