@@ -179,7 +179,7 @@ public final class WorldUpgrader {
 			for (WorldUpgradeData<?> worldUpgradeData : WorldUpgradeSystem.getWorldUpgradeData()) {
 				if (worldUpgradeData.dimension != RegistryKeys.toDimensionKey(world)) continue;
 				chunkGenerator = (T) worldUpgradeData.getGenerator(WorldUpgradeData.getRegistryManager());
-				if (!Objects.equals(Registries.CHUNK_GENERATOR.getId(chunkGenerator.getCodec()), summary.getModWorldInfo().generatorId())) continue;
+				if (!Objects.equals(Registries.CHUNK_GENERATOR.getId(chunkGenerator.codec()), summary.getModWorldInfo().generatorId())) continue;
 				quit = false;
 			}
 			if (quit) {
