@@ -187,6 +187,7 @@ interface UpgradeLevelSummaryMixin {
 			GetRegistryManagerThread.joinGet();
 			for (WorldUpgradeData<?> worldUpgradeData : WorldUpgradeSystem.getWorldUpgradeData()) {
 				DynamicRegistryManager.Immutable registryManager = WorldUpgradeData.getRegistryManager();
+				if (null == registryManager) return nbt;
 				T generator = (T) worldUpgradeData.getGenerator(registryManager);
 				NbtCompound dimensions = nbt.getCompound("Data").getCompound("WorldGenSettings").getCompound("dimensions");
 				NbtCompound dimension;
