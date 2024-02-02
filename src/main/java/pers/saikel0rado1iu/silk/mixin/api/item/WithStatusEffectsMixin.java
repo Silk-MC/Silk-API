@@ -53,6 +53,9 @@ abstract class WithStatusEffectsMixin extends Entity implements Attackable {
 	}
 	
 	@Shadow
+	public abstract Iterable<ItemStack> getArmorItems();
+	
+	@Shadow
 	@Nullable
 	public abstract StatusEffectInstance getStatusEffect(RegistryEntry<StatusEffect> effect);
 	
@@ -61,11 +64,6 @@ abstract class WithStatusEffectsMixin extends Entity implements Attackable {
 	
 	@Shadow
 	public abstract ItemStack getEquippedStack(EquipmentSlot var1);
-	
-	@Override
-	@Shadow
-	public abstract Iterable<ItemStack> getArmorItems();
-	
 	
 	@Shadow
 	public abstract Collection<StatusEffectInstance> getStatusEffects();
