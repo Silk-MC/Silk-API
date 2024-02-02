@@ -13,6 +13,7 @@ package pers.saikel0rado1iu.silk.api.registry;
 
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundEvent;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModMain;
@@ -26,16 +27,20 @@ import pers.saikel0rado1iu.silk.api.ModMain;
  */
 @SilkApi
 public abstract class SilkSoundEvent {
-	protected static <S extends SoundEvent> Builder<S> builder(S soundEvent) {
-		return new Builder<>(soundEvent);
+	protected static <S extends SoundEvent> SoundEventBuilder<S> builder(S soundEvent) {
+		return new SoundEventBuilder<>(soundEvent);
+	}
+	
+	protected static <S extends SoundEvent> ReferenceBuilder<S> referenceBuilder(S soundEvent) {
+		return new ReferenceBuilder<>(soundEvent);
 	}
 	
 	@SilkApi
-	public static final class Builder<S extends SoundEvent> {
+	public static final class SoundEventBuilder<S extends SoundEvent> {
 		private final S soundEvent;
 		
 		@SilkApi
-		private Builder(S soundEvent) {
+		private SoundEventBuilder(S soundEvent) {
 			this.soundEvent = soundEvent;
 		}
 		
@@ -43,6 +48,20 @@ public abstract class SilkSoundEvent {
 		public S build() {
 			Registry.register(Registries.SOUND_EVENT, soundEvent.getId(), soundEvent);
 			return soundEvent;
+		}
+	}
+	
+	public static final class ReferenceBuilder<S extends SoundEvent> {
+		private final S soundEvent;
+		
+		@SilkApi
+		private ReferenceBuilder(S soundEvent) {
+			this.soundEvent = soundEvent;
+		}
+		
+		@SilkApi
+		public RegistryEntry.Reference<SoundEvent> build() {
+			return Registry.registerReference(Registries.SOUND_EVENT, soundEvent.getId(), soundEvent);
 		}
 	}
 }
