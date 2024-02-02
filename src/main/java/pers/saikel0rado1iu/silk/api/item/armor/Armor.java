@@ -14,8 +14,18 @@ package pers.saikel0rado1iu.silk.api.item.armor;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
 import org.jetbrains.annotations.NotNull;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
+
+import java.util.EnumMap;
+import java.util.List;
 
 /**
  * <h2 style="color:FFC800">辅助盔甲的创建的数据直观和清晰</h2>
@@ -24,12 +34,7 @@ import pers.saikel0rado1iu.silk.annotation.SilkApi;
  * @since 0.1.0
  */
 @SilkApi
-public interface Armor extends ArmorMaterial {
-	/**
-	 * 基础耐久基数
-	 */
-	@SilkApi
-	int[] DURABILITY_BASE = {11, 16, 15, 13};
+public interface Armor {
 	/**
 	 * 击退抗性比例
 	 */
@@ -48,49 +53,63 @@ public interface Armor extends ArmorMaterial {
 	@SilkApi
 	float getKnockBackResistance();
 	
+	int getEnchantability();
+	
+	RegistryEntry<SoundEvent> getEquipSound();
+	
+	Ingredient getRepairIngredient();
+	
+	float getToughness();
+	
+	/**
+	 * 获取装备的纹理层
+	 *
+	 * @return 默认的单个纹理层
+	 */
+	default List<ArmorMaterial.Layer> getLayers() {
+		return List.of(new ArmorMaterial.Layer(new Identifier(getId())));
+	}
+	
+	default RegistryEntry<ArmorMaterial> register() {
+		return Registry.registerReference(Registries.ARMOR_MATERIAL,
+				new Identifier(getId()),
+				new ArmorMaterial(Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
+					map.put(ArmorItem.Type.HELMET, getProtection(ArmorItem.Type.HELMET));
+					map.put(ArmorItem.Type.CHESTPLATE, getProtection(ArmorItem.Type.CHESTPLATE));
+					map.put(ArmorItem.Type.LEGGINGS, getProtection(ArmorItem.Type.LEGGINGS));
+					map.put(ArmorItem.Type.BOOTS, getProtection(ArmorItem.Type.BOOTS));
+					map.put(ArmorItem.Type.BODY, getProtection(ArmorItem.Type.BODY));
+				}), getEnchantability(),
+						getEquipSound(),
+						this::getRepairIngredient,
+						getLayers(),
+						getToughness(),
+						getKnockBackResistance(getKnockBackResistance())));
+	}
+	
 	@SilkApi
 	default ArmorItem createHelmet(Item.Settings settings) {
-		return new ArmorItem(this, ArmorItem.Type.HELMET, settings);
+		return new ArmorItem(register(), ArmorItem.Type.HELMET, settings.maxDamageIfAbsent(ArmorItem.Type.HELMET.getMaxDamage(getDurability())));
 	}
 	
 	@SilkApi
 	default ArmorItem createChestplate(Item.Settings settings) {
-		return new ArmorItem(this, ArmorItem.Type.CHESTPLATE, settings);
+		return new ArmorItem(register(), ArmorItem.Type.CHESTPLATE, settings.maxDamageIfAbsent(ArmorItem.Type.CHESTPLATE.getMaxDamage(getDurability())));
 	}
 	
 	@SilkApi
 	default ArmorItem createLeggings(Item.Settings settings) {
-		return new ArmorItem(this, ArmorItem.Type.LEGGINGS, settings);
+		return new ArmorItem(register(), ArmorItem.Type.LEGGINGS, settings.maxDamageIfAbsent(ArmorItem.Type.LEGGINGS.getMaxDamage(getDurability())));
 	}
 	
 	@SilkApi
 	default ArmorItem createBoots(Item.Settings settings) {
-		return new ArmorItem(this, ArmorItem.Type.BOOTS, settings);
+		return new ArmorItem(register(), ArmorItem.Type.BOOTS, settings.maxDamageIfAbsent(ArmorItem.Type.BOOTS.getMaxDamage(getDurability())));
 	}
 	
-	/**
-	 * 获取装备耐久值
-	 *
-	 * @param type        装备槽
-	 * @param coefficient 耐久系数
-	 * @return 实际耐久值
-	 */
-	private int getDurability(ArmorItem.Type type, int coefficient) {
-		return DURABILITY_BASE[type.getEquipmentSlot().getEntitySlotId()] * coefficient;
-	}
-	
-	/**
-	 * 获取装备护甲值
-	 *
-	 * @param type 装备槽
-	 * @param head 头盔
-	 * @param body 胸甲
-	 * @param legs 护腿
-	 * @param feet 靴子
-	 * @return 实际护甲值
-	 */
-	private int getProtection(ArmorItem.Type type, int head, int body, int legs, int feet) {
-		return new int[]{feet, legs, body, head}[type.getEquipmentSlot().getEntitySlotId()];
+	@SilkApi
+	default ArmorItem createBody(Item.Settings settings) {
+		return new ArmorItem(register(), ArmorItem.Type.BODY, settings.maxDamageIfAbsent(ArmorItem.Type.BODY.getMaxDamage(getDurability())));
 	}
 	
 	/**
@@ -103,24 +122,22 @@ public interface Armor extends ArmorMaterial {
 		return kr / KR_RATIO;
 	}
 	
-	@Override
-	default String getName() {
-		return getId();
-	}
-	
-	@Override
-	default int getDurability(ArmorItem.Type type) {
-		return getDurability(type, getDurability());
-	}
-	
-	@Override
-	default int getProtection(ArmorItem.Type type) {
-		int[] protection = getProtection();
-		return getProtection(type, protection[0], protection[1], protection[2], protection[3]);
-	}
-	
-	@Override
-	default float getKnockbackResistance() {
-		return getKnockBackResistance(getKnockBackResistance());
+	/**
+	 * 获取装备护甲值
+	 *
+	 * @param type 装备槽
+	 * @return 实际护甲值
+	 */
+	private int getProtection(ArmorItem.Type type) {
+		int[] protections = getProtection();
+		if (protections.length == 4) protections = new int[]{
+				protections[0], protections[1], protections[2], protections[3], protections[1]};
+		return switch (type) {
+			case HELMET -> protections[0];
+			case CHESTPLATE -> protections[1];
+			case LEGGINGS -> protections[2];
+			case BOOTS -> protections[3];
+			case BODY -> protections[4];
+		};
 	}
 }
