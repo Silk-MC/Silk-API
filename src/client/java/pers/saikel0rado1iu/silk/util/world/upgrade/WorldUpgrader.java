@@ -35,6 +35,7 @@ import net.minecraft.world.dimension.DimensionOptions;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.level.storage.LevelStorage;
 import net.minecraft.world.storage.RegionFile;
+import net.minecraft.world.storage.StorageKey;
 import net.minecraft.world.storage.VersionedChunkStorage;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.Silk;
@@ -121,10 +122,8 @@ public final class WorldUpgrader {
 		return false;
 	}
 	
-	private static List<ChunkPos> getChunkPositions(LevelStorage.Session session, RegistryKey<World> world) {
-		File worldFile = session.getWorldDirectory(world).toFile();
-		File regionFile = new File(worldFile, "region");
-		File[] mcaFiles = regionFile.listFiles((directory, name) -> name.endsWith(".mca"));
+	private static List<ChunkPos> getChunkPositions(StorageKey key, Path regionDirectory) {
+		File[] mcaFiles = regionDirectory.toFile().listFiles((file, name) -> name.endsWith(".mca"));
 		if (mcaFiles == null) return ImmutableList.of();
 		ArrayList<ChunkPos> list = Lists.newArrayList();
 		for (File mcaFile : mcaFiles) {
@@ -132,7 +131,7 @@ public final class WorldUpgrader {
 			if (!matcher.matches()) continue;
 			int offsetX = Integer.parseInt(matcher.group(1)) << 5;
 			int offsetZ = Integer.parseInt(matcher.group(2)) << 5;
-			try (RegionFile region = new RegionFile(mcaFile.toPath(), regionFile.toPath(), true)) {
+			try (RegionFile region = new RegionFile(key, mcaFile.toPath(), regionDirectory, true)) {
 				for (int x = 0; x < 32; ++x) {
 					for (int z = 0; z < 32; ++z) {
 						ChunkPos chunkPos = new ChunkPos(x + offsetX, z + offsetZ);
@@ -146,16 +145,21 @@ public final class WorldUpgrader {
 		return list;
 	}
 	
+	private VersionedChunkStorage openStorage(StorageKey storageKey, Path path) {
+		return new VersionedChunkStorage(storageKey, path, null, true);
+	}
+	
 	private <T extends ChunkGenerator & UpgradeChunkGenerator> void upgradeWorld() {
 		// 获取 ChunkPos 与 ChunkStorage 的数据以供使用
 		ImmutableMap.Builder<RegistryKey<World>, List<ChunkPos>> chunkPosMapBuilder = ImmutableMap.builder();
 		ImmutableMap.Builder<RegistryKey<World>, VersionedChunkStorage> chunkStorageMapBuilder = ImmutableMap.builder();
 		for (RegistryKey<World> world : worldKeys) {
 			int temp = totalChunkCount;
-			List<ChunkPos> list = getChunkPositions(session, world);
+			StorageKey storageKey = new StorageKey(session.getDirectoryName(), world, "chunk");
+			Path path = session.getWorldDirectory(world).resolve("region");
+			List<ChunkPos> list = getChunkPositions(storageKey, path);
+			chunkStorageMapBuilder.put(world, openStorage(storageKey, path));
 			chunkPosMapBuilder.put(world, list);
-			Path path = session.getWorldDirectory(world);
-			chunkStorageMapBuilder.put(world, new VersionedChunkStorage(path.resolve("region"), null, true));
 			totalChunkCount = temp + list.size();
 		}
 		ImmutableMap<RegistryKey<World>, List<ChunkPos>> chunkPosMap = chunkPosMapBuilder.build();
