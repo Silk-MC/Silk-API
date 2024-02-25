@@ -1,0 +1,20 @@
+{
+	"required": true,
+	"package": "pers.saikel0rado1iu.silk.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"client": [
+		"api.item.HoldingFovZoomMixin$RenderHudOverlay",
+		"api.item.HoldingFovZoomMixin$SetMouseMoveMultiplier",
+		"api.item.HoldingFovZoomMixin$SetUsingFovZoom",
+		"api.item.HoldingMovementMultiplierMixin",
+		"api.item.UsingFovZoomMixin$RenderHudOverlay",
+		"api.item.UsingFovZoomMixin$SetFovZoom",
+		"api.item.UsingFovZoomMixin$SetMouseMoveMultiplier",
+		"api.item.UsingMovementMultiplierMixin",
+		"api.item.tool.weapon.ranged.CrossbowMixin$FirstPersonRender",
+		"api.item.tool.weapon.ranged.CrossbowMixin$ThirdPersonRender"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

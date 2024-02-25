@@ -1,0 +1,10 @@
+accessWidener	v2	named
+
+accessible	class	net/minecraft/world/gen/surfacebuilder/MaterialRules$MaterialRuleContext
+accessible	method	net/minecraft/world/gen/surfacebuilder/MaterialRules$MaterialRuleContext	blockToChunkCoord (I)I
+accessible	method	net/minecraft/world/gen/surfacebuilder/MaterialRules$MaterialRuleContext	chunkToBlockCoord (I)I
+accessible	field	net/minecraft/world/ChunkSerializer	CODEC	Lcom/mojang/serialization/Codec;
+accessible	method	net/minecraft/world/ChunkSerializer	createCodec	(Lnet/minecraft/registry/Registry;)Lcom/mojang/serialization/Codec;
+accessible	method	net/minecraft/world/ChunkSerializer	readStructureStarts	(Lnet/minecraft/structure/StructureContext;Lnet/minecraft/nbt/NbtCompound;J)Ljava/util/Map;
+accessible	method	net/minecraft/world/ChunkSerializer	readStructureReferences	(Lnet/minecraft/registry/DynamicRegistryManager;Lnet/minecraft/util/math/ChunkPos;Lnet/minecraft/nbt/NbtCompound;)Ljava/util/Map;
+accessible	field	net/minecraft/client/gui/screen/world/WorldListWidget$WorldEntry	level	Lnet/minecraft/world/level/storage/LevelSummary;

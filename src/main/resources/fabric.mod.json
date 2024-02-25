@@ -2,7 +2,7 @@
 	"schemaVersion": 1,
 	"id": "silk-api",
 	"version": "${version}",
-	"name": "Silk API | 丝绸开发库",
+	"name": "Silk API",
 	"authors": [
 		"§6Saikel Orado"
 	],
@@ -21,6 +21,7 @@
 				"library"
 			],
 			"links": {
+				"modmenu.wiki": "https://silk-mc.gitbook.io/silk-api",
 				"modmenu.discord": "https://discord.gg/ZJuQyH2RBz",
 				"modmenu.support.patreon": "https://www.patreon.com/GameGeek_Saikel",
 				"modmenu.support.afdian": "https://afdian.net/a/GameGeek_Saikel"
@@ -32,21 +33,6 @@
 	"icon": "assets/silk-api/icon.png",
 	"environment": "*",
 	"accessWidener": "silk-api.accesswidener",
-	"entrypoints": {
-		"fabric-datagen": [
-			"pers.saikel0rado1iu.silk.DataGeneration"
-		],
-		"main": [
-			"pers.saikel0rado1iu.silk.Main"
-		]
-	},
-	"mixins": [
-		"silk-api.mixins.json",
-		{
-			"config": "silk-api.client.mixins.json",
-			"environment": "client"
-		}
-	],
 	"depends": {
 		"java": ">=17",
 		"minecraft": [

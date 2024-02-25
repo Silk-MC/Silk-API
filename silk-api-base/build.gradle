@@ -1,0 +1,1 @@
+version = project.silk_api_base_version + "+" + project.mc_main_version

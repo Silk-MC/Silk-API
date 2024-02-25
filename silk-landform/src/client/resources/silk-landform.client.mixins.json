@@ -1,0 +1,21 @@
+{
+	"required": true,
+	"package": "pers.saikel0rado1iu.silk.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"client": [
+		"util.world.upgrade.info.UpgradeLevelSummaryMixin$AddWorldEntryWarning",
+		"util.world.upgrade.info.UpgradeLevelSummaryMixin$FixSummaryShow",
+		"util.world.upgrade.info.UpgradeLevelSummaryMixin$SetButtonActive",
+		"util.world.upgrade.screen.UpgradePromptScreenMixin",
+		"util.world.upgrade.screen.UpgradeWarningScreenMixin$GetParentScreen",
+		"util.world.upgrade.screen.UpgradeWarningScreenMixin$ShowScreen"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"mixins": [
+		"util.world.upgrade.info.UpgradeLevelSummaryMixin$CreateDetails",
+		"util.world.upgrade.info.UpgradeLevelSummaryMixin$CreateSummary",
+		"util.world.upgrade.info.UpgradeLevelSummaryMixin$SummaryUpdate"
+	]
+}
