@@ -8,3 +8,19 @@ pluginManagement {
 		gradlePluginPortal()
 	}
 }
+
+rootProject.name = "silk-api"
+
+include 'silk-api-base'
+include 'silk-mod-pass'
+// include 'silk-mod-plus'
+include 'silk-mod-up'
+include 'silk-spinning-jenny'
+include 'silk-rope-stick'
+include 'silk-magic-cube'
+include 'silk-spore'
+include 'silk-pattern'
+include 'silk-generate'
+include 'silk-codex'
+// include 'silk-evolution'
+include 'silk-landform'

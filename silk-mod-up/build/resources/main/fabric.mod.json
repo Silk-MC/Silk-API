@@ -1,0 +1,49 @@
+{
+	"schemaVersion": 1,
+	"id": "silk-mod-up",
+	"version": "0.1.0+1.20.4",
+	"name": "Silk API: Mod Up",
+	"authors": [
+		"§6Saikel Orado"
+	],
+	"contributors": [
+		"Fabric Team | Fabric 团队",
+		"§cAnd YOU! | 还有你！"
+	],
+	"contact": {
+		"homepage": "https://github.com/Silk-MC/Silk-API",
+		"sources": "https://github.com/Silk-MC/Silk-API",
+		"issues": "https://github.com/Silk-MC/Silk-API/issues"
+	},
+	"custom": {
+		"modmenu": {
+			"parent": "silk-api",
+			"badges": [
+				"library"
+			],
+			"links": {
+				"modmenu.discord": "https://discord.gg/ZJuQyH2RBz",
+				"modmenu.support.patreon": "https://www.patreon.com/GameGeek_Saikel",
+				"modmenu.support.afdian": "https://afdian.net/a/GameGeek_Saikel"
+			},
+			"update_checker": true
+		}
+	},
+	"license": [
+		"LGPL-3.0"
+	],
+	"icon": "assets/silk-mod-up/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"fabric-datagen": [
+			"pers.saikel0rado1iu.silk.modup.DataGen"
+		]
+	},
+	"mixins": [
+		"silk-mod-up.mixins.json",
+		{
+			"config": "silk-mod-up.client.mixins.json",
+			"environment": "client"
+		}
+	]
+}

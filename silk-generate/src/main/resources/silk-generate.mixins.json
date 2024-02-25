@@ -1,0 +1,19 @@
+{
+	"required": true,
+	"package": "pers.saikel0rado1iu.silk.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"mixins": [
+		"gen.data.SilkRecipeJsonBuilderMixin$CookingRecipeJsonBuilderMixin",
+		"gen.data.SilkRecipeJsonBuilderMixin$ShapedRecipeJsonBuilderMixin",
+		"gen.data.SilkRecipeJsonBuilderMixin$ShapelessRecipeJsonBuilderMixin",
+		"gen.data.SilkRecipeJsonBuilderMixin$SingleItemRecipeJsonBuilderMixin",
+		"gen.world.chunk.CustomChunkGeneratorMixin$GetSeed",
+		"gen.world.chunk.CustomChunkGeneratorMixin$LocateBiome",
+		"gen.world.chunk.CustomChunkGeneratorMixin$PopulateBiomes",
+		"gen.world.chunk.CustomChunkGeneratorMixin$PopulateNoise",
+		"gen.world.chunk.CustomChunkGeneratorMixin$RepairStructureGen"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

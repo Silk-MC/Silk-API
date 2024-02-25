@@ -1,0 +1,1 @@
+version = project.silk_mod_plus_version + "+" + project.mc_main_version
