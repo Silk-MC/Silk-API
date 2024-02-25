@@ -1,0 +1,53 @@
+{
+	"schemaVersion": 1,
+	"id": "silk-spinning-jenny",
+	"version": "${version}",
+	"name": "Silk API: Spinning Jenny",
+	"authors": [
+		"§6Saikel Orado"
+	],
+	"contributors": [
+		"Fabric Team | Fabric 团队",
+		"§cAnd YOU! | 还有你！"
+	],
+	"contact": {
+		"homepage": "https://github.com/Silk-MC/Silk-API",
+		"sources": "https://github.com/Silk-MC/Silk-API",
+		"issues": "https://github.com/Silk-MC/Silk-API/issues"
+	},
+	"custom": {
+		"modmenu": {
+			"parent": "silk-api",
+			"badges": [
+				"library"
+			],
+			"links": {
+				"modmenu.wiki": "https://silk-mc.gitbook.io/silk-api",
+				"modmenu.discord": "https://discord.gg/ZJuQyH2RBz",
+				"modmenu.support.patreon": "https://www.patreon.com/GameGeek_Saikel",
+				"modmenu.support.afdian": "https://afdian.net/a/GameGeek_Saikel"
+			},
+			"update_checker": true
+		}
+	},
+	"license": [
+		"LGPL-3.0"
+	],
+	"icon": "assets/silk-spinning-jenny/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"fabric-datagen": [
+			"pers.saikel0rado1iu.silk.spinningjenny.DataGen"
+		],
+		"main": [
+			"pers.saikel0rado1iu.silk.spinningjenny.Main"
+		]
+	},
+	"mixins": [
+		"silk-spinning-jenny.mixins.json",
+		{
+			"config": "silk-spinning-jenny.client.mixins.json",
+			"environment": "client"
+		}
+	]
+}

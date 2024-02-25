@@ -1,0 +1,51 @@
+{
+	"schemaVersion": 1,
+	"id": "silk-generate",
+	"version": "${version}",
+	"name": "Silk API: Generate",
+	"authors": [
+		"§6Saikel Orado"
+	],
+	"contributors": [
+		"Fabric Team | Fabric 团队",
+		"§cAnd YOU! | 还有你！"
+	],
+	"contact": {
+		"homepage": "https://github.com/Silk-MC/Silk-API",
+		"sources": "https://github.com/Silk-MC/Silk-API",
+		"issues": "https://github.com/Silk-MC/Silk-API/issues"
+	},
+	"custom": {
+		"modmenu": {
+			"parent": "silk-api",
+			"badges": [
+				"library"
+			],
+			"links": {
+				"modmenu.wiki": "https://silk-mc.gitbook.io/silk-api",
+				"modmenu.discord": "https://discord.gg/ZJuQyH2RBz",
+				"modmenu.support.patreon": "https://www.patreon.com/GameGeek_Saikel",
+				"modmenu.support.afdian": "https://afdian.net/a/GameGeek_Saikel"
+			},
+			"update_checker": true
+		}
+	},
+	"license": [
+		"LGPL-3.0"
+	],
+	"icon": "assets/silk-generate/icon.png",
+	"environment": "*",
+	"accessWidener": "silk-generate.accesswidener",
+	"entrypoints": {
+		"fabric-datagen": [
+			"pers.saikel0rado1iu.silk.generate.DataGen"
+		]
+	},
+	"mixins": [
+		"silk-generate.mixins.json",
+		{
+			"config": "silk-generate.client.mixins.json",
+			"environment": "client"
+		}
+	]
+}

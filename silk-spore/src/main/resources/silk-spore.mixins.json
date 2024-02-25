@@ -1,0 +1,12 @@
+{
+	"required": true,
+	"package": "pers.saikel0rado1iu.silk.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"mixins": [
+		"api.entity.EntityNbtMixin",
+		"api.entity.projectile.FixedDamageMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

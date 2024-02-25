@@ -1,3 +1,10 @@
+## 0.3.0---2024/02/25
+
+### Features：
+
+- Refactored the code into a multi-project structure similar to Fabric API, greatly facilitating development and adaptation to new versions. It still maintains support for the old version of the code.
+- As Minecraft is about to welcome version 1.20.5, version 1.20.2 will cease to receive updates.
+
 ## 0.2.1---2024/01/27
 
 ### Fixes：
