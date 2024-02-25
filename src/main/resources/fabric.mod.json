@@ -32,7 +32,6 @@
 	"license": "LGPL-3.0",
 	"icon": "assets/silk-api/icon.png",
 	"environment": "*",
-	"accessWidener": "silk-api.accesswidener",
 	"depends": {
 		"java": ">=17",
 		"minecraft": ">1.20.4",
