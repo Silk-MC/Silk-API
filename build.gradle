@@ -158,12 +158,16 @@ allprojects {
 			def versionsUrl = "https://api.github.com/users/silk-mc/packages/maven/${project.maven_group}.${archivesBaseName}/versions"
 			def headers = ['Authorization': "token ${System.getenv("GITHUB_TOKEN")}"]
 			
-			def versionsResponse = new URL(versionsUrl).openConnection()
-					.with {
-						headers.each { k, v -> setRequestProperty(k, v) }
-						connect()
-						inputStream.text
-					}
+			def versionsResponse = ''
+			def connection = new URL(versionsUrl).openConnection() as HttpURLConnection
+			headers.each { k, v -> connection.setRequestProperty(k, v) }
+			
+			if (connection.responseCode == 200) {
+				versionsResponse = connection.inputStream.text
+			} else {
+				println "Failed to fetch versions. Response code: ${connection.responseCode}"
+				return
+			}
 			
 			// 解析 JSON 响应以获取版本列表
 			def versions = new groovy.json.JsonSlurper().parseText versionsResponse
@@ -173,9 +177,7 @@ allprojects {
 				def versionId = ver.id // 获取版本的标识符
 				def versionName = ver.name // 获取版本的名称
 				
-				if (!(versionName.contains(version))) {
-					return
-				}
+				if (versionName != version) return
 				
 				// 执行删除操作
 				def deleteUrl = "https://api.github.com/users/silk-mc/packages/maven/${project.maven_group}.${archivesBaseName}/versions/${versionId}"
@@ -189,9 +191,9 @@ allprojects {
 				
 				// 打印操作结果
 				if (deleteResponse == 204) {
-					println "Successfully deleted version ${versionName} (${versionId}) of package ${archivesBaseName} from GitHub Packages."
+					println "Successfully deleted version ${versionName} (${versionId}) of package ${deleteUrl} from GitHub Packages."
 				} else {
-					println "Failed to delete version ${versionName} (${versionId}) of package ${archivesBaseName} from GitHub Packages. Response code: ${deleteResponse}"
+					println "Failed to delete version ${versionName} (${versionId}) of package ${deleteUrl} from GitHub Packages. Response code: ${deleteResponse}"
 				}
 			}
 		}
