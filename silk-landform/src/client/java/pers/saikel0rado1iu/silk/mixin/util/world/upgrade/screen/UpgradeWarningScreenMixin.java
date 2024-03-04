@@ -26,6 +26,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.util.world.upgrade.info.UpgradeLevelSummary;
 import pers.saikel0rado1iu.silk.util.world.upgrade.screen.UpgradeWarningScreen;
 
@@ -47,8 +48,9 @@ interface UpgradeWarningScreenMixin {
 		
 		@Inject(method = "play", at = @At("HEAD"))
 		private void play(CallbackInfo ci) {
-			UpgradeWarningScreen.Mixin.Parent = screen;
+			UpgradeWarningScreen.Mixin.parent = screen;
 			UpgradeWarningScreen.Mixin.level = level;
+			UpgradeWarningScreen.Mixin.canShow = true;
 		}
 	}
 	
@@ -70,8 +72,8 @@ interface UpgradeWarningScreenMixin {
 		
 		@Inject(method = "start(L net/minecraft/client/gui/screen/Screen;L java/lang/String;ZZ)V", at = @At("RETURN"), cancellable = true)
 		private void start(Screen parent, String levelName, boolean safeMode, boolean canShowBackupPrompt, CallbackInfo ci) {
-			if (UpgradeWarningScreen.Mixin.level instanceof UpgradeLevelSummary upgradeLevelSummary && upgradeLevelSummary.shouldUpgradeWorld()) {
-				client.setScreen(new UpgradeWarningScreen(UpgradeWarningScreen.Mixin.Parent, session, () -> start(parent, levelName, safeMode, canShowBackupPrompt)));
+			if (UpgradeWarningScreen.Mixin.level instanceof UpgradeLevelSummary upgradeLevelSummary && upgradeLevelSummary.shouldUpgradeWorld() && UpgradeWarningScreen.Mixin.canShow) {
+				client.setScreen(new UpgradeWarningScreen(parent, session, () -> start(parent, levelName, safeMode, canShowBackupPrompt)));
 				ci.cancel();
 			}
 		}

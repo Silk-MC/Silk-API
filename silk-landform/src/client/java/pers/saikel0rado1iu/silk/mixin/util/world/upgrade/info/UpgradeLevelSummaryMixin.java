@@ -26,6 +26,8 @@ import net.minecraft.nbt.scanner.NbtScanQuery;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryOps;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -33,6 +35,7 @@ import net.minecraft.util.Util;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.level.storage.LevelStorage;
 import net.minecraft.world.level.storage.LevelSummary;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -51,6 +54,7 @@ import pers.saikel0rado1iu.silk.util.world.upgrade.data.WorldUpgradeData;
 import pers.saikel0rado1iu.silk.util.world.upgrade.info.ModWorldInfo;
 import pers.saikel0rado1iu.silk.util.world.upgrade.info.UpgradeLevelSummary;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -120,17 +124,7 @@ interface UpgradeLevelSummaryMixin {
 	@Mixin(WorldListWidget.WorldEntry.class)
 	abstract class AddWorldEntryWarning extends WorldListWidget.Entry {
 		@Unique
-		private static final Identifier ERROR_HIGHLIGHTED_TEXTURE = new Identifier("world_list/error_highlighted");
-		@Unique
-		private static final Identifier WARNING_HIGHLIGHTED_TEXTURE = new Identifier("world_list/warning_highlighted");
-		@Unique
-		private static final Identifier WARNING_TEXTURE = new Identifier("world_list/warning");
-		@Unique
-		private static final Identifier ERROR_TEXTURE = new Identifier("world_list/error");
-		@Unique
-		private static final Identifier MARKED_JOIN_HIGHLIGHTED_TEXTURE = new Identifier("world_list/marked_join_highlighted");
-		@Unique
-		private static final Identifier MARKED_JOIN_TEXTURE = new Identifier("world_list/marked_join");
+		private static final Identifier WORLD_SELECTION_LOCATION = new Identifier("textures/gui/world_selection.png");
 		@Shadow
 		@Final
 		public LevelSummary level;
@@ -145,16 +139,14 @@ interface UpgradeLevelSummaryMixin {
 		private void render(DrawContext context, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta, CallbackInfo ci) {
 			if (level instanceof UpgradeLevelSummary upgradeLevelSummary) {
 				boolean focus = mouseX - x < 32;
-				Identifier warningTexture = focus ? WARNING_HIGHLIGHTED_TEXTURE : WARNING_TEXTURE;
-				Identifier errorTexture = focus ? ERROR_HIGHLIGHTED_TEXTURE : ERROR_TEXTURE;
-				Identifier joinTexture = focus ? MARKED_JOIN_HIGHLIGHTED_TEXTURE : MARKED_JOIN_TEXTURE;
+				int v = focus ? 32 : 0;
 				if (upgradeLevelSummary.shouldUpgradeWorld()) {
-					context.drawTexture(joinTexture, x, y, 32, 32, 256, 256);
-					context.drawTexture(warningTexture, x, y, 32, 32, 256, 256);
+					context.drawTexture(WORLD_SELECTION_LOCATION, x, y, 32, v, 32, 32, 256, 256);
+					context.drawTexture(WORLD_SELECTION_LOCATION, x, y, 64, v, 32, 32, 256, 256);
 					if (focus) screen.setTooltip(client.textRenderer.wrapLines(upgradeLevelSummary.getUpgradeTooltip(), 175));
 					ci.cancel();
 				} else if (upgradeLevelSummary.shouldDowngradeWorld()) {
-					context.drawTexture(errorTexture, x, y, 32, 32, 256, 256);
+					context.drawTexture(WORLD_SELECTION_LOCATION, x, y, 96, v, 32, 32, 256, 256);
 					if (focus) screen.setTooltip(client.textRenderer.wrapLines(upgradeLevelSummary.getDowngradeTooltip(), 175));
 					ci.cancel();
 				}
@@ -205,6 +197,19 @@ interface UpgradeLevelSummaryMixin {
 		}
 	}
 	
+	@Mixin(ServerWorld.class)
+	abstract class SetWorldSave {
+		@Shadow
+		@NotNull
+		public abstract MinecraftServer getServer();
+		
+		@Inject(method = "close", at = @At("RETURN"))
+		private void save(CallbackInfo ci) throws IOException {
+			LevelStorage.Session session = getServer().session;
+			if (null != session.getLevelSummary()) session.save(session.getLevelSummary().getLevelInfo().getLevelName());
+		}
+	}
+	
 	@Mixin(LevelStorage.Session.class)
 	abstract class SummaryUpdate {
 		@Inject(method = "getLevelSummary", at = @At("RETURN"))
@@ -219,7 +224,7 @@ interface UpgradeLevelSummaryMixin {
 			for (WorldUpgradeData<?> worldUpgradeData : WorldUpgradeSystem.getWorldUpgradeData()) {
 				DynamicRegistryManager.Immutable registryManager = WorldUpgradeData.getRegistryManager();
 				T generator = (T) worldUpgradeData.getGenerator(registryManager);
-				NbtCompound dimensions = nbt.getCompound("Data").getCompound("WorldGenSettings").getCompound("dimensions");
+				NbtCompound dimensions = nbt.getCompound("WorldGenSettings").getCompound("dimensions");
 				NbtCompound dimension;
 				if ((dimension = dimensions.getCompound(worldUpgradeData.dimension.getValue().toString())).isEmpty()) continue;
 				String generatorId = String.valueOf(Registries.CHUNK_GENERATOR.getId(generator.codec()));

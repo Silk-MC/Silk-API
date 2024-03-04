@@ -8,3 +8,4 @@ accessible	method	net/minecraft/world/ChunkSerializer	createCodec	(Lnet/minecraf
 accessible	method	net/minecraft/world/ChunkSerializer	readStructureStarts	(Lnet/minecraft/structure/StructureContext;Lnet/minecraft/nbt/NbtCompound;J)Ljava/util/Map;
 accessible	method	net/minecraft/world/ChunkSerializer	readStructureReferences	(Lnet/minecraft/registry/DynamicRegistryManager;Lnet/minecraft/util/math/ChunkPos;Lnet/minecraft/nbt/NbtCompound;)Ljava/util/Map;
 accessible	field	net/minecraft/client/gui/screen/world/WorldListWidget$WorldEntry	level	Lnet/minecraft/world/level/storage/LevelSummary;
+accessible	field	net/minecraft/server/MinecraftServer	session	Lnet/minecraft/world/level/storage/LevelStorage$Session;

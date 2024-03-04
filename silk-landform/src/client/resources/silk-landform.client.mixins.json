@@ -16,6 +16,7 @@
 	"mixins": [
 		"util.world.upgrade.info.UpgradeLevelSummaryMixin$CreateDetails",
 		"util.world.upgrade.info.UpgradeLevelSummaryMixin$CreateSummary",
+		"util.world.upgrade.info.UpgradeLevelSummaryMixin$SetWorldSave",
 		"util.world.upgrade.info.UpgradeLevelSummaryMixin$SummaryUpdate"
 	]
 }
