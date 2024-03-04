@@ -1,8 +1,21 @@
+## 0.3.1---2024/03/04
+
+### Fixes:
+
+- Logic
+	- Fixed an issue in ChunkStorageData where getBiome() returning null would cause the game to crash.
+- Client
+	- Fixed an issue in versions 1.20 to 1.20.1 where screens related to world upgrades were lacking backgrounds.
+	- Fixed an issue where world loading requiring an upgrade would crash in versions 1.20 to 1.20.1.
+	- Fixed an issue where all world generators in a mod shared the same name.
+	- Fixed an issue where world upgrades would occasionally use other world generator upgrade methods.
+
 ## 0.3.0---2024/02/25
 
 ### Features：
 
-- Refactored the code into a multi-project structure similar to Fabric API, greatly facilitating development and adaptation to new versions. It still maintains support for the old version of the code.
+- Refactored the code into a multi-project structure similar to Fabric API, greatly facilitating development and adaptation to new versions.
+  It still maintains support for the old version of the code.
 - As Minecraft is about to welcome version 1.20.5, version 1.20.2 will cease to receive updates.
 
 ## 0.2.1---2024/01/27

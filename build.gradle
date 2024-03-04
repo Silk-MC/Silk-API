@@ -30,8 +30,17 @@ allprojects {
 		}
 		
 		runs {
+			// 为测试创建基本运行配置的示例
+			testClient {
+				// 从另一个运行配置复制设置。
+				inherit client
+				
+				configName = "Test Minecraft Client"
+				source = sourceSets.test
+			}
+			
 			// 添加一个新的 gradle 任务，会运行数据生成 API：“gradlew runDatagenClient”
-			datagenClient {
+			datagen {
 				inherit client
 				name "Data Generation"
 				vmArg "-Dfabric-api.datagen"
@@ -40,6 +49,21 @@ allprojects {
 				
 				runDir "build/datagen"
 			}
+			
+			testmodDatagen {
+				inherit client
+				name "Test Mod DataGen"
+				vmArg "-Dfabric-api.datagen"
+				vmArg "-Dfabric-api.datagen.output-dir=${file("src/testmod/generated")}"
+				vmArg "-Dfabric-api.datagen.modid=${project.name}-test"
+				
+				runDir "build/datagen"
+				source = sourceSets.test
+			}
+		}
+		
+		runConfigs.configureEach {
+			ideConfigGenerated = true
 		}
 	}
 	
@@ -51,6 +75,32 @@ allprojects {
 				]
 			}
 		}
+		
+		testmod {
+			compileClasspath += main.compileClasspath
+			runtimeClasspath += main.runtimeClasspath
+			
+			resources {
+				srcDirs += [
+						'src/testmod/generated'
+				]
+			}
+		}
+		
+		testmodClient {
+			compileClasspath += main.compileClasspath
+			runtimeClasspath += main.runtimeClasspath
+			compileClasspath += client.compileClasspath
+			runtimeClasspath += client.runtimeClasspath
+			
+			compileClasspath += testmod.compileClasspath
+			runtimeClasspath += testmod.runtimeClasspath
+		}
+		
+		test {
+			compileClasspath += testmodClient.compileClasspath
+			runtimeClasspath += testmodClient.runtimeClasspath
+		}
 	}
 	
 	dependencies {
@@ -61,6 +111,9 @@ allprojects {
 		modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 		// Fabric API. 这在理论上是可选的, 但无论如何您都可能需要它.
 		modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+		
+		// 添加 testmod 测试模组服务端依赖
+		testmodClientImplementation sourceSets.testmod.output
 		
 		// 取消注释以下行以启用已弃用的 Fabric API 模块.
 		// 这些包含在 Fabric API 发布版本中, 允许您在以后更方便的时候将您的模块更新为最新的模块.
