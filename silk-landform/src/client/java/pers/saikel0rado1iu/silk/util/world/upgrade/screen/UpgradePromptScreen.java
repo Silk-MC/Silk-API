@@ -81,8 +81,9 @@ public class UpgradePromptScreen extends BaseScreen {
 	
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-		super.render(context, mouseX, mouseY, delta);
+		renderBackground(context);
 		context.drawCenteredTextWithShadow(textRenderer, title, width / 2, 40, 0xFFFFFF);
 		promptText.drawCenterWithShadow(context, width / 2, 60);
+		super.render(context, mouseX, mouseY, delta);
 	}
 }

@@ -57,6 +57,7 @@ public class UpgradeWarningScreen extends BaseScreen {
 			if (backup) EditWorldScreen.backupLevel(session);
 			play.run();
 		};
+		UpgradeWarningScreen.Mixin.canShow = false;
 	}
 	
 	@Override
@@ -69,7 +70,7 @@ public class UpgradeWarningScreen extends BaseScreen {
 		addDrawableChild(ButtonWidget.builder(Text.translatable("selectWorld.backupJoinSkipButton"), button -> consumer.accept(false)).dimensions(width / 2 - 155 + 160, 100 + widgetY, 150, 20).build());
 		addDrawableChild(ButtonWidget.builder(ScreenTexts.BACK, button -> {
 			try {
-				session.close();
+				if (null != session) session.close();
 			} catch (IOException e) {
 				Silk.DATA.logger().warn("Failed to unlock access to level {}", session.getDirectoryName(), e);
 			}
@@ -79,14 +80,16 @@ public class UpgradeWarningScreen extends BaseScreen {
 	
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-		super.render(context, mouseX, mouseY, delta);
+		renderBackground(context);
 		context.drawCenteredTextWithShadow(textRenderer, title, width / 2, 40, 0xFFFFFF);
 		warningText.drawCenterWithShadow(context, width / 2, 60);
+		super.render(context, mouseX, mouseY, delta);
 	}
 	
 	@ApiStatus.Internal
 	public static final class Mixin {
-		public static Screen Parent;
+		public static boolean canShow = true;
+		public static Screen parent;
 		public static LevelSummary level;
 	}
 }

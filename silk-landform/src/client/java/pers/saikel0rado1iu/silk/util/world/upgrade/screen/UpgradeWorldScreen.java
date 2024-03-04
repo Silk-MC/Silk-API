@@ -87,7 +87,7 @@ public class UpgradeWorldScreen extends BaseScreen {
 	
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-		super.render(context, mouseX, mouseY, delta);
+		renderBackground(context);
 		int widgetStartX = width / 2 - 150;
 		int widgetEndX = width / 2 + 150;
 		int widgetStartY = height / 4 + 100;
@@ -107,6 +107,7 @@ public class UpgradeWorldScreen extends BaseScreen {
 					width / 2, widgetStartY + 2 * textRenderer.fontHeight + 2, 0xA0A0A0);
 			context.drawCenteredTextWithShadow(textRenderer, MathHelper.floor(upgrader.getProgress() * 100.0f) + "%",
 					width / 2, widgetStartY + (widgetEndY - widgetStartY) / 2 - textRenderer.fontHeight / 2, 0xA0A0A0);
+			super.render(context, mouseX, mouseY, delta);
 		}
 	}
 	
