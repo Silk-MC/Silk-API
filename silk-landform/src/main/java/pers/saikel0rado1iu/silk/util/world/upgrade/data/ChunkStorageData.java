@@ -194,13 +194,14 @@ public final class ChunkStorageData {
 	}
 	
 	@SilkApi
-	public ChunkSection getSection(ChunkSectionPos pos) {
+	public @Nullable ChunkSection getSection(ChunkSectionPos pos) {
 		return sections.get(pos);
 	}
 	
 	@SilkApi
-	public RegistryEntry<Biome> getBiome(BlockPos pos) {
-		return sections.get(getSectionIndex(pos)).getBiome(
+	public @Nullable RegistryEntry<Biome> getBiome(BlockPos pos) {
+		ChunkSection section = getSection(getSectionIndex(pos));
+		return null == section ? null : section.getBiome(
 				BiomeCoords.fromBlock(pos.getX()) & 3,
 				BiomeCoords.fromBlock(MathHelper.clamp(pos.getY(), getButton(), getHeight())) & 3,
 				BiomeCoords.fromBlock(pos.getZ()) & 3);
