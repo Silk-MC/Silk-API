@@ -1,6 +1,7 @@
 //file:noinspection GroovyAssignabilityCheck
 //file:noinspection DependencyNotationArgument
 //file:noinspection ForeignDelegate
+//file:noinspection UnnecessaryQualifiedReference
 plugins {
 	id 'fabric-loom' version '1.5-SNAPSHOT'
 	id 'maven-publish'
@@ -151,6 +152,51 @@ allprojects {
 		}
 	}
 	
+	tasks.register('deleteRemoteArtifact', Delete) {
+		doLast {
+			// 使用 GitHub Packages API 获取特定包的所有版本
+			def versionsUrl = "https://api.github.com/users/silk-mc/packages/maven/${project.maven_group}.${archivesBaseName}/versions"
+			def headers = ['Authorization': "token ${System.getenv("GITHUB_TOKEN")}"]
+			
+			def versionsResponse = new URL(versionsUrl).openConnection()
+					.with {
+						headers.each { k, v -> setRequestProperty(k, v) }
+						connect()
+						inputStream.text
+					}
+			
+			// 解析 JSON 响应以获取版本列表
+			def versions = new groovy.json.JsonSlurper().parseText versionsResponse
+			
+			// 遍历版本列表并执行删除操作
+			versions.each { ver ->
+				def versionId = ver.id // 获取版本的标识符
+				def versionName = ver.name // 获取版本的名称
+				
+				if (!(versionName.contains(version))) {
+					return
+				}
+				
+				// 执行删除操作
+				def deleteUrl = "https://api.github.com/users/silk-mc/packages/maven/${project.maven_group}.${archivesBaseName}/versions/${versionId}"
+				def deleteResponse = new URL(deleteUrl).openConnection()
+						.with {
+							requestMethod = 'DELETE'
+							headers.each { k, v -> setRequestProperty(k, v) }
+							connect()
+							getResponseCode()
+						}
+				
+				// 打印操作结果
+				if (deleteResponse == 204) {
+					println "Successfully deleted version ${versionName} (${versionId}) of package ${archivesBaseName} from GitHub Packages."
+				} else {
+					println "Failed to delete version ${versionName} (${versionId}) of package ${archivesBaseName} from GitHub Packages. Response code: ${deleteResponse}"
+				}
+			}
+		}
+	}
+	
 	// 配置 Maven 发布
 	publishing {
 		publications {
@@ -175,6 +221,12 @@ allprojects {
 					password = System.getenv("GITHUB_TOKEN")
 				}
 			}
+		}
+	}
+	
+	tasks.configureEach { task ->
+		if (task.name.startsWith('publish')) {
+			task.dependsOn 'deleteRemoteArtifact'
 		}
 	}
 }
