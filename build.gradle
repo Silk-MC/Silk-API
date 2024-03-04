@@ -158,7 +158,7 @@ allprojects {
 			def versionsUrl = "https://api.github.com/users/silk-mc/packages/maven/${project.maven_group}.${archivesBaseName}/versions"
 			def headers = ['Authorization': "token ${System.getenv("GITHUB_TOKEN")}"]
 			
-			def versionsResponse = ''
+			def versionsResponse
 			def connection = new URL(versionsUrl).openConnection() as HttpURLConnection
 			headers.each { k, v -> connection.setRequestProperty(k, v) }
 			
