@@ -60,7 +60,7 @@ public class UpgradeLevelSummary extends LevelSummary {
 	@ApiStatus.Internal
 	public Text addDetails(MutableText origin) {
 		origin.append(Text.literal(", "));
-		MutableText prefix = Text.translatable(TextUtil.widgetText(modWorldInfo.mod(), "generator"));
+		MutableText prefix = Text.translatable(TextUtil.widgetText(modWorldInfo.mod(), "generator." + modWorldInfo.generatorId().getPath()));
 		if (isNonVersion()) {
 			origin.append(prefix.formatted(Formatting.ITALIC, Formatting.GOLD))
 					.append(ScreenTexts.SPACE)
