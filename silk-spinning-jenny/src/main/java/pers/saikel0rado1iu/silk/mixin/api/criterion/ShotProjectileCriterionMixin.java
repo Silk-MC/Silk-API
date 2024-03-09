@@ -11,20 +11,18 @@
 
 package pers.saikel0rado1iu.silk.mixin.api.criterion;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import pers.saikel0rado1iu.silk.api.registry.gen.data.criterion.SilkCriteria;
 
 /**
@@ -34,36 +32,22 @@ import pers.saikel0rado1iu.silk.api.registry.gen.data.criterion.SilkCriteria;
  * @since 0.1.0
  */
 interface ShotProjectileCriterionMixin {
-	@Mixin(BowItem.class)
+	@Mixin(RangedWeaponItem.class)
 	abstract class Bow {
-		@Unique
-		private Entity persistentProjectileEntity;
-		
-		@ModifyArg(method = "onStoppedUsing", at = @At(value = "INVOKE", target = "L net/minecraft/world/World;spawnEntity(L net/minecraft/entity/Entity;)Z"))
-		private Entity getEntity(Entity entity) {
-			return persistentProjectileEntity = entity;
-		}
-		
-		@Inject(method = "onStoppedUsing", at = @At(value = "INVOKE", target = "L net/minecraft/world/World;spawnEntity(L net/minecraft/entity/Entity;)Z", shift = At.Shift.AFTER))
-		private void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci) {
-			if (user instanceof ServerPlayerEntity serverPlayer)
-				SilkCriteria.SHOT_PROJECTILE_CRITERION.trigger(serverPlayer, stack, persistentProjectileEntity, 1);
+		@SuppressWarnings("ConstantValue")
+		@Inject(method = "createArrowEntity", at = @At("RETURN"))
+		private void createArrowEntity(World world, LivingEntity shooter, ItemStack weaponStack, ItemStack projectileStack, boolean critical, CallbackInfoReturnable<ProjectileEntity> cir) {
+			if (((RangedWeaponItem) (Object) this) instanceof BowItem && shooter instanceof ServerPlayerEntity serverPlayer)
+				SilkCriteria.SHOT_PROJECTILE_CRITERION.trigger(serverPlayer, weaponStack, cir.getReturnValue(), 1);
 		}
 	}
 	
 	@Mixin(CrossbowItem.class)
 	abstract class Crossbow {
-		@Unique
-		private static Entity projectileEntity;
-		
-		@ModifyArg(method = "shoot", at = @At(value = "INVOKE", target = "L net/minecraft/world/World;spawnEntity(L net/minecraft/entity/Entity;)Z"))
-		private static Entity getEntity(Entity entity) {
-			return projectileEntity = entity;
-		}
-		
-		@Inject(method = "shoot", at = @At("TAIL"))
-		private static void shoot(World world, LivingEntity shooter, Hand hand, ItemStack crossbow, ItemStack projectile, float soundPitch, boolean creative, float speed, float divergence, float simulated, CallbackInfo ci) {
-			if (shooter instanceof ServerPlayerEntity serverPlayer) SilkCriteria.SHOT_PROJECTILE_CRITERION.trigger(serverPlayer, crossbow, projectileEntity, 1);
+		@Inject(method = "createArrowEntity", at = @At("RETURN"))
+		private void createArrowEntity(World world, LivingEntity shooter, ItemStack weaponStack, ItemStack projectileStack, boolean critical, CallbackInfoReturnable<ProjectileEntity> cir) {
+			if (shooter instanceof ServerPlayerEntity serverPlayer)
+				SilkCriteria.SHOT_PROJECTILE_CRITERION.trigger(serverPlayer, weaponStack, cir.getReturnValue(), 1);
 		}
 	}
 }
