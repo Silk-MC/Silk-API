@@ -38,6 +38,9 @@
 	"entrypoints": {
 		"fabric-datagen": [
 			"pers.saikel0rado1iu.silk.ropestick.DataGen"
+		],
+		"main": [
+			"pers.saikel0rado1iu.silk.ropestick.Main"
 		]
 	},
 	"mixins": [
