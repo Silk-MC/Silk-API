@@ -11,41 +11,31 @@
 
 package pers.saikel0rado1iu.silk.api.item.tool.weapon.ranged;
 
-import com.google.common.collect.Lists;
-import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ChargedProjectilesComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.CrossbowUser;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.FireworkRocketEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.item.ArrowItem;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.api.registry.gen.data.criterion.RangedKilledEntityCriterion;
 import pers.saikel0rado1iu.silk.api.registry.gen.data.criterion.SilkCriteria;
-import pers.saikel0rado1iu.silk.util.MathUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -64,57 +54,36 @@ public abstract class Crossbow extends CrossbowItem implements SilkCrossbowExten
 	}
 	
 	/**
-	 * 重实现 {@link CrossbowItem#createArrow(World, LivingEntity, ItemStack, ItemStack)}
+	 * 重实现 {@link CrossbowItem#getSoundPitch(Random, int)}
 	 */
 	@SuppressWarnings("JavadocReference")
-	protected PersistentProjectileEntity createArrow(World world, LivingEntity entity, ItemStack crossbow, ItemStack arrow) {
-		// 创建箭实体
-		ArrowItem arrowItem = (ArrowItem) (arrow.getItem() instanceof ArrowItem ? arrow.getItem() : Items.ARROW);
-		PersistentProjectileEntity persistentProjectileEntity = arrowItem.createArrow(world, arrow, entity);
-		// 如果是玩家则可以触发暴击
-		if (entity instanceof PlayerEntity) persistentProjectileEntity.setCritical(true);
-		// 设置声音
-		persistentProjectileEntity.setSound(SoundEvents.ITEM_CROSSBOW_HIT);
-		// 设置由弩射击
-		persistentProjectileEntity.setShotFromCrossbow(true);
-		// 设置“穿透”效果
-		int piercingLevel = EnchantmentHelper.getLevel(Enchantments.PIERCING, crossbow);
-		if (piercingLevel > 0) persistentProjectileEntity.setPierceLevel((byte) piercingLevel);
-		
-		return persistentProjectileEntity;
-	}
-	
-	/**
-	 * 重实现 {@link CrossbowItem#getSoundPitches(Random)}
-	 */
-	@SuppressWarnings("JavadocReference")
-	protected float[] getSoundPitches(Random random) {
-		boolean randomBool = random.nextBoolean();
-		return new float[]{1, getSoundPitch(randomBool, random), getSoundPitch(!randomBool, random)};
+	protected static float getSoundPitch(Random random, int index) {
+		if (index == 0) return 1;
+		return getSoundPitch((index & 1) == 1, random);
 	}
 	
 	/**
 	 * 重实现 {@link CrossbowItem#getSoundPitch(boolean, Random)}
 	 */
 	@SuppressWarnings("JavadocReference")
-	protected float getSoundPitch(boolean flag, Random random) {
+	protected static float getSoundPitch(boolean flag, Random random) {
 		float pitch = flag ? 0.63F : 0.43F;
 		return 1 / (random.nextFloat() * 0.5F + 1.8F) + pitch;
 	}
 	
 	/**
-	 * 重实现 {@link CrossbowItem#postShoot(World, LivingEntity, ItemStack)}
+	 * 重实现 {@link CrossbowItem#calcVelocity(LivingEntity, Vec3d, float)}
 	 */
 	@SuppressWarnings("JavadocReference")
-	protected void postShootProjectile(World world, LivingEntity entity, ItemStack stack) {
-		// 如果实体为玩家实体
-		if (entity instanceof ServerPlayerEntity serverPlayerEntity) {
-			// 触发弩的射击
-			if (!world.isClient) Criteria.SHOT_CROSSBOW.trigger(serverPlayerEntity, stack);
-			serverPlayerEntity.incrementStat(Stats.USED.getOrCreateStat(stack.getItem()));
+	protected static Vector3f calcVelocity(LivingEntity shooter, Vec3d direction, float yaw) {
+		Vector3f vector3f = direction.toVector3f().normalize();
+		Vector3f vector3f2 = new Vector3f(vector3f).cross(new Vector3f(0, 1, 0));
+		if ((double) vector3f2.lengthSquared() <= 1.0E-7) {
+			Vec3d vec3d = shooter.getOppositeRotationVector(1);
+			vector3f2 = new Vector3f(vector3f).cross(vec3d.toVector3f());
 		}
-		// 清除所有弹药
-		clearAllProjectile(stack);
+		Vector3f vector3f3 = new Vector3f(vector3f).rotateAxis(1.5707964f, vector3f2.x, vector3f2.y, vector3f2.z);
+		return new Vector3f(vector3f).rotateAxis(yaw * ((float) Math.PI / 180), vector3f3.x, vector3f3.y, vector3f3.z);
 	}
 	
 	/**
@@ -122,89 +91,10 @@ public abstract class Crossbow extends CrossbowItem implements SilkCrossbowExten
 	 */
 	@SuppressWarnings("JavadocReference")
 	protected boolean loadAllProjectile(LivingEntity shooter, ItemStack crossbow) {
-		// 获取弹药数
-		int projectilesNum = EnchantmentHelper.getLevel(Enchantments.MULTISHOT, crossbow) == 0 ? 1 : 3;
-		// 如果实体为玩家且在创造模式
-		boolean isPlayerAndInCreative = shooter instanceof PlayerEntity player && player.getAbilities().creativeMode;
-		// 获取弹药
-		ItemStack projectile = shooter.getProjectileType(crossbow);
-		ItemStack projectileCopy = projectile.copy();
-		for (int count = 0; count < projectilesNum; ++count) {
-			// 如果有多重射击则多重射击弹药复制主弹药
-			if (count > 0) projectile = projectileCopy.copy();
-			// 如果没有弹药且在创造模式
-			if (projectile.isEmpty() && isPlayerAndInCreative) {
-				projectile = new ItemStack(Items.ARROW);
-				projectileCopy = projectile.copy();
-			}
-			// 如果无法装填弹药
-			if (!loadProjectile(shooter, crossbow, projectile, count > 0, isPlayerAndInCreative)) return false;
-		}
+		List<ItemStack> list = CrossbowItem.load(crossbow, shooter.getProjectileType(crossbow), shooter);
+		if (list.isEmpty()) return false;
+		crossbow.set(DataComponentTypes.CHARGED_PROJECTILES, ChargedProjectilesComponent.of(list));
 		return true;
-	}
-	
-	/**
-	 * 重实现 {@link CrossbowItem#loadProjectile(LivingEntity, ItemStack, ItemStack, boolean, boolean)}
-	 */
-	@SuppressWarnings("JavadocReference")
-	protected boolean loadProjectile(LivingEntity shooter, ItemStack crossbow, ItemStack projectile, boolean simulated, boolean creative) {
-		// 如果没弹药
-		if (projectile.isEmpty()) return false;
-		
-		ItemStack projectileCopy;
-		// 如果不在创造模式且不是多重射击则减少弹药
-		if (!creative && !simulated) {
-			projectileCopy = projectile.split(1);
-			if (projectile.isEmpty() && shooter instanceof PlayerEntity player) {
-				player.getInventory().removeOne(projectile);
-			}
-		} else projectileCopy = projectile.copy();
-		// 设置弹药
-		putProjectile(crossbow, projectileCopy);
-		return true;
-	}
-	
-	/**
-	 * 重实现 {@link CrossbowItem#putProjectile(ItemStack, ItemStack)}
-	 */
-	@SuppressWarnings("JavadocReference")
-	protected void putProjectile(ItemStack crossbow, ItemStack projectile) {
-		NbtCompound nbtCompound = crossbow.getOrCreateNbt();
-		NbtList nbtList = nbtCompound.contains(CHARGED_PROJECTILES_KEY, NbtElement.LIST_TYPE) ? nbtCompound.getList(CHARGED_PROJECTILES_KEY, NbtElement.COMPOUND_TYPE) : new NbtList();
-		NbtCompound nbtCompound2 = new NbtCompound();
-		projectile.writeNbt(nbtCompound2);
-		nbtList.add(nbtCompound2);
-		nbtCompound.put(CHARGED_PROJECTILES_KEY, nbtList);
-	}
-	
-	/**
-	 * 重实现 {@link CrossbowItem#getProjectiles(ItemStack)}
-	 */
-	@SuppressWarnings("JavadocReference")
-	protected List<ItemStack> getAllProjectile(ItemStack crossbow) {
-		NbtList nbtList;
-		ArrayList<ItemStack> list = Lists.newArrayList();
-		NbtCompound nbtCompound = crossbow.getNbt();
-		if (nbtCompound != null && nbtCompound.contains(CHARGED_PROJECTILES_KEY, NbtElement.LIST_TYPE) && (nbtList = nbtCompound.getList(CHARGED_PROJECTILES_KEY, NbtElement.COMPOUND_TYPE)) != null) {
-			for (int count = 0; count < nbtList.size(); ++count) {
-				NbtCompound nbtCompound2 = nbtList.getCompound(count);
-				list.add(ItemStack.fromNbt(nbtCompound2));
-			}
-		}
-		return list;
-	}
-	
-	/**
-	 * 重实现 {@link CrossbowItem#clearProjectiles(ItemStack)}
-	 */
-	@SuppressWarnings("JavadocReference")
-	protected void clearAllProjectile(ItemStack crossbow) {
-		NbtCompound nbtCompound = crossbow.getNbt();
-		if (nbtCompound != null) {
-			NbtList nbtList = nbtCompound.getList(CHARGED_PROJECTILES_KEY, NbtElement.LIST_TYPE);
-			nbtList.clear();
-			nbtCompound.put(CHARGED_PROJECTILES_KEY, nbtList);
-		}
 	}
 	
 	@Override
@@ -228,78 +118,51 @@ public abstract class Crossbow extends CrossbowItem implements SilkCrossbowExten
 	}
 	
 	/**
-	 * <p>设置自定义伤害</p>
-	 * 重实现 {@link CrossbowItem#shoot(World, LivingEntity, Hand, ItemStack, ItemStack, float, boolean, float, float, float)}
+	 * <p>设置自定义伤害、速度和射击音效</p>
+	 * 重实现 {@link CrossbowItem#shoot(LivingEntity, ProjectileEntity, int, float, float, float, LivingEntity)}
 	 */
-	@SuppressWarnings("JavadocReference")
-	protected void shootProjectile(World world, LivingEntity shooter, Hand hand, ItemStack crossbow, ItemStack projectile, float soundPitch, boolean creative, float speed, float divergence, float simulated) {
-		// 在服务端操作
-		if (world.isClient) return;
-		ProjectileEntity projectileEntity;
-		// 如果弹药是烟花火箭
-		boolean projectileIsFireworkRocket = projectile.isOf(Items.FIREWORK_ROCKET);
-		// 构建弹丸实体
-		if (projectileIsFireworkRocket) {
-			projectileEntity = new FireworkRocketEntity(world, projectile, shooter, shooter.getX(), shooter.getEyeY() - (double) 0.15f, shooter.getZ(), true);
+	@Override
+	protected void shoot(LivingEntity shooter, ProjectileEntity projectile, int index, float speed, float divergence, float yaw, @Nullable LivingEntity target) {
+		// 设置基础伤害增加
+		if (projectile instanceof PersistentProjectileEntity persistentPro) persistentPro.setDamage(persistentPro.getDamage() * getDamageMultiple());
+		Vector3f directionVector;
+		// 如果有目标
+		if (target != null) {
+			// 计算目标位置与射击者位置之间的距离
+			double deltaX = target.getX() - shooter.getX();
+			double deltaZ = target.getZ() - shooter.getZ();
+			double distance = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
+			// 计算目标位置的高度
+			double deltaY = target.getBodyY((double) 1 / 3) - projectile.getY() + distance * 0.2;
+			// 计算射击方向的速度向量
+			directionVector = calcVelocity(shooter, new Vec3d(deltaX, deltaY, deltaZ), yaw);
 		} else {
-			projectileEntity = createArrow(world, shooter, crossbow, projectile);
-			// 设置基础伤害增加
-			((PersistentProjectileEntity) projectileEntity).setDamage(((PersistentProjectileEntity) projectileEntity).getDamage() * getDamageMultiple());
-			// 如果在创造模式或不是'多重射击'弹药则设置为仅创造模式可拾起
-			if (creative || MathUtil.compareFloat(simulated, 0) != 0) {
-				((PersistentProjectileEntity) projectileEntity).pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
-			}
+			// 如果没有目标，计算射击方向的速度向量
+			Vec3d rotationVectorOpposite = shooter.getOppositeRotationVector(1);
+			Quaternionf rotationQuaternion = new Quaternionf().setAngleAxis(yaw * ((float) Math.PI / 180), rotationVectorOpposite.x, rotationVectorOpposite.y, rotationVectorOpposite.z);
+			Vec3d rotationVector = shooter.getRotationVec(1);
+			directionVector = rotationVector.toVector3f().rotate(rotationQuaternion);
 		}
-		RangedKilledEntityCriterion.putRangedNbt(projectileEntity, crossbow);
-		// 如果使用者是弩使用者
-		if (shooter instanceof CrossbowUser crossbowUser) {
-			// 直接由弩使用者发射
-			crossbowUser.shoot(crossbowUser.getTarget(), crossbow, projectileEntity, simulated);
-		} else {
-			// 设置弹药速度
-			Vec3d vec3d = shooter.getOppositeRotationVector(1);
-			Quaternionf quaternionf = new Quaternionf().setAngleAxis(simulated * ((float) Math.PI / 180), vec3d.x, vec3d.y, vec3d.z);
-			Vec3d vec3d2 = shooter.getRotationVec(1);
-			Vector3f vector3f = vec3d2.toVector3f().rotate(quaternionf);
-			projectileEntity.setVelocity(vector3f.x(), vector3f.y(), vector3f.z(), speed, divergence);
-		}
-		// 设置弩损伤
-		crossbow.damage(projectileIsFireworkRocket ? 3 : 1, shooter, LivingEntity.getSlotForHand(hand));
-		// 生成弹药
-		world.spawnEntity(projectileEntity);
-		// 播放音效
-		world.playSound(null, shooter.getX(), shooter.getY(), shooter.getZ(), getShootSound(), SoundCategory.PLAYERS, 1.0f, soundPitch);
-		if (shooter instanceof ServerPlayerEntity serverPlayer) SilkCriteria.SHOT_PROJECTILE_CRITERION.trigger(serverPlayer, crossbow, projectileEntity, 1);
+		// 设置弹药的速度和发散度
+		projectile.setVelocity(directionVector.x(), directionVector.y(), directionVector.z(), speed, divergence);
+		// 获取射击音效的音调
+		float soundPitch = getSoundPitch(shooter.getRandom(), index);
+		// 播放射击音效
+		shooter.playSound(getShootSound(), 1, soundPitch);
 	}
 	
 	/**
-	 * 重实现 {@link CrossbowItem#shootAll(World, LivingEntity, Hand, ItemStack, float, float)}
+	 * 添加射击弹药标准
 	 */
-	public void shootAllProjectile(World world, LivingEntity entity, Hand hand, ItemStack stack, float speed, float divergence) {
-		// 获取弹药
-		List<ItemStack> projectiles = getAllProjectile(stack);
-		// 获取所有音高
-		float[] soundPitches = getSoundPitches(entity.getRandom());
-		
-		// 发射所有弹药
-		for (int count = 0; count < projectiles.size(); ++count) {
-			ItemStack itemStack = projectiles.get(count);
-			// 如果实体为玩家且在创造模式
-			boolean isPlayerAndInCreative = entity instanceof PlayerEntity player && player.getAbilities().creativeMode;
-			if (itemStack.isEmpty()) continue;
-			// 设置“多重射击”的不同角度弹药发射
-			switch (count) {
-				case 0 -> shootProjectile(world, entity, hand, stack, itemStack, soundPitches[count], isPlayerAndInCreative, speed, divergence, 0.0f);
-				case 1 -> shootProjectile(world, entity, hand, stack, itemStack, soundPitches[count], isPlayerAndInCreative, speed, divergence, -10.0f);
-				case 2 -> shootProjectile(world, entity, hand, stack, itemStack, soundPitches[count], isPlayerAndInCreative, speed, divergence, 10.0f);
-			}
-		}
-		// 射击后操作
-		postShootProjectile(world, entity, stack);
+	@Override
+	protected ProjectileEntity createArrowEntity(World world, LivingEntity shooter, ItemStack weaponStack, ItemStack projectileStack, boolean critical) {
+		ProjectileEntity projectile = super.createArrowEntity(world, shooter, weaponStack, projectileStack, critical);
+		if (shooter instanceof ServerPlayerEntity serverPlayer) SilkCriteria.SHOT_PROJECTILE_CRITERION.trigger(serverPlayer, weaponStack, projectile, 1);
+		return projectile;
 	}
 	
 	/**
-	 * 重实现 {@link CrossbowItem#onStoppedUsing(ItemStack, World, LivingEntity, int)}
+	 * 更改装填结束音效
 	 */
 	@Override
 	public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
@@ -307,14 +170,8 @@ public abstract class Crossbow extends CrossbowItem implements SilkCrossbowExten
 		int usedTicks = getMaxUseTime(stack) - remainingUseTicks;
 		// 获取张弩进度
 		float pullProgress = getUsingProgress(usedTicks, stack);
-		// 如果张弩进度 ≥ 1 且未装填并装填所有弹药
-		if (pullProgress >= 1.0f && !isCharged(stack) && loadAllProjectile(user, stack)) {
-			// 设置已装填
-			setCharged(stack, true);
-			// 获取声音类别
-			SoundCategory soundCategory = user instanceof PlayerEntity ? SoundCategory.PLAYERS : SoundCategory.HOSTILE;
-			// 播放弩装填结束音效
-			world.playSound(null, user.getX(), user.getY(), user.getZ(), getLoadingEndSound(), soundCategory, 1.0f, 1.0f / (world.getRandom().nextFloat() * 0.5f + 1.0f) + 0.2f);
+		if (pullProgress >= 1 && !CrossbowItem.isCharged(stack) && loadAllProjectile(user, stack)) {
+			world.playSound(null, user.getX(), user.getY(), user.getZ(), getLoadingEndSound(), user.getSoundCategory(), 1, 1 / (world.getRandom().nextFloat() * 0.5F + 1) + 0.2F);
 		}
 	}
 	
@@ -324,52 +181,56 @@ public abstract class Crossbow extends CrossbowItem implements SilkCrossbowExten
 	 */
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-		ItemStack stack = user.getStackInHand(hand);
-		// 如果已装填
-		if (isCharged(stack)) {
-			// 发射所有
-			shootAllProjectile(world, user, hand, stack, getMaxProjectileSpeed(stack), getFiringError());
-			// 设置未装填
-			setCharged(stack, false);
-			return TypedActionResult.consume(stack);
+		// 获取玩家手中的物品堆
+		ItemStack itemStack = user.getStackInHand(hand);
+		
+		// 获取物品堆中的ChargedProjectilesComponent组件
+		ChargedProjectilesComponent chargedProjectilesComponent = itemStack.get(DataComponentTypes.CHARGED_PROJECTILES);
+		
+		// 如果ChargedProjectilesComponent组件不为空且不为空的话
+		if (chargedProjectilesComponent != null && !chargedProjectilesComponent.isEmpty()) {
+			// 发射所有已充能的弹药
+			shootAll(world, user, hand, itemStack, getMaxProjectileSpeed(chargedProjectilesComponent), getFiringError(), null);
+			// 返回表示消耗了物品堆的TypedActionResult对象
+			return TypedActionResult.consume(itemStack);
 		}
-		// 如果使用者有弹药
-		if (!user.getProjectileType(stack).isEmpty()) {
-			// 但未装填
-			if (!isCharged(stack)) {
-				charged = false;
-				loaded = false;
-				user.setCurrentHand(hand);
-			}
-			return TypedActionResult.consume(stack);
+		
+		// 如果玩家手中的物品堆不为空的话
+		if (!user.getProjectileType(itemStack).isEmpty()) {
+			// 重置交叉弓的充能状态和装填状态
+			charged = false;
+			loaded = false;
+			// 设置玩家当前的手为当前手
+			user.setCurrentHand(hand);
+			return TypedActionResult.consume(itemStack);
 		}
-		// 如果未装填
-		return TypedActionResult.fail(stack);
+		
+		return TypedActionResult.fail(itemStack);
 	}
 	
+	
 	/**
-	 * <p>因私有字段问题</p>
+	 * <p>更改快速装填音效</p>
 	 * 重实现 {@link CrossbowItem#usageTick(World, LivingEntity, ItemStack, int)}
 	 */
 	@Override
 	public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
-		if (!world.isClient) {
-			// 设置“快速装填”音效
-			int quickChargeLevel = EnchantmentHelper.getLevel(Enchantments.QUICK_CHARGE, stack);
-			SoundEvent soundEvent = getQuickChargeSound(quickChargeLevel);
-			SoundEvent soundEvent2 = quickChargeLevel == 0 ? getLoadingSound() : null;
-			// 获取张弩进度
-			float pullProgress = (float) (stack.getMaxUseTime() - remainingUseTicks) / getMaxPullTicks(stack);
-			if (pullProgress < 0.2F) {
-				charged = false;
-				loaded = false;
-			} else if (pullProgress >= 0.2F && !charged) {
-				charged = true;
-				if (soundEvent != null) world.playSound(null, user.getX(), user.getY(), user.getZ(), soundEvent, SoundCategory.PLAYERS, 0.5f, 1.0f);
-			} else if (pullProgress >= 0.5F && soundEvent2 != null && !loaded) {
-				loaded = true;
-				world.playSound(null, user.getX(), user.getY(), user.getZ(), soundEvent2, SoundCategory.PLAYERS, 0.5f, 1.0f);
-			}
+		if (world.isClient) return;
+		// 设置“快速装填”音效
+		int quickChargeLevel = EnchantmentHelper.getLevel(Enchantments.QUICK_CHARGE, stack);
+		SoundEvent soundEvent = getQuickChargeSound(quickChargeLevel);
+		SoundEvent soundEvent2 = quickChargeLevel == 0 ? getLoadingSound() : null;
+		// 获取张弩进度
+		float pullProgress = (float) (stack.getMaxUseTime() - remainingUseTicks) / getMaxPullTicks(stack);
+		if (pullProgress < 0.2F) {
+			charged = false;
+			loaded = false;
+		} else if (pullProgress >= 0.2F && !charged) {
+			charged = true;
+			if (soundEvent != null) world.playSound(null, user.getX(), user.getY(), user.getZ(), soundEvent, SoundCategory.PLAYERS, 0.5F, 1);
+		} else if (pullProgress >= 0.5F && soundEvent2 != null && !loaded) {
+			loaded = true;
+			world.playSound(null, user.getX(), user.getY(), user.getZ(), soundEvent2, SoundCategory.PLAYERS, 0.5F, 1);
 		}
 	}
 	

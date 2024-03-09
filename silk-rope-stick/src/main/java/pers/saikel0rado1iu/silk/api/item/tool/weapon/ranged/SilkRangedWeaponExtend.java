@@ -11,7 +11,9 @@
 
 package pers.saikel0rado1iu.silk.api.item.tool.weapon.ranged;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.item.ItemStack;
+import org.spongepowered.asm.mixin.Final;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
 import java.util.Map;
@@ -29,7 +31,7 @@ public interface SilkRangedWeaponExtend {
 	@SilkApi
 	String PULL_KEY = "pull";
 	@SilkApi
-	String PROJECTILE_ID_KEY = "Projectile";
+	String PROJECTILE_ID_KEY = "projectile_id";
 	@SilkApi
 	float DEFAULT_FIRING_ERROR = 1;
 	
@@ -65,4 +67,8 @@ public interface SilkRangedWeaponExtend {
 	 */
 	@SilkApi
 	Map<Float, String> getAllProjectile();
+	
+	record ProjectileIdComponent(@Final float projectileId) {
+		public static final Codec<ProjectileIdComponent> CODEC = Codec.FLOAT.xmap(ProjectileIdComponent::new, ProjectileIdComponent::projectileId);
+	}
 }
