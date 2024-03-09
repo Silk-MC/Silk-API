@@ -11,31 +11,24 @@
 
 package pers.saikel0rado1iu.silk.gen.data;
 
-import com.google.common.hash.Hashing;
-import com.google.common.hash.HashingOutputStream;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.internal.LinkedTreeMap;
-import com.google.gson.stream.JsonWriter;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.data.DataOutput;
+import net.minecraft.data.DataProvider;
 import net.minecraft.data.DataWriter;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
-import net.minecraft.util.Util;
 import net.minecraft.world.gen.WorldPreset;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
@@ -49,10 +42,12 @@ import java.util.concurrent.CompletableFuture;
 @SilkApi
 public abstract class SilkLanguageProvider extends FabricLanguageProvider {
 	private final String languageCode;
+	private final CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup;
 	
-	protected SilkLanguageProvider(FabricDataOutput dataOutput, String languageCode) {
-		super(dataOutput, languageCode);
+	protected SilkLanguageProvider(FabricDataOutput dataOutput, String languageCode, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+		super(dataOutput, languageCode, registryLookup);
 		this.languageCode = languageCode;
+		this.registryLookup = registryLookup;
 	}
 	
 	@SilkApi
@@ -95,38 +90,31 @@ public abstract class SilkLanguageProvider extends FabricLanguageProvider {
 		return advancement.value().display().orElseThrow().getDescription().getString();
 	}
 	
-	@SuppressWarnings("UnstableApiUsage")
-	public static CompletableFuture<?> writeToPath(DataWriter writer, JsonElement json, Path path) {
-		return CompletableFuture.runAsync(() -> {
-			try {
-				ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-				HashingOutputStream hashingOutputStream = new HashingOutputStream(Hashing.sha256(), byteArrayOutputStream);
-				try (JsonWriter jsonWriter = new JsonWriter(new OutputStreamWriter(hashingOutputStream, StandardCharsets.UTF_8))) {
-					jsonWriter.setSerializeNulls(false);
-					jsonWriter.setIndent("  ");
-					JsonHelper.writeSorted(jsonWriter, json, null);
-				}
-				writer.write(path, byteArrayOutputStream.toByteArray(), hashingOutputStream.hash());
-			} catch (IOException e) {
-				LOGGER.error("Failed to save file to {}", path, e);
-			}
-		}, Util.getMainWorkerExecutor());
-	}
-	
 	@Override
 	public CompletableFuture<?> run(DataWriter writer) {
 		LinkedTreeMap<String, String> translationEntries = new LinkedTreeMap<>();
 		
-		generateTranslations((String key, String value) -> {
-			Objects.requireNonNull(key);
-			Objects.requireNonNull(value);
-			if (translationEntries.containsKey(key)) throw new RuntimeException("Existing translation key found - " + key + " - Duplicate will be ignored.");
-			translationEntries.put(key, value);
+		return registryLookup.thenCompose(lookup -> {
+			generateTranslations(lookup, (String key, String value) -> {
+				Objects.requireNonNull(key);
+				Objects.requireNonNull(value);
+				
+				if (translationEntries.containsKey(key))
+					throw new RuntimeException("Existing translation key found - " + key + " - Duplicate will be ignored.");
+				translationEntries.put(key, value);
+			});
+			
+			JsonObject langEntryJson = new JsonObject();
+			
+			for (Map.Entry<String, String> entry : translationEntries.entrySet()) langEntryJson.addProperty(entry.getKey(), entry.getValue());
+			
+			return DataProvider.writeToPath(writer, langEntryJson, getLangFilePath(this.languageCode));
 		});
-		
-		JsonObject langEntryJson = new JsonObject();
-		translationEntries.forEach(langEntryJson::addProperty);
-		
-		return writeToPath(writer, langEntryJson, dataOutput.getResolver(DataOutput.OutputType.RESOURCE_PACK, "lang").resolveJson(new Identifier(dataOutput.getModId(), languageCode)));
+	}
+	
+	private Path getLangFilePath(String code) {
+		return dataOutput
+				.getResolver(DataOutput.OutputType.RESOURCE_PACK, "lang")
+				.resolveJson(new Identifier(dataOutput.getModId(), code));
 	}
 }
