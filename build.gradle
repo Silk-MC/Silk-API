@@ -1,6 +1,7 @@
 //file:noinspection GroovyAssignabilityCheck
 //file:noinspection DependencyNotationArgument
 //file:noinspection ForeignDelegate
+//file:noinspection UnnecessaryQualifiedReference
 plugins {
 	id 'fabric-loom' version '1.5-SNAPSHOT'
 	id 'maven-publish'
@@ -30,8 +31,17 @@ allprojects {
 		}
 		
 		runs {
+			// 为测试创建基本运行配置的示例
+			testClient {
+				// 从另一个运行配置复制设置。
+				inherit client
+				
+				configName = "Test Minecraft Client"
+				source = sourceSets.test
+			}
+			
 			// 添加一个新的 gradle 任务，会运行数据生成 API：“gradlew runDatagenClient”
-			datagenClient {
+			datagen {
 				inherit client
 				name "Data Generation"
 				vmArg "-Dfabric-api.datagen"
@@ -40,6 +50,21 @@ allprojects {
 				
 				runDir "build/datagen"
 			}
+			
+			testmodDatagen {
+				inherit client
+				name "Test Mod DataGen"
+				vmArg "-Dfabric-api.datagen"
+				vmArg "-Dfabric-api.datagen.output-dir=${file("src/testmod/generated")}"
+				vmArg "-Dfabric-api.datagen.modid=${project.name}-test"
+				
+				runDir "build/datagen"
+				source = sourceSets.test
+			}
+		}
+		
+		runConfigs.configureEach {
+			ideConfigGenerated = true
 		}
 	}
 	
@@ -51,6 +76,32 @@ allprojects {
 				]
 			}
 		}
+		
+		testmod {
+			compileClasspath += main.compileClasspath
+			runtimeClasspath += main.runtimeClasspath
+			
+			resources {
+				srcDirs += [
+						'src/testmod/generated'
+				]
+			}
+		}
+		
+		testmodClient {
+			compileClasspath += main.compileClasspath
+			runtimeClasspath += main.runtimeClasspath
+			compileClasspath += client.compileClasspath
+			runtimeClasspath += client.runtimeClasspath
+			
+			compileClasspath += testmod.compileClasspath
+			runtimeClasspath += testmod.runtimeClasspath
+		}
+		
+		test {
+			compileClasspath += testmodClient.compileClasspath
+			runtimeClasspath += testmodClient.runtimeClasspath
+		}
 	}
 	
 	dependencies {
@@ -61,6 +112,9 @@ allprojects {
 		modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 		// Fabric API. 这在理论上是可选的, 但无论如何您都可能需要它.
 		modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+		
+		// 添加 testmod 测试模组服务端依赖
+		testmodClientImplementation sourceSets.testmod.output
 		
 		// 取消注释以下行以启用已弃用的 Fabric API 模块.
 		// 这些包含在 Fabric API 发布版本中, 允许您在以后更方便的时候将您的模块更新为最新的模块.
@@ -98,6 +152,53 @@ allprojects {
 		}
 	}
 	
+	tasks.register('deleteRemoteArtifact', Delete) {
+		doLast {
+			// 使用 GitHub Packages API 获取特定包的所有版本
+			def versionsUrl = "https://api.github.com/users/silk-mc/packages/maven/${project.maven_group}.${archivesBaseName}/versions"
+			def headers = ['Authorization': "token ${System.getenv("GITHUB_TOKEN")}"]
+			
+			def versionsResponse
+			def connection = new URL(versionsUrl).openConnection() as HttpURLConnection
+			headers.each { k, v -> connection.setRequestProperty(k, v) }
+			
+			if (connection.responseCode == 200) {
+				versionsResponse = connection.inputStream.text
+			} else {
+				println "Failed to fetch versions. Response code: ${connection.responseCode}"
+				return
+			}
+			
+			// 解析 JSON 响应以获取版本列表
+			def versions = new groovy.json.JsonSlurper().parseText versionsResponse
+			
+			// 遍历版本列表并执行删除操作
+			versions.each { ver ->
+				def versionId = ver.id // 获取版本的标识符
+				def versionName = ver.name // 获取版本的名称
+				
+				if (versionName != version) return
+				
+				// 执行删除操作
+				def deleteUrl = "https://api.github.com/users/silk-mc/packages/maven/${project.maven_group}.${archivesBaseName}/versions/${versionId}"
+				def deleteResponse = new URL(deleteUrl).openConnection()
+						.with {
+							requestMethod = 'DELETE'
+							headers.each { k, v -> setRequestProperty(k, v) }
+							connect()
+							getResponseCode()
+						}
+				
+				// 打印操作结果
+				if (deleteResponse == 204) {
+					println "Successfully deleted version ${versionName} (${versionId}) of package ${deleteUrl} from GitHub Packages."
+				} else {
+					println "Failed to delete version ${versionName} (${versionId}) of package ${deleteUrl} from GitHub Packages. Response code: ${deleteResponse}"
+				}
+			}
+		}
+	}
+	
 	// 配置 Maven 发布
 	publishing {
 		publications {
@@ -122,6 +223,12 @@ allprojects {
 					password = System.getenv("GITHUB_TOKEN")
 				}
 			}
+		}
+	}
+	
+	tasks.configureEach { task ->
+		if (task.name.startsWith('publish')) {
+			task.dependsOn 'deleteRemoteArtifact'
 		}
 	}
 }
