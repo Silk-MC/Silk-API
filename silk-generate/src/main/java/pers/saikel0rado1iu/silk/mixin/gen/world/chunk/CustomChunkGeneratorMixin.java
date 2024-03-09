@@ -22,15 +22,13 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeCoords;
 import net.minecraft.world.biome.source.BiomeSupplier;
 import net.minecraft.world.biome.source.FixedBiomeSource;
-import net.minecraft.world.chunk.ChunkStatus;
+import net.minecraft.world.chunk.ChunkGenerating;
+import net.minecraft.world.chunk.ChunkGenerationContext;
 import net.minecraft.world.gen.chunk.ChunkNoiseSampler;
 import net.minecraft.world.gen.chunk.NoiseChunkGenerator;
 import net.minecraft.world.gen.structure.Structure;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import pers.saikel0rado1iu.silk.gen.world.chunk.CustomChunkGenerator;
 
@@ -44,16 +42,18 @@ import java.util.function.Predicate;
  * @since 0.2.0
  */
 interface CustomChunkGeneratorMixin {
-	@Mixin(ChunkStatus.class)
+	@Mixin(ChunkGenerating.class)
 	abstract class GetSeed {
-		@ModifyArg(method = "<clinit>", at = @At(value = "INVOKE",
-				target = "L net/minecraft/world/chunk/ChunkStatus;register(L java/lang/String;L net/minecraft/world/chunk/ChunkStatus;IZL java/util/EnumSet;L net/minecraft/world/chunk/ChunkStatus$ChunkType;L net/minecraft/world/chunk/ChunkStatus$GenerationTask;L net/minecraft/world/chunk/ChunkStatus$LoadTask;)L net/minecraft/world/chunk/ChunkStatus;",
-				ordinal = 0), index = 6)
-		private static ChunkStatus.GenerationTask empty(ChunkStatus.GenerationTask generationTask) {
-			return (targetStatus, executor, world, generator, structureTemplateManager, lightingProvider, fullChunkConverter, chunks, chunk) -> {
-				if (generator instanceof CustomChunkGenerator) CustomChunkGenerator.Data.seed = world.getSeed();
-				return generationTask.doWork(targetStatus, executor, world, generator, structureTemplateManager, lightingProvider, fullChunkConverter, chunks, chunk);
-			};
+		@ModifyVariable(method = "generateStructures", at = @At("HEAD"), ordinal = 0, argsOnly = true)
+		private static ChunkGenerationContext generateStructures(ChunkGenerationContext context) {
+			if (context.generator() instanceof CustomChunkGenerator) CustomChunkGenerator.Data.seed = context.world().getSeed();
+			return context;
+		}
+		
+		@ModifyVariable(method = "loadStructures", at = @At("HEAD"), ordinal = 0, argsOnly = true)
+		private static ChunkGenerationContext loadStructures(ChunkGenerationContext context) {
+			if (context.generator() instanceof CustomChunkGenerator) CustomChunkGenerator.Data.seed = context.world().getSeed();
+			return context;
 		}
 	}
 	
