@@ -20,6 +20,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -68,13 +69,11 @@ public class NbtShapedRecipe extends ShapedRecipe {
 		}, DataResult::success), nbtCompound -> DataResult.success(Either.left(nbtCompound.asString())));
 		public static final Codec<ItemStack> NBT_RECIPE_RESULT_CODEC = RecordCodecBuilder.create(instance -> instance.group(
 						ITEM_CODEC.fieldOf("item").forGetter(ItemStack::getItem),
-						Codecs.createStrictOptionalFieldCodec(NBT_CODEC, "nbt", new NbtCompound()).forGetter(ItemStack::getNbt),
+						Codecs.createStrictOptionalFieldCodec(NBT_CODEC, "nbt", new NbtCompound()).forGetter(stack ->
+								(NbtCompound) ItemStack.CODEC.encodeStart(NbtOps.INSTANCE, stack).result().orElse(new NbtCompound())),
 						Codecs.createStrictOptionalFieldCodec(Codecs.POSITIVE_INT, "count", 1).forGetter(ItemStack::getCount))
-				.apply(instance, (item, nbtCompound, integer) -> {
-					ItemStack stack = new ItemStack(item, integer);
-					stack.setNbt(nbtCompound);
-					return stack;
-				}));
+				.apply(instance, (item, nbtCompound, integer) ->
+						ItemStack.CODEC.decode(NbtOps.INSTANCE, nbtCompound).result().orElseThrow().getFirst()));
 		protected static final Codec<ShapedRecipe> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 						Codecs.createStrictOptionalFieldCodec(Codec.STRING, "group", "").forGetter(recipe -> ((NbtShapedRecipe) recipe).group),
 						CraftingRecipeCategory.CODEC.fieldOf("category").orElse(CraftingRecipeCategory.MISC).forGetter(recipe -> ((NbtShapedRecipe) recipe).category),
