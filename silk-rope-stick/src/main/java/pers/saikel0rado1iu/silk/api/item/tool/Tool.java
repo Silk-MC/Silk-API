@@ -38,27 +38,27 @@ public interface Tool extends ToolMaterial {
 	
 	@SilkApi
 	default ShovelItem createShovel(float damage, Item.Settings settings) {
-		return new ShovelItem(this, getDamage(damage), getSpeed(1), settings);
+		return new ShovelItem(this, settings.attributeModifiers(ShovelItem.createAttributeModifiers(this, getDamage(damage), getSpeed(1))));
 	}
 	
 	@SilkApi
 	default PickaxeItem createPickaxe(float damage, Item.Settings settings) {
-		return new PickaxeItem(this, (int) getDamage(damage), getSpeed(1.2F), settings);
+		return new PickaxeItem(this, settings.attributeModifiers(PickaxeItem.createAttributeModifiers(this, (int) getDamage(damage), getSpeed(1.2F))));
 	}
 	
 	@SilkApi
 	default AxeItem createAxe(float damage, float speed, Item.Settings settings) {
-		return new AxeItem(this, getDamage(damage), getSpeed(speed), settings);
+		return new AxeItem(this, settings.attributeModifiers(AxeItem.createAttributeModifiers(this, getDamage(damage), getSpeed(speed))));
 	}
 	
 	@SilkApi
 	default HoeItem createHoe(float speed, Item.Settings settings) {
-		return new HoeItem(this, (int) getDamage(1), getSpeed(speed), settings);
+		return new HoeItem(this, settings.attributeModifiers(HoeItem.createAttributeModifiers(this, (int) getDamage(1), getSpeed(speed))));
 	}
 	
 	@SilkApi
 	default SwordItem createSword(float damage, Item.Settings settings) {
-		return new SwordItem(this, (int) getDamage(damage), getSpeed(1.6F), settings);
+		return new SwordItem(this, settings.attributeModifiers(SwordItem.createAttributeModifiers(this, (int) getDamage(damage), getSpeed(1.6F))));
 	}
 	
 	@Override
