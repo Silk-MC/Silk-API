@@ -11,9 +11,9 @@
 
 package pers.saikel0rado1iu.silk.api.item.tool.weapon.ranged;
 
+import net.minecraft.component.type.ChargedProjectilesComponent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -79,8 +79,8 @@ public interface SilkCrossbowExtend extends SilkRangedWeaponExtend, HoldingMovem
 	}
 	
 	@SilkApi
-	default float getMaxProjectileSpeed(ItemStack stack) {
-		return CrossbowItem.hasProjectile(stack, Items.FIREWORK_ROCKET) ? getMaxProjectileSpeed() / 2 : getMaxProjectileSpeed();
+	default float getMaxProjectileSpeed(ChargedProjectilesComponent stack) {
+		return stack.contains(Items.FIREWORK_ROCKET) ? getMaxProjectileSpeed() / 2 : getMaxProjectileSpeed();
 	}
 	
 	@Override

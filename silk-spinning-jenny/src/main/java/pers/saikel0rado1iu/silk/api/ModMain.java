@@ -55,6 +55,7 @@ public abstract class ModMain implements ModInitializer {
 		if (statusEffects() != null) mod.logger().info("register " + statusEffects().getClass().getSimpleName() + " (logic)" + Silk.DATA.getInfo());
 		if (particleTypes() != null) mod.logger().info("register " + particleTypes().getClass().getSimpleName() + " (logic)" + Silk.DATA.getInfo());
 		if (blockEntities() != null) mod.logger().info("register " + blockEntities().getClass().getSimpleName() + " (logic)" + Silk.DATA.getInfo());
+		if (dataComponentTypes() != null) mod.logger().info("register " + dataComponentTypes().getClass().getSimpleName() + " (logic)" + Silk.DATA.getInfo());
 		if (worldData() != null) worldData().register(mod);
 		if (modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED) != null) modDataPack(mod, ResourcePackActivationType.ALWAYS_ENABLED).registry();
 	}
@@ -143,6 +144,15 @@ public abstract class ModMain implements ModInitializer {
 	@SilkApi
 	@ApiStatus.OverrideOnly
 	public SilkBlockEntity blockEntities() {
+		return null;
+	}
+	
+	/**
+	 * 提供来自模组的数据组件类型以供注册
+	 */
+	@SilkApi
+	@ApiStatus.OverrideOnly
+	public SilkDataComponentType dataComponentTypes() {
 		return null;
 	}
 	
