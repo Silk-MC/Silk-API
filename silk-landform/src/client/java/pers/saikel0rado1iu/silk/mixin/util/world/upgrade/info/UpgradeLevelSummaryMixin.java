@@ -86,12 +86,6 @@ interface UpgradeLevelSummaryMixin {
 			for (LevelSummary summary : levels) rowWidth = Math.max(rowWidth, client.textRenderer.getWidth(summary.getDetails()) + 40);
 			cir.setReturnValue(rowWidth);
 		}
-		
-		@Inject(method = "getScrollbarPositionX", at = @At("RETURN"), cancellable = true)
-		private void getScrollbarPositionX(CallbackInfoReturnable<Integer> cir) {
-			if (levels == null) return;
-			cir.setReturnValue(Math.max(cir.getReturnValue(), (width + getRowWidth()) / 2));
-		}
 	}
 	
 	@Mixin(WorldListWidget.WorldEntry.class)
