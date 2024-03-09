@@ -19,16 +19,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.predicate.entity.EntityPredicate;
 import net.minecraft.predicate.entity.LootContextPredicate;
 import net.minecraft.predicate.item.ItemPredicate;
-import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.dynamic.Codecs;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
@@ -45,12 +43,9 @@ import java.util.Optional;
 public class RangedKilledEntityCriterion extends AbstractCriterion<RangedKilledEntityCriterion.Conditions> {
 	@SilkApi
 	public static void putRangedNbt(Entity projectile, ItemStack ranged) {
-		NbtCompound nbtCompound = new NbtCompound();
 		NbtCompound nbt = new NbtCompound();
-		nbt.putString("id", Registries.ITEM.getId(ranged.getItem()).toString());
-		nbt.put("nbt", ranged.getNbt());
-		nbtCompound.put("fromRanged", nbt);
-		projectile.writeNbt(nbtCompound);
+		nbt.put("fromRanged", ItemStack.CODEC.encodeStart(NbtOps.INSTANCE, ranged).result().orElse(new NbtCompound()));
+		projectile.writeNbt(nbt);
 	}
 	
 	@SilkApi
@@ -107,10 +102,8 @@ public class RangedKilledEntityCriterion extends AbstractCriterion<RangedKilledE
 		public boolean matches(ServerPlayerEntity player, LootContext killedEntityContext, Entity projectile, int count) {
 			if (target.isPresent() && !target.get().test(killedEntityContext)) return false;
 			if (projectile == null) return false;
-			NbtCompound nbtCompound = projectile.writeNbt(new NbtCompound()).getCompound("fromRanged");
-			String[] id = nbtCompound.getString("id").split(":");
-			ItemStack stack = new ItemStack("".equals(id[0]) ? Items.AIR : Registries.ITEM.get(new Identifier(id[0], id[1])));
-			stack.setNbt(nbtCompound.getCompound("nbt"));
+			NbtCompound nbtCompound = projectile.writeNbt(new NbtCompound());
+			ItemStack stack = ItemStack.CODEC.decode(NbtOps.INSTANCE, nbtCompound.getCompound("fromRanged")).result().orElseThrow().getFirst();
 			boolean hasRanged = ranged.isPresent() && ranged.get().test(stack);
 			if (!hasRanged) return false;
 			if (this.projectile.isPresent() && !this.projectile.get().test(player, projectile)) return false;

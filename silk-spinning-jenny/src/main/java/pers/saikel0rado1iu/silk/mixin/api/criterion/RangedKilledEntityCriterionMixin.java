@@ -16,11 +16,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BowItem;
-import net.minecraft.item.CrossbowItem;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,6 +28,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import pers.saikel0rado1iu.silk.api.registry.gen.data.criterion.RangedKilledEntityCriterion;
 import pers.saikel0rado1iu.silk.api.registry.gen.data.criterion.SilkCriteria;
 
@@ -51,35 +51,18 @@ interface RangedKilledEntityCriterionMixin {
 		}
 	}
 	
-	@Mixin(BowItem.class)
-	abstract class Bow {
+	@Mixin(RangedWeaponItem.class)
+	abstract class RangedWeapon {
 		@Unique
 		private ItemStack stack;
 		
-		@Inject(method = "onStoppedUsing", at = @At("HEAD"))
-		private void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfo ci) {
-			this.stack = stack;
+		@Inject(method = "createArrowEntity", at = @At("HEAD"))
+		private void createArrowEntity(World world, LivingEntity shooter, ItemStack weaponStack, ItemStack projectileStack, boolean critical, CallbackInfoReturnable<ProjectileEntity> cir) {
+			stack = weaponStack;
 		}
 		
-		@ModifyArg(method = "onStoppedUsing", at = @At(value = "INVOKE", target = "L net/minecraft/world/World;spawnEntity(L net/minecraft/entity/Entity;)Z"))
+		@ModifyArg(method = "shootAll", at = @At(value = "INVOKE", target = "L net/minecraft/world/World;spawnEntity(L net/minecraft/entity/Entity;)Z"))
 		private Entity getEntity(Entity entity) {
-			RangedKilledEntityCriterion.putRangedNbt(entity, stack);
-			return entity;
-		}
-	}
-	
-	@Mixin(CrossbowItem.class)
-	abstract class Crossbow {
-		@Unique
-		private static ItemStack stack;
-		
-		@Inject(method = "shoot", at = @At("HEAD"))
-		private static void shoot(World world, LivingEntity shooter, Hand hand, ItemStack crossbow, ItemStack projectile, float soundPitch, boolean creative, float speed, float divergence, float simulated, CallbackInfo ci) {
-			stack = crossbow;
-		}
-		
-		@ModifyArg(method = "shoot", at = @At(value = "INVOKE", target = "L net/minecraft/world/World;spawnEntity(L net/minecraft/entity/Entity;)Z"))
-		private static Entity getEntity(Entity entity) {
 			RangedKilledEntityCriterion.putRangedNbt(entity, stack);
 			return entity;
 		}
