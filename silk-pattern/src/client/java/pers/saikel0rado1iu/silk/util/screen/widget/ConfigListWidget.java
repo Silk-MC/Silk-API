@@ -14,14 +14,14 @@ package pers.saikel0rado1iu.silk.util.screen.widget;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.widget.OptionListWidget;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
-import static net.minecraft.client.gui.screen.Screen.OPTIONS_BACKGROUND_TEXTURE;
-import static net.minecraft.client.gui.screen.world.CreateWorldScreen.LIGHT_DIRT_BACKGROUND_TEXTURE;
+import static net.minecraft.client.gui.screen.world.CreateWorldScreen.HEADER_SEPARATOR_TEXTURE;
 import static pers.saikel0rado1iu.silk.util.screen.mod.ScreenTab.TAP_BOTTOM;
 
 /**
@@ -34,8 +34,8 @@ import static pers.saikel0rado1iu.silk.util.screen.mod.ScreenTab.TAP_BOTTOM;
 public class ConfigListWidget extends OptionListWidget implements CustomBackground {
 	protected Identifier background;
 	
-	public ConfigListWidget(MinecraftClient minecraftClient, int width, int top, int bottom, int itemHeight) {
-		super(minecraftClient, width, bottom - top, top, itemHeight);
+	public ConfigListWidget(MinecraftClient minecraftClient, int width, int height, GameOptionsScreen optionsScreen) {
+		super(minecraftClient, width, height, optionsScreen);
 	}
 	
 	@Override
@@ -43,10 +43,10 @@ public class ConfigListWidget extends OptionListWidget implements CustomBackgrou
 		int scrollbarPositionX = getScrollbarPositionX();
 		int posX = scrollbarPositionX + 6;
 		RenderSystem.setShaderColor(0.25F, 0.25F, 0.25F, 1.0F);
-		RenderSystem.setShaderTexture(0, getBackground() == null ? OPTIONS_BACKGROUND_TEXTURE : getBackground());
-		if (getBackground() == OPTIONS_BACKGROUND_TEXTURE || getBackground() == LIGHT_DIRT_BACKGROUND_TEXTURE)
-			context.drawTexture(getBackground(), 0, 0, 0, 0, 0, width, height - TAP_BOTTOM, 32, 32);
-		else if (getBackground() != null) context.drawTexture(getBackground(), 0, 0, 0, 0, 0, width, height - TAP_BOTTOM, width, height);
+		if (getBackground() != null) {
+			RenderSystem.setShaderTexture(0, getBackground());
+			context.drawTexture(getBackground(), 0, 0, 0, 0, 0, width, height - TAP_BOTTOM, width, height);
+		}
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		
 		int rowLeft = getRowLeft();
@@ -57,8 +57,8 @@ public class ConfigListWidget extends OptionListWidget implements CustomBackgrou
 		
 		renderList(context, mouseX, mouseY, delta);
 		context.disableScissor();
-		RenderSystem.setShaderTexture(0, LIGHT_DIRT_BACKGROUND_TEXTURE);
-		context.drawTexture(LIGHT_DIRT_BACKGROUND_TEXTURE, getX(), 0, 0.0F, 0.0F, width, getY(), 32, 32);
+		RenderSystem.setShaderTexture(0, HEADER_SEPARATOR_TEXTURE);
+		context.drawTexture(HEADER_SEPARATOR_TEXTURE, getX(), 0, 0.0F, 0.0F, width, getY(), 32, 32);
 		context.fillGradient(getX(), getY(), getRight(), getY() + 4, -16777216, 0);
 		
 		int maxScroll = getMaxScroll();

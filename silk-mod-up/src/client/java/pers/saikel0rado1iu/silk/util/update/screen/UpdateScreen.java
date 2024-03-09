@@ -11,7 +11,6 @@
 
 package pers.saikel0rado1iu.silk.util.update.screen;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -95,24 +94,12 @@ public abstract class UpdateScreen extends BaseScreen {
 		ButtonWidget.builder(Text.of(""), (button) -> {
 				}).dimensions((width - (screenWidth + INTERVAL)) / 2, (height - (screenHeight + INTERVAL)) / 2, screenWidth + INTERVAL, screenHeight + INTERVAL)
 				.build().render(context, mouseX, mouseY, delta);
-		renderBackgroundTexture(context);
 		super.render(context, mouseX, mouseY, delta);
 		if (updateModeText != null) {
 			updateModeText.setMessage(Text.translatable(TextUtil.configText(Silk.DATA, UpdateData.KEY + '.' + UPDATE_MODE + "_"),
 					Text.translatable(TextUtil.configText(Silk.DATA, UpdateData.KEY + '.' + UPDATE_MODE + '.' + updateShow.getUpdateData().getUpdateMode().toString().toLowerCase()))));
 			updateModeText.render(context, mouseX, mouseY, delta);
 		}
-	}
-	
-	/**
-	 * 渲染背景纹理
-	 */
-	@Override
-	public void renderBackgroundTexture(DrawContext context) {
-		RenderSystem.setShaderTexture(0, OPTIONS_BACKGROUND_TEXTURE);
-		RenderSystem.setShaderColor(0.25F, 0.25F, 0.25F, 1);
-		context.drawTexture(OPTIONS_BACKGROUND_TEXTURE, (width - screenWidth) / 2, (height - screenHeight) / 2, 0, 0, 0, screenWidth, screenHeight, 32, 32);
-		RenderSystem.setShaderColor(1, 1, 1, 1);
 	}
 	
 	@Override

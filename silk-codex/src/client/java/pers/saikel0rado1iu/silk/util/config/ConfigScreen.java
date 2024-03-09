@@ -15,6 +15,7 @@ import com.mojang.serialization.Codec;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.OptionListWidget;
@@ -24,7 +25,6 @@ import net.minecraft.util.Formatting;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 import pers.saikel0rado1iu.silk.api.ModBasicData;
 import pers.saikel0rado1iu.silk.util.ScreenUtil;
-import pers.saikel0rado1iu.silk.util.screen.BaseScreen;
 import pers.saikel0rado1iu.silk.util.screen.LinkTrusted;
 
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ import static pers.saikel0rado1iu.silk.util.TextUtil.configTip;
  * @since 0.1.0
  */
 @SilkApi
-public class ConfigScreen extends BaseScreen implements LinkTrusted {
+public class ConfigScreen extends GameOptionsScreen implements LinkTrusted {
 	private final boolean isDouble;
 	private final String keyPrefix;
 	private final ConfigData configData;
@@ -70,7 +70,7 @@ public class ConfigScreen extends BaseScreen implements LinkTrusted {
 	}
 	
 	ConfigScreen(Screen parent, boolean isDouble, ConfigData configData, String keyPrefix, Text title) {
-		super(parent, configData.type == ConfigData.Type.EXPERIMENTAL ? title.copy().formatted(Formatting.RED) : (configData.type == ConfigData.Type.DEPRECATED) ? title.copy().formatted(Formatting.YELLOW, Formatting.ITALIC) : title);
+		super(parent, null, configData.type == ConfigData.Type.EXPERIMENTAL ? title.copy().formatted(Formatting.RED) : (configData.type == ConfigData.Type.DEPRECATED) ? title.copy().formatted(Formatting.YELLOW, Formatting.ITALIC) : title);
 		this.isDouble = isDouble;
 		this.keyPrefix = keyPrefix;
 		this.configData = configData;
@@ -101,12 +101,13 @@ public class ConfigScreen extends BaseScreen implements LinkTrusted {
 		renderBackground(context, mouseX, mouseY, tickDelta);
 		super.render(context, mouseX, mouseY, tickDelta);
 		optionButtons.render(context, mouseX, mouseY, tickDelta);
-		context.drawCenteredTextWithShadow(textRenderer, title, width / 2, 20, 0xFFFFFF);
 	}
 	
 	@Override
-	protected void onCloseScreen() {
+	public void close() {
+		if (client == null) return;
 		configData.getMainConfig().writer().save();
+		client.setScreen(parent);
 	}
 	
 	@Override
@@ -117,7 +118,7 @@ public class ConfigScreen extends BaseScreen implements LinkTrusted {
 		// 添加完成按钮
 		addDrawableChild(doneButton(this).dimensions(width / 2 - 100, height - 26, 200, 20).build());
 		// 添加黑色透明窗口
-		optionListWidget = new OptionListWidget(client, width, height - 32 - 32, 32, 25);
+		optionListWidget = new OptionListWidget(client, width, height, this);
 		if (configData.type == ConfigData.Type.DEV) return;
 		simpleOptionList = addSimpleOption();
 		addSelectableChild(optionListWidget);

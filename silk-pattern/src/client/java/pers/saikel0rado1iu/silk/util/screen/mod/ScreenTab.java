@@ -16,7 +16,7 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.tab.GridScreenTab;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.text.Text;
@@ -44,7 +44,7 @@ public abstract class ScreenTab extends GridScreenTab implements LinkTrusted {
 	protected final ModBasicData mod;
 	protected final List<ClickableWidget> drawableWidgetList = new ArrayList<>(4);
 	protected final List<Object> selectableWidgetList = new ArrayList<>(4);
-	protected Screen parent;
+	protected GameOptionsScreen parent;
 	protected Identifier background;
 	
 	@SilkApi
@@ -72,7 +72,7 @@ public abstract class ScreenTab extends GridScreenTab implements LinkTrusted {
 	}
 	
 	@SilkApi
-	public ScreenTab setParent(Screen parent) {
+	public ScreenTab setParent(GameOptionsScreen parent) {
 		this.parent = parent;
 		return this;
 	}
