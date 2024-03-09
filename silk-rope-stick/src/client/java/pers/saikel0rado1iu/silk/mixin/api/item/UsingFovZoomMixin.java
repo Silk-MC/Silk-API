@@ -11,6 +11,7 @@
 
 package pers.saikel0rado1iu.silk.mixin.api.item;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
 import net.minecraft.client.gui.DrawContext;
@@ -20,6 +21,7 @@ import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Colors;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Final;
@@ -134,24 +136,34 @@ interface UsingFovZoomMixin {
 		@Final
 		@Shadow
 		private MinecraftClient client;
+		@Unique
+		private float hudScale = 0;
 		
 		@Shadow
 		protected abstract void renderOverlay(DrawContext context, Identifier texture, float opacity);
 		
 		@Unique
-		private void renderHudOverlay(DrawContext context, Identifier texture) {
-			float sideLength = (float) Math.min(context.getScaledWindowWidth(), context.getScaledWindowHeight());
-			float sideScale = Math.min((float) context.getScaledWindowWidth() / sideLength, (float) context.getScaledWindowHeight() / sideLength);
-			int sideSize = MathHelper.floor(sideLength * sideScale);
-			int leftWidth = (context.getScaledWindowWidth() - sideSize) / 2;
-			int upHeight = (context.getScaledWindowHeight() - sideSize) / 2;
-			int rightWidth = leftWidth + sideSize;
-			int downHeight = upHeight + sideSize;
-			context.drawTexture(texture, leftWidth, upHeight, -90, 0.0f, 0.0f, sideSize, sideSize, sideSize, sideSize);
-			context.fill(RenderLayer.getGuiOverlay(), 0, downHeight, context.getScaledWindowWidth(), context.getScaledWindowHeight(), -90, -16777216);
-			context.fill(RenderLayer.getGuiOverlay(), 0, 0, context.getScaledWindowWidth(), upHeight, -90, -16777216);
-			context.fill(RenderLayer.getGuiOverlay(), 0, upHeight, leftWidth, downHeight, -90, -16777216);
-			context.fill(RenderLayer.getGuiOverlay(), rightWidth, upHeight, context.getScaledWindowWidth(), downHeight, -90, -16777216);
+		private void renderHudOverlay(DrawContext context, Identifier texture, float scale) {
+			int windowWidth = context.getScaledWindowWidth();
+			int windowHeight = context.getScaledWindowHeight();
+			int minWindowSize = Math.min(windowWidth, windowHeight);
+			float scaleFactor = Math.min((float) windowWidth / minWindowSize, (float) windowHeight / minWindowSize) * scale;
+			int scaledWidth = MathHelper.floor(minWindowSize * scaleFactor);
+			int scaledHeight = MathHelper.floor(minWindowSize * scaleFactor);
+			int offsetX = (windowWidth - scaledWidth) / 2;
+			int offsetY = (windowHeight - scaledHeight) / 2;
+			int endX = offsetX + scaledWidth;
+			int endY = offsetY + scaledHeight;
+			
+			RenderSystem.enableBlend();
+			context.drawTexture(texture, offsetX, offsetY, -90, 0, 0, scaledWidth, scaledHeight, scaledWidth, scaledHeight);
+			RenderSystem.disableBlend();
+			
+			// Fill overlay
+			context.fill(RenderLayer.getGuiOverlay(), 0, endY, windowWidth, windowHeight, -90, Colors.BLACK);
+			context.fill(RenderLayer.getGuiOverlay(), 0, 0, windowWidth, offsetY, -90, Colors.BLACK);
+			context.fill(RenderLayer.getGuiOverlay(), 0, offsetY, offsetX, endY, -90, Colors.BLACK);
+			context.fill(RenderLayer.getGuiOverlay(), endX, offsetY, windowWidth, endY, -90, Colors.BLACK);
 		}
 		
 		@Inject(method = "renderMiscOverlays", at = @At(value = "INVOKE", target = "L net/minecraft/client/option/Perspective;isFirstPerson()Z", shift = At.Shift.BY))
@@ -160,9 +172,10 @@ interface UsingFovZoomMixin {
 			if (player == null) return;
 			ItemStack activeStack = player.getActiveItem();
 			Item activeItem = activeStack.getItem();
+			hudScale = MathHelper.lerp(0.5F * client.getLastFrameDuration(), hudScale, 1.125F);
 			if (client.options.getPerspective().isFirstPerson() && activeItem instanceof UsingFovZoom fovZoom && fovZoom.getHubOverlay().isPresent()) {
 				if (fovZoom.isHubStretch()) renderOverlay(context, fovZoom.getHubOverlay().get(), 1.0f);
-				else renderHudOverlay(context, fovZoom.getHubOverlay().get());
+				else renderHudOverlay(context, fovZoom.getHubOverlay().get(), hudScale);
 			}
 		}
 	}
