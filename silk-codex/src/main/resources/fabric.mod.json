@@ -35,6 +35,7 @@
 	],
 	"icon": "assets/silk-codex/icon.png",
 	"environment": "*",
+	"accessWidener": "silk-codex.accesswidener",
 	"entrypoints": {
 		"fabric-datagen": [
 			"pers.saikel0rado1iu.silk.codex.DataGen"

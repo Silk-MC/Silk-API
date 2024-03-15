@@ -1,5 +1,9 @@
 version = project.silk_codex_version + "+" + project.mc_main_version
 
+loom {
+	accessWidenerPath = file("src/main/resources/${project.name}.accesswidener")
+}
+
 repositories {
 	maven { url "https://toml.moandjiezana.com" }
 }

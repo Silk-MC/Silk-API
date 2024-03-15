@@ -194,7 +194,7 @@ public class ConfigScreen extends GameOptionsScreen implements LinkTrusted {
 				optionListWidget.addSingleOptionEntry(simpleOption);
 			} else if (simpleOptionList.size() % 2 == 0) {
 				SimpleOption<?> prevOption = simpleOptionList.get(simpleOptionList.size() - 2);
-				optionListWidget.addOptionEntry(prevOption, simpleOption);
+				optionListWidget.addOptionEntry(prevOption.createWidget(gameOptions), simpleOption.createWidget(gameOptions));
 				if (prev instanceof ConfigData cd) {
 					if (cd.type == ConfigData.Type.EXPERIMENTAL) {
 						ClickableWidget widget = optionListWidget.getWidgetFor(prevOption);
@@ -215,7 +215,9 @@ public class ConfigScreen extends GameOptionsScreen implements LinkTrusted {
 				if (widget != null) widget.setMessage(widget.getMessage().copy().formatted(Formatting.YELLOW, Formatting.ITALIC));
 			}
 		}
-		if (isDouble && simpleOptionList.size() % 2 == 1) optionListWidget.addOptionEntry(simpleOptionList.get(simpleOptionList.size() - 1), null);
+		if (isDouble && simpleOptionList.size() % 2 == 1) {
+			optionListWidget.addOptionEntry(simpleOptionList.get(simpleOptionList.size() - 1).createWidget(gameOptions), null);
+		}
 		return simpleOptionList;
 	}
 }

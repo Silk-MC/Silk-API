@@ -21,7 +21,6 @@ import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
-import static net.minecraft.client.gui.screen.world.CreateWorldScreen.HEADER_SEPARATOR_TEXTURE;
 import static pers.saikel0rado1iu.silk.util.screen.mod.ScreenTab.TAP_BOTTOM;
 
 /**
@@ -57,9 +56,6 @@ public class ConfigListWidget extends OptionListWidget implements CustomBackgrou
 		
 		renderList(context, mouseX, mouseY, delta);
 		context.disableScissor();
-		RenderSystem.setShaderTexture(0, HEADER_SEPARATOR_TEXTURE);
-		context.drawTexture(HEADER_SEPARATOR_TEXTURE, getX(), 0, 0.0F, 0.0F, width, getY(), 32, 32);
-		context.fillGradient(getX(), getY(), getRight(), getY() + 4, -16777216, 0);
 		
 		int maxScroll = getMaxScroll();
 		if (maxScroll > 0) {

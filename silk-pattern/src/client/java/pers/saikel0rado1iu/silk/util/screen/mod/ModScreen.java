@@ -36,7 +36,6 @@ import java.util.ArrayList;
 
 import static com.mojang.blaze3d.systems.RenderSystem.setShaderColor;
 import static com.mojang.blaze3d.systems.RenderSystem.setShaderTexture;
-import static net.minecraft.client.gui.screen.world.CreateWorldScreen.FOOTER_SEPARATOR_TEXTURE;
 
 /**
  * <h2 style="color:FFC800">用于创建一个统一原版风格的模组主页</h2>
@@ -111,10 +110,6 @@ public class ModScreen extends GameOptionsScreen {
 				}
 			}
 		}
-		setShaderTexture(0, background);
-		setShaderColor(0.5F, 0.5F, 0.5F, 1.0F);
-		context.drawTexture(background, 0, 0, 0, 0, 0, width, layout.getHeaderHeight() - 12, width, height);
-		setShaderColor(1, 1, 1, 1);
 		tabNavigation.render(context, mouseX, mouseY, delta);
 		String modLicense = new ArrayList<>(tabs.get(0).mod.getLicenses()).isEmpty() ? "ARR" : new ArrayList<>(tabs.get(0).mod.getLicenses()).get(0);
 		verWidget.setPosition(0, height - 12);
@@ -136,7 +131,7 @@ public class ModScreen extends GameOptionsScreen {
 	public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
 		super.renderBackground(context, mouseX, mouseY, delta);
 		RenderSystem.enableBlend();
-		context.drawTexture(FOOTER_SEPARATOR_TEXTURE, 0, height - layout.getFooterHeight() - 2, 0, 0, width, 2, 32, 2);
+		context.drawTexture(field_49896, 0, height - layout.getFooterHeight() - 2, 0, 0, width, 2, 32, 2);
 		RenderSystem.disableBlend();
 		if (null == background) {
 			super.renderPanoramaBackground(context, delta);
