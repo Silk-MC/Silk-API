@@ -85,7 +85,7 @@ public class TextListWidget extends EntryListWidget<TextListWidget.TextEntry> im
 	}
 	
 	@Override
-	protected int getScrollbarPositionX() {
+	protected int getScrollbarX() {
 		return width - 6 + getX();
 	}
 	
@@ -140,7 +140,7 @@ public class TextListWidget extends EntryListWidget<TextListWidget.TextEntry> im
 	}
 	
 	public void renderScrollBar(BufferBuilder bufferBuilder, Tessellator tessellator) {
-		int scrollbarStartX = getScrollbarPositionX();
+		int scrollbarStartX = getScrollbarX();
 		int scrollbarEndX = scrollbarStartX + 6;
 		int maxScroll = getMaxScroll();
 		if (maxScroll > 0) {

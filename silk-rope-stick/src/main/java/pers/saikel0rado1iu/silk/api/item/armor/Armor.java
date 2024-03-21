@@ -89,27 +89,27 @@ public interface Armor {
 	
 	@SilkApi
 	default ArmorItem createHelmet(Item.Settings settings) {
-		return new ArmorItem(register(), ArmorItem.Type.HELMET, settings.maxDamageIfAbsent(ArmorItem.Type.HELMET.getMaxDamage(getDurability())));
+		return new ArmorItem(register(), ArmorItem.Type.HELMET, settings.maxDamage(ArmorItem.Type.HELMET.getMaxDamage(getDurability())));
 	}
 	
 	@SilkApi
 	default ArmorItem createChestplate(Item.Settings settings) {
-		return new ArmorItem(register(), ArmorItem.Type.CHESTPLATE, settings.maxDamageIfAbsent(ArmorItem.Type.CHESTPLATE.getMaxDamage(getDurability())));
+		return new ArmorItem(register(), ArmorItem.Type.CHESTPLATE, settings.maxDamage(ArmorItem.Type.CHESTPLATE.getMaxDamage(getDurability())));
 	}
 	
 	@SilkApi
 	default ArmorItem createLeggings(Item.Settings settings) {
-		return new ArmorItem(register(), ArmorItem.Type.LEGGINGS, settings.maxDamageIfAbsent(ArmorItem.Type.LEGGINGS.getMaxDamage(getDurability())));
+		return new ArmorItem(register(), ArmorItem.Type.LEGGINGS, settings.maxDamage(ArmorItem.Type.LEGGINGS.getMaxDamage(getDurability())));
 	}
 	
 	@SilkApi
 	default ArmorItem createBoots(Item.Settings settings) {
-		return new ArmorItem(register(), ArmorItem.Type.BOOTS, settings.maxDamageIfAbsent(ArmorItem.Type.BOOTS.getMaxDamage(getDurability())));
+		return new ArmorItem(register(), ArmorItem.Type.BOOTS, settings.maxDamage(ArmorItem.Type.BOOTS.getMaxDamage(getDurability())));
 	}
 	
 	@SilkApi
 	default ArmorItem createBody(Item.Settings settings) {
-		return new ArmorItem(register(), ArmorItem.Type.BODY, settings.maxDamageIfAbsent(ArmorItem.Type.BODY.getMaxDamage(getDurability())));
+		return new ArmorItem(register(), ArmorItem.Type.BODY, settings.maxDamage(ArmorItem.Type.BODY.getMaxDamage(getDurability())));
 	}
 	
 	/**

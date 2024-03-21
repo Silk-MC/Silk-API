@@ -135,7 +135,7 @@ public class ConfigTab extends ScreenTab {
 				configListWidget.addSingleOptionEntry(simpleOption);
 			} else if (simpleOptionList.size() % 2 == 0) {
 				SimpleOption<?> prevOption = simpleOptionList.get(simpleOptionList.size() - 2);
-				configListWidget.addOptionEntry(prevOption.createWidget(parent.gameOptions), simpleOption.createWidget(parent.gameOptions));
+				configListWidget.addWidgetEntry(prevOption.createWidget(parent.gameOptions), simpleOption.createWidget(parent.gameOptions));
 				if (prev instanceof ConfigData cd) {
 					if (cd.type == ConfigData.Type.EXPERIMENTAL) {
 						ClickableWidget widget = configListWidget.getWidgetFor(prevOption);
@@ -157,7 +157,7 @@ public class ConfigTab extends ScreenTab {
 			}
 		}
 		if (isDouble && simpleOptionList.size() % 2 == 1) {
-			configListWidget.addOptionEntry(simpleOptionList.get(simpleOptionList.size() - 1).createWidget(parent.gameOptions), null);
+			configListWidget.addWidgetEntry(simpleOptionList.get(simpleOptionList.size() - 1).createWidget(parent.gameOptions), null);
 		}
 		return simpleOptionList;
 	}

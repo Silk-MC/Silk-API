@@ -131,7 +131,7 @@ public class ModScreen extends GameOptionsScreen {
 	public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
 		super.renderBackground(context, mouseX, mouseY, delta);
 		RenderSystem.enableBlend();
-		context.drawTexture(field_49896, 0, height - layout.getFooterHeight() - 2, 0, 0, width, 2, 32, 2);
+		context.drawTexture(FOOTER_SEPARATOR_TEXTURE, 0, height - layout.getFooterHeight() - 2, 0, 0, width, 2, 32, 2);
 		RenderSystem.disableBlend();
 		if (null == background) {
 			super.renderPanoramaBackground(context, delta);

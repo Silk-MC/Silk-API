@@ -12,7 +12,6 @@
 package pers.saikel0rado1iu.silk.gen.data;
 
 import net.minecraft.block.Block;
-import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
@@ -21,10 +20,7 @@ import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.predicate.entity.EntityFlagsPredicate;
 import net.minecraft.predicate.entity.EntityPredicate;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
-import pers.saikel0rado1iu.silk.api.ModBasicData;
 
 import java.util.function.BiConsumer;
 
@@ -46,25 +42,5 @@ public interface SilkLootTableGenerator {
 					.with(ItemEntry.builder(drop).apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(1)))));
 		}
 		addDrop.accept(block, lootTableBuilder);
-	}
-	
-	@SilkApi
-	static void addEntityDrop(BiConsumer<Identifier, LootTable.Builder> exporter, EntityType<?> entity, LootTable.Builder builder) {
-		exporter.accept(new Identifier(Registries.ENTITY_TYPE.getId(entity).getNamespace(), "entities/" + Registries.ENTITY_TYPE.getId(entity).getPath()), builder);
-	}
-	
-	@SilkApi
-	static void addArchaeologyDrop(BiConsumer<Identifier, LootTable.Builder> exporter, ModBasicData mod, String id, LootTable.Builder builder) {
-		exporter.accept(new Identifier(mod.getId(), "archaeology/" + id), builder);
-	}
-	
-	@SilkApi
-	static void addChestDrop(BiConsumer<Identifier, LootTable.Builder> exporter, ModBasicData mod, String id, LootTable.Builder builder) {
-		exporter.accept(new Identifier(mod.getId(), "chests/" + id), builder);
-	}
-	
-	@SilkApi
-	static void addGameplayDrop(BiConsumer<Identifier, LootTable.Builder> exporter, ModBasicData mod, String id, LootTable.Builder builder) {
-		exporter.accept(new Identifier(mod.getId(), "gameplay/" + id), builder);
 	}
 }

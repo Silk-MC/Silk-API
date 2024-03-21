@@ -39,7 +39,7 @@ public class ConfigListWidget extends OptionListWidget implements CustomBackgrou
 	
 	@Override
 	public void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
-		int scrollbarPositionX = getScrollbarPositionX();
+		int scrollbarPositionX = getScrollbarX();
 		int posX = scrollbarPositionX + 6;
 		RenderSystem.setShaderColor(0.25F, 0.25F, 0.25F, 1.0F);
 		if (getBackground() != null) {
