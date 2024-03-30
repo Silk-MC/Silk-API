@@ -122,11 +122,11 @@ public final class ChunkStorageData {
 			NbtCompound section = (NbtCompound) element;
 			PalettedContainer<BlockState> palettedContainer = section.contains("block_states", NbtElement.COMPOUND_TYPE)
 					? CODEC.parse(NbtOps.INSTANCE, section.getCompound("block_states"))
-					.promotePartial(errorMessage -> Silk.DATA.logger().error(errorMessage)).getOrThrow(false, Silk.DATA.logger()::error)
+					.promotePartial(errorMessage -> Silk.DATA.logger().error(errorMessage)).getOrThrow()
 					: new PalettedContainer<>(Block.STATE_IDS, Blocks.AIR.getDefaultState(), PalettedContainer.PaletteProvider.BLOCK_STATE);
 			ReadableContainer<RegistryEntry<Biome>> readableContainer = section.contains("biomes", NbtElement.COMPOUND_TYPE)
 					? biomeCodec.parse(NbtOps.INSTANCE, section.getCompound("biomes"))
-					.promotePartial(errorMessage -> Silk.DATA.logger().error(errorMessage)).getOrThrow(false, Silk.DATA.logger()::error)
+					.promotePartial(errorMessage -> Silk.DATA.logger().error(errorMessage)).getOrThrow()
 					: new PalettedContainer<>(biomes.getIndexedEntries(), biomes.entryOf(BiomeKeys.PLAINS), PalettedContainer.PaletteProvider.BIOME);
 			sectionMap.put(ChunkSectionPos.from(pos, section.getByte("Y")), new ChunkSection(palettedContainer, readableContainer));
 		}

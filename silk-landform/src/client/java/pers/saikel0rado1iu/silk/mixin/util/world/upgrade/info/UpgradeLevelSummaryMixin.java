@@ -11,8 +11,8 @@
 
 package pers.saikel0rado1iu.silk.mixin.util.world.upgrade.info;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.Dynamic;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.world.SelectWorldScreen;
@@ -23,11 +23,9 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.scanner.NbtScanQuery;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryOps;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Util;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.level.storage.LevelStorage;
 import net.minecraft.world.level.storage.LevelSummary;
@@ -42,6 +40,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import pers.saikel0rado1iu.silk.Silk;
 import pers.saikel0rado1iu.silk.gen.world.chunk.UpgradeChunkGenerator;
 import pers.saikel0rado1iu.silk.util.world.upgrade.GetRegistryManagerThread;
 import pers.saikel0rado1iu.silk.util.world.upgrade.WorldUpgradeSystem;
@@ -188,8 +187,10 @@ interface UpgradeLevelSummaryMixin {
 				if ((dimension = dimensions.getCompound(worldUpgradeData.dimension.getValue().toString())).isEmpty()) continue;
 				String generatorId = String.valueOf(Registries.CHUNK_GENERATOR.getId(generator.codec()));
 				if (!dimension.getCompound("generator").getString("type").equals(generatorId)) continue;
-				Codec codec = generator.codec();
-				NbtCompound nbtCompound = (NbtCompound) Util.getResult(codec.encodeStart(RegistryOps.of(NbtOps.INSTANCE, registryManager), generator), IllegalStateException::new);
+				MapCodec mapCodec = generator.codec();
+				Silk.DATA.logger().error("test");
+				NbtCompound nbtCompound = (NbtCompound) mapCodec.encoder().encodeStart(registryManager.getOps(NbtOps.INSTANCE), generator).getOrThrow();
+				Silk.DATA.logger().error("test！！！！！！！");
 				nbtCompound.putString("type", generatorId);
 				dimension.put("generator", nbtCompound);
 			}

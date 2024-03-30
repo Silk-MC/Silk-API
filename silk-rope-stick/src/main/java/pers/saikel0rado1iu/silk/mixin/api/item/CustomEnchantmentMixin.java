@@ -11,13 +11,11 @@
 
 package pers.saikel0rado1iu.silk.mixin.api.item;
 
-import com.google.common.collect.Lists;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentLevelEntry;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
+import net.minecraft.resource.featuretoggle.FeatureSet;
 import org.jetbrains.annotations.ApiStatus;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,7 +23,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import pers.saikel0rado1iu.silk.api.item.CustomEnchantment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -64,9 +61,9 @@ interface CustomEnchantmentMixin {
 		 * <p>
 		 * 设置附魔判断为 {@link Enchantment#isAcceptableItem(ItemStack)} 而不是 EnchantmentTarget#isAcceptableItem(Item)
 		 */
-		@Inject(method = "getPossibleEntries", at = @At("RETURN"), cancellable = true)
-		private static void setEnchantment(int power, ItemStack stack, boolean treasureAllowed, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir) {
-			ArrayList<EnchantmentLevelEntry> enchantments = Lists.newArrayList();
+		@Inject(method = "getPossibleEntries", at = @At("RETURN"))
+		private static void setEnchantment(FeatureSet enabledFeatures, int level, ItemStack stack, boolean treasureAllowed, CallbackInfoReturnable<List<EnchantmentLevelEntry>> cir) {
+/*			ArrayList<EnchantmentLevelEntry> enchantments = Lists.newArrayList();
 			nextEnchantment:
 			for (Enchantment enchantment : Registries.ENCHANTMENT) {
 				if (enchantment.isTreasure() && !treasureAllowed || !enchantment.isAvailableForRandomSelection()
@@ -77,7 +74,7 @@ interface CustomEnchantmentMixin {
 					continue nextEnchantment;
 				}
 			}
-			cir.setReturnValue(enchantments);
+			cir.setReturnValue(enchantments);*/
 		}
 	}
 }

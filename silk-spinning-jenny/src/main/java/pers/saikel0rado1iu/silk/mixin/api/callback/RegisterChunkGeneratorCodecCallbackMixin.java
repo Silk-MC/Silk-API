@@ -11,7 +11,7 @@
 
 package pers.saikel0rado1iu.silk.mixin.api.callback;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
@@ -34,9 +34,10 @@ import java.util.List;
 @Mixin(ChunkGenerators.class)
 abstract class RegisterChunkGeneratorCodecCallbackMixin {
 	@Inject(method = "registerAndGetDefault", at = @At("HEAD"))
-	private static void registerAndGetDefault(Registry<Codec<? extends ChunkGenerator>> registry, CallbackInfoReturnable<Codec<? extends ChunkGenerator>> cir) {
+	private static void registerAndGetDefault(Registry<MapCodec<? extends ChunkGenerator>> registry, CallbackInfoReturnable<MapCodec<? extends ChunkGenerator>> cir) {
 		List<RegisterChunkGeneratorCodecCallback.Data> list = new ArrayList<>();
 		RegisterChunkGeneratorCodecCallback.EVENT.invoker().register(list);
-		for (RegisterChunkGeneratorCodecCallback.Data data : list) Registry.register(registry, new Identifier(data.mod().getId(), data.id()), data.codec());
+		for (RegisterChunkGeneratorCodecCallback.Data data : list)
+			Registry.register(registry, new Identifier(data.mod().getId(), data.id()), data.codec());
 	}
 }

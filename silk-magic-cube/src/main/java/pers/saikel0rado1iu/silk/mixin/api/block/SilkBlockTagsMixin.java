@@ -54,8 +54,8 @@ interface SilkBlockTagsMixin {
 			/**
 			 * 设置挖掘速度增幅，如果方块是 cobwebs 方块标签则设置增幅倍数
 			 */
-			@ModifyArg(method = "method_58416", at = @At(value = "INVOKE", target = "L net/minecraft/component/type/ToolComponent;<init>(L java/util/List;FI)V"), index = 0)
-			private static List<ToolComponent.Rule> method_58416(List<ToolComponent.Rule> list) {
+			@ModifyArg(method = "createToolComponent", at = @At(value = "INVOKE", target = "L net/minecraft/component/type/ToolComponent;<init>(L java/util/List;FI)V"), index = 0)
+			private static List<ToolComponent.Rule> createToolComponent(List<ToolComponent.Rule> list) {
 				ArrayList<ToolComponent.Rule> ruleArrayList = Lists.newArrayList(list);
 				ruleArrayList.add(ToolComponent.Rule.of(SilkBlockTags.COBWEBS, COBWEB_MINING_SPEED));
 				return ruleArrayList;
@@ -75,7 +75,7 @@ interface SilkBlockTagsMixin {
 			/**
 			 * 设置挖掘速度增幅，如果方块是 cobwebs 方块标签则设置增幅倍数
 			 */
-			@ModifyArg(method = "method_58417", at = @At(value = "INVOKE", target = "L net/minecraft/component/type/ToolComponent;<init>(L java/util/List;FI)V"), index = 0)
+			@ModifyArg(method = "createToolComponent", at = @At(value = "INVOKE", target = "L net/minecraft/component/type/ToolComponent;<init>(L java/util/List;FI)V"), index = 0)
 			private static List<ToolComponent.Rule> method_58417(List<ToolComponent.Rule> list) {
 				ArrayList<ToolComponent.Rule> ruleArrayList = Lists.newArrayList(list);
 				ruleArrayList.add(ToolComponent.Rule.of(SilkBlockTags.COBWEBS, COBWEB_MINING_SPEED));

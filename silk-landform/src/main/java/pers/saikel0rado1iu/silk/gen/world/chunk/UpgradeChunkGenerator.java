@@ -12,6 +12,7 @@
 package pers.saikel0rado1iu.silk.gen.world.chunk;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
@@ -55,7 +56,7 @@ public interface UpgradeChunkGenerator {
 	 * 用于提供区块生成器的 {@link Codec}
 	 */
 	@SilkApi
-	Codec<? extends ChunkGenerator> codec();
+	MapCodec<? extends ChunkGenerator> codec();
 	
 	/**
 	 * 通过块坐标解析 {@link ChunkStorageData} 的数据进行判断是否可刷新坐标中的区块

@@ -11,7 +11,7 @@
 
 package pers.saikel0rado1iu.silk.api.callback;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.loader.api.entrypoint.PreLaunchEntrypoint;
@@ -37,6 +37,6 @@ public interface RegisterChunkGeneratorCodecCallback {
 	
 	void register(List<Data> list);
 	
-	record Data(Codec<? extends ChunkGenerator> codec, ModBasicData mod, String id) {
+	record Data(MapCodec<? extends ChunkGenerator> codec, ModBasicData mod, String id) {
 	}
 }

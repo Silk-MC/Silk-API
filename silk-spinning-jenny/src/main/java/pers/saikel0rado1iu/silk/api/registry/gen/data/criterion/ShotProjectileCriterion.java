@@ -23,7 +23,6 @@ import net.minecraft.predicate.entity.EntityPredicate;
 import net.minecraft.predicate.entity.LootContextPredicate;
 import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.dynamic.Codecs;
 import pers.saikel0rado1iu.silk.annotation.SilkApi;
 
 import java.util.Optional;
@@ -53,10 +52,10 @@ public class ShotProjectileCriterion extends AbstractCriterion<ShotProjectileCri
 	public record Conditions(Optional<LootContextPredicate> player, Optional<ItemPredicate> ranged, Optional<EntityPredicate> projectile,
 	                         NumberRange.IntRange count, int[] counts) implements AbstractCriterion.Conditions {
 		public static final Codec<Conditions> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-						Codecs.createStrictOptionalFieldCodec(EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC, "player").forGetter(Conditions::player),
-						Codecs.createStrictOptionalFieldCodec(ItemPredicate.CODEC, "ranged").forGetter(Conditions::ranged),
-						Codecs.createStrictOptionalFieldCodec(EntityPredicate.CODEC, "projectile").forGetter(Conditions::projectile),
-						Codecs.createStrictOptionalFieldCodec(NumberRange.IntRange.CODEC, "count", NumberRange.IntRange.ANY).forGetter(Conditions::count))
+						EntityPredicate.LOOT_CONTEXT_PREDICATE_CODEC.optionalFieldOf("player").forGetter(Conditions::player),
+						ItemPredicate.CODEC.optionalFieldOf("ranged").forGetter(Conditions::ranged),
+						EntityPredicate.CODEC.optionalFieldOf("projectile").forGetter(Conditions::projectile),
+						NumberRange.IntRange.CODEC.optionalFieldOf("count", NumberRange.IntRange.ANY).forGetter(Conditions::count))
 				.apply(instance, Conditions::new));
 		
 		public Conditions(Optional<LootContextPredicate> player, Optional<ItemPredicate> ranged, Optional<EntityPredicate> projectile, NumberRange.IntRange count) {

@@ -15,6 +15,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -29,6 +30,7 @@ import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.ShapedRecipe;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.dynamic.Codecs;
 
 /**
@@ -59,8 +61,8 @@ public class NbtShapedRecipe extends ShapedRecipe {
 	}
 	
 	public static class Serializer extends ShapedRecipe.Serializer {
-		public static final Codec<Item> ITEM_CODEC = Codecs.validate(Registries.ITEM.getCodec(), item -> item == Items.AIR ? DataResult.error(() -> "Item must not be minecraft:air") : DataResult.success(item));
-		public static final Codec<NbtCompound> NBT_CODEC = Codecs.xor(Codec.STRING, NbtCompound.CODEC).flatXmap(either -> either.map(string -> {
+		public static final Codec<RegistryEntry<Item>> ITEM_CODEC = Registries.ITEM.getEntryCodec().validate(entry -> entry.matches(Items.AIR.getRegistryEntry()) ? DataResult.error(() -> "Item must not be minecraft:air") : DataResult.success(entry));
+		public static final Codec<NbtCompound> NBT_CODEC = Codec.xor(Codec.STRING, NbtCompound.CODEC).flatXmap(either -> either.map(string -> {
 			try {
 				return DataResult.success(StringNbtReader.parse(string));
 			} catch (CommandSyntaxException e) {
@@ -68,18 +70,18 @@ public class NbtShapedRecipe extends ShapedRecipe {
 			}
 		}, DataResult::success), nbtCompound -> DataResult.success(Either.left(nbtCompound.asString())));
 		public static final Codec<ItemStack> NBT_RECIPE_RESULT_CODEC = RecordCodecBuilder.create(instance -> instance.group(
-						ITEM_CODEC.fieldOf("item").forGetter(ItemStack::getItem),
-						Codecs.createStrictOptionalFieldCodec(NBT_CODEC, "nbt", new NbtCompound()).forGetter(stack ->
+						ITEM_CODEC.fieldOf("item").forGetter(ItemStack::getRegistryEntry),
+						NBT_CODEC.optionalFieldOf("nbt", new NbtCompound()).forGetter(stack ->
 								(NbtCompound) ItemStack.CODEC.encodeStart(NbtOps.INSTANCE, stack).result().orElse(new NbtCompound())),
-						Codecs.createStrictOptionalFieldCodec(Codecs.POSITIVE_INT, "count", 1).forGetter(ItemStack::getCount))
+						Codecs.POSITIVE_INT.optionalFieldOf("count", 1).forGetter(ItemStack::getCount))
 				.apply(instance, (item, nbtCompound, integer) ->
 						ItemStack.CODEC.decode(NbtOps.INSTANCE, nbtCompound).result().orElseThrow().getFirst()));
-		protected static final Codec<ShapedRecipe> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-						Codecs.createStrictOptionalFieldCodec(Codec.STRING, "group", "").forGetter(recipe -> ((NbtShapedRecipe) recipe).group),
+		protected static final MapCodec<ShapedRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+						Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> ((NbtShapedRecipe) recipe).group),
 						CraftingRecipeCategory.CODEC.fieldOf("category").orElse(CraftingRecipeCategory.MISC).forGetter(recipe -> ((NbtShapedRecipe) recipe).category),
 						RawShapedRecipe.CODEC.forGetter(recipe -> ((NbtShapedRecipe) recipe).raw),
 						NBT_RECIPE_RESULT_CODEC.fieldOf("result").forGetter(recipe -> ((NbtShapedRecipe) recipe).result),
-						Codecs.createStrictOptionalFieldCodec(Codec.BOOL, "show_notification", true).forGetter(recipe -> ((NbtShapedRecipe) recipe).showNotification))
+						Codec.BOOL.optionalFieldOf("show_notification", true).forGetter(recipe -> ((NbtShapedRecipe) recipe).showNotification))
 				.apply(instance, NbtShapedRecipe::new));
 		public static final PacketCodec<RegistryByteBuf, ShapedRecipe> PACKET_CODEC = PacketCodec.ofStatic(Serializer::write, Serializer::read);
 		
@@ -101,7 +103,7 @@ public class NbtShapedRecipe extends ShapedRecipe {
 		}
 		
 		@Override
-		public Codec<ShapedRecipe> codec() {
+		public MapCodec<ShapedRecipe> codec() {
 			return CODEC;
 		}
 		
