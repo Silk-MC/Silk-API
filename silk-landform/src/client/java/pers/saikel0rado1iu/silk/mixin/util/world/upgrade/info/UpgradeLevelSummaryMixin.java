@@ -188,9 +188,7 @@ interface UpgradeLevelSummaryMixin {
 				String generatorId = String.valueOf(Registries.CHUNK_GENERATOR.getId(generator.codec()));
 				if (!dimension.getCompound("generator").getString("type").equals(generatorId)) continue;
 				MapCodec mapCodec = generator.codec();
-				Silk.DATA.logger().error("test");
 				NbtCompound nbtCompound = (NbtCompound) mapCodec.encoder().encodeStart(registryManager.getOps(NbtOps.INSTANCE), generator).getOrThrow();
-				Silk.DATA.logger().error("test！！！！！！！");
 				nbtCompound.putString("type", generatorId);
 				dimension.put("generator", nbtCompound);
 			}
