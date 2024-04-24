@@ -142,8 +142,8 @@ allprojects {
 		// 生成文档
 		withJavadocJar()
 		
-		sourceCompatibility = JavaVersion.VERSION_17
-		targetCompatibility = JavaVersion.VERSION_17
+		sourceCompatibility = JavaVersion.VERSION_21
+		targetCompatibility = JavaVersion.VERSION_21
 	}
 	
 	jar {
@@ -205,8 +205,6 @@ allprojects {
 			mavenJava(MavenPublication) {
 				artifactId archivesBaseName
 				from components.java
-				// 发布源码
-				artifact sourcesJar
 			}
 		}
 		
