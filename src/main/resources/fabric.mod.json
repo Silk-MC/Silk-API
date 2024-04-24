@@ -33,10 +33,10 @@
 	"icon": "assets/silk-api/icon.png",
 	"environment": "*",
 	"depends": {
-		"java": ">=17",
-		"minecraft": ">1.20.4",
-		"fabricloader": ">=0.15.7",
-		"fabric-api": ">=0.96.13"
+		"java": ">=21",
+		"minecraft": ">=1.20.5",
+		"fabricloader": ">=0.15.10",
+		"fabric-api": ">=0.97.6"
 	},
 	"suggests": {
 		"another-mod": "*"
