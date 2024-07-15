@@ -1,3 +1,10 @@
+## 1.0.0-beta---2024/07/15
+
+### Features:
+
+- Logic
+	- Reconstructed the API architecture to make the API more advanced and robust, while fixing multiple known bugs.
+
 ## 0.3.1---2024/03/04
 
 ### Fixes:
