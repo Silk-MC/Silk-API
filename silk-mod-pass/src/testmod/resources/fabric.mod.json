@@ -1,0 +1,19 @@
+{
+	"schemaVersion": 1,
+	"id": "silk-mod-pass-test",
+	"version": "1.0.0",
+	"entrypoints": {
+		"preLaunch": [
+			"pers.saikel0rado1iu.silk.test.modpass.ModLaunchTest"
+		],
+		"main": [
+			"pers.saikel0rado1iu.silk.test.modpass.Test"
+		],
+		"server": [
+			"pers.saikel0rado1iu.silk.test.modpass.ModServerTest"
+		],
+		"client": [
+			"pers.saikel0rado1iu.silk.test.modpass.ModClientTest"
+		]
+	}
+}

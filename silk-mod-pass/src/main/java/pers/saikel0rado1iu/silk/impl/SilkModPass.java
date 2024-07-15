@@ -11,21 +11,26 @@
 
 package pers.saikel0rado1iu.silk.impl;
 
-import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-
 /**
- * <h2 style="color:FFC800">Silk API: Mod Pass 的模组数据</h2>
+ * <h2 style="color:FFC800">Silk API: Mod Pass</h2>
+ * Silk API: Mod Pass 的模组数据
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0
  */
-@ApiStatus.Experimental
-final public class SilkModPass extends Silk {
-	public static final SilkModPass DATA = new SilkModPass();
+public interface SilkModPass extends SilkApi {
+	/**
+	 * 提供实例
+	 *
+	 * @return 模组数据实例
+	 */
+	static SilkModPass getInstance() {
+		return new SilkModPass() {
+		};
+	}
 	
 	@Override
-	public @NotNull String getId() {
+	default String id() {
 		return "silk-mod-pass";
 	}
 }

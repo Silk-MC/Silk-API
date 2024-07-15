@@ -3,12 +3,8 @@
 	"package": "pers.saikel0rado1iu.silk.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"client": [
-		"api.callback.GameMenuScreenAddButtonCallbackMixin",
-		"api.callback.WorldPresetCustomButtonCallbackMixin$AddButton",
-		"api.callback.WorldPresetCustomButtonCallbackMixin$ShowCustom",
-		"api.callback.WorldPresetSetDefaultCallbackMixin$GetWorldCreator",
-		"api.callback.WorldPresetSetDefaultCallbackMixin$SetDefault",
-		"util.LocalizationUtilMixin"
+		"event.pattern.AddButtonInGameMenuCallbackMixin",
+		"event.pattern.AddButtonInTitleScreenCallbackMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

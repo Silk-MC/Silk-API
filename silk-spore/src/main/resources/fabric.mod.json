@@ -37,14 +37,10 @@
 	"environment": "*",
 	"entrypoints": {
 		"fabric-datagen": [
-			"pers.saikel0rado1iu.silk.spore.DataGen"
+			"pers.saikel0rado1iu.silk.entrypoint.spore.DataGen"
 		]
 	},
 	"mixins": [
-		"silk-spore.mixins.json",
-		{
-			"config": "silk-spore.client.mixins.json",
-			"environment": "client"
-		}
+		"silk-spore.mixins.json"
 	]
 }

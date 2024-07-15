@@ -37,15 +37,14 @@
 	"environment": "*",
 	"accessWidener": "silk-generate.accesswidener",
 	"entrypoints": {
+		"main": [
+			"pers.saikel0rado1iu.silk.entrypoints.generate.Main"
+		],
 		"fabric-datagen": [
-			"pers.saikel0rado1iu.silk.generate.DataGen"
+			"pers.saikel0rado1iu.silk.entrypoints.generate.DataGen"
 		]
 	},
 	"mixins": [
-		"silk-generate.mixins.json",
-		{
-			"config": "silk-generate.client.mixins.json",
-			"environment": "client"
-		}
+		"silk-generate.mixins.json"
 	]
 }

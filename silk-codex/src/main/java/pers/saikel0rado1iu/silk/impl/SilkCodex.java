@@ -11,21 +11,26 @@
 
 package pers.saikel0rado1iu.silk.impl;
 
-import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
-
 /**
- * <h2 style="color:FFC800">Silk API: Codex 的模组数据</h2>
+ * <h2 style="color:FFC800">Silk API: Codex</h2>
+ * Silk API: Codex 的模组数据
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0
  */
-@ApiStatus.Experimental
-final public class SilkCodex extends Silk {
-	public static final SilkCodex DATA = new SilkCodex();
+public interface SilkCodex extends SilkApi {
+	/**
+	 * 提供实例
+	 *
+	 * @return 模组数据实例
+	 */
+	static SilkCodex getInstance() {
+		return new SilkCodex() {
+		};
+	}
 	
 	@Override
-	public @NotNull String getId() {
+	default String id() {
 		return "silk-codex";
 	}
 }

@@ -1,0 +1,16 @@
+accessWidener	v2	named
+
+transitive-accessible	field	net/minecraft/item/CrossbowItem	charged	Z
+transitive-accessible	field	net/minecraft/item/CrossbowItem	loaded	Z
+transitive-extendable	method	net/minecraft/item/CrossbowItem	shoot	(Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/util/Hand;Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;FZFFF)V
+transitive-extendable	method	net/minecraft/item/CrossbowItem	postShoot	(Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;)V
+transitive-extendable	method	net/minecraft/item/CrossbowItem	createArrow	(Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)Lnet/minecraft/entity/projectile/PersistentProjectileEntity;
+transitive-extendable	method	net/minecraft/item/CrossbowItem	getSoundPitch	(ZLnet/minecraft/util/math/random/Random;)F
+transitive-extendable	method	net/minecraft/item/CrossbowItem	getSoundPitches	(Lnet/minecraft/util/math/random/Random;)[F
+transitive-extendable	method	net/minecraft/item/CrossbowItem	putProjectile	(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)V
+transitive-extendable	method	net/minecraft/item/CrossbowItem	getProjectiles	(Lnet/minecraft/item/ItemStack;)Ljava/util/List;
+transitive-extendable	method	net/minecraft/item/CrossbowItem	loadProjectile	(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;ZZ)Z
+transitive-extendable	method	net/minecraft/item/CrossbowItem	loadProjectiles	(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;)Z
+transitive-extendable	method	net/minecraft/item/CrossbowItem	clearProjectiles	(Lnet/minecraft/item/ItemStack;)V
+transitive-extendable	method	net/minecraft/item/CrossbowItem	getQuickChargeSound	(I)Lnet/minecraft/sound/SoundEvent;
+transitive-accessible	field	net/minecraft/item/CrossbowItem	CHARGED_PROJECTILES_KEY	Ljava/lang/String;

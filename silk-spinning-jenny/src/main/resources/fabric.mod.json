@@ -37,17 +37,10 @@
 	"environment": "*",
 	"entrypoints": {
 		"fabric-datagen": [
-			"pers.saikel0rado1iu.silk.spinningjenny.DataGen"
-		],
-		"main": [
-			"pers.saikel0rado1iu.silk.spinningjenny.Main"
+			"pers.saikel0rado1iu.silk.entrypoint.spinningjenny.DataGen"
 		]
 	},
 	"mixins": [
-		"silk-spinning-jenny.mixins.json",
-		{
-			"config": "silk-spinning-jenny.client.mixins.json",
-			"environment": "client"
-		}
+		"silk-spinning-jenny.mixins.json"
 	]
 }

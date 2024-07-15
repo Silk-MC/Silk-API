@@ -1,7 +1,9 @@
+//file:noinspection DependencyNotationArgument
+//file:noinspection GroovyAssignabilityCheck
 version = project.silk_spore_version + "+" + project.mc_main_version
 
 dependencies {
 	api project(path: ":silk-api-base", configuration: "namedElements")
 	api project(path: ":silk-mod-pass", configuration: "namedElements")
-	api project(path: ":silk-generate", configuration: "namedElements")
+	testmodImplementation project(path: ":silk-spinning-jenny", configuration: "namedElements")
 }

@@ -3,13 +3,12 @@
 	"package": "pers.saikel0rado1iu.silk.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"api.callback.RegisterChunkGeneratorCodecCallbackMixin",
-		"api.callback.RegisterMultiNoiseBiomeSourceParameterListPresetCallbackMixin",
-		"api.criterion.RangedKilledEntityCriterionMixin$Bow",
-		"api.criterion.RangedKilledEntityCriterionMixin$Crossbow",
-		"api.criterion.RangedKilledEntityCriterionMixin$Trigger",
-		"api.criterion.ShotProjectileCriterionMixin$Bow",
-		"api.criterion.ShotProjectileCriterionMixin$Crossbow"
+		"event.spinningjenny.world.biome.source.RegisterBiomeSourceParamListPresetCallbackMixin",
+		"spinningjenny.tag.BlockTagsMixin$Cobweb$ShearsBreak",
+		"spinningjenny.tag.BlockTagsMixin$Cobweb$SwordBreak",
+		"spinningjenny.tag.BlockTagsMixin$Dirt",
+		"spinningjenny.tag.BlockTagsMixin$Soil",
+		"spinningjenny.tag.BlockTagsMixin$TillableBlock"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -37,7 +37,7 @@
 	"environment": "*",
 	"entrypoints": {
 		"fabric-datagen": [
-			"pers.saikel0rado1iu.silk.modpass.DataGen"
+			"pers.saikel0rado1iu.silk.entrypoint.modpass.DataGen"
 		]
 	}
 }

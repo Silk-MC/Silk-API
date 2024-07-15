@@ -3,13 +3,11 @@
 	"package": "pers.saikel0rado1iu.silk.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"api.item.CustomEnchantmentMixin$SetAcceptEnchantment",
-		"api.item.CustomEnchantmentMixin$SetTableEnchantment",
-		"api.item.PiglinIgnoreMixin",
-		"api.item.WithProjectileProtectionMixin$SetMob",
-		"api.item.WithProjectileProtectionMixin$SetPlayer",
-		"api.item.WithStatusEffectsMixin",
-		"api.item.weapon.BreakingShieldMixin"
+		"ropestick.property.CustomEnchantmentMixin$SetAcceptEnchantment",
+		"ropestick.property.CustomEnchantmentMixin$SetTableEnchantment",
+		"ropestick.property.InherentStatusEffectMixin",
+		"ropestick.property.PiglinIgnoreMixin",
+		"ropestick.weapon.BreakingShieldMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

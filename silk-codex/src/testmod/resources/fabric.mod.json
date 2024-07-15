@@ -1,0 +1,13 @@
+{
+	"schemaVersion": 1,
+	"id": "silk-codex-test",
+	"version": "1.0.0",
+	"entrypoints": {
+		"main": [
+			"pers.saikel0rado1iu.silk.test.codex.Test"
+		],
+		"client": [
+			"pers.saikel0rado1iu.silk.test.codex.client.Test"
+		]
+	}
+}

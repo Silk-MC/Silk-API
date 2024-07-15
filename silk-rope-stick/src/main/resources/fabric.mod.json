@@ -35,9 +35,10 @@
 	],
 	"icon": "assets/silk-rope-stick/icon.png",
 	"environment": "*",
+	"accessWidener": "silk-rope-stick.accesswidener",
 	"entrypoints": {
 		"fabric-datagen": [
-			"pers.saikel0rado1iu.silk.ropestick.DataGen"
+			"pers.saikel0rado1iu.silk.entrypoint.ropestick.DataGen"
 		]
 	},
 	"mixins": [

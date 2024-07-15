@@ -2,17 +2,28 @@
 //file:noinspection DependencyNotationArgument
 //file:noinspection ForeignDelegate
 //file:noinspection UnnecessaryQualifiedReference
+//file:noinspection GroovyAccessibility
 plugins {
 	id 'fabric-loom' version '1.5-SNAPSHOT'
 	id 'maven-publish'
 }
 
-subprojects {
+allprojects {
 	apply plugin: 'fabric-loom'
 	apply plugin: 'maven-publish'
-}
-
-allprojects {
+	
+	tasks.withType(JavaCompile).configureEach {
+		options.encoding = 'UTF-8'
+	}
+	
+	tasks.withType(Javadoc) {
+		options {
+			encoding = 'UTF-8'
+			charSet = 'UTF-8'
+			links 'https://docs.oracle.com/javase/8/docs/api/'
+		}
+	}
+	
 	version = project.mc_main_version + "-" + project.mod_version
 	group = project.maven_group
 	
@@ -20,16 +31,48 @@ allprojects {
 		archivesName = project.name
 	}
 	
-	loom {
-		splitEnvironmentSourceSets()
-		
-		mods {
-			modid {
-				sourceSet sourceSets.main
-				sourceSet sourceSets.client
+	loom.splitEnvironmentSourceSets()
+	
+	sourceSets {
+		main {
+			resources {
+				srcDirs += ['src/main/generated']
 			}
 		}
-		
+		testmod {
+			compileClasspath += main.compileClasspath
+			runtimeClasspath += main.runtimeClasspath
+			
+			resources {
+				srcDirs += ['src/testmod/generated']
+			}
+		}
+		testmodClient {
+			compileClasspath += main.compileClasspath
+			runtimeClasspath += main.runtimeClasspath
+			compileClasspath += client.compileClasspath
+			runtimeClasspath += client.runtimeClasspath
+			
+			compileClasspath += testmod.compileClasspath
+			runtimeClasspath += testmod.runtimeClasspath
+		}
+		test {
+			compileClasspath += testmodClient.compileClasspath
+			runtimeClasspath += testmodClient.runtimeClasspath
+		}
+	}
+	
+	loom {
+		mods {
+			register(project.name) {
+				sourceSet project.sourceSets.main
+				sourceSet project.sourceSets.client
+			}
+			register(project.name + "-testmod") {
+				sourceSet project.sourceSets.testmod
+				sourceSet project.sourceSets.testmodClient
+			}
+		}
 		runs {
 			// 为测试创建基本运行配置的示例
 			testClient {
@@ -39,7 +82,6 @@ allprojects {
 				configName = "Test Minecraft Client"
 				source = sourceSets.test
 			}
-			
 			// 添加一个新的 gradle 任务，会运行数据生成 API：“gradlew runDatagenClient”
 			datagen {
 				inherit client
@@ -50,7 +92,6 @@ allprojects {
 				
 				runDir "build/datagen"
 			}
-			
 			testmodDatagen {
 				inherit client
 				name "Test Mod DataGen"
@@ -59,48 +100,12 @@ allprojects {
 				vmArg "-Dfabric-api.datagen.modid=${project.name}-test"
 				
 				runDir "build/datagen"
-				source = sourceSets.test
+				source = sourceSets.testmodClient
 			}
 		}
 		
 		runConfigs.configureEach {
 			ideConfigGenerated = true
-		}
-	}
-	
-	sourceSets {
-		main {
-			resources {
-				srcDirs += [
-						'src/main/generated'
-				]
-			}
-		}
-		
-		testmod {
-			compileClasspath += main.compileClasspath
-			runtimeClasspath += main.runtimeClasspath
-			
-			resources {
-				srcDirs += [
-						'src/testmod/generated'
-				]
-			}
-		}
-		
-		testmodClient {
-			compileClasspath += main.compileClasspath
-			runtimeClasspath += main.runtimeClasspath
-			compileClasspath += client.compileClasspath
-			runtimeClasspath += client.runtimeClasspath
-			
-			compileClasspath += testmod.compileClasspath
-			runtimeClasspath += testmod.runtimeClasspath
-		}
-		
-		test {
-			compileClasspath += testmodClient.compileClasspath
-			runtimeClasspath += testmodClient.runtimeClasspath
 		}
 	}
 	
@@ -113,8 +118,16 @@ allprojects {
 		// Fabric API. 这在理论上是可选的, 但无论如何您都可能需要它.
 		modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 		
+		// 注册注解处理器
+		testmodAnnotationProcessor sourceSets.main.output
+		testmodClientAnnotationProcessor sourceSets.main.output, sourceSets.client.output, sourceSets.testmod.output
+		
 		// 添加 testmod 测试模组服务端依赖
+		testmodImplementation sourceSets.main.output
+		testmodClientImplementation sourceSets.main.output
+		testmodClientImplementation sourceSets.client.output
 		testmodClientImplementation sourceSets.testmod.output
+		testImplementation sourceSets.testmodClient.output
 		
 		// 取消注释以下行以启用已弃用的 Fabric API 模块.
 		// 这些包含在 Fabric API 发布版本中, 允许您在以后更方便的时候将您的模块更新为最新的模块.
@@ -246,6 +259,7 @@ dependencies {
 	subprojects.each {
 		include project("${it.path}")
 		api project(path: "${it.path}", configuration: "namedElements")
+		annotationProcessor project(path: "${it.path}", configuration: "namedElements")
 		clientImplementation project("${it.path}").sourceSets.client.output
 	}
 	

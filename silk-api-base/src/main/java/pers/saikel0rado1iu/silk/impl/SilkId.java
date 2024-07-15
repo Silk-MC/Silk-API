@@ -12,12 +12,19 @@
 package pers.saikel0rado1iu.silk.impl;
 
 /**
- * <h2 style="color:FFC800">Silk API 的基础 ID</h2>
+ * <h2 style="color:FFC800">丝绸 ID</h2>
+ * Silk API 的基础 ID
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0
  */
 public interface SilkId {
+	/**
+	 * Silk API 的 ID
+	 */
 	String SILK_API = "silk-api";
+	/**
+	 * Silk API: Base 的 ID
+	 */
 	String SILK_API_BASE = "silk-api-base";
 }

@@ -1,0 +1,19 @@
+{
+	"schemaVersion": 1,
+	"id": "silk-landform-test",
+	"version": "1.0.0",
+	"entrypoints": {
+		"fabric-datagen": [
+			"pers.saikel0rado1iu.silk.test.landform.DataGen"
+		],
+		"preLaunch": [
+			"pers.saikel0rado1iu.silk.test.landform.Launch"
+		],
+		"main": [
+			"pers.saikel0rado1iu.silk.test.landform.Test"
+		],
+		"client": [
+			"pers.saikel0rado1iu.silk.test.landform.client.Test"
+		]
+	}
+}

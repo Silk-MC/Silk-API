@@ -37,14 +37,10 @@
 	"environment": "*",
 	"entrypoints": {
 		"fabric-datagen": [
-			"pers.saikel0rado1iu.silk.magiccube.DataGen"
+			"pers.saikel0rado1iu.silk.entrypoint.magiccube.DataGen"
 		]
 	},
 	"mixins": [
-		"silk-magic-cube.mixins.json",
-		{
-			"config": "silk-magic-cube.client.mixins.json",
-			"environment": "client"
-		}
+		"silk-magic-cube.mixins.json"
 	]
 }

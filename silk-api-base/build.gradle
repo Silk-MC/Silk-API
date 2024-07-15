@@ -1,1 +1,10 @@
 version = project.silk_api_base_version + "+" + project.mc_main_version
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	api "com.squareup:javapoet:1.13.0"
+	include "com.squareup:javapoet:1.13.0"
+}

@@ -3,6 +3,11 @@
 	"package": "pers.saikel0rado1iu.silk.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
+		"landform.CustomChunkGeneratorMixin$GetSeed",
+		"landform.CustomChunkGeneratorMixin$LocateBiome",
+		"landform.CustomChunkGeneratorMixin$PopulateBiomes",
+		"landform.CustomChunkGeneratorMixin$PopulateNoise",
+		"landform.CustomChunkGeneratorMixin$RepairStructureGen"
 	],
 	"injectors": {
 		"defaultRequire": 1

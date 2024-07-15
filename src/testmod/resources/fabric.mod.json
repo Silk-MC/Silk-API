@@ -1,0 +1,10 @@
+{
+	"schemaVersion": 1,
+	"id": "silk-api-base-test",
+	"version": "1.0.0",
+	"entrypoints": {
+		"main": [
+			"pers.saikel0rado1iu.silk.test.base.Test"
+		]
+	}
+}

@@ -1,9 +1,13 @@
 accessWidener	v2	named
 
-accessible	class	net/minecraft/world/gen/surfacebuilder/MaterialRules$MaterialRuleContext
-accessible	method	net/minecraft/world/gen/surfacebuilder/MaterialRules$MaterialRuleContext	blockToChunkCoord (I)I
-accessible	method	net/minecraft/world/gen/surfacebuilder/MaterialRules$MaterialRuleContext	chunkToBlockCoord (I)I
-accessible	field	net/minecraft/world/ChunkSerializer	CODEC	Lcom/mojang/serialization/Codec;
-accessible	method	net/minecraft/world/ChunkSerializer	createCodec	(Lnet/minecraft/registry/Registry;)Lcom/mojang/serialization/Codec;
-accessible	method	net/minecraft/world/ChunkSerializer	readStructureStarts	(Lnet/minecraft/structure/StructureContext;Lnet/minecraft/nbt/NbtCompound;J)Ljava/util/Map;
-accessible	method	net/minecraft/world/ChunkSerializer	readStructureReferences	(Lnet/minecraft/registry/DynamicRegistryManager;Lnet/minecraft/util/math/ChunkPos;Lnet/minecraft/nbt/NbtCompound;)Ljava/util/Map;
+transitive-extendable	class	net/minecraft/world/gen/chunk/NoiseChunkGenerator
+transitive-accessible	class	net/minecraft/world/chunk/ChunkStatus$GenerationTask
+transitive-extendable	class	net/minecraft/world/biome/source/util/VanillaBiomeParameters
+transitive-accessible	class	net/minecraft/world/gen/surfacebuilder/MaterialRules$MaterialRuleContext
+transitive-accessible	method	net/minecraft/world/gen/surfacebuilder/MaterialRules$MaterialRuleContext	blockToChunkCoord (I)I
+transitive-accessible	method	net/minecraft/world/gen/surfacebuilder/MaterialRules$MaterialRuleContext	chunkToBlockCoord (I)I
+transitive-accessible	method	net/minecraft/world/ChunkSerializer	createCodec	(Lnet/minecraft/registry/Registry;)Lcom/mojang/serialization/Codec;
+transitive-accessible	method	net/minecraft/world/ChunkSerializer	readStructureStarts	(Lnet/minecraft/structure/StructureContext;Lnet/minecraft/nbt/NbtCompound;J)Ljava/util/Map;
+transitive-accessible	method	net/minecraft/world/ChunkSerializer	readStructureReferences	(Lnet/minecraft/registry/DynamicRegistryManager;Lnet/minecraft/util/math/ChunkPos;Lnet/minecraft/nbt/NbtCompound;)Ljava/util/Map;
+transitive-accessible	method	net/minecraft/world/gen/chunk/ChunkNoiseSampler	sampleBlockState	()Lnet/minecraft/block/BlockState;
+transitive-accessible	field	net/minecraft/world/ChunkSerializer	CODEC	Lcom/mojang/serialization/Codec;

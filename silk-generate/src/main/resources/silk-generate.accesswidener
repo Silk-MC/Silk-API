@@ -1,8 +1,18 @@
 accessWidener	v2	named
 
-accessible	class	net/minecraft/world/chunk/ChunkStatus$GenerationTask
-extendable	class	net/minecraft/world/gen/chunk/NoiseChunkGenerator
-extendable	class	net/minecraft/world/gen/chunk/GenerationShapeConfig
-extendable	class	net/minecraft/world/biome/source/util/VanillaBiomeParameters
-extendable	class	net/minecraft/world/biome/source/MultiNoiseBiomeSourceParameterList$Preset$BiomeSourceFunction
-accessible	method	net/minecraft/world/gen/chunk/ChunkNoiseSampler	sampleBlockState	()Lnet/minecraft/block/BlockState;
+transitive-extendable	class	net/minecraft/world/gen/WorldPresets$Registrar
+transitive-extendable	class	net/minecraft/world/gen/chunk/GenerationShapeConfig
+transitive-extendable	class	net/minecraft/world/biome/source/MultiNoiseBiomeSourceParameterList$Preset$BiomeSourceFunction
+transitive-extendable	method	net/minecraft/world/gen/WorldPresets$Registrar	<init>	(Lnet/minecraft/registry/Registerable;)V
+transitive-extendable	method	net/minecraft/world/gen/WorldPresets$Registrar	register	(Lnet/minecraft/registry/RegistryKey;Lnet/minecraft/world/dimension/DimensionOptions;)V
+transitive-extendable	method	net/minecraft/world/gen/WorldPresets$Registrar	createPreset	(Lnet/minecraft/world/dimension/DimensionOptions;)Lnet/minecraft/world/gen/WorldPreset;
+transitive-extendable	method	net/minecraft/world/gen/WorldPresets$Registrar	createOverworldOptions	(Lnet/minecraft/world/gen/chunk/ChunkGenerator;)Lnet/minecraft/world/dimension/DimensionOptions;
+transitive-extendable	method	net/minecraft/world/gen/WorldPresets$Registrar	createOverworldOptions	(Lnet/minecraft/world/biome/source/BiomeSource;Lnet/minecraft/registry/entry/RegistryEntry;)Lnet/minecraft/world/dimension/DimensionOptions;
+transitive-accessible	field  	net/minecraft/world/gen/WorldPresets$Registrar	chunkGeneratorSettingsLookup	Lnet/minecraft/registry/RegistryEntryLookup;
+transitive-accessible	field  	net/minecraft/world/gen/WorldPresets$Registrar	biomeLookup	Lnet/minecraft/registry/RegistryEntryLookup;
+transitive-accessible	field  	net/minecraft/world/gen/WorldPresets$Registrar	featureLookup	Lnet/minecraft/registry/RegistryEntryLookup;
+transitive-accessible	field  	net/minecraft/world/gen/WorldPresets$Registrar	structureSetLookup	Lnet/minecraft/registry/RegistryEntryLookup;
+transitive-accessible	field  	net/minecraft/world/gen/WorldPresets$Registrar	multiNoisePresetLookup	Lnet/minecraft/registry/RegistryEntryLookup;
+transitive-accessible	field  	net/minecraft/data/client/BlockStateModelGenerator	simpleItemModelExemptionCollector	Ljava/util/function/Consumer;
+transitive-accessible	field  	net/minecraft/item/ItemStack	ITEM_CODEC	Lcom/mojang/serialization/Codec;
+transitive-accessible	field  	net/minecraft/data/server/loottable/EntityLootTableGenerator	NEEDS_ENTITY_ON_FIRE	Lnet/minecraft/predicate/entity/EntityPredicate$Builder;
