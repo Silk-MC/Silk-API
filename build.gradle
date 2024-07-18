@@ -70,16 +70,7 @@ allprojects {
 				configName = "Test Minecraft Client"
 				source = sourceSets.test
 			}
-			// 添加一个新的 gradle 任务，会运行数据生成 API：“gradlew runDatagenClient”
-			datagen {
-				inherit client
-				name "Data Generation"
-				vmArg "-Dfabric-api.datagen"
-				vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
-				vmArg "-Dfabric-api.datagen.modid=${project.name}"
-				
-				runDir "build/datagen"
-			}
+			// 添加一个新的 gradle 任务，会运行数据生成 API：“gradlew runTestmodDatagen”
 			testmodDatagen {
 				inherit client
 				name "Test Mod DataGen"
@@ -120,6 +111,12 @@ allprojects {
 		// 取消注释以下行以启用已弃用的 Fabric API 模块.
 		// 这些包含在 Fabric API 发布版本中, 允许您在以后更方便的时候将您的模块更新为最新的模块.
 		// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
+	}
+	
+	fabricApi {
+		configureDataGeneration {
+			modId = project.name
+		}
 	}
 	
 	processResources {
