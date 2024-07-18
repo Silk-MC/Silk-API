@@ -14,6 +14,7 @@ package pers.saikel0rado1iu.silk.entrypoints.generate;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import pers.saikel0rado1iu.silk.generate.DataGenerator;
 import pers.saikel0rado1iu.silk.generate.DynamicDataEntry;
+import pers.saikel0rado1iu.silk.impl.SilkGenerate;
 import pers.saikel0rado1iu.silk.modpass.ModData;
 
 import java.util.Optional;
@@ -52,6 +53,6 @@ public final class DataGen implements DataGenerator {
 	 */
 	@Override
 	public ModData modData() {
-		return null;
+		return SilkGenerate.getInstance();
 	}
 }
