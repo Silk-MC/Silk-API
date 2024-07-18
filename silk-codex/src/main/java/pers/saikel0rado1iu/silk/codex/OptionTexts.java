@@ -23,6 +23,26 @@ import net.minecraft.text.Text;
  */
 public interface OptionTexts {
 	/**
+	 * 提供设置数据根的文本
+	 *
+	 * @param settingData 设置数据
+	 * @return 可翻译文本
+	 */
+	static MutableText root(SettingData settingData) {
+		return Text.translatable(rootKey(settingData));
+	}
+	
+	/**
+	 * 提供设置数据根的文本键
+	 *
+	 * @param settingData 设置数据
+	 * @return 文本翻译键
+	 */
+	static String rootKey(SettingData settingData) {
+		return String.format("%s.option.root.text", settingData.modData().id());
+	}
+	
+	/**
 	 * 提供选项文本
 	 *
 	 * @param option 设置选项

@@ -18,12 +18,12 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import pers.saikel0rado1iu.silk.codex.OptionTexts;
 import pers.saikel0rado1iu.silk.codex.screen.SettingScreen;
 import pers.saikel0rado1iu.silk.codex.tab.SettingTab;
 import pers.saikel0rado1iu.silk.event.pattern.AddButtonInGameMenuCallback;
 import pers.saikel0rado1iu.silk.event.pattern.AddButtonInTitleScreenCallback;
 import pers.saikel0rado1iu.silk.impl.SilkCodex;
-import pers.saikel0rado1iu.silk.impl.SilkPattern;
 import pers.saikel0rado1iu.silk.modpass.ModClient;
 import pers.saikel0rado1iu.silk.modpass.ModData;
 import pers.saikel0rado1iu.silk.modpass.ModPass;
@@ -59,7 +59,7 @@ public final class Test implements ModClient {
 				return true;
 			}
 		});
-		AddButtonInGameMenuCallback.EVENT.register((client, parent, adder) -> adder.add(ButtonWidget.builder(WidgetTexts.text(SilkPattern.getInstance(), "test"),
+		AddButtonInGameMenuCallback.EVENT.register((client, parent, adder) -> adder.add(ButtonWidget.builder(OptionTexts.root(Settings.TOML_SETTINGS),
 				button -> MinecraftClient.getInstance().setScreen(new SettingScreen(Optional.of(parent), Settings.TOML_SETTINGS))).width(204).build(), 2));
 	}
 	
