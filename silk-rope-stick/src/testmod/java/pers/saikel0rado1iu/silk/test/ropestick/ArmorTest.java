@@ -105,7 +105,7 @@ public interface ArmorTest extends Armor {
 	}
 	
 	@Override
-	default int[] getProtection() {
+	default int[] getProtections() {
 		return new int[]{4, 6, 5, 5};
 	}
 	

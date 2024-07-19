@@ -81,7 +81,7 @@ public interface Armor extends ArmorMaterial {
 	 *
 	 * @return 护甲值
 	 */
-	int[] getProtection();
+	int[] getProtections();
 	
 	/**
 	 * 获取击退抗性
@@ -155,7 +155,7 @@ public interface Armor extends ArmorMaterial {
 	 * @param feet 靴子
 	 * @return 实际护甲值
 	 */
-	private int getProtection(ArmorItem.Type type, int head, int body, int legs, int feet) {
+	private int getProtections(ArmorItem.Type type, int head, int body, int legs, int feet) {
 		return new int[]{feet, legs, body, head}[type.getEquipmentSlot().getEntitySlotId()];
 	}
 	
@@ -181,8 +181,8 @@ public interface Armor extends ArmorMaterial {
 	
 	@Override
 	default int getProtection(ArmorItem.Type type) {
-		int[] protection = getProtection();
-		return getProtection(type, protection[0], protection[1], protection[2], protection[3]);
+		int[] protection = getProtections();
+		return getProtections(type, protection[0], protection[1], protection[2], protection[3]);
 	}
 	
 	@Override
