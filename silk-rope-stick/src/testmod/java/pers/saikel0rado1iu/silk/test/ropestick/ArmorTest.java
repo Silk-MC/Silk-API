@@ -18,6 +18,8 @@ import net.minecraft.item.Item;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Identifier;
+import pers.saikel0rado1iu.silk.impl.SilkRopeStick;
 import pers.saikel0rado1iu.silk.ropestick.armor.Armor;
 import pers.saikel0rado1iu.silk.ropestick.property.EffectiveItemSlot;
 import pers.saikel0rado1iu.silk.ropestick.property.InherentStatusEffect;
@@ -93,8 +95,8 @@ public interface ArmorTest extends Armor {
 	}
 	
 	@Override
-	default String getId() {
-		return "test";
+	default Identifier getId() {
+		return SilkRopeStick.getInstance().ofId("test");
 	}
 	
 	@Override

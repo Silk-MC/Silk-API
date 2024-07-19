@@ -15,6 +15,7 @@ import com.google.common.collect.ImmutableSet;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
+import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.ropestick.property.ItemProperties;
 import pers.saikel0rado1iu.silk.ropestick.property.ItemProperty;
 
@@ -66,7 +67,7 @@ public interface Armor extends ArmorMaterial {
 	 *
 	 * @return 盔甲 ID
 	 */
-	String getId();
+	Identifier getId();
 	
 	/**
 	 * 获取耐久度
@@ -170,7 +171,7 @@ public interface Armor extends ArmorMaterial {
 	
 	@Override
 	default String getName() {
-		return getId();
+		return getId().toString();
 	}
 	
 	@Override
