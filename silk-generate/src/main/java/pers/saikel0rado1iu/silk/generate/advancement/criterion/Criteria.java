@@ -25,9 +25,9 @@ public interface Criteria extends CriterionRegistry {
 	/**
 	 * 射击发射物标准
 	 */
-	ShotProjectileCriterion SHOT_PROJECTILE_CRITERION = CriterionRegistry.registrar(new ShotProjectileCriterion()).register(SilkApi.getInternal(), "shot_projectile");
+	ShotProjectileCriterion SHOT_PROJECTILE_CRITERION = CriterionRegistry.registrar(new ShotProjectileCriterion()).register(SilkApi.getInternal().ofId("shot_projectile"));
 	/**
 	 * 远程武器击杀实体标准
 	 */
-	RangedKilledEntityCriterion RANGED_KILLED_ENTITY_CRITERION = CriterionRegistry.registrar(new RangedKilledEntityCriterion()).register(SilkApi.getInternal(), "ranged_killed_entity");
+	RangedKilledEntityCriterion RANGED_KILLED_ENTITY_CRITERION = CriterionRegistry.registrar(new RangedKilledEntityCriterion()).register(SilkApi.getInternal().ofId("ranged_killed_entity"));
 }
