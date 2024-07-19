@@ -14,9 +14,7 @@ package pers.saikel0rado1iu.silk.spinningjenny;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.ServerRegistration;
-import pers.saikel0rado1iu.silk.modpass.ModData;
 import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
 
 /**
@@ -46,11 +44,14 @@ interface SoundEventRegistrationProvider extends MainRegistrationProvider<SoundE
 			return this;
 		}
 		
+		@Override
+		protected Registry<?> registry() {
+			return Registries.SOUND_EVENT;
+		}
+		
+		@Override
 		public T register() {
-			Identifier id = type.getId();
-			Registry.register(Registries.SOUND_EVENT, id, type);
-			ModData modData = id::getNamespace;
-			return super.register(modData, id.getPath());
+			return register(type.getId());
 		}
 	}
 }

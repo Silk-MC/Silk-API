@@ -15,7 +15,6 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import pers.saikel0rado1iu.silk.annotation.ServerRegistration;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
 import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
 
 /**
@@ -45,9 +44,9 @@ interface StatusEffectRegistrationProvider extends MainRegistrationProvider<Stat
 			return this;
 		}
 		
-		public T register(ModPass modPass, String id) {
-			Registry.register(Registries.STATUS_EFFECT, modPass.modData().ofId(id), type);
-			return super.register(modPass, id);
+		@Override
+		protected Registry<?> registry() {
+			return Registries.STATUS_EFFECT;
 		}
 	}
 }

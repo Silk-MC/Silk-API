@@ -15,7 +15,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
-import pers.saikel0rado1iu.silk.impl.SilkSpinningJenny;
 import pers.saikel0rado1iu.silk.spinningjenny.StatusEffectRegistry;
 
 /**
@@ -27,7 +26,7 @@ public interface StatusEffectRegistryTest extends StatusEffectRegistry {
 	 */
 	@SuppressWarnings("unused")
 	TestStatusEffect TEST_STATUS_EFFECT = StatusEffectRegistry.registrar(new TestStatusEffect())
-			.register(SilkSpinningJenny.getInstance(), "test_status_effect");
+			.register("test_status_effect");
 	
 	/**
 	 * TestStatusEffect

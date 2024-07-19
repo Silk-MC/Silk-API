@@ -52,10 +52,11 @@ interface ParticleTypeRegistrationProvider extends MainRegistrationProvider<Part
 			return this;
 		}
 		
-		public T register(ModPass modPass, String id) {
-			Registry.register(Registries.PARTICLE_TYPE, modPass.modData().ofId(id), type);
-			return super.register(modPass, id);
+		@Override
+		protected Registry<?> registry() {
+			return Registries.PARTICLE_TYPE;
 		}
+		
 	}
 	
 	/**

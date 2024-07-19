@@ -13,7 +13,6 @@ package pers.saikel0rado1iu.silk.test.spinningjenny;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
-import pers.saikel0rado1iu.silk.impl.SilkSpinningJenny;
 import pers.saikel0rado1iu.silk.spinningjenny.BlockRegistry;
 
 /**
@@ -23,5 +22,5 @@ public interface BlockRegistryTest extends BlockRegistry {
 	/**
 	 * test_block
 	 */
-	Block TEST_BLOCK = BlockRegistry.registrar(new Block(FabricBlockSettings.create())).register(SilkSpinningJenny.getInstance(), "test_block");
+	Block TEST_BLOCK = BlockRegistry.registrar(new Block(FabricBlockSettings.create())).register("test_block");
 }

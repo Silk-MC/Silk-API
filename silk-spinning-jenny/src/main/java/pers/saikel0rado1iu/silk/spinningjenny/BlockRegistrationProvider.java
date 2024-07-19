@@ -52,9 +52,9 @@ interface BlockRegistrationProvider extends MainRegistrationProvider<Block>, Cli
 			return this;
 		}
 		
-		public T register(ModPass modPass, String id) {
-			Registry.register(Registries.BLOCK, modPass.modData().ofId(id), type);
-			return super.register(modPass, id);
+		@Override
+		protected Registry<?> registry() {
+			return Registries.BLOCK;
 		}
 	}
 	

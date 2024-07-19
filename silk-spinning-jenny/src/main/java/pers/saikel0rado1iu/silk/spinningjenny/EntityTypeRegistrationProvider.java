@@ -52,10 +52,11 @@ interface EntityTypeRegistrationProvider extends MainRegistrationProvider<Entity
 			return this;
 		}
 		
-		public T register(ModPass modPass, String id) {
-			Registry.register(Registries.ENTITY_TYPE, modPass.modData().ofId(id), type);
-			return super.register(modPass, id);
+		@Override
+		protected Registry<?> registry() {
+			return Registries.ENTITY_TYPE;
 		}
+		
 	}
 	
 	/**

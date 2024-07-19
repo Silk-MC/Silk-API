@@ -15,7 +15,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
 import pers.saikel0rado1iu.silk.annotation.ServerRegistration;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
 import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
 
 /**
@@ -45,9 +44,10 @@ interface TreeDecoratorTypeRegistrationProvider extends MainRegistrationProvider
 			return this;
 		}
 		
-		public T register(ModPass modPass, String id) {
-			Registry.register(Registries.TREE_DECORATOR_TYPE, modPass.modData().ofId(id), type);
-			return super.register(modPass, id);
+		@Override
+		protected Registry<?> registry() {
+			return Registries.TREE_DECORATOR_TYPE;
 		}
+		
 	}
 }

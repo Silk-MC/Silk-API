@@ -17,7 +17,6 @@ import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.world.World;
-import pers.saikel0rado1iu.silk.impl.SilkSpinningJenny;
 import pers.saikel0rado1iu.silk.spinningjenny.EntityTypeRegistry;
 
 /**
@@ -29,7 +28,7 @@ public interface EntityTypeRegistryTest extends EntityTypeRegistry {
 	 */
 	@SuppressWarnings("unused")
 	EntityType<TestEntityType> TEST_ENTITY_TYPE = EntityTypeRegistry.registrar(FabricEntityTypeBuilder.create(SpawnGroup.MISC, TestEntityType::new).build())
-			.register(SilkSpinningJenny.getInstance(), "test_entity_type");
+			.register("test_entity_type");
 	
 	/**
 	 * TestEntityType

@@ -14,7 +14,6 @@ package pers.saikel0rado1iu.silk.test.spinningjenny.world.gen;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IcebergFeature;
 import net.minecraft.world.gen.feature.SingleStateFeatureConfig;
-import pers.saikel0rado1iu.silk.impl.SilkSpinningJenny;
 import pers.saikel0rado1iu.silk.spinningjenny.world.gen.FeatureRegistry;
 
 /**
@@ -26,5 +25,5 @@ public interface FeatureRegistryTest extends FeatureRegistry {
 	 */
 	@SuppressWarnings("unused")
 	Feature<SingleStateFeatureConfig> TEST_FEATURE = FeatureRegistry.registrar(new IcebergFeature(SingleStateFeatureConfig.CODEC))
-			.register(SilkSpinningJenny.getInstance(), "test_feature");
+			.register("test_feature");
 }

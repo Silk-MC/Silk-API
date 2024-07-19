@@ -41,5 +41,5 @@ public interface EntityTypes extends EntityTypeRegistry {
 					arrowEntity.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
 					return arrowEntity;
 				}
-			})).register(SilkSpore.getInstance(), "fixed_damage_test");
+			})).register(SilkSpore.getInstance().ofId("fixed_damage_test"));
 }

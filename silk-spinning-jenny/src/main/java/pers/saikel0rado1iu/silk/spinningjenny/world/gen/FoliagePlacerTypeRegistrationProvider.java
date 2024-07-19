@@ -15,7 +15,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.world.gen.foliage.FoliagePlacerType;
 import pers.saikel0rado1iu.silk.annotation.ServerRegistration;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
 import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
 
 /**
@@ -45,9 +44,9 @@ interface FoliagePlacerTypeRegistrationProvider extends MainRegistrationProvider
 			return this;
 		}
 		
-		public T register(ModPass modPass, String id) {
-			Registry.register(Registries.FOLIAGE_PLACER_TYPE, modPass.modData().ofId(id), type);
-			return super.register(modPass, id);
+		@Override
+		protected Registry<?> registry() {
+			return Registries.FOLIAGE_PLACER_TYPE;
 		}
 	}
 }

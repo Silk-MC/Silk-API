@@ -56,6 +56,11 @@ interface ItemRegistrationProvider extends MainRegistrationProvider<Item>, Clien
 			return this;
 		}
 		
+		@Override
+		protected Registry<?> registry() {
+			return Registries.ITEM;
+		}
+		
 		/**
 		 * 注册物品组
 		 *
@@ -68,10 +73,6 @@ interface ItemRegistrationProvider extends MainRegistrationProvider<Item>, Clien
 			return this;
 		}
 		
-		public T register(ModPass modPass, String id) {
-			Registry.register(Registries.ITEM, modPass.modData().ofId(id), type);
-			return super.register(modPass, id);
-		}
 	}
 	
 	/**

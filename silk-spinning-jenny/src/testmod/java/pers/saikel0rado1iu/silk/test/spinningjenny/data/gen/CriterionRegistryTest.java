@@ -13,7 +13,6 @@ package pers.saikel0rado1iu.silk.test.spinningjenny.data.gen;
 
 import net.minecraft.advancement.criterion.BeeNestDestroyedCriterion;
 import net.minecraft.advancement.criterion.Criterion;
-import pers.saikel0rado1iu.silk.impl.SilkSpinningJenny;
 import pers.saikel0rado1iu.silk.spinningjenny.data.gen.CriterionRegistry;
 
 /**
@@ -25,5 +24,5 @@ public interface CriterionRegistryTest extends CriterionRegistry {
 	 */
 	@SuppressWarnings("unused")
 	Criterion<BeeNestDestroyedCriterion.Conditions> TEST_CRITERION = CriterionRegistry.registrar(new BeeNestDestroyedCriterion())
-			.register(SilkSpinningJenny.getInstance(), "test_criterion");
+			.register("test_criterion");
 }

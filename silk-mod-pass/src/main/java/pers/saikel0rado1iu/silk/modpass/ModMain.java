@@ -33,6 +33,6 @@ public interface ModMain extends ModInitializer, ModEntry<MainRegistrationProvid
 			modDataExpansion.dataPack().ifPresent(DataPack::registry);
 			modDataExpansion.resourcePack().ifPresent(ResourcePack::registry);
 		}
-		for (Class<? extends RegisterableModPass<?>> clazz : registry()) RegisterableModPass.loggingRegistration(this, clazz, RegistrationType.VANILLA_MAIN);
+		for (Class<? extends RegisterableModPass<?>> c : registry()) MainRegistrationProvider.loggingRegistration(this, c, RegistrationType.VANILLA_MAIN);
 	}
 }
