@@ -13,6 +13,7 @@ package pers.saikel0rado1iu.silk.modpass.registry;
 
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.annotation.ServerRegistration;
 import pers.saikel0rado1iu.silk.impl.SilkModPass;
 import pers.saikel0rado1iu.silk.modpass.ModMain;
@@ -127,11 +128,13 @@ public interface MainRegistrationProvider<T> extends RegisterableModPass<T> {
 		}
 		
 		/**
-		 * 进行注册
-		 * 注册标识符为 {@link  ModMain#modData()}{@code .id():<field_name>}
+		 * 进行注册<br>
+		 * 注册标识符为 {@link  ModMain#modData()}{@code .id():<field_name>}<br>
+		 * 不推荐使用此方法，使用此方法不利于模组的可扩展性与兼容性，请改用 {@link Registrar#register(String)}
 		 *
 		 * @return 注册项
 		 */
+		@ApiStatus.Obsolete
 		public T register() {
 			register("");
 			return type;
