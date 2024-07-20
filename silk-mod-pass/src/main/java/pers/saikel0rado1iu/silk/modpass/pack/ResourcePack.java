@@ -39,12 +39,32 @@ public interface ResourcePack extends BasePack {
 	}
 	
 	/**
+	 * 获取数据包名称键
+	 *
+	 * @param modPass 模组通
+	 * @return 数据包名称键
+	 */
+	static String getNameKey(ModPass modPass) {
+		return String.format("resourcePack.%s.name", modPass.modData().id());
+	}
+	
+	/**
+	 * 获取数据包描述键
+	 *
+	 * @param modPass 模组通
+	 * @return 数据包描述键
+	 */
+	static String getDescKey(ModPass modPass) {
+		return String.format("resourcePack.%s.description", modPass.modData().id());
+	}
+	
+	/**
 	 * 资源包名称文本
 	 *
 	 * @return 名称文本
 	 */
 	default Text name() {
-		return Text.translatable(String.format("resourcePack.%s.name", modData().id()));
+		return Text.translatable(getNameKey(modData()));
 	}
 	
 	@Override
