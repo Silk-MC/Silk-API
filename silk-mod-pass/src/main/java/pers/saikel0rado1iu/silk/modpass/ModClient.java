@@ -12,8 +12,6 @@
 package pers.saikel0rado1iu.silk.modpass;
 
 import net.fabricmc.api.ClientModInitializer;
-import pers.saikel0rado1iu.silk.modpass.pack.DataPack;
-import pers.saikel0rado1iu.silk.modpass.pack.ResourcePack;
 import pers.saikel0rado1iu.silk.modpass.registry.ClientRegistrationProvider;
 import pers.saikel0rado1iu.silk.modpass.registry.RegisterableModPass;
 import pers.saikel0rado1iu.silk.modpass.registry.RegistrationType;
@@ -29,10 +27,6 @@ public interface ModClient extends ClientModInitializer, ModEntry<ClientRegistra
 	@Override
 	default void onInitializeClient() {
 		main(this);
-		if (modData() instanceof ModDataExpansion modDataExpansion) {
-			modDataExpansion.dataPack().ifPresent(DataPack::registry);
-			modDataExpansion.resourcePack().ifPresent(ResourcePack::registry);
-		}
 		for (Class<? extends RegisterableModPass<?>> clazz : registry()) RegisterableModPass.loggingRegistration(this, clazz, RegistrationType.CLIENT_ONLY);
 	}
 }
