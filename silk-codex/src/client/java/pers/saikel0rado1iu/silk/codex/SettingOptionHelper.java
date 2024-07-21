@@ -175,7 +175,7 @@ public final class SettingOptionHelper extends OptionListWidget {
 						false,
 						(value) -> {
 							if (parent instanceof ModScreen modScreen) modScreen.reset();
-							MinecraftClient.getInstance().setScreen(new SettingScreen(Optional.of(parent), data, Optional.of(option), isDouble, save));
+							MinecraftClient.getInstance().setScreen(new SettingScreen(parent, data, Optional.of(option), isDouble, save));
 						});
 			}
 			if (isDouble) {

@@ -32,10 +32,10 @@ import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.level.LevelInfo;
 import net.minecraft.world.level.storage.LevelStorage;
 import pers.saikel0rado1iu.silk.impl.SilkLandform;
-import pers.saikel0rado1iu.silk.landform.gen.chunk.ChunkGeneratorUpgradable;
 import pers.saikel0rado1iu.silk.landform.UpgradableLevelSummary;
 import pers.saikel0rado1iu.silk.landform.UpgradableWorldManager;
 import pers.saikel0rado1iu.silk.landform.WorldUpgrader;
+import pers.saikel0rado1iu.silk.landform.gen.chunk.ChunkGeneratorUpgradable;
 import pers.saikel0rado1iu.silk.pattern.screen.BaseScreen;
 import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
 
@@ -60,7 +60,7 @@ public class UpgradeWorldScreen<T extends ChunkGenerator & ChunkGeneratorUpgrada
 	private final BooleanConsumer callback;
 	
 	private UpgradeWorldScreen(Text parentTitle, BooleanConsumer callback, LevelInfo levelInfo, UpgradableLevelSummary<T> summary, LevelStorage.Session session, SaveLoader saveLoader, Registry<DimensionOptions> dimensionOptionsRegistry, boolean eraseCache) {
-		super(Optional.empty(), Text.translatable(WidgetTexts.titleKey(SilkLandform.getInstance(), "screen"), parentTitle, levelInfo.getLevelName()));
+		super(null, Text.translatable(WidgetTexts.titleKey(SilkLandform.getInstance(), "screen"), parentTitle, levelInfo.getLevelName()));
 		this.callback = callback;
 		this.upgrader = new WorldUpgrader<>(summary.info(), session, saveLoader, dimensionOptionsRegistry, eraseCache);
 	}

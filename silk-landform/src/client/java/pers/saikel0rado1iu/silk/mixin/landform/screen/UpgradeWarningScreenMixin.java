@@ -28,8 +28,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import pers.saikel0rado1iu.silk.landform.UpgradableLevelSummary;
 import pers.saikel0rado1iu.silk.landform.screen.UpgradeWarningScreen;
 
-import java.util.Optional;
-
 /**
  * <h2 style="color:FFC800">{@link UpgradeWarningScreen} 混入</h2>
  * 设置升级世界警告屏幕
@@ -81,7 +79,7 @@ abstract class UpgradeWarningScreenMixin {
 				at = @At(value = "INVOKE", target = "L net/minecraft/server/integrated/IntegratedServerLoader;start(L net/minecraft/world/level/storage/LevelStorage$Session;L java/lang/Runnable;)V"), cancellable = true)
 		private void start(String levelName, Runnable onCancel, CallbackInfo ci) {
 			if (UpgradeWarningScreen.MixinData.level instanceof UpgradableLevelSummary<?> upgradableLevelSummary && upgradableLevelSummary.info().shouldUpgradeWorld()) {
-				client.setScreen(new UpgradeWarningScreen(Optional.ofNullable(UpgradeWarningScreen.MixinData.parent), session, () -> start(session, onCancel)));
+				client.setScreen(new UpgradeWarningScreen(UpgradeWarningScreen.MixinData.parent, session, () -> start(session, onCancel)));
 				ci.cancel();
 			}
 		}

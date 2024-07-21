@@ -29,7 +29,6 @@ import pers.saikel0rado1iu.silk.landform.screen.UpgradePromptScreen;
 
 import java.io.IOException;
 import java.util.Objects;
-import java.util.Optional;
 
 import static pers.saikel0rado1iu.silk.landform.screen.UpgradePromptScreen.*;
 
@@ -62,6 +61,6 @@ abstract class UpgradePromptScreenMixin extends Screen {
 		if (upgradableLevelSummary.info().shouldUpgradeWorld()) title = UPGRADE_BUTTON_TITLE;
 		else if (upgradableLevelSummary.info().shouldDowngradeWorld()) title = DOWNGRADE_BUTTON_TITLE;
 		else title = REFRESH_BUTTON_TITLE;
-		return ButtonWidget.builder(title, button -> Objects.requireNonNull(client).setScreen(new UpgradePromptScreen<>(Optional.of(this), title, upgradableLevelSummary, callback, storageSession))).width(200).build();
+		return ButtonWidget.builder(title, button -> Objects.requireNonNull(client).setScreen(new UpgradePromptScreen<>(this, title, upgradableLevelSummary, callback, storageSession))).width(200).build();
 	}
 }
