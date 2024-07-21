@@ -53,14 +53,14 @@ public final class Test implements ModClient {
 				if (hasMainButton) return false;
 				//noinspection unchecked
 				addFunction.apply((T) ButtonWidget.builder(WidgetTexts.text(SilkCodex.getInstance(), "test"), button -> MinecraftClient.getInstance()
-								.setScreen(new ModScreen(Optional.of(parent), new SettingTab(SilkCodex.getInstance(), Settings.TOML_SETTINGS))))
+								.setScreen(new ModScreen(parent, new SettingTab(SilkCodex.getInstance(), Settings.TOML_SETTINGS))))
 						.dimensions(parent.width / 2 - 100, y - spacingY, 200, 20).build());
-				new SettingScreen(Optional.of(parent), Settings.TOML_SETTINGS, Optional.empty());
+				new SettingScreen(parent, Settings.TOML_SETTINGS, Optional.empty());
 				return true;
 			}
 		});
 		AddButtonInGameMenuCallback.EVENT.register((client, parent, adder) -> adder.add(ButtonWidget.builder(OptionTexts.root(Settings.TOML_SETTINGS),
-				button -> MinecraftClient.getInstance().setScreen(new SettingScreen(Optional.of(parent), Settings.TOML_SETTINGS))).width(204).build(), 2));
+				button -> MinecraftClient.getInstance().setScreen(new SettingScreen(parent, Settings.TOML_SETTINGS))).width(204).build(), 2));
 	}
 	
 	/**

@@ -25,11 +25,10 @@ import pers.saikel0rado1iu.silk.modpass.ModClient;
 import pers.saikel0rado1iu.silk.modpass.ModData;
 import pers.saikel0rado1iu.silk.modpass.ModPass;
 import pers.saikel0rado1iu.silk.modpass.registry.ClientRegistrationProvider;
-import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
 import pers.saikel0rado1iu.silk.pattern.screen.PlaceholderScreen;
+import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
 import pers.saikel0rado1iu.silk.test.pattern.client.screen.ModScreenTest;
 
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -49,13 +48,13 @@ public final class Test implements ModClient {
 			public <T extends Element & Drawable & Selectable> boolean add(MinecraftClient client, Screen parent, Function<T, T> addFunction, int y, int spacingY, boolean hasMainButton) {
 				if (hasMainButton) return false;
 				//noinspection unchecked
-				addFunction.apply((T) ButtonWidget.builder(WidgetTexts.text(SilkPattern.getInstance(), "test"), button -> MinecraftClient.getInstance().setScreen(new ModScreenTest(Optional.of(parent), SilkPattern.getInstance())))
+				addFunction.apply((T) ButtonWidget.builder(WidgetTexts.text(SilkPattern.getInstance(), "test"), button -> MinecraftClient.getInstance().setScreen(new ModScreenTest(parent, SilkPattern.getInstance())))
 						.dimensions(parent.width / 2 - 100, y - spacingY, 200, 20).build());
 				return true;
 			}
 		});
 		AddButtonInGameMenuCallback.EVENT.register((client, parent, adder) -> adder.add(ButtonWidget.builder(WidgetTexts.text(SilkPattern.getInstance(), "test"),
-				button -> MinecraftClient.getInstance().setScreen(new PlaceholderScreen(Optional.of(parent), SilkPattern.getInstance()))).width(204).build(), 2));
+				button -> MinecraftClient.getInstance().setScreen(new PlaceholderScreen(parent, SilkPattern.getInstance()))).width(204).build(), 2));
 	}
 	
 	/**

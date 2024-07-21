@@ -21,8 +21,6 @@ import pers.saikel0rado1iu.silk.pattern.widget.OptionMenuWidget;
 import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
 import pers.saikel0rado1iu.silk.test.pattern.client.screen.ButtonHelperScreen;
 
-import java.util.Optional;
-
 /**
  * Test {@link OptionsTab}
  */
@@ -41,12 +39,12 @@ public final class OptionsTabTest extends OptionsTab {
 				SimpleOption.constantTooltip(WidgetTexts.title(modPass, "test")),
 				(optionText, value) -> WidgetTexts.text(modPass, "test"),
 				false,
-				(value) -> MinecraftClient.getInstance().setScreen(new PlaceholderScreen(Optional.of(parent), SilkPattern.getInstance()))));
+				(value) -> MinecraftClient.getInstance().setScreen(new PlaceholderScreen(parent, SilkPattern.getInstance()))));
 		optionMenuWidget.addSingleOptionEntry(SimpleOption.ofBoolean(
 				WidgetTexts.textKey(modPass, "test"),
 				SimpleOption.constantTooltip(WidgetTexts.title(modPass, "test")),
 				(optionText, value) -> WidgetTexts.text(modPass, "test"),
 				false,
-				(value) -> MinecraftClient.getInstance().setScreen(new ButtonHelperScreen(Optional.of(parent), SilkPattern.getInstance()))));
+				(value) -> MinecraftClient.getInstance().setScreen(new ButtonHelperScreen(parent, SilkPattern.getInstance()))));
 	}
 }
