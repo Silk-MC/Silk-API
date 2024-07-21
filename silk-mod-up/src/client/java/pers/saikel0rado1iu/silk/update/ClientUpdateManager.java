@@ -24,7 +24,6 @@ import pers.saikel0rado1iu.silk.pattern.screen.LinkTrusted;
 import pers.saikel0rado1iu.silk.update.screen.*;
 import pers.saikel0rado1iu.silk.update.toast.*;
 
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.function.Supplier;
@@ -47,7 +46,7 @@ public class ClientUpdateManager extends UpdateManager implements LinkTrusted {
 		super(updateDataBuilder);
 	}
 	
-	private static void update(ClientUpdateManager manager, Supplier<Future<UpdateData>> updateDataSupplier, MinecraftClient client, Optional<Screen> parent) {
+	private static void update(ClientUpdateManager manager, Supplier<Future<UpdateData>> updateDataSupplier, MinecraftClient client, Screen parent) {
 		if (System.currentTimeMillis() - manager.titleScreenTime < 5000) return;
 		if (!manager.canShowUpdateNotify) return;
 		try {
@@ -69,21 +68,21 @@ public class ClientUpdateManager extends UpdateManager implements LinkTrusted {
 					case THIS_MC_VER -> client.setScreen(new ThisMcVerNotifyScreen(parent, updateData, manager, manager.linkTrusted()));
 					case MOD_LOG -> {
 						if (updateData.getValue(UpdateSettings.SHOW_CHANGELOG)) {
-							MinecraftClient.getInstance().setScreen(new ShowChangelogScreen(Optional.empty(), updateData, manager, manager.linkTrusted()));
+							MinecraftClient.getInstance().setScreen(new ShowChangelogScreen(null, updateData, manager, manager.linkTrusted()));
 						} else {
 							UpdateToast.setToast(new ShowChangelogToast(updateData, manager));
 						}
 					}
 					case STOP_UPDATE -> {
 						if (updateData.getValue(UpdateSettings.STOP_UPDATING_WARNING)) {
-							MinecraftClient.getInstance().setScreen(new StopUpdateWarningScreen(Optional.empty(), updateData, manager, manager.linkTrusted()));
+							MinecraftClient.getInstance().setScreen(new StopUpdateWarningScreen(null, updateData, manager, manager.linkTrusted()));
 						} else {
 							UpdateToast.setToast(new StopUpdateWarningToast(updateData, manager));
 						}
 					}
 					case UPDATE_FAIL -> {
 						if (updateData.getValue(UpdateSettings.UPDATE_SYS_FAIL_WARNING)) {
-							MinecraftClient.getInstance().setScreen(new UpdateFailWarningScreen(Optional.empty(), updateData, manager, manager.linkTrusted()));
+							MinecraftClient.getInstance().setScreen(new UpdateFailWarningScreen(null, updateData, manager, manager.linkTrusted()));
 						} else {
 							UpdateToast.setToast(new UpdateFailWarningToast(updateData, manager));
 						}
@@ -129,8 +128,8 @@ public class ClientUpdateManager extends UpdateManager implements LinkTrusted {
 	public void operation(Supplier<Future<UpdateData>> updateDataSupplier) {
 		ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
 			if (!(screen instanceof TitleScreen)) return;
-			ScreenEvents.beforeTick(screen).register(titleScreen -> update(this, updateDataSupplier, client, Optional.of(titleScreen)));
+			ScreenEvents.beforeTick(screen).register(titleScreen -> update(this, updateDataSupplier, client, titleScreen));
 		});
-		HudRenderCallback.EVENT.register((drawContext, tickDelta) -> update(this, updateDataSupplier, MinecraftClient.getInstance(), Optional.empty()));
+		HudRenderCallback.EVENT.register((drawContext, tickDelta) -> update(this, updateDataSupplier, MinecraftClient.getInstance(), null));
 	}
 }

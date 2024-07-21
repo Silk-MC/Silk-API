@@ -18,6 +18,7 @@ import net.minecraft.client.gui.widget.GridWidget;
 import net.minecraft.client.gui.widget.SimplePositioningWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.modpass.log.Changelog;
 import pers.saikel0rado1iu.silk.modup.UpdateData;
 import pers.saikel0rado1iu.silk.modup.UpdateState;
@@ -43,7 +44,7 @@ public class ShowChangelogScreen extends UpdateScreen {
 	 * @param updateManager 更新管理器
 	 * @param canTrust      是否可信任链接
 	 */
-	public ShowChangelogScreen(Optional<Screen> parent, UpdateData updateData, ClientUpdateManager updateManager, boolean canTrust) {
+	public ShowChangelogScreen(@Nullable Screen parent, UpdateData updateData, ClientUpdateManager updateManager, boolean canTrust) {
 		super(parent, updateData, updateManager, Text.translatable(UpdateState.MOD_LOG.title(), updateData.modData().i18nName()));
 		this.canTrust = canTrust;
 		UpdateData.setCanShowChangelog(this.updateData.updateSettings(), false);

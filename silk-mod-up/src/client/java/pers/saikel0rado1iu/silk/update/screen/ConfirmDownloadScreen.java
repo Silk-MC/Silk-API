@@ -16,12 +16,11 @@ import net.minecraft.client.gui.widget.GridWidget;
 import net.minecraft.client.gui.widget.MultilineTextWidget;
 import net.minecraft.client.gui.widget.SimplePositioningWidget;
 import net.minecraft.text.Text;
+import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.impl.SilkModUp;
 import pers.saikel0rado1iu.silk.modup.UpdateData;
 import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
 import pers.saikel0rado1iu.silk.update.ClientUpdateManager;
-
-import java.util.Optional;
 
 /**
  * <h2 style="color:FFC800">确认下载屏幕</h2>
@@ -31,7 +30,7 @@ import java.util.Optional;
  * @since 0.1.0
  */
 public class ConfirmDownloadScreen extends UpdateScreen {
-	protected ConfirmDownloadScreen(Optional<Screen> parent, UpdateData updateData, ClientUpdateManager updateManager, Text title) {
+	protected ConfirmDownloadScreen(@Nullable Screen parent, UpdateData updateData, ClientUpdateManager updateManager, Text title) {
 		super(parent, updateData, updateManager, title);
 	}
 	

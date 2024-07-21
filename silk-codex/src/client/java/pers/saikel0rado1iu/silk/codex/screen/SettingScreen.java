@@ -15,6 +15,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.OptionListWidget;
 import net.minecraft.text.Text;
+import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.codex.*;
 import pers.saikel0rado1iu.silk.impl.SilkCodex;
 import pers.saikel0rado1iu.silk.modpass.ModData;
@@ -42,7 +43,7 @@ public class SettingScreen extends BaseScreen implements LinkTrusted {
 	 * @param parent      父屏幕
 	 * @param settingData 设置数据
 	 */
-	public SettingScreen(Optional<Screen> parent, SettingData settingData) {
+	public SettingScreen(@Nullable Screen parent, SettingData settingData) {
 		this(parent, settingData, false);
 	}
 	
@@ -51,7 +52,7 @@ public class SettingScreen extends BaseScreen implements LinkTrusted {
 	 * @param settingData 设置数据
 	 * @param isDouble    是否为双按钮
 	 */
-	public SettingScreen(Optional<Screen> parent, SettingData settingData, boolean isDouble) {
+	public SettingScreen(@Nullable Screen parent, SettingData settingData, boolean isDouble) {
 		this(parent, settingData, Optional.empty(), isDouble, settingData::save);
 	}
 	
@@ -60,7 +61,7 @@ public class SettingScreen extends BaseScreen implements LinkTrusted {
 	 * @param settingData 设置数据
 	 * @param superOption 父设置选项
 	 */
-	public SettingScreen(Optional<Screen> parent, SettingData settingData, Optional<SettingOption<?>> superOption) {
+	public SettingScreen(@Nullable Screen parent, SettingData settingData, Optional<SettingOption<?>> superOption) {
 		this(parent, settingData, superOption, false, settingData::save);
 	}
 	
@@ -71,7 +72,7 @@ public class SettingScreen extends BaseScreen implements LinkTrusted {
 	 * @param isDouble    是否为双按钮
 	 * @param save        保存方法，用于保存数据设置
 	 */
-	public SettingScreen(Optional<Screen> parent, SettingData settingData, Optional<SettingOption<?>> superOption, boolean isDouble, Runnable save) {
+	public SettingScreen(@Nullable Screen parent, SettingData settingData, Optional<SettingOption<?>> superOption, boolean isDouble, Runnable save) {
 		this(parent, OptionTexts.text(superOption.orElse(SettingOption.of(settingData.modData().ofId("root"), OptionType.SWITCH))), settingData, isDouble, save);
 	}
 	
@@ -82,7 +83,7 @@ public class SettingScreen extends BaseScreen implements LinkTrusted {
 	 * @param isDouble    是否为双按钮
 	 * @param save        保存方法，用于保存数据设置
 	 */
-	public SettingScreen(Optional<Screen> parent, Text title, SettingData settingData, boolean isDouble, Runnable save) {
+	public SettingScreen(@Nullable Screen parent, Text title, SettingData settingData, boolean isDouble, Runnable save) {
 		super(parent, settingData.type().getFormatText(title));
 		this.settingData = settingData;
 		this.isDouble = isDouble;
@@ -95,7 +96,7 @@ public class SettingScreen extends BaseScreen implements LinkTrusted {
 		// 添加"支持我们"按钮
 		addDrawableChild(ButtonHelper.link(this, SilkCodex.getInstance(), ModData.LinkType.SUPPORT, linkTrusted()).position(width - 115, 6).width(110).build());
 		// 添加完成/返回按钮
-		if (parent.isPresent() && (parent.get() instanceof SettingScreen || parent.get() instanceof ModScreen)) {
+		if (parent != null && (parent instanceof SettingScreen || parent instanceof ModScreen)) {
 			addDrawableChild(ButtonHelper.back(this).position(width / 2 - 100, height - 26).width(200).build());
 		} else {
 			addDrawableChild(ButtonHelper.done(this).position(width / 2 - 100, height - 26).width(200).build());

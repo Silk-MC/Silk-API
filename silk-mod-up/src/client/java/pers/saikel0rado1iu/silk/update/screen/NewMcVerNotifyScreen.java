@@ -16,13 +16,12 @@ import net.minecraft.client.gui.widget.GridWidget;
 import net.minecraft.client.gui.widget.MultilineTextWidget;
 import net.minecraft.client.gui.widget.SimplePositioningWidget;
 import net.minecraft.text.Text;
+import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.modpass.ModData;
 import pers.saikel0rado1iu.silk.modup.UpdateData;
 import pers.saikel0rado1iu.silk.modup.UpdateState;
 import pers.saikel0rado1iu.silk.pattern.widget.ButtonHelper;
 import pers.saikel0rado1iu.silk.update.ClientUpdateManager;
-
-import java.util.Optional;
 
 /**
  * <h2 style="color:FFC800">新版本 MC 模组更新屏幕</h2>
@@ -40,7 +39,7 @@ public class NewMcVerNotifyScreen extends UpdateScreen {
 	 * @param updateManager 更新管理器
 	 * @param canTrust      是否可信任链接
 	 */
-	public NewMcVerNotifyScreen(Optional<Screen> parent, UpdateData updateData, ClientUpdateManager updateManager, boolean canTrust) {
+	public NewMcVerNotifyScreen(@Nullable Screen parent, UpdateData updateData, ClientUpdateManager updateManager, boolean canTrust) {
 		super(parent, updateData, updateManager, Text.translatable(UpdateState.NEW_MC_VER.title(), updateData.modData().i18nName(), updateData.minecraftVersion()));
 		this.canTrust = canTrust;
 	}

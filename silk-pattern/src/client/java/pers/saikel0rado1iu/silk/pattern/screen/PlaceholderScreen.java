@@ -16,13 +16,13 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.modpass.ModData;
 import pers.saikel0rado1iu.silk.modpass.ModPass;
 import pers.saikel0rado1iu.silk.pattern.widget.ButtonHelper;
 import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
 
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * <h2 style="color:FFC800">占位屏幕</h2>
@@ -39,7 +39,7 @@ public class PlaceholderScreen extends BaseScreen implements LinkTrusted {
 	 * @param parent  父屏幕
 	 * @param modPass 模组通
 	 */
-	public PlaceholderScreen(Optional<Screen> parent, ModPass modPass) {
+	public PlaceholderScreen(@Nullable Screen parent, ModPass modPass) {
 		super(parent, Text.of(""));
 		this.modPass = modPass;
 	}

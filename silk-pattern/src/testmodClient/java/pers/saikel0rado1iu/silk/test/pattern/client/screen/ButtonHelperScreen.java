@@ -12,12 +12,11 @@
 package pers.saikel0rado1iu.silk.test.pattern.client.screen;
 
 import net.minecraft.client.gui.screen.Screen;
+import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.modpass.ModPass;
-import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
 import pers.saikel0rado1iu.silk.pattern.screen.BaseScreen;
 import pers.saikel0rado1iu.silk.pattern.widget.ButtonHelper;
-
-import java.util.Optional;
+import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
 
 /**
  * Test {@link ButtonHelper}
@@ -27,7 +26,7 @@ public final class ButtonHelperScreen extends BaseScreen {
 	 * @param parent  父屏幕
 	 * @param modPass 模组通
 	 */
-	public ButtonHelperScreen(Optional<Screen> parent, ModPass modPass) {
+	public ButtonHelperScreen(@Nullable Screen parent, ModPass modPass) {
 		super(parent, WidgetTexts.title(modPass, "test"));
 	}
 	

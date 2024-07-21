@@ -12,13 +12,12 @@
 package pers.saikel0rado1iu.silk.test.pattern.client.screen;
 
 import net.minecraft.client.gui.screen.Screen;
+import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.modpass.ModPass;
 import pers.saikel0rado1iu.silk.pattern.screen.ModScreen;
 import pers.saikel0rado1iu.silk.test.pattern.client.tab.ModTabTest;
 import pers.saikel0rado1iu.silk.test.pattern.client.tab.OptionsTabTest;
 import pers.saikel0rado1iu.silk.test.pattern.client.tab.SynopsisTabTest;
-
-import java.util.Optional;
 
 /**
  * Test {@link ModScreen}
@@ -28,7 +27,7 @@ public final class ModScreenTest extends ModScreen {
 	 * @param parent  父屏幕
 	 * @param modPass 模组通
 	 */
-	public ModScreenTest(Optional<Screen> parent, ModPass modPass) {
+	public ModScreenTest(@Nullable Screen parent, ModPass modPass) {
 		super(parent, new ModTabTest(modPass), new SynopsisTabTest(modPass), new OptionsTabTest(modPass));
 	}
 }

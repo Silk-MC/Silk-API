@@ -24,6 +24,7 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
+import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.codex.OptionTexts;
 import pers.saikel0rado1iu.silk.impl.SilkModUp;
 import pers.saikel0rado1iu.silk.modup.UpdateData;
@@ -35,7 +36,6 @@ import pers.saikel0rado1iu.silk.update.ClientUpdateManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 
 import static net.minecraft.util.Util.OperatingSystem.WINDOWS;
@@ -59,7 +59,7 @@ public abstract class UpdateScreen extends BaseScreen {
 	protected ButtonWidget confirmUpdateButton;
 	private int transColor = 0xFF0000;
 	
-	protected UpdateScreen(Optional<Screen> parent, UpdateData updateData, ClientUpdateManager updateManager, Text title) {
+	protected UpdateScreen(@Nullable Screen parent, UpdateData updateData, ClientUpdateManager updateManager, Text title) {
 		super(parent, title);
 		this.updateData = updateData;
 		this.updateManager = updateManager;

@@ -25,6 +25,7 @@ import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.level.storage.LevelStorage;
+import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.impl.SilkCodex;
 import pers.saikel0rado1iu.silk.impl.SilkLandform;
 import pers.saikel0rado1iu.silk.landform.UpgradableLevelSummary;
@@ -35,7 +36,6 @@ import pers.saikel0rado1iu.silk.pattern.widget.ButtonHelper;
 import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
 
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * <h2 style="color:FFC800">升级提示屏幕</h2>
@@ -69,7 +69,7 @@ public class UpgradePromptScreen<T extends ChunkGenerator & ChunkGeneratorUpgrad
 	 * @param callback 运行回调
 	 * @param session  关卡存储器会话
 	 */
-	public UpgradePromptScreen(Optional<Screen> parent, Text title, UpgradableLevelSummary<T> summary, BooleanConsumer callback, LevelStorage.Session session) {
+	public UpgradePromptScreen(@Nullable Screen parent, Text title, UpgradableLevelSummary<T> summary, BooleanConsumer callback, LevelStorage.Session session) {
 		super(parent, Text.translatable(((TranslatableTextContent) title.getContent()).getKey()));
 		this.callback = (backup, eraseCache) -> {
 			if (backup) EditWorldScreen.backupLevel(session);
@@ -89,7 +89,7 @@ public class UpgradePromptScreen<T extends ChunkGenerator & ChunkGeneratorUpgrad
 		int widgetY = promptText.count() * textRenderer.fontHeight;
 		addDrawableChild(ButtonWidget.builder(Text.translatable("selectWorld.backupJoinConfirmButton"), button -> callback.proceed(true, eraseCacheCheckbox.isChecked())).dimensions(width / 2 - 155, 100 + widgetY, 150, 20).build());
 		addDrawableChild(ButtonWidget.builder(title, button -> callback.proceed(false, eraseCacheCheckbox.isChecked())).dimensions(width / 2 - 155 + 160, 100 + widgetY, 150, 20).build());
-		addDrawableChild(ButtonWidget.builder(ScreenTexts.CANCEL, button -> Objects.requireNonNull(client).setScreen(parent.orElse(null))).dimensions(width / 2 - 155 + 80, 124 + widgetY, 150, 20).build());
+		addDrawableChild(ButtonWidget.builder(ScreenTexts.CANCEL, button -> Objects.requireNonNull(client).setScreen(parent)).dimensions(width / 2 - 155 + 80, 124 + widgetY, 150, 20).build());
 		addDrawableChild(eraseCacheCheckbox = CheckboxWidget.builder(Text.translatable("selectWorld.backupEraseCache"), textRenderer).build());
 		eraseCacheCheckbox.setPosition((int) ((width - eraseCacheCheckbox.getWidth() * 1.15) / 2), 76 + widgetY);
 	}

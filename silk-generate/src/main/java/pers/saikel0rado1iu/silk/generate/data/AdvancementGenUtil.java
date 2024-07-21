@@ -19,8 +19,6 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.modpass.ModPass;
 
-import java.util.Optional;
-
 /**
  * <h2 style="color:FFC800">进度生成实用工具</h2>
  * 用于构建属于自己模组的进度，而不是依附在 minecraft 命名空间下
@@ -83,22 +81,18 @@ public interface AdvancementGenUtil {
 	 */
 	class Builder extends Advancement.Builder {
 		private final ModPass modPass;
-		private final Optional<String> path;
+		private final String path;
 		private final String id;
 		
-		private Builder(ModPass modPass, Optional<String> path, String id) {
+		private Builder(ModPass modPass, String path, String id) {
 			super();
 			this.modPass = modPass;
 			this.path = path;
 			this.id = id;
 		}
 		
-		private Builder(ModPass modPass, String path, String id) {
-			this(modPass, Optional.of(path), id);
-		}
-		
 		private Builder(ModPass modPass, String id) {
-			this(modPass, Optional.empty(), id);
+			this(modPass, "", id);
 		}
 		
 		/**
@@ -174,7 +168,7 @@ public interface AdvancementGenUtil {
 		 * @return 进度条目
 		 */
 		public AdvancementEntry build() {
-			return build(modPass.modData().ofId(path.map(s -> s + '/').orElse("") + id));
+			return build(modPass.modData().ofId(path.isEmpty() ? "" : path + '/' + id));
 		}
 	}
 }

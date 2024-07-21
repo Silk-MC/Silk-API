@@ -21,6 +21,7 @@ import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.world.level.storage.LevelStorage;
 import net.minecraft.world.level.storage.LevelSummary;
+import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.impl.SilkCodex;
 import pers.saikel0rado1iu.silk.impl.SilkLandform;
 import pers.saikel0rado1iu.silk.modpass.ModData;
@@ -29,7 +30,6 @@ import pers.saikel0rado1iu.silk.pattern.widget.ButtonHelper;
 import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
@@ -57,7 +57,7 @@ public class UpgradeWarningScreen extends BaseScreen {
 	 * @param session 关卡存储器会话
 	 * @param play    开始游戏方法
 	 */
-	public UpgradeWarningScreen(Optional<Screen> parent, LevelStorage.Session session, Runnable play) {
+	public UpgradeWarningScreen(@Nullable Screen parent, LevelStorage.Session session, Runnable play) {
 		super(parent, WARNING_TITLE);
 		this.session = session;
 		this.consumer = (backup) -> {
@@ -76,7 +76,7 @@ public class UpgradeWarningScreen extends BaseScreen {
 		addDrawableChild(ButtonWidget.builder(Text.translatable("selectWorld.backupJoinSkipButton"), button -> consumer.accept(false)).dimensions(width / 2 - 155 + 160, 100 + widgetY, 150, 20).build());
 		addDrawableChild(ButtonWidget.builder(ScreenTexts.BACK, button -> {
 			session.tryClose();
-			Objects.requireNonNull(client).setScreen(parent.orElse(null));
+			Objects.requireNonNull(client).setScreen(parent);
 		}).dimensions(width / 2 - 155 + 80, 124 + widgetY, 150, 20).build());
 	}
 	

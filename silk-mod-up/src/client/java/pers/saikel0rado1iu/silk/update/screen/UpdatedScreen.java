@@ -18,6 +18,7 @@ import net.minecraft.client.gui.widget.MultilineTextWidget;
 import net.minecraft.client.gui.widget.SimplePositioningWidget;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.impl.SilkModUp;
 import pers.saikel0rado1iu.silk.modup.ModUpdater;
 import pers.saikel0rado1iu.silk.modup.UpdateData;
@@ -25,7 +26,6 @@ import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
 import pers.saikel0rado1iu.silk.update.ClientUpdateManager;
 
 import java.io.IOException;
-import java.util.Optional;
 
 /**
  * <h2 style="color:FFC800">更新完成屏幕</h2>
@@ -35,7 +35,7 @@ import java.util.Optional;
  * @since 0.1.0
  */
 public class UpdatedScreen extends UpdateScreen {
-	protected UpdatedScreen(Optional<Screen> parent, UpdateData updateData, ClientUpdateManager updateManager, Text title) {
+	protected UpdatedScreen(@Nullable Screen parent, UpdateData updateData, ClientUpdateManager updateManager, Text title) {
 		super(parent, updateData, updateManager, title);
 		UpdateData.setCanShowChangelog(this.updateData.updateSettings(), true);
 	}

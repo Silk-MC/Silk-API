@@ -25,11 +25,11 @@ import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.pattern.tab.ScreenTab;
 import pers.saikel0rado1iu.silk.pattern.widget.ButtonHelper;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 import static com.mojang.blaze3d.systems.RenderSystem.setShaderColor;
 import static com.mojang.blaze3d.systems.RenderSystem.setShaderTexture;
@@ -60,7 +60,7 @@ public class ModScreen extends BaseScreen {
 	 * @param tab    选项卡
 	 * @param tabs   后续选项卡
 	 */
-	public ModScreen(Optional<Screen> parent, ScreenTab tab, ScreenTab... tabs) {
+	public ModScreen(@Nullable Screen parent, ScreenTab tab, ScreenTab... tabs) {
 		this(parent, 0, tab, tabs);
 	}
 	
@@ -70,7 +70,7 @@ public class ModScreen extends BaseScreen {
 	 * @param tab          选项卡
 	 * @param tabs         后续选项卡
 	 */
-	public ModScreen(Optional<Screen> parent, int mainTabIndex, ScreenTab tab, ScreenTab... tabs) {
+	public ModScreen(@Nullable Screen parent, int mainTabIndex, ScreenTab tab, ScreenTab... tabs) {
 		this(parent, LIGHT_DIRT_BACKGROUND_TEXTURE, mainTabIndex, tab, tabs);
 	}
 	
@@ -81,7 +81,7 @@ public class ModScreen extends BaseScreen {
 	 * @param tab          选项卡
 	 * @param tabs         后续选项卡
 	 */
-	public ModScreen(Optional<Screen> parent, Identifier background, int mainTabIndex, ScreenTab tab, ScreenTab... tabs) {
+	public ModScreen(@Nullable Screen parent, Identifier background, int mainTabIndex, ScreenTab tab, ScreenTab... tabs) {
 		super(parent, Text.of(""));
 		this.background = background;
 		this.mainTabIndex = mainTabIndex;

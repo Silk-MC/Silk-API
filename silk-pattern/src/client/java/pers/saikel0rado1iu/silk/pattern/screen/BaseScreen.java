@@ -13,8 +13,7 @@ package pers.saikel0rado1iu.silk.pattern.screen;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
-
-import java.util.Optional;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * <h2 style="color:FFC800">基础屏幕</h2>
@@ -24,9 +23,9 @@ import java.util.Optional;
  * @since 0.1.0
  */
 public abstract class BaseScreen extends Screen {
-	protected final Optional<Screen> parent;
+	protected final Screen parent;
 	
-	protected BaseScreen(Optional<Screen> parent, Text title) {
+	protected BaseScreen(@Nullable Screen parent, Text title) {
 		super(title);
 		this.parent = parent;
 	}
@@ -38,7 +37,7 @@ public abstract class BaseScreen extends Screen {
 	public void close() {
 		if (client == null) return;
 		onCloseScreen();
-		client.setScreen(parent.orElse(null));
+		client.setScreen(parent);
 	}
 	
 	/**
