@@ -17,6 +17,8 @@ import net.minecraft.registry.Registry;
 import pers.saikel0rado1iu.silk.annotation.ServerRegistration;
 import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
 
+import java.util.Optional;
+
 /**
  * <h2 style="color:FFC800">状态效果注册提供器</h2>
  * 用于整合状态效果并注册状态效果以供使用
@@ -45,8 +47,8 @@ interface StatusEffectRegistrationProvider extends MainRegistrationProvider<Stat
 		}
 		
 		@Override
-		protected Registry<?> registry() {
-			return Registries.STATUS_EFFECT;
+		protected Optional<Registry<?>> registry() {
+			return Optional.of(Registries.STATUS_EFFECT);
 		}
 	}
 }

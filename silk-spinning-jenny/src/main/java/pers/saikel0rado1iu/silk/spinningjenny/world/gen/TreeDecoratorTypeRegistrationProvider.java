@@ -17,6 +17,8 @@ import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
 import pers.saikel0rado1iu.silk.annotation.ServerRegistration;
 import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
 
+import java.util.Optional;
+
 /**
  * <h2 style="color:FFC800">树木装饰器类型注册提供器</h2>
  * 用于整合树木装饰器类型并注册树木装饰器类型以供使用
@@ -45,8 +47,8 @@ interface TreeDecoratorTypeRegistrationProvider extends MainRegistrationProvider
 		}
 		
 		@Override
-		protected Registry<?> registry() {
-			return Registries.TREE_DECORATOR_TYPE;
+		protected Optional<Registry<?>> registry() {
+			return Optional.of(Registries.TREE_DECORATOR_TYPE);
 		}
 		
 	}

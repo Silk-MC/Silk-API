@@ -17,6 +17,8 @@ import net.minecraft.world.gen.foliage.FoliagePlacerType;
 import pers.saikel0rado1iu.silk.annotation.ServerRegistration;
 import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
 
+import java.util.Optional;
+
 /**
  * <h2 style="color:FFC800">树叶放置器类型注册提供器</h2>
  * 用于整合树叶放置器类型并注册树叶放置器类型以供使用
@@ -45,8 +47,8 @@ interface FoliagePlacerTypeRegistrationProvider extends MainRegistrationProvider
 		}
 		
 		@Override
-		protected Registry<?> registry() {
-			return Registries.FOLIAGE_PLACER_TYPE;
+		protected Optional<Registry<?>> registry() {
+			return Optional.of(Registries.FOLIAGE_PLACER_TYPE);
 		}
 	}
 }

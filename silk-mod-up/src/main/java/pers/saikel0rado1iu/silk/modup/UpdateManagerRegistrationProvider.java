@@ -11,6 +11,7 @@
 
 package pers.saikel0rado1iu.silk.modup;
 
+import net.minecraft.registry.Registry;
 import pers.saikel0rado1iu.silk.annotation.ClientRegistration;
 import pers.saikel0rado1iu.silk.annotation.ServerRegistration;
 import pers.saikel0rado1iu.silk.impl.SilkModUp;
@@ -19,6 +20,7 @@ import pers.saikel0rado1iu.silk.modpass.registry.ClientRegistrationProvider;
 import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -32,7 +34,7 @@ import java.util.function.Supplier;
 @ServerRegistration(registrar = UpdateManagerRegistrationProvider.SERVER_REGISTRAR, type = UpdateManagerRegistrationProvider.TYPE)
 @ClientRegistration(registrar = UpdateManagerRegistrationProvider.CLIENT_REGISTRAR, type = UpdateManagerRegistrationProvider.TYPE)
 interface UpdateManagerRegistrationProvider extends MainRegistrationProvider<UpdateManager>, ClientRegistrationProvider<UpdateManager> {
-	String SERVER_REGISTRAR = "pers.saikel0rado1iu.silk.modup.UpdateManagerRegistrationProvider.ServerRegistrar";
+	String SERVER_REGISTRAR = "pers.saikel0rado1iu.silk.modup.UpdateManagerRegistrationProvider.MainRegistrar";
 	String CLIENT_REGISTRAR = "pers.saikel0rado1iu.silk.modup.UpdateManagerRegistrationProvider.ClientRegistrar";
 	String TYPE = "pers.saikel0rado1iu.silk.modup.UpdateManager";
 	
@@ -41,19 +43,24 @@ interface UpdateManagerRegistrationProvider extends MainRegistrationProvider<Upd
 	 *
 	 * @param <T> 更新管理器类型
 	 */
-	final class ServerRegistrar<T extends UpdateManager> extends MainRegistrationProvider.Registrar<T, ServerRegistrar<T>> {
-		ServerRegistrar(T type) {
+	final class MainRegistrar<T extends UpdateManager> extends MainRegistrationProvider.Registrar<T, MainRegistrar<T>> {
+		MainRegistrar(T type) {
 			super(type);
 		}
 		
 		@Override
-		protected ServerRegistrar<T> self() {
+		protected MainRegistrar<T> self() {
 			return this;
+		}
+		
+		@Override
+		protected Optional<Registry<?>> registry() {
+			return Optional.empty();
 		}
 		
 		public T register() {
 			UpdateManager.run(type);
-			return super.register(SilkModUp.getInstance(), type.modData().id());
+			return super.register(SilkModUp.getInstance().ofId(type.modData().id()));
 		}
 	}
 	

@@ -17,6 +17,8 @@ import net.minecraft.registry.Registry;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
 
+import java.util.Optional;
+
 /**
  * <h2 style="color:FFC800">{@link Codec}{@code <? extends }{@link ChunkGenerator}{@code >} 注册表</h2>
  * 用于注册 {@link Codec}{@code <? extends }{@link ChunkGenerator}{@code >} 的注册表
@@ -54,8 +56,8 @@ public interface ChunkGeneratorCodecRegistry extends MainRegistrationProvider<Co
 		}
 		
 		@Override
-		protected Registry<?> registry() {
-			return Registries.CHUNK_GENERATOR;
+		protected Optional<Registry<?>> registry() {
+			return Optional.of(Registries.CHUNK_GENERATOR);
 		}
 		
 	}

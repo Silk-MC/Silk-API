@@ -17,6 +17,8 @@ import net.minecraft.registry.Registry;
 import pers.saikel0rado1iu.silk.annotation.ServerRegistration;
 import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
 
+import java.util.Optional;
+
 /**
  * <h2 style="color:FFC800">方块实体类型注册提供器</h2>
  * 用于整合方块实体类型并注册方块实体类型以供使用
@@ -45,8 +47,8 @@ interface BlockEntityTypeRegistrationProvider extends MainRegistrationProvider<B
 		}
 		
 		@Override
-		protected Registry<?> registry() {
-			return Registries.BLOCK_ENTITY_TYPE;
+		protected Optional<Registry<?>> registry() {
+			return Optional.of(Registries.BLOCK_ENTITY_TYPE);
 		}
 	}
 }

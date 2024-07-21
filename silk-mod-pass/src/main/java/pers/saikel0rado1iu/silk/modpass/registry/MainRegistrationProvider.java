@@ -23,6 +23,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
@@ -56,11 +57,12 @@ public interface MainRegistrationProvider<T> extends RegisterableModPass<T> {
 					Registrar.RegistryData data = Registrar.THREAD_LOCAL_TAGS.get().get(obj);
 					Identifier id;
 					if (data == null) return;
+					else if (data.registry.isEmpty()) return;
 					else if (data.id.isEmpty()) id = modPass.modData().ofId(field.getName().toLowerCase());
 					else if (data.id.contains(":")) id = Identifier.tryParse(data.id);
 					else id = modPass.modData().ofId(data.id);
 					//noinspection unchecked
-					Registry.register((Registry<? super Object>) data.registry, id, obj);
+					Registry.register((Registry<? super Object>) data.registry.get(), id, obj);
 					RegisterableModPass.loggingRegistration(modPass, obj, id, RegistrationType.VANILLA_MAIN);
 					Registrar.THREAD_LOCAL_TAGS.get().remove(obj);
 					if (Registrar.THREAD_LOCAL_TAGS.get().isEmpty()) Registrar.THREAD_LOCAL_TAGS.remove();
@@ -90,7 +92,12 @@ public interface MainRegistrationProvider<T> extends RegisterableModPass<T> {
 		
 		protected abstract R self();
 		
-		protected abstract Registry<?> registry();
+		/**
+		 * 获取注册表
+		 *
+		 * @return 注册表，如果需要特殊方法注册进行则返回 {@link Optional#empty()}，但需要自己另外实现注册
+		 */
+		protected abstract Optional<Registry<?>> registry();
 		
 		/**
 		 * 其他注册内容
@@ -140,7 +147,7 @@ public interface MainRegistrationProvider<T> extends RegisterableModPass<T> {
 			return type;
 		}
 		
-		private record RegistryData(Registry<?> registry, String id) {
+		private record RegistryData(Optional<Registry<?>> registry, String id) {
 		}
 	}
 }

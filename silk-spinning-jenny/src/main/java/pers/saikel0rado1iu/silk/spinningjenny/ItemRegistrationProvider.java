@@ -25,6 +25,7 @@ import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -57,8 +58,8 @@ interface ItemRegistrationProvider extends MainRegistrationProvider<Item>, Clien
 		}
 		
 		@Override
-		protected Registry<?> registry() {
-			return Registries.ITEM;
+		protected Optional<Registry<?>> registry() {
+			return Optional.of(Registries.ITEM);
 		}
 		
 		/**

@@ -17,6 +17,8 @@ import net.minecraft.world.gen.feature.Feature;
 import pers.saikel0rado1iu.silk.annotation.ServerRegistration;
 import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
 
+import java.util.Optional;
+
 /**
  * <h2 style="color:FFC800">地物注册提供器</h2>
  * 用于整合地物并注册地物以供使用
@@ -45,8 +47,8 @@ interface FeatureRegistrationProvider extends MainRegistrationProvider<Feature<?
 		}
 		
 		@Override
-		protected Registry<?> registry() {
-			return Registries.FEATURE;
+		protected Optional<Registry<?>> registry() {
+			return Optional.of(Registries.FEATURE);
 		}
 	}
 }

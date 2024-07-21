@@ -17,6 +17,8 @@ import net.minecraft.registry.Registry;
 import pers.saikel0rado1iu.silk.annotation.ServerRegistration;
 import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
 
+import java.util.Optional;
+
 /**
  * <h2 style="color:FFC800">配方序列化器注册提供器</h2>
  * 用于整合配方序列化器并注册配方序列化器以供使用
@@ -45,8 +47,8 @@ interface RecipeSerializerRegistrationProvider extends MainRegistrationProvider<
 		}
 		
 		@Override
-		protected Registry<?> registry() {
-			return Registries.RECIPE_SERIALIZER;
+		protected Optional<Registry<?>> registry() {
+			return Optional.of(Registries.RECIPE_SERIALIZER);
 		}
 	}
 }

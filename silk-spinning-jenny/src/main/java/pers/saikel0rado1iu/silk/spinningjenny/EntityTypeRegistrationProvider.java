@@ -21,6 +21,7 @@ import pers.saikel0rado1iu.silk.modpass.registry.ClientRegistrationProvider;
 import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -53,8 +54,8 @@ interface EntityTypeRegistrationProvider extends MainRegistrationProvider<Entity
 		}
 		
 		@Override
-		protected Registry<?> registry() {
-			return Registries.ENTITY_TYPE;
+		protected Optional<Registry<?>> registry() {
+			return Optional.of(Registries.ENTITY_TYPE);
 		}
 		
 	}

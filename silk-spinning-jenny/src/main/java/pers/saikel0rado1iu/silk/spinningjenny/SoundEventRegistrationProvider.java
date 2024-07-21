@@ -17,6 +17,8 @@ import net.minecraft.sound.SoundEvent;
 import pers.saikel0rado1iu.silk.annotation.ServerRegistration;
 import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
 
+import java.util.Optional;
+
 /**
  * <h2 style="color:FFC800">声音事件注册提供器</h2>
  * 用于整合声音事件并注册声音事件以供使用
@@ -45,8 +47,8 @@ interface SoundEventRegistrationProvider extends MainRegistrationProvider<SoundE
 		}
 		
 		@Override
-		protected Registry<?> registry() {
-			return Registries.SOUND_EVENT;
+		protected Optional<Registry<?>> registry() {
+			return Optional.of(Registries.SOUND_EVENT);
 		}
 		
 		@Override

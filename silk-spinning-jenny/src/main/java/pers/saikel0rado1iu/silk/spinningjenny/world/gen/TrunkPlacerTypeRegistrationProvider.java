@@ -17,6 +17,8 @@ import net.minecraft.world.gen.trunk.TrunkPlacerType;
 import pers.saikel0rado1iu.silk.annotation.ServerRegistration;
 import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
 
+import java.util.Optional;
+
 /**
  * <h2 style="color:FFC800">树干放置器类型注册提供器</h2>
  * 用于整合树干放置器类型并注册树干放置器类型以供使用
@@ -45,8 +47,8 @@ interface TrunkPlacerTypeRegistrationProvider extends MainRegistrationProvider<T
 		}
 		
 		@Override
-		protected Registry<?> registry() {
-			return Registries.TRUNK_PLACER_TYPE;
+		protected Optional<Registry<?>> registry() {
+			return Optional.of(Registries.TRUNK_PLACER_TYPE);
 		}
 	}
 }
