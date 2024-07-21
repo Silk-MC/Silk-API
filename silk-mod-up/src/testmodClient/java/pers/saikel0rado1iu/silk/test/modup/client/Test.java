@@ -31,7 +31,6 @@ import pers.saikel0rado1iu.silk.modpass.registry.ClientRegistrationProvider;
 import pers.saikel0rado1iu.silk.pattern.screen.ModScreen;
 import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
 
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -54,13 +53,13 @@ public final class Test implements ModClient {
 				if (hasMainButton) return false;
 				//noinspection unchecked
 				addFunction.apply((T) ButtonWidget.builder(WidgetTexts.text(SilkModUp.getInstance(), "test"), button -> MinecraftClient.getInstance()
-								.setScreen(new ModScreen(Optional.of(parent), new SettingTab(SilkModUp.getInstance(), UPDATE_SETTINGS))))
+								.setScreen(new ModScreen(parent, new SettingTab(SilkModUp.getInstance(), UPDATE_SETTINGS))))
 						.dimensions(parent.width / 2 - 100, y - spacingY, 200, 20).build());
 				return true;
 			}
 		});
 		AddButtonInGameMenuCallback.EVENT.register((client, parent, adder) -> adder.add(ButtonWidget.builder(WidgetTexts.text(SilkModUp.getInstance(), "test"),
-				button -> MinecraftClient.getInstance().setScreen(new SettingScreen(Optional.of(parent), UPDATE_SETTINGS))).width(204).build(), 2));
+				button -> MinecraftClient.getInstance().setScreen(new SettingScreen(parent, UPDATE_SETTINGS))).width(204).build(), 2));
 	}
 	
 	/**

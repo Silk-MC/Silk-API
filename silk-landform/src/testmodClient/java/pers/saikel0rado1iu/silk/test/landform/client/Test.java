@@ -59,14 +59,14 @@ public final class Test implements ModClient {
 				if (hasMainButton) return false;
 				//noinspection unchecked
 				addFunction.apply((T) ButtonWidget.builder(WidgetTexts.text(MOD_PASS, "test"), button -> MinecraftClient.getInstance()
-								.setScreen(new ModScreen(Optional.of(parent), new SettingTab(MOD_PASS, UPGRADABLE_WORLD_SETTINGS))))
+								.setScreen(new ModScreen(parent, new SettingTab(MOD_PASS, UPGRADABLE_WORLD_SETTINGS))))
 						.dimensions(parent.width / 2 - 100, y - spacingY, 200, 20).build());
 				return true;
 			}
 		});
 		WorldPresetCustomButtonCallback.EVENT.register((worldType, minecraftClient, screen) ->
 				worldType.getName().equals(Text.translatable(LinkedLanguageProvider.worldPreset(WorldPresets.TEST))) ?
-						Optional.of(button -> MinecraftClient.getInstance().setScreen(new PlaceholderScreen(Optional.of(screen), SilkLandform.getInstance()))) : Optional.empty()
+						Optional.of(button -> MinecraftClient.getInstance().setScreen(new PlaceholderScreen(screen, SilkLandform.getInstance()))) : Optional.empty()
 		);
 		WorldPresetSetDefaultCallback.EVENT.register(worldCreator -> {
 			for (WorldCreator.WorldType worldType : worldCreator.getNormalWorldTypes())
