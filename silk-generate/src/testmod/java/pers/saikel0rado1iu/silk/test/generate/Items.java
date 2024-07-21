@@ -25,11 +25,11 @@ public interface Items extends ItemRegistry {
 	 */
 	BowTest TEST_BOW = ItemRegistry.registrar(new BowTest(new Item.Settings()))
 			.group(ItemGroups.COMBAT)
-			.register(SilkGenerate.getInstance(), "test_bow");
+			.register(SilkGenerate.getInstance().ofId("test_bow"));
 	/**
 	 * test_crossbow
 	 */
 	CrossbowTest TEST_CROSSBOW = ItemRegistry.registrar(new CrossbowTest(new Item.Settings()))
 			.group(ItemGroups.COMBAT)
-			.register(SilkGenerate.getInstance(), "test_crossbow");
+			.register(SilkGenerate.getInstance().ofId("test_crossbow"));
 }

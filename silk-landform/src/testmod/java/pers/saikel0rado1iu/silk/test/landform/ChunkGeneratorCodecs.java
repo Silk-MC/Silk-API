@@ -40,5 +40,5 @@ public interface ChunkGeneratorCodecs extends ChunkGeneratorCodecRegistry {
 							ChunkGeneratorSettings.REGISTRY_CODEC.fieldOf("settings").forGetter(NoiseChunkGenerator::getSettings),
 							Codecs.createStrictOptionalFieldCodec(Codec.STRING, VERSION_KEY, NON_VERSION).forGetter(TestChunkGenerator::version))
 					.apply(instance, instance.stable(TestChunkGenerator::new))))
-			.register(MOD_PASS, "test");
+			.register(MOD_PASS.ofId("test"));
 }
