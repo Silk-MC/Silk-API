@@ -21,6 +21,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.impl.SilkRopeStick;
 import pers.saikel0rado1iu.silk.ropestick.armor.Armor;
+import pers.saikel0rado1iu.silk.ropestick.armor.CustomDyeableArmorItem;
 import pers.saikel0rado1iu.silk.ropestick.property.EffectiveItemSlot;
 import pers.saikel0rado1iu.silk.ropestick.property.InherentStatusEffect;
 import pers.saikel0rado1iu.silk.ropestick.property.ItemProperty;
@@ -81,6 +82,7 @@ public interface ArmorTest extends Armor {
 	 * @return 头盔护腿
 	 */
 	default ArmorItem createLeggings(Item.Settings settings) {
+		new CustomDyeableArmorItem(this, ArmorItem.Type.LEGGINGS, settings, 0xFFFF00);
 		return createLeggings(settings, properties());
 	}
 	
