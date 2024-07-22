@@ -21,11 +21,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.impl.SilkRopeStick;
 import pers.saikel0rado1iu.silk.ropestick.armor.Armor;
-import pers.saikel0rado1iu.silk.ropestick.armor.CustomDyeableArmorItem;
-import pers.saikel0rado1iu.silk.ropestick.property.EffectiveItemSlot;
-import pers.saikel0rado1iu.silk.ropestick.property.InherentStatusEffect;
-import pers.saikel0rado1iu.silk.ropestick.property.ItemProperty;
-import pers.saikel0rado1iu.silk.ropestick.property.PiglinIgnore;
+import pers.saikel0rado1iu.silk.ropestick.property.*;
 
 /**
  * Test {@link Armor}
@@ -47,11 +43,15 @@ public interface ArmorTest extends Armor {
 				new PiglinIgnore(EffectiveItemSlot.ALL),
 				new InherentStatusEffect(
 						new InherentStatusEffect.Property(StatusEffects.LUCK, 0, 5, 1,
-								() -> ImmutableSet.of(Items.TEST_HELMET, Items.TEST_CHESTPLATE, Items.TEST_LEGGINGS, Items.TEST_BOOTS),
+								() -> ImmutableSet.of(Items.TEST_HELMET, Items.TEST_CHESTPLATE, Items.TEST_CUSTOM_DYEABLE_ARMOR_ITEM, Items.TEST_BOOTS),
 								0, EffectiveItemSlot.ARMOR),
 						new InherentStatusEffect.Property(StatusEffects.UNLUCK, 1, 2, 0.5F,
-								() -> ImmutableSet.of(Items.TEST_HELMET, Items.TEST_CHESTPLATE, Items.TEST_LEGGINGS, Items.TEST_BOOTS),
-								2, EffectiveItemSlot.ARMOR))
+								() -> ImmutableSet.of(Items.TEST_HELMET, Items.TEST_CHESTPLATE, Items.TEST_CUSTOM_DYEABLE_ARMOR_ITEM, Items.TEST_BOOTS),
+								2, EffectiveItemSlot.ARMOR)),
+				new CustomEntityHurt(((stack, damageSource, living, aFloat) -> {
+					stack.damage(aFloat.intValue(), living, p -> p.sendToolBreakStatus(living.getActiveHand()));
+					return 0F;
+				}))
 		};
 	}
 	
@@ -82,8 +82,7 @@ public interface ArmorTest extends Armor {
 	 * @return 头盔护腿
 	 */
 	default ArmorItem createLeggings(Item.Settings settings) {
-		createLeggings(settings, properties());
-		return new CustomDyeableArmorItem(this, ArmorItem.Type.LEGGINGS, settings, 0xFFFF00);
+		return createLeggings(settings, properties());
 	}
 	
 	/**

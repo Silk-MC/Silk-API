@@ -5,6 +5,7 @@
 	"mixins": [
 		"ropestick.property.CustomEnchantmentMixin$SetAcceptEnchantment",
 		"ropestick.property.CustomEnchantmentMixin$SetTableEnchantment",
+		"ropestick.property.CustomEntityHurtMixin",
 		"ropestick.property.InherentStatusEffectMixin",
 		"ropestick.property.PiglinIgnoreMixin",
 		"ropestick.weapon.BreakingShieldMixin"
