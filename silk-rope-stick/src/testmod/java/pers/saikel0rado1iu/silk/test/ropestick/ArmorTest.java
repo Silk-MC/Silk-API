@@ -82,8 +82,8 @@ public interface ArmorTest extends Armor {
 	 * @return 头盔护腿
 	 */
 	default ArmorItem createLeggings(Item.Settings settings) {
-		new CustomDyeableArmorItem(this, ArmorItem.Type.LEGGINGS, settings, 0xFFFF00);
-		return createLeggings(settings, properties());
+		createLeggings(settings, properties());
+		return new CustomDyeableArmorItem(this, ArmorItem.Type.LEGGINGS, settings, 0xFFFF00);
 	}
 	
 	/**
