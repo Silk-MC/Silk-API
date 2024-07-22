@@ -13,6 +13,7 @@ package pers.saikel0rado1iu.silk.test.ropestick;
 
 import net.minecraft.item.*;
 import pers.saikel0rado1iu.silk.impl.SilkRopeStick;
+import pers.saikel0rado1iu.silk.ropestick.armor.CustomDyeableArmorItem;
 import pers.saikel0rado1iu.silk.spinningjenny.ItemRegistry;
 
 /**
@@ -62,6 +63,12 @@ public interface Items extends ItemRegistry {
 	CrossbowTest TEST_CROSSBOW = ItemRegistry.registrar(new CrossbowTest(new Item.Settings()))
 			.group(ItemGroupCreatorTest.TEST_ITEM_GROUP1, ItemGroupCreatorTest.TEST_ITEM_GROUP2)
 			.register(SilkRopeStick.getInstance().ofId("test_crossbow"));
+	/**
+	 * test_leggings
+	 */
+	CustomDyeableArmorItem TEST_CUSTOM_DYEABLE_ARMOR_ITEM = ItemRegistry.registrar(new CustomDyeableArmorItem(ArmorTest.MATERIAL, ArmorItem.Type.LEGGINGS, new Item.Settings(), 0xFFFF00))
+			.group(ItemGroupCreatorTest.TEST_ITEM_GROUP1, ItemGroupCreatorTest.TEST_ITEM_GROUP2)
+			.register(SilkRopeStick.getInstance().ofId("test_custom_dyeable_armor_item"));
 	/**
 	 * test_shovel
 	 */
@@ -116,5 +123,4 @@ public interface Items extends ItemRegistry {
 	ArmorItem TEST_BOOTS = ItemRegistry.registrar(ArmorTest.MATERIAL.createBoots(new Item.Settings()))
 			.group(ItemGroupCreatorTest.TEST_ITEM_GROUP1, ItemGroupCreatorTest.TEST_ITEM_GROUP2)
 			.register(SilkRopeStick.getInstance().ofId("test_boots"));
-	
 }
