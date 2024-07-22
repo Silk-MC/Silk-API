@@ -56,8 +56,8 @@ public interface MainRegistrationProvider<T> extends RegisterableModPass<T> {
 					Object obj = field.get(new Object());
 					Registrar.RegistryData data = Registrar.THREAD_LOCAL_TAGS.get().get(obj);
 					Identifier id;
-					if (data == null) return;
-					else if (data.registry.isEmpty()) return;
+					if (data == null) continue;
+					else if (data.registry.isEmpty()) continue;
 					else if (data.id.isEmpty()) id = modPass.modData().ofId(field.getName().toLowerCase());
 					else if (data.id.contains(":")) id = Identifier.tryParse(data.id);
 					else id = modPass.modData().ofId(data.id);
