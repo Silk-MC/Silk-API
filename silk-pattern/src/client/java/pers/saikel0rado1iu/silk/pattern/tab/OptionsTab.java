@@ -29,9 +29,10 @@ public abstract class OptionsTab extends ScreenTab {
 	
 	/**
 	 * @param modPass 模组通
+	 * @param key     标签页键
 	 */
-	public OptionsTab(ModPass modPass) {
-		super(modPass, "options");
+	public OptionsTab(ModPass modPass, String key) {
+		super(modPass, key);
 	}
 	
 	@Override

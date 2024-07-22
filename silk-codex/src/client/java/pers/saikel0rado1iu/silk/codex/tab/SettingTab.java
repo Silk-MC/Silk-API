@@ -46,7 +46,7 @@ public class SettingTab extends OptionsTab {
 	 * @param isDouble    是否为双按钮
 	 */
 	public SettingTab(ModPass modPass, SettingData settingData, boolean isDouble) {
-		super(modPass);
+		super(modPass, "settings");
 		this.settingData = settingData;
 		this.isDouble = isDouble;
 	}
