@@ -103,7 +103,8 @@ final class I18nProvider extends I18nModInfoProvider {
 			"  %1$s has been installed in the mods folder. Please delete the old version quickly.",
 			"Delete Files",
 			"  %1$s has been installed in the mods folder. Please close the game to clean the files.",
-			"Clean Update"
+			"Clean Update",
+			"Check for updates"
 	});
 	static final I18nProvider ZH_CN = new I18nProvider("zh_cn",
 			"丝绸开发库：模组↑",
@@ -175,7 +176,8 @@ final class I18nProvider extends I18nModInfoProvider {
 			"　　%1$s·已安装至·mods·文件夹，请尽快删除旧版本文件。",
 			"删除文件",
 			"　　%1$s·已安装至·mods·文件夹，请关闭游戏进行文件清理。",
-			"清理更新"
+			"清理更新",
+			"检查更新"
 	});
 	static final I18nProvider ZH_HK = new I18nProvider("zh_hk",
 			"絲綢開發庫：模組↑",
@@ -247,7 +249,8 @@ final class I18nProvider extends I18nModInfoProvider {
 			"　　%1$s·已安装至·mods·文件夹，请尽快删除旧版本文件。",
 			"刪除文件",
 			"　　%1$s·已安裝至·mods·文件夾，請關閉遊戲進行文件清理。",
-			"清理更新"
+			"清理更新",
+			"檢查更新"
 	});
 	static final I18nProvider ZH_TW = new I18nProvider("zh_tw",
 			"絲綢開發庫：模組↑",
@@ -319,7 +322,8 @@ final class I18nProvider extends I18nModInfoProvider {
 			"　　%1$s·已安装至·mods·檔案夹，请尽快删除旧版本檔案。",
 			"刪除檔案",
 			"　　%1$s·已安裝至·mods·資料夾，請關閉遊戲進行檔案清理。",
-			"清理更新"
+			"清理更新",
+			"檢查更新"
 	});
 	private final String[] allText;
 	
@@ -403,5 +407,6 @@ final class I18nProvider extends I18nModInfoProvider {
 		translationBuilder.add(WidgetTexts.textKey(SilkModUp.getInstance(), "downloaded"), texts.next());
 		translationBuilder.add(WidgetTexts.titleKey(SilkModUp.getInstance(), "updated"), texts.next());
 		translationBuilder.add(WidgetTexts.textKey(SilkModUp.getInstance(), "updated"), texts.next());
+		translationBuilder.add(WidgetTexts.textKey(SilkModUp.getInstance(), "check"), texts.next());
 	}
 }

@@ -28,13 +28,15 @@ import pers.saikel0rado1iu.silk.modpass.ModClient;
 import pers.saikel0rado1iu.silk.modpass.ModData;
 import pers.saikel0rado1iu.silk.modpass.ModPass;
 import pers.saikel0rado1iu.silk.modpass.registry.ClientRegistrationProvider;
-import pers.saikel0rado1iu.silk.pattern.screen.ModScreen;
 import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
+import pers.saikel0rado1iu.silk.update.screen.UpdatableModScreen;
 
 import java.util.Set;
 import java.util.function.Function;
 
+import static net.minecraft.client.gui.screen.world.CreateWorldScreen.LIGHT_DIRT_BACKGROUND_TEXTURE;
 import static pers.saikel0rado1iu.silk.test.modup.Test.UPDATE_SETTINGS;
+import static pers.saikel0rado1iu.silk.test.modup.client.UpdateManagerRegistryTest.CLIENT_UPDATE_MANAGER;
 
 /**
  * 测试
@@ -53,8 +55,10 @@ public final class Test implements ModClient {
 				if (hasMainButton) return false;
 				//noinspection unchecked
 				addFunction.apply((T) ButtonWidget.builder(WidgetTexts.text(SilkModUp.getInstance(), "test"), button -> MinecraftClient.getInstance()
-								.setScreen(new ModScreen(parent, new SettingTab(SilkModUp.getInstance(), UPDATE_SETTINGS))))
+								.setScreen(new UpdatableModScreen(parent, CLIENT_UPDATE_MANAGER, new SettingTab(SilkModUp.getInstance(), UPDATE_SETTINGS))))
 						.dimensions(parent.width / 2 - 100, y - spacingY, 200, 20).build());
+				new UpdatableModScreen(parent, CLIENT_UPDATE_MANAGER, 0, new SettingTab(SilkModUp.getInstance(), UPDATE_SETTINGS));
+				new UpdatableModScreen(parent, CLIENT_UPDATE_MANAGER, LIGHT_DIRT_BACKGROUND_TEXTURE, 0, new SettingTab(SilkModUp.getInstance(), UPDATE_SETTINGS));
 				return true;
 			}
 		});

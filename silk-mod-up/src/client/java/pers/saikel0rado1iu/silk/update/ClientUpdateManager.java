@@ -21,6 +21,7 @@ import pers.saikel0rado1iu.silk.modup.UpdateData;
 import pers.saikel0rado1iu.silk.modup.UpdateManager;
 import pers.saikel0rado1iu.silk.modup.UpdateSettings;
 import pers.saikel0rado1iu.silk.pattern.screen.LinkTrusted;
+import pers.saikel0rado1iu.silk.pattern.screen.ModScreen;
 import pers.saikel0rado1iu.silk.update.screen.*;
 import pers.saikel0rado1iu.silk.update.toast.*;
 
@@ -36,7 +37,8 @@ import java.util.function.Supplier;
  * @since 1.0.0
  */
 public class ClientUpdateManager extends UpdateManager implements LinkTrusted {
-	private long titleScreenTime = System.currentTimeMillis() - 5000;
+	private static final int COOLDOWN_TIME = 5000;
+	private long titleScreenTime = System.currentTimeMillis() - COOLDOWN_TIME;
 	private Future<UpdateData> titleScreenUpdateDataFuture;
 	
 	/**
@@ -47,7 +49,7 @@ public class ClientUpdateManager extends UpdateManager implements LinkTrusted {
 	}
 	
 	private static void update(ClientUpdateManager manager, Supplier<Future<UpdateData>> updateDataSupplier, MinecraftClient client, Screen parent) {
-		if (System.currentTimeMillis() - manager.titleScreenTime < 5000) return;
+		if (System.currentTimeMillis() - manager.titleScreenTime < COOLDOWN_TIME) return;
 		if (!manager.canShowUpdateNotify) return;
 		try {
 			if (manager.titleScreenUpdateDataFuture == null) manager.titleScreenUpdateDataFuture = updateDataSupplier.get();
@@ -120,6 +122,15 @@ public class ClientUpdateManager extends UpdateManager implements LinkTrusted {
 	}
 	
 	/**
+	 * 设置立即显示
+	 */
+	public void setShowNow() {
+		canShowUpdateNotify = true;
+		titleScreenTime = 0;
+		prevModVersion = "";
+	}
+	
+	/**
 	 * 更新操作
 	 *
 	 * @param updateDataSupplier 更新数据提供器
@@ -127,7 +138,7 @@ public class ClientUpdateManager extends UpdateManager implements LinkTrusted {
 	@Override
 	public void operation(Supplier<Future<UpdateData>> updateDataSupplier) {
 		ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
-			if (!(screen instanceof TitleScreen)) return;
+			if (!(screen instanceof TitleScreen || screen instanceof ModScreen)) return;
 			ScreenEvents.beforeTick(screen).register(titleScreen -> update(this, updateDataSupplier, client, titleScreen));
 		});
 		HudRenderCallback.EVENT.register((drawContext, tickDelta) -> update(this, updateDataSupplier, MinecraftClient.getInstance(), null));
