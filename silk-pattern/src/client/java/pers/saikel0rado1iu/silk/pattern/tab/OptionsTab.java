@@ -38,13 +38,13 @@ public abstract class OptionsTab extends ScreenTab {
 	public void init(MinecraftClient client, TextRenderer textRenderer, int width, int height) {
 		optionMenuWidget = new OptionMenuWidget(client, width, 32, height - 40, 25);
 		addOptions(optionMenuWidget);
-		optionMenuWidget = addSelectableChild(optionMenuWidget);
+		addSelectableChild(optionMenuWidget);
 	}
 	
 	@Override
 	public void render(MinecraftClient client, TextRenderer textRenderer, DrawContext context, int mouseX, int mouseY, float delta, int width, int height) {
-		optionMenuWidget.render(context, mouseX, mouseY, delta);
 		super.render(client, textRenderer, context, mouseX, mouseY, delta, width, height);
+		optionMenuWidget.render(context, mouseX, mouseY, delta);
 	}
 	
 	protected abstract void addOptions(OptionMenuWidget optionMenuWidget);
