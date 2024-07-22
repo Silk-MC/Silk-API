@@ -22,9 +22,9 @@ import pers.saikel0rado1iu.silk.impl.SilkPattern;
 import pers.saikel0rado1iu.silk.modpass.ModData;
 import pers.saikel0rado1iu.silk.modpass.ModPass;
 import pers.saikel0rado1iu.silk.modpass.log.Changelog;
-import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
 import pers.saikel0rado1iu.silk.pattern.widget.ButtonHelper;
 import pers.saikel0rado1iu.silk.pattern.widget.TextListWidget;
+import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
 
 /**
  * <h2 style="color:FFC800">模组选项卡</h2>
@@ -45,7 +45,7 @@ public class ModTab extends ScreenTab {
 	 * @param modPass 模组通
 	 */
 	public ModTab(ModPass modPass) {
-		super(modPass, "modPass");
+		super(modPass, "mod");
 	}
 	
 	@Override
