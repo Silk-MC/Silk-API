@@ -11,24 +11,18 @@
 
 package pers.saikel0rado1iu.silk.test.landform.client;
 
-import com.google.common.collect.ImmutableList;
 import pers.saikel0rado1iu.silk.landform.ClientUpgradableWorldManager;
 import pers.saikel0rado1iu.silk.landform.UpgradableWorldManagerRegistry;
 import pers.saikel0rado1iu.silk.test.landform.Test;
 
-import java.util.List;
-import java.util.function.Supplier;
-
-import static pers.saikel0rado1iu.silk.test.landform.Launch.MOD_PASS;
-
 /**
  * Test {@link UpgradableWorldManagerRegistry}
  */
-public interface UpgradableWorldManagerRegistryTest extends UpgradableWorldManagerRegistry {
-	/**
-	 * UPDATE_MANAGER
-	 */
-	@SuppressWarnings("unused")
-	List<ClientUpgradableWorldManager<?>> CLIENT_UPGRADABLE_WORLD_MANAGER_LIST = UpgradableWorldManagerRegistry
-			.registrar((Supplier<List<ClientUpgradableWorldManager<?>>>) () -> ImmutableList.of(new ClientUpgradableWorldManager<>(Test.DATA))).register(MOD_PASS);
+public abstract class UpgradableWorldManagerRegistryTest implements UpgradableWorldManagerRegistry {
+	static {
+		UpgradableWorldManagerRegistry.registrar().register(new ClientUpgradableWorldManager<>(Test.DATA));
+	}
+	
+	private UpgradableWorldManagerRegistryTest() {
+	}
 }

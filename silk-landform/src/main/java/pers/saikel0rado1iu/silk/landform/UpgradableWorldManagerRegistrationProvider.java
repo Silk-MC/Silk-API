@@ -11,13 +11,10 @@
 
 package pers.saikel0rado1iu.silk.landform;
 
+import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.ClientRegistration;
 import pers.saikel0rado1iu.silk.impl.SilkLandform;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
 import pers.saikel0rado1iu.silk.modpass.registry.ClientRegistrationProvider;
-
-import java.util.List;
-import java.util.function.Supplier;
 
 /**
  * <h2 style="color:FFC800">可升级世界管理器注册提供器</h2>
@@ -38,13 +35,20 @@ interface UpgradableWorldManagerRegistrationProvider extends ClientRegistrationP
 	 */
 	@SuppressWarnings("rawtypes")
 	final class ClientRegistrar<T extends UpgradableWorldManager> extends ClientRegistrationProvider.Registrar<T> {
-		ClientRegistrar(Supplier<List<T>> types) {
-			super(types);
+		ClientRegistrar() {
+			super(() -> {
+			});
 		}
 		
-		public List<T> register(ModPass modPass) {
-			types.get().forEach(type -> UpgradableWorldManager.run(type));
-			return register(modPass, type -> SilkLandform.getInstance().ofId(type.modData().id()));
+		@Override
+		protected Identifier getIdentifier(T t) {
+			return SilkLandform.getInstance().ofId(t.modData().id());
+		}
+		
+		@Override
+		public void register(T t) {
+			UpgradableWorldManager.run(t);
+			super.register(t);
 		}
 	}
 }
