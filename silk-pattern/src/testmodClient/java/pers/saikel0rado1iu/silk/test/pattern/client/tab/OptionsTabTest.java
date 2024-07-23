@@ -29,7 +29,7 @@ public final class OptionsTabTest extends OptionsTab {
 	 * @param modPass 模组通
 	 */
 	public OptionsTabTest(ModPass modPass) {
-		super(modPass);
+		super(modPass, "");
 	}
 	
 	@Override
