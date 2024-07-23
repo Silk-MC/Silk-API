@@ -12,25 +12,18 @@
 package pers.saikel0rado1iu.silk.test.spore.client;
 
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.minecraft.entity.EntityType;
-import pers.saikel0rado1iu.silk.impl.SilkSpinningJenny;
 import pers.saikel0rado1iu.silk.spinningjenny.EntityTypeRegistry;
-
-import java.util.List;
-import java.util.function.Supplier;
 
 import static pers.saikel0rado1iu.silk.test.spore.EntityTypes.FIXED_DAMAGE_TEST;
 
 /**
  * EntityTypes
  */
-public interface EntityTypes extends EntityTypeRegistry {
-	/**
-	 * 客户端注册
-	 */
-	@SuppressWarnings("unused")
-	List<EntityType<?>> CLIENT = EntityTypeRegistry.registrar((Supplier<List<EntityType<?>>>) () -> {
-		EntityRendererRegistry.register(FIXED_DAMAGE_TEST, FixedDamageTestRender::new);
-		return List.of(FIXED_DAMAGE_TEST);
-	}).register(SilkSpinningJenny.getInstance());
+public abstract class EntityTypes implements EntityTypeRegistry {
+	static {
+		EntityTypeRegistry.registrar((Runnable) () -> EntityRendererRegistry.register(FIXED_DAMAGE_TEST, FixedDamageTestRender::new)).register(FIXED_DAMAGE_TEST);
+	}
+	
+	private EntityTypes() {
+	}
 }
