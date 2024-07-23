@@ -134,6 +134,13 @@ allprojects {
 		options.encoding = 'UTF-8'
 	}
 	
+	tasks.withType(Javadoc).configureEach {
+		options {
+			encoding = 'UTF-8'
+			charSet = 'UTF-8'
+		}
+	}
+	
 	java {
 		// Loom 会自动将 sourcesJar 附加到 RemapSourcesJar 任务和 “build” 任务
 		// 如果其存在.
