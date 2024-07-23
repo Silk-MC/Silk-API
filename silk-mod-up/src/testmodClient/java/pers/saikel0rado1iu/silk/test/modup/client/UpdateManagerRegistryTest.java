@@ -11,26 +11,23 @@
 
 package pers.saikel0rado1iu.silk.test.modup.client;
 
-import com.google.common.collect.ImmutableList;
-import pers.saikel0rado1iu.silk.impl.SilkModUp;
 import pers.saikel0rado1iu.silk.modup.UpdateManagerRegistry;
 import pers.saikel0rado1iu.silk.test.modup.Test;
 import pers.saikel0rado1iu.silk.update.ClientUpdateManager;
 
-import java.util.List;
-import java.util.function.Supplier;
-
 /**
  * Test {@link UpdateManagerRegistry}
  */
-public interface UpdateManagerRegistryTest extends UpdateManagerRegistry {
+public abstract class UpdateManagerRegistryTest implements UpdateManagerRegistry {
 	/**
 	 * CLIENT_UPDATE_MANAGER
 	 */
-	ClientUpdateManager CLIENT_UPDATE_MANAGER = new ClientUpdateManager(Test.UPDATE_DATA_BUILDER);
-	/**
-	 * UPDATE_MANAGER
-	 */
-	@SuppressWarnings("unused")
-	List<ClientUpdateManager> CLIENT_UPDATE_MANAGER_LIST = UpdateManagerRegistry.registrar((Supplier<List<ClientUpdateManager>>) () -> ImmutableList.of(CLIENT_UPDATE_MANAGER)).register(SilkModUp.getInstance());
+	public static final ClientUpdateManager CLIENT_UPDATE_MANAGER = new ClientUpdateManager(Test.UPDATE_DATA_BUILDER);
+	
+	static {
+		UpdateManagerRegistry.registrar().register(CLIENT_UPDATE_MANAGER);
+	}
+	
+	private UpdateManagerRegistryTest() {
+	}
 }

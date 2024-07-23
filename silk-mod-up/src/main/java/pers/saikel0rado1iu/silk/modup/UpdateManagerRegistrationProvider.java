@@ -12,16 +12,14 @@
 package pers.saikel0rado1iu.silk.modup;
 
 import net.minecraft.registry.Registry;
+import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.ClientRegistration;
 import pers.saikel0rado1iu.silk.annotation.ServerRegistration;
 import pers.saikel0rado1iu.silk.impl.SilkModUp;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
 import pers.saikel0rado1iu.silk.modpass.registry.ClientRegistrationProvider;
 import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 /**
  * <h2 style="color:FFC800">更新管理器注册提供器</h2>
@@ -70,13 +68,20 @@ interface UpdateManagerRegistrationProvider extends MainRegistrationProvider<Upd
 	 * @param <T> 更新管理器类型
 	 */
 	final class ClientRegistrar<T extends UpdateManager> extends ClientRegistrationProvider.Registrar<T> {
-		ClientRegistrar(Supplier<List<T>> types) {
-			super(types);
+		ClientRegistrar() {
+			super(() -> {
+			});
 		}
 		
-		public List<T> register(ModPass modPass) {
-			types.get().forEach(type -> UpdateManager.run(type));
-			return register(modPass, type -> SilkModUp.getInstance().ofId(type.modData().id()));
+		@Override
+		protected Identifier getIdentifier(T t) {
+			return SilkModUp.getInstance().ofId(t.modData().id());
+		}
+		
+		@Override
+		public void register(T t) {
+			UpdateManager.run(t);
+			super.register(t);
 		}
 	}
 }
