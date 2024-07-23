@@ -12,24 +12,19 @@
 package pers.saikel0rado1iu.silk.test.spinningjenny.client;
 
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.minecraft.block.Block;
 import net.minecraft.client.render.RenderLayer;
-import pers.saikel0rado1iu.silk.impl.SilkSpinningJenny;
 import pers.saikel0rado1iu.silk.spinningjenny.BlockRegistry;
 
-import java.util.List;
-import java.util.function.Supplier;
+import static pers.saikel0rado1iu.silk.test.spinningjenny.BlockRegistryTest.TEST_BLOCK;
 
 /**
  * Test {@link BlockRegistry}
  */
-public interface BlockRegistryTest extends BlockRegistry {
-	/**
-	 * 客户端方块注册
-	 */
-	@SuppressWarnings("unused")
-	List<Block> CLIENT = BlockRegistry.registrar((Supplier<List<Block>>) () -> {
-		BlockRenderLayerMap.INSTANCE.putBlock(pers.saikel0rado1iu.silk.test.spinningjenny.BlockRegistryTest.TEST_BLOCK, RenderLayer.getCutout());
-		return List.of(pers.saikel0rado1iu.silk.test.spinningjenny.BlockRegistryTest.TEST_BLOCK);
-	}).register(SilkSpinningJenny.getInstance());
+public abstract class BlockRegistryTest implements BlockRegistry {
+	static {
+		BlockRegistry.registrar((Runnable) () -> BlockRenderLayerMap.INSTANCE.putBlock(TEST_BLOCK, RenderLayer.getCutout())).register(TEST_BLOCK);
+	}
+	
+	private BlockRegistryTest() {
+	}
 }

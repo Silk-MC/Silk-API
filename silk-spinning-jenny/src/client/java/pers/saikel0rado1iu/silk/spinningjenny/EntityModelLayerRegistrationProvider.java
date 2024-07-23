@@ -11,15 +11,10 @@
 
 package pers.saikel0rado1iu.silk.spinningjenny;
 
-import com.google.common.collect.ImmutableList;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
+import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.ClientRegistration;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
 import pers.saikel0rado1iu.silk.modpass.registry.ClientRegistrationProvider;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * <h2 style="color:FFC800">实体模型图层注册提供器</h2>
@@ -39,16 +34,13 @@ interface EntityModelLayerRegistrationProvider extends ClientRegistrationProvide
 	 * @param <T> 实体模型图层类型
 	 */
 	final class ClientRegistrar<T extends EntityModelLayer> extends ClientRegistrationProvider.Registrar<T> {
-		private final Map<T, EntityModelLayerRegistry.TexturedModelDataProvider> map;
-		
-		ClientRegistrar(Map<T, EntityModelLayerRegistry.TexturedModelDataProvider> map) {
-			super(() -> ImmutableList.copyOf(map.keySet()));
-			this.map = map;
+		ClientRegistrar(Runnable run) {
+			super(run);
 		}
 		
-		public List<T> register(ModPass modPass) {
-			map.forEach(EntityModelLayerRegistry::registerModelLayer);
-			return register(modPass, EntityModelLayer::getId);
+		@Override
+		protected Identifier getIdentifier(T t) {
+			return t.getId();
 		}
 	}
 }

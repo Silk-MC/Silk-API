@@ -11,20 +11,18 @@
 
 package pers.saikel0rado1iu.silk.test.spinningjenny.client;
 
-import net.minecraft.item.Item;
-import pers.saikel0rado1iu.silk.impl.SilkSpinningJenny;
 import pers.saikel0rado1iu.silk.spinningjenny.ItemRegistry;
 
-import java.util.List;
-import java.util.function.Supplier;
+import static pers.saikel0rado1iu.silk.test.spinningjenny.ItemRegistryTest.TEST_ITEM;
 
 /**
  * Test {@link ItemRegistry}
  */
-public interface ItemRegistryTest extends ItemRegistry {
-	/**
-	 * 客户端注册
-	 */
-	@SuppressWarnings("unused")
-	List<Item> CLIENT = ItemRegistry.registrar((Supplier<List<Item>>) () -> List.of(pers.saikel0rado1iu.silk.test.spinningjenny.ItemRegistryTest.TEST_ITEM)).register(SilkSpinningJenny.getInstance());
+public abstract class ItemRegistryTest implements ItemRegistry {
+	static {
+		ItemRegistry.registrar((Runnable) () -> System.out.println(" ")).register(TEST_ITEM);
+	}
+	
+	private ItemRegistryTest() {
+	}
 }

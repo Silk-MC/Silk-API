@@ -17,16 +17,14 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.ClientRegistration;
 import pers.saikel0rado1iu.silk.annotation.ServerRegistration;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
 import pers.saikel0rado1iu.silk.modpass.registry.ClientRegistrationProvider;
 import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 /**
  * <h2 style="color:FFC800">物品注册提供器</h2>
@@ -82,12 +80,13 @@ interface ItemRegistrationProvider extends MainRegistrationProvider<Item>, Clien
 	 * @param <T> 物品类型
 	 */
 	final class ClientRegistrar<T extends Item> extends ClientRegistrationProvider.Registrar<T> {
-		ClientRegistrar(Supplier<List<T>> types) {
-			super(types);
+		ClientRegistrar(Runnable run) {
+			super(run);
 		}
 		
-		public List<T> register(ModPass modPass) {
-			return register(modPass, Registries.ITEM::getId);
+		@Override
+		protected Identifier getIdentifier(T t) {
+			return Registries.ITEM.getId(t);
 		}
 	}
 }

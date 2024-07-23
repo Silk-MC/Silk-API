@@ -13,23 +13,18 @@ package pers.saikel0rado1iu.silk.test.spinningjenny.client;
 
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.minecraft.client.particle.SpitParticle;
-import net.minecraft.particle.ParticleType;
-import pers.saikel0rado1iu.silk.impl.SilkSpinningJenny;
 import pers.saikel0rado1iu.silk.spinningjenny.ParticleTypeRegistry;
 
-import java.util.List;
-import java.util.function.Supplier;
+import static pers.saikel0rado1iu.silk.test.spinningjenny.ParticleTypeRegistryTest.TEST_PARTICLE_TYPE;
 
 /**
  * Test {@link ParticleTypeRegistry}
  */
-public interface ParticleTypeRegistryTest extends ParticleTypeRegistry {
-	/**
-	 * 客户端方块注册
-	 */
-	@SuppressWarnings("unused")
-	List<ParticleType<?>> CLIENT = ParticleTypeRegistry.registrar((Supplier<List<ParticleType<?>>>) () -> {
-		ParticleFactoryRegistry.getInstance().register(pers.saikel0rado1iu.silk.test.spinningjenny.ParticleTypeRegistryTest.TEST_PARTICLE_TYPE, SpitParticle.Factory::new);
-		return List.of(pers.saikel0rado1iu.silk.test.spinningjenny.ParticleTypeRegistryTest.TEST_PARTICLE_TYPE);
-	}).register(SilkSpinningJenny.getInstance());
+public abstract class ParticleTypeRegistryTest implements ParticleTypeRegistry {
+	static {
+		ParticleTypeRegistry.registrar((Runnable) () -> ParticleFactoryRegistry.getInstance().register(TEST_PARTICLE_TYPE, SpitParticle.Factory::new)).register(TEST_PARTICLE_TYPE);
+	}
+	
+	private ParticleTypeRegistryTest() {
+	}
 }

@@ -11,27 +11,27 @@
 
 package pers.saikel0rado1iu.silk.test.spinningjenny.client;
 
-import com.google.common.collect.ImmutableMap;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.SpiderEntityModel;
 import pers.saikel0rado1iu.silk.impl.SilkSpinningJenny;
 import pers.saikel0rado1iu.silk.spinningjenny.EntityModelLayerRegistry;
 
-import java.util.List;
+import static net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry.registerModelLayer;
 
 /**
  * Test {@link EntityModelLayerRegistry}
  */
-public interface ModelLayerRegistryTest extends EntityModelLayerRegistry {
+public abstract class ModelLayerRegistryTest implements EntityModelLayerRegistry {
 	/**
 	 * test_entity_model_layer
 	 */
 	@SuppressWarnings("unused")
-	EntityModelLayer TEST_ENTITY_MODEL_LAYER = new EntityModelLayer(SilkSpinningJenny.getInstance().ofId("test_entity_model_layer"), "main");
-	/**
-	 * test
-	 */
-	@SuppressWarnings("unused")
-	List<EntityModelLayer> TEST = EntityModelLayerRegistry.registrar(ImmutableMap.of(TEST_ENTITY_MODEL_LAYER, SpiderEntityModel::getTexturedModelData))
-			.register(SilkSpinningJenny.getInstance());
+	public static final EntityModelLayer TEST_ENTITY_MODEL_LAYER = new EntityModelLayer(SilkSpinningJenny.getInstance().ofId("test_entity_model_layer"), "main");
+	
+	static {
+		EntityModelLayerRegistry.registrar(() -> registerModelLayer(TEST_ENTITY_MODEL_LAYER, SpiderEntityModel::getTexturedModelData)).register(TEST_ENTITY_MODEL_LAYER);
+	}
+	
+	private ModelLayerRegistryTest() {
+	}
 }

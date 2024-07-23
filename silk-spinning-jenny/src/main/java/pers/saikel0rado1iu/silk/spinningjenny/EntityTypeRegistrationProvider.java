@@ -14,15 +14,13 @@ package pers.saikel0rado1iu.silk.spinningjenny;
 import net.minecraft.entity.EntityType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.ClientRegistration;
 import pers.saikel0rado1iu.silk.annotation.ServerRegistration;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
 import pers.saikel0rado1iu.silk.modpass.registry.ClientRegistrationProvider;
 import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 /**
  * <h2 style="color:FFC800">实体类型注册提供器</h2>
@@ -66,12 +64,13 @@ interface EntityTypeRegistrationProvider extends MainRegistrationProvider<Entity
 	 * @param <T> 实体类型
 	 */
 	final class ClientRegistrar<T extends EntityType<?>> extends ClientRegistrationProvider.Registrar<T> {
-		ClientRegistrar(Supplier<List<T>> types) {
-			super(types);
+		ClientRegistrar(Runnable run) {
+			super(run);
 		}
 		
-		public List<T> register(ModPass modPass) {
-			return register(modPass, Registries.ENTITY_TYPE::getId);
+		@Override
+		protected Identifier getIdentifier(T t) {
+			return Registries.ENTITY_TYPE.getId(t);
 		}
 	}
 }

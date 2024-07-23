@@ -43,6 +43,13 @@ public interface RegisterableModPass<T> extends ModPass {
 		Type[] interfaces = clazz.getGenericInterfaces();
 		for (Type type : interfaces) {
 			if (!(type instanceof Class<?> classType && classType.isInterface())) continue;
+			try {
+				Class.forName(clazz.getName(), true, clazz.getClassLoader());
+			} catch (ClassNotFoundException e) {
+				String msg = String.format("The class '%s' provided for registration was not found.", clazz.getName());
+				SilkModPass.getInstance().logger().error(msg);
+				throw new RuntimeException(e);
+			}
 			for (Field field : clazz.getDeclaredFields()) {
 				try {
 					Object ignored = field.get(new Object());

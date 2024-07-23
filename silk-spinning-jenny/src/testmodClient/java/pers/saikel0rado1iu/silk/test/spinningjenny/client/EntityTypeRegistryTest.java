@@ -13,23 +13,18 @@ package pers.saikel0rado1iu.silk.test.spinningjenny.client;
 
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.entity.ArrowEntityRenderer;
-import net.minecraft.entity.EntityType;
-import pers.saikel0rado1iu.silk.impl.SilkSpinningJenny;
 import pers.saikel0rado1iu.silk.spinningjenny.EntityTypeRegistry;
 
-import java.util.List;
-import java.util.function.Supplier;
+import static pers.saikel0rado1iu.silk.test.spinningjenny.EntityTypeRegistryTest.TEST_ENTITY_TYPE;
 
 /**
  * Test {@link EntityTypeRegistry}
  */
-public interface EntityTypeRegistryTest extends EntityTypeRegistry {
-	/**
-	 * 客户端注册
-	 */
-	@SuppressWarnings("unused")
-	List<EntityType<?>> CLIENT = EntityTypeRegistry.registrar((Supplier<List<EntityType<?>>>) () -> {
-		EntityRendererRegistry.register(pers.saikel0rado1iu.silk.test.spinningjenny.EntityTypeRegistryTest.TEST_ENTITY_TYPE, ArrowEntityRenderer::new);
-		return List.of(pers.saikel0rado1iu.silk.test.spinningjenny.EntityTypeRegistryTest.TEST_ENTITY_TYPE);
-	}).register(SilkSpinningJenny.getInstance());
+public abstract class EntityTypeRegistryTest implements EntityTypeRegistry {
+	static {
+		EntityTypeRegistry.registrar((Runnable) () -> EntityRendererRegistry.register(TEST_ENTITY_TYPE, ArrowEntityRenderer::new)).register(TEST_ENTITY_TYPE);
+	}
+	
+	private EntityTypeRegistryTest() {
+	}
 }

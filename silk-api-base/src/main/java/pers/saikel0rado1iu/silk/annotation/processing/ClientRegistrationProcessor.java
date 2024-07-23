@@ -77,8 +77,17 @@ public class ClientRegistrationProcessor extends AbstractProcessor {
 			MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder("registrar")
 					.addJavadoc("""
 							客户端注册方法<br>
-							创建一个 {@link List} 常量来使用此方法<br>
-							在提供的 {@link Supplier} 中注册客户端内容并返回需要注册的类型列表用于日志输出<br>
+							提供 {@link Runnable} 进行注册，您应该以如下方式进行客户端注册：<br>
+							<pre>{@code
+							abstract class ClientFoo implements ClientItemRegistry {
+								static {
+									ItemRegistry.registrar(() -> ColorProviderRegistry.ITEM.register(((stack, tintIndex) -> tintIndex > 0 ? -1 : ((DyeableItem) stack.getItem()).getColor(stack)), EXAMPLE_ITEM)).register(EXAMPLE_ITEM);
+								}
+							
+								private ClientFoo() {
+								}
+							}
+							}</pre>
 							
 							@param registerMethod   注册方法，在此方法内为所有需要客户端注册的对象进行注册
 							@return                 客户端注册器""")

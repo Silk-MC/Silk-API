@@ -14,15 +14,13 @@ package pers.saikel0rado1iu.silk.spinningjenny;
 import net.minecraft.block.Block;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.ClientRegistration;
 import pers.saikel0rado1iu.silk.annotation.ServerRegistration;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
 import pers.saikel0rado1iu.silk.modpass.registry.ClientRegistrationProvider;
 import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 /**
  * <h2 style="color:FFC800">方块注册提供器</h2>
@@ -65,12 +63,13 @@ interface BlockRegistrationProvider extends MainRegistrationProvider<Block>, Cli
 	 * @param <T> 方块类型
 	 */
 	final class ClientRegistrar<T extends Block> extends ClientRegistrationProvider.Registrar<T> {
-		ClientRegistrar(Supplier<List<T>> types) {
-			super(types);
+		ClientRegistrar(Runnable run) {
+			super(run);
 		}
 		
-		public List<T> register(ModPass modPass) {
-			return register(modPass, Registries.BLOCK::getId);
+		@Override
+		protected Identifier getIdentifier(T t) {
+			return Registries.BLOCK.getId(t);
 		}
 	}
 }

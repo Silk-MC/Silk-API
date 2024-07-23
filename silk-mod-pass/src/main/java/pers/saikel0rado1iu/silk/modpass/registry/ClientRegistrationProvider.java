@@ -13,11 +13,7 @@ package pers.saikel0rado1iu.silk.modpass.registry;
 
 import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.annotation.ClientRegistration;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
-
-import java.util.List;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import pers.saikel0rado1iu.silk.modpass.ModData;
 
 /**
  * <h2 style="color:FFC800">客户端注册提供器</h2>
@@ -31,27 +27,26 @@ import java.util.function.Supplier;
 public interface ClientRegistrationProvider<T> extends RegisterableModPass<T> {
 	/**
 	 * 客户端注册器<br>
-	 * 提供 {@link Supplier} 进行注册，使用 {@link List} 作为静态常量使用
 	 *
 	 * @param <T> 注册的数据类
 	 */
 	abstract class Registrar<T> {
-		protected final Supplier<List<T>> types;
+		protected final Runnable run;
 		
-		protected Registrar(Supplier<List<T>> types) {
-			this.types = types;
+		protected Registrar(Runnable run) {
+			this.run = run;
 		}
+		
+		protected abstract Identifier getIdentifier(T t);
 		
 		/**
 		 * 进行注册
 		 *
-		 * @param modPass  模组通
-		 * @param function 注册函数
-		 * @return 注册项迭代器
+		 * @param t 需要注册的项目
 		 */
-		protected List<T> register(ModPass modPass, Function<T, Identifier> function) {
-			types.get().forEach(type -> RegisterableModPass.loggingRegistration(modPass, type, function.apply(type), RegistrationType.CLIENT_ONLY));
-			return types.get();
+		public void register(T t) {
+			run.run();
+			RegisterableModPass.loggingRegistration(((ModData) () -> getIdentifier(t).getNamespace()), t, getIdentifier(t), RegistrationType.CLIENT_ONLY);
 		}
 	}
 }
