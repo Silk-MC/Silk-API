@@ -44,7 +44,7 @@ public interface BowExpansion extends RangedExpansion, ModifyMoveWhileUse, Adjus
 	 *
 	 * @return 最大拉弓时间
 	 */
-	default int getMaxPullTicks() {
+	default int maxPullTicks() {
 		return BOW_MAX_PULL_TICKS;
 	}
 	
@@ -70,7 +70,7 @@ public interface BowExpansion extends RangedExpansion, ModifyMoveWhileUse, Adjus
 	
 	@Override
 	default float getUsingProgress(int useTicks, ItemStack stack) {
-		float progress = (float) useTicks / getMaxPullTicks();
+		float progress = (float) useTicks / maxPullTicks();
 		return Math.min(1, (progress * (progress + 2)) / 3);
 	}
 	
