@@ -101,6 +101,17 @@ public final class FullyAutomaticFirearmTest extends FullyAutomaticFirearm {
 	}
 	
 	/**
+	 * 获取发射物索引以供 JSON 渲染使用
+	 *
+	 * @param projectile 发射物
+	 * @return 索引
+	 */
+	@Override
+	public float getProjectileIndex(Item projectile) {
+		return 0;
+	}
+	
+	/**
 	 * 默认的发射物
 	 *
 	 * @return 发射物物品堆栈

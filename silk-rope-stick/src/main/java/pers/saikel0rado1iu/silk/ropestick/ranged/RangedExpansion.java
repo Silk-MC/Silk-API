@@ -104,6 +104,14 @@ public interface RangedExpansion {
 	float getProjectileIndex(ItemStack stack);
 	
 	/**
+	 * 获取发射物索引以供 JSON 渲染使用
+	 *
+	 * @param projectile 发射物
+	 * @return 索引
+	 */
+	float getProjectileIndex(Item projectile);
+	
+	/**
 	 * 默认的发射物
 	 *
 	 * @return 发射物物品堆栈
