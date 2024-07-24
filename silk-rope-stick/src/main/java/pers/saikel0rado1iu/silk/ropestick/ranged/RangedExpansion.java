@@ -60,7 +60,7 @@ public interface RangedExpansion {
 	float maxProjectileSpeed();
 	
 	/**
-	 * 最大伤害，非暴击伤害，暴击伤害另算
+	 * 最大非暴击伤害
 	 *
 	 * @return 最大伤害
 	 */
