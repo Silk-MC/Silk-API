@@ -96,7 +96,7 @@ public final class FullyAutomaticFirearmTest extends FullyAutomaticFirearm {
 	 * @return 索引
 	 */
 	@Override
-	public float getProjectileIndex(ItemStack stack, Optional<Item> projectile) {
+	public float getProjectileIndex(ItemStack stack) {
 		return 0;
 	}
 	

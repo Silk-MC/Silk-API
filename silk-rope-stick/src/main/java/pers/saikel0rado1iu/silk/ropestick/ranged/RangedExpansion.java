@@ -16,7 +16,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -97,15 +96,12 @@ public interface RangedExpansion {
 	void setProjectileIndex(ItemStack stack, ItemStack useProjectile);
 	
 	/**
-	 * 获取发射物索引以供 JSON 渲染使用<br>
-	 * 如果 {@code projectile} 为 {@link Optional#empty()} 则需要通过 {@code stack} 中存储的发射物判断<br>
-	 * 否则需要根据 {@code projectile} 去提供索引
+	 * 获取发射物索引以供 JSON 渲染使用
 	 *
-	 * @param stack      物品堆栈
-	 * @param projectile 可选的弹射物
+	 * @param stack 物品堆栈
 	 * @return 索引
 	 */
-	float getProjectileIndex(ItemStack stack, Optional<Item> projectile);
+	float getProjectileIndex(ItemStack stack);
 	
 	/**
 	 * 获取发射物索引以供 JSON 渲染使用

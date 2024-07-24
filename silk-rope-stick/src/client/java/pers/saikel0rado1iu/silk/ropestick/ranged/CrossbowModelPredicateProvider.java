@@ -15,8 +15,6 @@ import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.util.Identifier;
 
-import java.util.Optional;
-
 /**
  * <h2 style="color:FFC800">弩模型谓词提供器</h2>
  * 用于弩的模型谓词提供器
@@ -45,7 +43,7 @@ public interface CrossbowModelPredicateProvider {
 		});
 		ModelPredicateProviderRegistry.register(crossbow, new Identifier(Crossbow.PROJECTILE_INDEX_KEY), (stack, world, entity, seed) -> {
 			if (entity == null) return 0;
-			return ((Crossbow) stack.getItem()).getProjectileIndex(stack, Optional.empty());
+			return ((Crossbow) stack.getItem()).getProjectileIndex(stack);
 		});
 	}
 }
