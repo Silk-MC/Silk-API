@@ -29,6 +29,8 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import pers.saikel0rado1iu.silk.common.util.MathUtil;
 
+import java.util.function.Predicate;
+
 /**
  * <h2 style="color:FFC800">弓</h2>
  * 加强方法的弓物品，辅助弓的创建的数据直观和清晰
@@ -57,9 +59,9 @@ public abstract class Bow extends BowItem implements BowExpansion {
 		boolean inCreateOrInfinity = player.getAbilities().creativeMode || EnchantmentHelper.getLevel(Enchantments.INFINITY, stack) > 0;
 		// 获取弹丸
 		ItemStack useProjectile = user.getProjectileType(stack);
-		// 检查玩家是否有箭，如果没有箭但在创造模式或者拥有“无限”附魔则使用箭
+		// 检查玩家是否有箭，如果没有箭但在创造模式或者拥有“无限”附魔则使用默认弹丸
 		if (!useProjectile.isEmpty() || inCreateOrInfinity) {
-			if (useProjectile.isEmpty()) useProjectile = new ItemStack(Items.ARROW);
+			if (useProjectile.isEmpty()) useProjectile = new ItemStack(defaultProjectile());
 		}
 		if (useProjectile.isEmpty() && !inCreateOrInfinity) return;
 		
@@ -71,7 +73,7 @@ public abstract class Bow extends BowItem implements BowExpansion {
 		if (pullProgress < 0.1) return;
 		
 		// 如果在创造模式或者拥有“无限”附魔以及弹丸是默认弹丸
-		boolean andDefaultProjectile = inCreateOrInfinity && useProjectile.isOf(Items.ARROW);
+		boolean andDefaultProjectile = inCreateOrInfinity && useProjectile.isOf(defaultProjectile());
 		if (!world.isClient) {
 			// 创建箭实体
 			ArrowItem arrowItem = (ArrowItem) (useProjectile.getItem() instanceof ArrowItem ? useProjectile.getItem() : Items.ARROW);
@@ -120,6 +122,11 @@ public abstract class Bow extends BowItem implements BowExpansion {
 		ItemStack stack = user.getStackInHand(hand);
 		setProjectileIndex(stack, user.getProjectileType(stack));
 		return super.use(world, user, hand);
+	}
+	
+	@Override
+	public Predicate<ItemStack> getProjectiles() {
+		return stack -> launchableProjectiles().stream().anyMatch(stack::isOf);
 	}
 	
 	@Override
