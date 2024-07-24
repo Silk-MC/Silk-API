@@ -172,8 +172,8 @@ public class ExtendedItemModelGenerator extends ItemModelGenerator {
 				for (int count = 0; count < pullStage.length; count++) {
 					JsonObject predicate = new JsonObject();
 					JsonObject object = new JsonObject();
-					if (bow.getProjectileIndex(projectile.getDefaultStack()) != 0)
-						object.addProperty(Bow.PROJECTILE_INDEX_KEY, bow.getProjectileIndex(projectile.getDefaultStack()));
+					float index = bow.getProjectileIndex(bow.getDefaultStack(), Optional.of(projectile));
+					if (index != 0) object.addProperty(Crossbow.PROJECTILE_INDEX_KEY, index);
 					object.addProperty(Bow.PULLING_KEY, 1);
 					object.addProperty(Bow.PULL_KEY, pullStage[count]);
 					predicate.add("predicate", object);
@@ -218,8 +218,8 @@ public class ExtendedItemModelGenerator extends ItemModelGenerator {
 				JsonObject predicate = new JsonObject();
 				JsonObject object = new JsonObject();
 				object.addProperty(Crossbow.CHARGED_KEY.toLowerCase(), 1);
-				if (crossbow.getProjectileIndex(projectile.getDefaultStack()) != 0)
-					object.addProperty(Crossbow.PROJECTILE_INDEX_KEY, crossbow.getProjectileIndex(projectile.getDefaultStack()));
+				float index = crossbow.getProjectileIndex(crossbow.getDefaultStack(), Optional.of(projectile));
+				if (index != 0) object.addProperty(Crossbow.PROJECTILE_INDEX_KEY, index);
 				predicate.add("predicate", object);
 				predicate.addProperty("model", id.withSuffixedPath('_' + Registries.ITEM.getId(projectile).getPath()).toString());
 				jsonArray.add(predicate);

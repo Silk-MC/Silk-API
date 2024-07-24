@@ -96,7 +96,7 @@ public final class BoltActionFirearmTest extends BoltActionFirearm {
 	 * @return 索引
 	 */
 	@Override
-	public float getProjectileIndex(ItemStack stack) {
+	public float getProjectileIndex(ItemStack stack, Optional<Item> projectile) {
 		return 0;
 	}
 	

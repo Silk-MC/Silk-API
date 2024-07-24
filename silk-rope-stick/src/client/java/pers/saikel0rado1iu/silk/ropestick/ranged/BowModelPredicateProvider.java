@@ -14,6 +14,8 @@ package pers.saikel0rado1iu.silk.ropestick.ranged;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.util.Identifier;
 
+import java.util.Optional;
+
 /**
  * <h2 style="color:FFC800">弓模型谓词提供器</h2>
  * 用于弓的模型谓词提供器
@@ -38,7 +40,7 @@ public interface BowModelPredicateProvider {
 		});
 		ModelPredicateProviderRegistry.register(bow, new Identifier(Bow.PROJECTILE_INDEX_KEY), (stack, world, entity, seed) -> {
 			if (entity == null) return 0;
-			return entity.getActiveItem() != stack ? 0 : ((Bow) stack.getItem()).getProjectileIndex(stack);
+			return entity.getActiveItem() != stack ? 0 : ((Bow) stack.getItem()).getProjectileIndex(stack, Optional.empty());
 		});
 	}
 }
