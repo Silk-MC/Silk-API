@@ -42,6 +42,10 @@ public interface BowExpansion extends RangedExpansion, ModifyMoveWhileUse, Adjus
 	 * 弓的最大非暴击伤害
 	 */
 	float BOW_MAX_DAMAGE = 6;
+	/**
+	 * 弓的视场角缩放值
+	 */
+	float BOW_FOV_SCALING = 1.08F;
 	
 	/**
 	 * 获取最大拉弓时间
@@ -85,7 +89,7 @@ public interface BowExpansion extends RangedExpansion, ModifyMoveWhileUse, Adjus
 	
 	@Override
 	default float fovScaling() {
-		return 1;
+		return BOW_FOV_SCALING;
 	}
 	
 	@Override
