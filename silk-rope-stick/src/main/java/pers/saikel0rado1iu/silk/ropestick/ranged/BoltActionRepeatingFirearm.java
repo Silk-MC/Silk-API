@@ -78,7 +78,7 @@ public abstract class BoltActionRepeatingFirearm extends Crossbow implements Pro
 		}
 		charged = false;
 		loaded = false;
-		maxUseTicks = Math.round((float) maxUseTicks() / maxCapacity(stack) * loadableAmount);
+		maxUseTicks = Math.round((float) maxUseTicks() * maxCapacity(stack) / maxCapacity(stack) * loadableAmount);
 		user.setCurrentHand(hand);
 		return TypedActionResult.consume(stack);
 	}
@@ -87,7 +87,7 @@ public abstract class BoltActionRepeatingFirearm extends Crossbow implements Pro
 	public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
 		if (world.isClient()) return;
 		ShootExpansion.resetShot(stack);
-		if (isCharged(stack) && maxUseTicks != Math.round((float) maxUseTicks() / maxCapacity(stack) * loadableAmount)) {
+		if (isCharged(stack) && maxUseTicks != Math.round((float) maxUseTicks() * maxCapacity(stack) / maxCapacity(stack) * loadableAmount)) {
 			double useTicks = getMaxUseTime(stack) - remainingUseTicks;
 			if (useTicks >= getMaxUseTime(stack) || useTicks % shootingInterval() != 0) return;
 			shoot(world, user, user.getActiveHand(), stack, getMaxProjectileSpeed(stack), firingError());
@@ -185,5 +185,15 @@ public abstract class BoltActionRepeatingFirearm extends Crossbow implements Pro
 			putChargedProjectiles(crossbow, ImmutableList.of(projectile.copy()));
 		}
 		return true;
+	}
+	
+	/**
+	 * 单颗发射物的最大使用刻数
+	 *
+	 * @return 最大使用刻数
+	 */
+	@Override
+	public int maxUseTicks() {
+		return super.maxUseTicks();
 	}
 }
