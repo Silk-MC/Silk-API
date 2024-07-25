@@ -43,6 +43,7 @@ import java.util.Optional;
 public abstract class BoltActionFirearm extends Crossbow implements ProjectileContainer, ShootExpansion {
 	protected int maxUseTicks = 0;
 	protected int loadableAmount = 0;
+	private int tempUseTicks = 0;
 	
 	/**
 	 * @param settings 物品设置
@@ -58,7 +59,8 @@ public abstract class BoltActionFirearm extends Crossbow implements ProjectileCo
 	
 	@Override
 	public float getUsingProgress(int useTicks, ItemStack stack) {
-		return (Math.min(1, useTicks / (float) getMaxUseTime(stack)) * loadableAmount) % 1;
+		if (useTicks == 0) tempUseTicks = 0;
+		return (Math.min(1, (tempUseTicks = Math.max(tempUseTicks, useTicks)) / (float) getMaxUseTime(stack)) * loadableAmount) % 1;
 	}
 	
 	@Override
