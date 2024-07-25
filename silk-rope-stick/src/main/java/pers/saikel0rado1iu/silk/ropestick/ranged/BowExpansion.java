@@ -38,6 +38,10 @@ public interface BowExpansion extends RangedExpansion, ModifyMoveWhileUse, Adjus
 	 * 弓最大拉弓时间
 	 */
 	int BOW_MAX_PULL_TICKS = 20;
+	/**
+	 * 弓的最大非暴击伤害
+	 */
+	float BOW_MAX_DAMAGE = 6;
 	
 	/**
 	 * 获取最大拉弓时间
@@ -51,6 +55,11 @@ public interface BowExpansion extends RangedExpansion, ModifyMoveWhileUse, Adjus
 	@Override
 	default float maxProjectileSpeed() {
 		return BOW_MAX_PROJECTILE_SPEED;
+	}
+	
+	@Override
+	default float maxDamage() {
+		return BOW_MAX_DAMAGE;
 	}
 	
 	@Override

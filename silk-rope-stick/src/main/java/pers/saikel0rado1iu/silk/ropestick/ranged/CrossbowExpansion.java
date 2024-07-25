@@ -43,6 +43,10 @@ public interface CrossbowExpansion extends RangedExpansion, ModifyMoveWhileHold,
 	 * 弩最大发射物速度
 	 */
 	float CROSSBOW_MAX_PROJECTILE_SPEED = 3.15F;
+	/**
+	 * 弩的最大非暴击伤害
+	 */
+	float CROSSBOW_MAX_DAMAGE = 7;
 	
 	/**
 	 * 获取使用进度
@@ -80,6 +84,11 @@ public interface CrossbowExpansion extends RangedExpansion, ModifyMoveWhileHold,
 	@Override
 	default float maxProjectileSpeed() {
 		return CROSSBOW_MAX_PROJECTILE_SPEED;
+	}
+	
+	@Override
+	default float maxDamage() {
+		return CROSSBOW_MAX_DAMAGE;
 	}
 	
 	@Override
