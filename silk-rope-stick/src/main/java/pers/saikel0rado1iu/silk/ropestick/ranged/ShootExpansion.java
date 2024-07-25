@@ -27,7 +27,7 @@ public interface ShootExpansion {
 	/**
 	 * 已射击 NBT 谓词
 	 */
-	String SHOT_KEY = "Shot";
+	String SHOT_KEY = "shot";
 	
 	/**
 	 * 设置物品已射击
