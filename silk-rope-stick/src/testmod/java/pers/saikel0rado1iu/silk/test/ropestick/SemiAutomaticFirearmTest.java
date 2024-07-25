@@ -137,7 +137,7 @@ public final class SemiAutomaticFirearmTest extends SemiAutomaticFirearm {
 	 * @return 最大发射物容量
 	 */
 	@Override
-	public int maxCapacity() {
+	public int maxCapacity(ItemStack stack) {
 		return 10;
 	}
 	

@@ -104,14 +104,15 @@ public interface ProjectileContainer {
 	 */
 	default int getLoadableAmount(ItemStack stack, Optional<LivingEntity> user) {
 		return (user.isPresent() && user.get() instanceof PlayerEntity player && !player.isCreative())
-				? Math.min(maxCapacity(), player.getInventory().count(player.getProjectileType(stack).getItem()))
-				: maxCapacity() - getChargedAmount(stack);
+				? Math.min(maxCapacity(stack), player.getInventory().count(player.getProjectileType(stack).getItem()))
+				: maxCapacity(stack) - getChargedAmount(stack);
 	}
 	
 	/**
 	 * 最大发射物容量
 	 *
+	 * @param stack 需获取的物品堆栈
 	 * @return 最大发射物容量
 	 */
-	int maxCapacity();
+	int maxCapacity(ItemStack stack);
 }

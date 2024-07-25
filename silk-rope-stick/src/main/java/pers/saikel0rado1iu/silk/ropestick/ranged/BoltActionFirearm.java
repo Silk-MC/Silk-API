@@ -67,7 +67,7 @@ public abstract class BoltActionFirearm extends Crossbow implements ProjectileCo
 		setProjectileIndex(stack, user.getProjectileType(stack));
 		ShootExpansion.resetShot(stack);
 		loadableAmount = getLoadableAmount(stack, Optional.of(user));
-		maxUseTicks = Math.round((float) maxUseTicks() / maxCapacity() * loadableAmount);
+		maxUseTicks = Math.round((float) maxUseTicks() / maxCapacity(stack) * loadableAmount);
 		// 如果已装填
 		if (isCharged(stack)) {
 			shoot(world, user, hand, stack, getMaxProjectileSpeed(stack), firingError());

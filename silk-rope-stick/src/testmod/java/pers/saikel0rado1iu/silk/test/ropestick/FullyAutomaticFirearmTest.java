@@ -137,7 +137,7 @@ public final class FullyAutomaticFirearmTest extends FullyAutomaticFirearm {
 	 * @return 最大发射物容量
 	 */
 	@Override
-	public int maxCapacity() {
+	public int maxCapacity(ItemStack stack) {
 		return 100;
 	}
 	
