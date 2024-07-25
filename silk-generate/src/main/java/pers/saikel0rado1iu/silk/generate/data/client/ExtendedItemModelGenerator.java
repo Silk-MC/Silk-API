@@ -205,16 +205,18 @@ public class ExtendedItemModelGenerator extends ItemModelGenerator {
 			JsonObject jsonObject = Models.GENERATED.createJson(id, textures);
 			jsonObject.add("display", display);
 			JsonArray jsonArray = new JsonArray();
-			for (int count = 0; count < pullStage.length; count++) {
-				JsonObject predicate = new JsonObject();
-				JsonObject object = new JsonObject();
-				object.addProperty(Crossbow.PULLING_KEY, 1);
-				object.addProperty(Crossbow.PULL_KEY, pullStage[count]);
-				predicate.add("predicate", object);
-				predicate.addProperty("model", id.withSuffixedPath('_' + Crossbow.PULLING_KEY + '_' + count).toString());
-				jsonArray.add(predicate);
-			}
 			for (Item projectile : crossbow.launchableProjectiles()) {
+				for (int count = 0; count < pullStage.length; count++) {
+					JsonObject predicate = new JsonObject();
+					JsonObject object = new JsonObject();
+					float index = crossbow.getProjectileIndex(projectile);
+					if (index != 0) object.addProperty(Crossbow.PROJECTILE_INDEX_KEY, index);
+					object.addProperty(Bow.PULLING_KEY, 1);
+					object.addProperty(Bow.PULL_KEY, pullStage[count]);
+					predicate.add("predicate", object);
+					predicate.addProperty("model", id.withSuffixedPath('_' + Registries.ITEM.getId(projectile).getPath() + '_' + Bow.PULLING_KEY + '_' + count).toString());
+					jsonArray.add(predicate);
+				}
 				JsonObject predicate = new JsonObject();
 				JsonObject object = new JsonObject();
 				object.addProperty(Crossbow.CHARGED_KEY.toLowerCase(), 1);
