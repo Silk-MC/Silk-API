@@ -84,6 +84,7 @@ public abstract class BoltActionRepeatingFirearm extends Crossbow implements Pro
 	@Override
 	public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
 		if (world.isClient()) return;
+		ShootExpansion.resetShot(stack);
 		if (isCharged(stack) && maxUseTicks != Math.round((float) maxUseTicks() / maxCapacity(stack) * loadableAmount)) {
 			double useTicks = getMaxUseTime(stack) - remainingUseTicks;
 			if (useTicks >= getMaxUseTime(stack) || useTicks % shootingInterval() != 0) return;
