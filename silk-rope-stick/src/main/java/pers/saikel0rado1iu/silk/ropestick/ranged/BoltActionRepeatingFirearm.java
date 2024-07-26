@@ -66,10 +66,10 @@ public abstract class BoltActionRepeatingFirearm extends Crossbow implements Pro
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		ItemStack stack = user.getStackInHand(hand);
-		setProjectileIndex(stack, user.getProjectileType(stack));
+		setProjectileIndex(stack, getProjectileType(user, stack));
 		ShootExpansion.resetShot(stack);
 		// 如果没有弹药同时未装填则不使用物品
-		if (!isCharged(stack) && user.getProjectileType(stack).isEmpty()) return TypedActionResult.fail(stack);
+		if (!isCharged(stack) && getProjectileType(user, stack).isEmpty()) return TypedActionResult.fail(stack);
 		loadableAmount = getLoadableAmount(stack, Optional.of(user));
 		if (isCharged(stack)) {
 			maxUseTicks = ProjectileContainer.getChargedAmount(stack) * shootingInterval();
@@ -140,7 +140,7 @@ public abstract class BoltActionRepeatingFirearm extends Crossbow implements Pro
 		// 如果实体为玩家且在创造模式
 		boolean isPlayerAndInCreative = shooter instanceof PlayerEntity player && player.isCreative();
 		// 获取弹药
-		ItemStack projectile = shooter.getProjectileType(crossbow);
+		ItemStack projectile = getProjectileType(shooter, crossbow);
 		// 如果没有弹药且在创造模式
 		if (projectile.isEmpty() && isPlayerAndInCreative) {
 			projectile = new ItemStack(defaultProjectile());

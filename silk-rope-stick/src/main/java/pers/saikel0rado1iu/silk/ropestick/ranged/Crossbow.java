@@ -162,7 +162,7 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExpansion
 		// 如果实体为玩家且在创造模式
 		boolean isPlayerAndInCreative = shooter instanceof PlayerEntity player && player.getAbilities().creativeMode;
 		// 获取弹药
-		ItemStack projectile = shooter.getProjectileType(crossbow);
+		ItemStack projectile = getProjectileType(shooter, crossbow);
 		ItemStack projectileCopy = projectile.copy();
 		for (int count = 0; count < projectilesNum; ++count) {
 			// 如果有多重射击则多重射击弹药复制主弹药
@@ -204,7 +204,7 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExpansion
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		ItemStack stack = user.getStackInHand(hand);
-		setProjectileIndex(stack, user.getProjectileType(stack));
+		setProjectileIndex(stack, getProjectileType(user, stack));
 		// 如果已装填
 		if (isCharged(stack)) {
 			// 发射所有
@@ -214,7 +214,7 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExpansion
 			return TypedActionResult.consume(stack);
 		}
 		// 如果使用者有弹药
-		if (!user.getProjectileType(stack).isEmpty()) {
+		if (!getProjectileType(user, stack).isEmpty()) {
 			charged = false;
 			loaded = false;
 			// 虽然方法名称为设置当前手, 但实际上这个方法是表明此物品可以进入使用状态

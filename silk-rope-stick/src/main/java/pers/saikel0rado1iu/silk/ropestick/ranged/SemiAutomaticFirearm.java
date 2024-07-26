@@ -49,7 +49,7 @@ public abstract class SemiAutomaticFirearm extends Crossbow implements Projectil
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		ItemStack stack = user.getStackInHand(hand);
-		setProjectileIndex(stack, user.getProjectileType(stack));
+		setProjectileIndex(stack, getProjectileType(user, stack));
 		ShootExpansion.resetShot(stack);
 		// 如果已装填
 		if (isCharged(stack)) {
@@ -58,7 +58,7 @@ public abstract class SemiAutomaticFirearm extends Crossbow implements Projectil
 			return TypedActionResult.pass(stack);
 		}
 		// 如果使用者有弹药
-		if (!user.getProjectileType(stack).isEmpty()) {
+		if (!getProjectileType(user, stack).isEmpty()) {
 			charged = false;
 			loaded = false;
 			user.setCurrentHand(hand);
@@ -98,7 +98,7 @@ public abstract class SemiAutomaticFirearm extends Crossbow implements Projectil
 		// 如果实体为玩家且在创造模式
 		boolean isPlayerAndInCreative = shooter instanceof PlayerEntity player && player.isCreative();
 		// 获取弹药
-		ItemStack projectile = shooter.getProjectileType(crossbow);
+		ItemStack projectile = getProjectileType(shooter, crossbow);
 		int loadableAmount = getLoadableAmount(crossbow, Optional.of(shooter));
 		for (int count = 0; count < loadableAmount; count++) {
 			// 如果没有弹药且在创造模式

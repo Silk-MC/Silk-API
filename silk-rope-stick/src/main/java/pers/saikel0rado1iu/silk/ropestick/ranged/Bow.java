@@ -58,11 +58,9 @@ public abstract class Bow extends BowItem implements BowExpansion {
 		// 检查是否在创造模式或者拥有“无限”附魔
 		boolean inCreateOrInfinity = player.getAbilities().creativeMode || EnchantmentHelper.getLevel(Enchantments.INFINITY, stack) > 0;
 		// 获取弹丸
-		ItemStack useProjectile = user.getProjectileType(stack);
+		ItemStack useProjectile = getProjectileType(user, stack);
 		// 检查玩家是否有箭，如果没有箭但在创造模式或者拥有“无限”附魔则使用默认弹丸
-		if (!useProjectile.isEmpty() || inCreateOrInfinity) {
-			if (useProjectile.isEmpty()) useProjectile = new ItemStack(defaultProjectile());
-		}
+		if (!useProjectile.isEmpty() || inCreateOrInfinity) if (useProjectile.isEmpty()) useProjectile = new ItemStack(defaultProjectile());
 		if (useProjectile.isEmpty() && !inCreateOrInfinity) return;
 		
 		// 获取弓已使用游戏刻
@@ -120,7 +118,7 @@ public abstract class Bow extends BowItem implements BowExpansion {
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		ItemStack stack = user.getStackInHand(hand);
-		setProjectileIndex(stack, user.getProjectileType(stack));
+		setProjectileIndex(stack, getProjectileType(user, stack));
 		return super.use(world, user, hand);
 	}
 	

@@ -11,12 +11,17 @@
 
 package pers.saikel0rado1iu.silk.ropestick.ranged;
 
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.RangedWeaponItem;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.Set;
+import java.util.function.Predicate;
 
 /**
  * <h2 style="color:FFC800">远程拓展</h2>
@@ -42,6 +47,37 @@ public interface RangedExpansion {
 	 * 默认射击误差
 	 */
 	float DEFAULT_FIRING_ERROR = 1;
+	
+	/**
+	 * 获取发射物类型<br>
+	 * 实现此方法以解决原版方法默认返回 {@link net.minecraft.item.Items#ARROW} 的问题
+	 *
+	 * @param entity 判断实体
+	 * @param stack  远程武器
+	 * @return 发射物
+	 */
+	default ItemStack getProjectileType(LivingEntity entity, ItemStack stack) {
+		if (entity instanceof HostileEntity hostile) {
+			if (!(stack.getItem() instanceof RangedWeaponItem ranged)) return ItemStack.EMPTY;
+			Predicate<ItemStack> predicate = ranged.getHeldProjectiles();
+			ItemStack itemStack = RangedWeaponItem.getHeldProjectile(hostile, predicate);
+			return itemStack.isEmpty() ? new ItemStack(defaultProjectile()) : itemStack;
+		} else if (entity instanceof PlayerEntity player) {
+			if (!(stack.getItem() instanceof RangedWeaponItem ranged)) return ItemStack.EMPTY;
+			Predicate<ItemStack> predicate = ranged.getHeldProjectiles();
+			ItemStack itemStack = RangedWeaponItem.getHeldProjectile(player, predicate);
+			if (!itemStack.isEmpty()) return itemStack;
+			predicate = ranged.getProjectiles();
+			
+			for (int count = 0; count < player.getInventory().size(); ++count) {
+				ItemStack itemStack2 = player.getInventory().getStack(count);
+				if (predicate.test(itemStack2)) return itemStack2;
+			}
+			
+			return player.getAbilities().creativeMode ? new ItemStack(defaultProjectile()) : ItemStack.EMPTY;
+		}
+		return ItemStack.EMPTY;
+	}
 	
 	/**
 	 * 触发进度条件
