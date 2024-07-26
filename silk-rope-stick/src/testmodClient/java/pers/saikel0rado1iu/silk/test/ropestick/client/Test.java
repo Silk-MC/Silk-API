@@ -19,7 +19,7 @@ import pers.saikel0rado1iu.silk.modpass.ModPass;
 import pers.saikel0rado1iu.silk.modpass.registry.ClientRegistrationProvider;
 import pers.saikel0rado1iu.silk.ropestick.ranged.BowModelPredicateProvider;
 import pers.saikel0rado1iu.silk.ropestick.ranged.CrossbowModelPredicateProvider;
-import pers.saikel0rado1iu.silk.ropestick.ranged.ShootExpansionModelPredicateProvider;
+import pers.saikel0rado1iu.silk.ropestick.ranged.FirearmModelPredicateProvider;
 import pers.saikel0rado1iu.silk.test.ropestick.Items;
 
 import java.util.Set;
@@ -37,7 +37,7 @@ public final class Test implements ModClient {
 	public void main(ModPass mod) {
 		BowModelPredicateProvider.register(Items.TEST_BOW);
 		CrossbowModelPredicateProvider.register(Items.TEST_CROSSBOW);
-		ShootExpansionModelPredicateProvider.register(Items.TEST_BOLT_ACTION_FIREARM);
+		FirearmModelPredicateProvider.register(Items.TEST_BOLT_ACTION_REPEATING_FIREARM);
 	}
 	
 	/**

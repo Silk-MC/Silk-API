@@ -43,7 +43,7 @@ import java.util.Optional;
 public abstract class BoltActionRepeatingFirearm extends Crossbow implements ProjectileContainer, ShootExpansion {
 	protected int maxUseTicks = 0;
 	protected int loadableAmount = 0;
-	private int tempUseTicks = 0;
+	protected int chargedAmount = 0;
 	
 	/**
 	 * @param settings 物品设置
@@ -59,8 +59,8 @@ public abstract class BoltActionRepeatingFirearm extends Crossbow implements Pro
 	
 	@Override
 	public float getUsingProgress(int useTicks, ItemStack stack) {
-		if (useTicks == 0) tempUseTicks = 0;
-		return (Math.min(1, (tempUseTicks = Math.max(tempUseTicks, useTicks)) / (float) getMaxUseTime(stack)) * loadableAmount) % 1;
+		chargedAmount = (int) Math.min(1, useTicks / (float) getMaxUseTime(stack)) * loadableAmount;
+		return useTicks >= getMaxUseTime(stack) ? 1 : (Math.min(1, useTicks / (float) getMaxUseTime(stack)) * loadableAmount) % 1;
 	}
 	
 	@Override
@@ -93,13 +93,14 @@ public abstract class BoltActionRepeatingFirearm extends Crossbow implements Pro
 			shoot(world, user, user.getActiveHand(), stack, getMaxProjectileSpeed(stack), firingError());
 		} else {
 			int level = EnchantmentHelper.getLevel(Enchantments.QUICK_CHARGE, stack);
-			double pullProgress = getUsingProgress(getMaxUseTime(stack) - remainingUseTicks, stack);
+			int useTicks = getMaxUseTime(stack) - remainingUseTicks;
+			double pullProgress = getUsingProgress(useTicks, stack);
+			if (useTicks != 0 && (pullProgress == 0 || pullProgress == 1)) load(user, stack);
 			if (pullProgress < 0.2) {
 				charged = false;
 				loaded = false;
 			} else if (pullProgress > 0.3 && !charged) {
 				charged = true;
-				load(user, stack);
 				world.playSound(null, user.getX(), user.getY(), user.getZ(), getQuickChargeSound(level), SoundCategory.PLAYERS, 1, 1);
 			} else if (pullProgress > 0.9 && level == 0 && !loaded) {
 				loaded = true;
@@ -110,7 +111,7 @@ public abstract class BoltActionRepeatingFirearm extends Crossbow implements Pro
 	
 	@Override
 	public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-		if (ProjectileContainer.getChargedAmount(stack) > 0 && !isCharged(stack)) {
+		if (chargedAmount > 0 && !isCharged(stack)) {
 			// 设置已装填
 			setCharged(stack, true);
 			// 获取声音类别
