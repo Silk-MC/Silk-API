@@ -109,7 +109,7 @@ public abstract class BoltActionFirearm extends Crossbow implements ProjectileCo
 	
 	@Override
 	public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-		if (ProjectileContainer.getChargedAmount(stack) > 0 && !isCharged(stack)) {
+		if (chargedAmount > 0 && !isCharged(stack)) {
 			// 设置已装填
 			setCharged(stack, true);
 			// 获取声音类别
