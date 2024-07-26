@@ -35,6 +35,7 @@ import org.joml.Vector3f;
 import pers.saikel0rado1iu.silk.common.util.MathUtil;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * <h2 style="color:FFC800">弩</h2>
@@ -273,6 +274,11 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExpansion
 	 */
 	public SoundEvent shootSound() {
 		return SoundEvents.ITEM_CROSSBOW_SHOOT;
+	}
+	
+	@Override
+	public Predicate<ItemStack> getProjectiles() {
+		return stack -> launchableProjectiles().stream().anyMatch(stack::isOf);
 	}
 	
 	@Override
