@@ -30,6 +30,7 @@ public final class Test implements ModMain {
 	 */
 	@Override
 	public void main(ModPass mod) {
+		ProjectileUtilTest.test();
 	}
 	
 	/**
