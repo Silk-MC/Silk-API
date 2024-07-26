@@ -90,7 +90,7 @@ public abstract class BoltActionFirearm extends Crossbow implements ProjectileCo
 	@Override
 	public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
 		if (world.isClient()) return;
-		ShootExpansion.resetShot(stack);
+		if (ProjectileContainer.getChargedAmount(stack) > 0) ShootExpansion.resetShot(stack);
 		int level = EnchantmentHelper.getLevel(Enchantments.QUICK_CHARGE, stack);
 		int useTicks = getMaxUseTime(stack) - remainingUseTicks;
 		double pullProgress = getUsingProgress(useTicks, stack);

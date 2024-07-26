@@ -58,16 +58,18 @@ public abstract class BoltActionRepeatingFirearm extends Crossbow implements Pro
 	
 	@Override
 	public float getUsingProgress(int useTicks, ItemStack stack) {
-		return (Math.min(1, useTicks / (float) getMaxUseTime(stack)) * loadableAmount) % 1;
+		if (useTicks >= getMaxUseTime(stack) && isCharged(stack)) return -1;
+		if (loadableAmount != maxCapacity(stack) && !isCharged(stack)) return -1;
+		return useTicks >= getMaxUseTime(stack) ? 1 : (Math.min(1, useTicks / (float) getMaxUseTime(stack)) * loadableAmount) % 1;
 	}
 	
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		ItemStack stack = user.getStackInHand(hand);
-		setProjectileIndex(stack, user.getProjectileType(stack));
+		setProjectileIndex(stack, getProjectileType(user, stack));
 		ShootExpansion.resetShot(stack);
 		// 如果没有弹药同时未装填则不使用物品
-		if (!isCharged(stack) && user.getProjectileType(stack).isEmpty()) return TypedActionResult.fail(stack);
+		if (!isCharged(stack) && getProjectileType(user, stack).isEmpty()) return TypedActionResult.fail(stack);
 		loadableAmount = getLoadableAmount(stack, Optional.of(user));
 		if (isCharged(stack)) {
 			maxUseTicks = ProjectileContainer.getChargedAmount(stack) * shootingInterval();
@@ -76,7 +78,7 @@ public abstract class BoltActionRepeatingFirearm extends Crossbow implements Pro
 		}
 		charged = false;
 		loaded = false;
-		maxUseTicks = Math.round((float) maxUseTicks() / maxCapacity(stack) * loadableAmount);
+		maxUseTicks = Math.round((float) maxUseTicks() * loadableAmount);
 		user.setCurrentHand(hand);
 		return TypedActionResult.consume(stack);
 	}
@@ -84,19 +86,21 @@ public abstract class BoltActionRepeatingFirearm extends Crossbow implements Pro
 	@Override
 	public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
 		if (world.isClient()) return;
-		if (isCharged(stack) && maxUseTicks != Math.round((float) maxUseTicks() / maxCapacity(stack) * loadableAmount)) {
+		if (ProjectileContainer.getChargedAmount(stack) > 0) ShootExpansion.resetShot(stack);
+		if (isCharged(stack) && maxUseTicks != Math.round((float) maxUseTicks() * loadableAmount)) {
 			double useTicks = getMaxUseTime(stack) - remainingUseTicks;
 			if (useTicks >= getMaxUseTime(stack) || useTicks % shootingInterval() != 0) return;
 			shoot(world, user, user.getActiveHand(), stack, getMaxProjectileSpeed(stack), firingError());
 		} else {
 			int level = EnchantmentHelper.getLevel(Enchantments.QUICK_CHARGE, stack);
-			double pullProgress = getUsingProgress(getMaxUseTime(stack) - remainingUseTicks, stack);
+			int useTicks = getMaxUseTime(stack) - remainingUseTicks;
+			double pullProgress = getUsingProgress(useTicks, stack);
+			if (useTicks != 0 && (pullProgress == 0 || pullProgress == 1)) load(user, stack);
 			if (pullProgress < 0.2) {
 				charged = false;
 				loaded = false;
 			} else if (pullProgress > 0.3 && !charged) {
 				charged = true;
-				load(user, stack);
 				world.playSound(null, user.getX(), user.getY(), user.getZ(), getQuickChargeSound(level), SoundCategory.PLAYERS, 1, 1);
 			} else if (pullProgress > 0.9 && level == 0 && !loaded) {
 				loaded = true;
@@ -137,7 +141,7 @@ public abstract class BoltActionRepeatingFirearm extends Crossbow implements Pro
 		// 如果实体为玩家且在创造模式
 		boolean isPlayerAndInCreative = shooter instanceof PlayerEntity player && player.isCreative();
 		// 获取弹药
-		ItemStack projectile = shooter.getProjectileType(crossbow);
+		ItemStack projectile = getProjectileType(shooter, crossbow);
 		// 如果没有弹药且在创造模式
 		if (projectile.isEmpty() && isPlayerAndInCreative) {
 			projectile = new ItemStack(defaultProjectile());
