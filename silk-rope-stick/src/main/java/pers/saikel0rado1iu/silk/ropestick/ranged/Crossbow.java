@@ -277,6 +277,11 @@ public abstract class Crossbow extends CrossbowItem implements CrossbowExpansion
 	}
 	
 	@Override
+	public Predicate<ItemStack> getHeldProjectiles() {
+		return stack -> launchableProjectiles().stream().anyMatch(stack::isOf);
+	}
+	
+	@Override
 	public Predicate<ItemStack> getProjectiles() {
 		return stack -> launchableProjectiles().stream().anyMatch(stack::isOf);
 	}
