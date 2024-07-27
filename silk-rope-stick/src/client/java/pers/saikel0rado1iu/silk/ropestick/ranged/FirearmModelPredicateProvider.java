@@ -54,8 +54,8 @@ public interface FirearmModelPredicateProvider {
 	}
 	
 	private static boolean isActive(ItemStack active, ItemStack stack) {
-		NbtCompound nbt0 = active.getOrCreateNbt();
-		NbtCompound nbt1 = stack.getOrCreateNbt();
+		NbtCompound nbt0 = active.getOrCreateNbt().copy();
+		NbtCompound nbt1 = stack.getOrCreateNbt().copy();
 		nbt0.remove(CHARGED_PROJECTILES_KEY);
 		nbt1.remove(CHARGED_PROJECTILES_KEY);
 		return active.isOf(stack.getItem()) && active.getCount() == stack.getCount() && nbt0.equals(nbt1);
