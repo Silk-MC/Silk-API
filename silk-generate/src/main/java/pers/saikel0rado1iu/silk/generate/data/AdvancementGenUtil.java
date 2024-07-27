@@ -107,7 +107,7 @@ public interface AdvancementGenUtil {
 		 * @return 构建器
 		 */
 		public Builder display(ItemStack icon, @Nullable Identifier background, AdvancementFrame frame, boolean showToast, boolean announceToChat, boolean hidden) {
-			this.display(icon.getItem(), title(modPass, id), desc(modPass, id), background, frame, showToast, announceToChat, hidden);
+			this.display(icon, title(modPass, id), desc(modPass, id), background, frame, showToast, announceToChat, hidden);
 			return this;
 		}
 		
