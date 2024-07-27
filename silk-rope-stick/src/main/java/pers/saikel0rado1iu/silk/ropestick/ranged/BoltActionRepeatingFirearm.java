@@ -87,11 +87,7 @@ public abstract class BoltActionRepeatingFirearm extends Crossbow implements Pro
 	public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
 		if (world.isClient()) return;
 		if (ProjectileContainer.getChargedAmount(stack) > 0) ShootExpansion.resetShot(stack);
-		if (isCharged(stack) && maxUseTicks != Math.round((float) maxUseTicks() * loadableAmount)) {
-			double useTicks = getMaxUseTime(stack) - remainingUseTicks;
-			if (useTicks >= getMaxUseTime(stack) || useTicks % shootingInterval() != 0) return;
-			shoot(world, user, user.getActiveHand(), stack, getMaxProjectileSpeed(stack), firingError());
-		} else {
+		if (!isCharged(stack) && maxUseTicks == Math.round((float) maxUseTicks() * loadableAmount)) {
 			int level = EnchantmentHelper.getLevel(Enchantments.QUICK_CHARGE, stack);
 			int useTicks = getMaxUseTime(stack) - remainingUseTicks;
 			double pullProgress = getUsingProgress(useTicks, stack);
@@ -106,6 +102,10 @@ public abstract class BoltActionRepeatingFirearm extends Crossbow implements Pro
 				loaded = true;
 				world.playSound(null, user.getX(), user.getY(), user.getZ(), loadingSound(), SoundCategory.PLAYERS, 1, 1);
 			}
+		} else {
+			double useTicks = getMaxUseTime(stack) - remainingUseTicks;
+			if (useTicks >= getMaxUseTime(stack) || useTicks % shootingInterval() != 0) return;
+			shoot(world, user, user.getActiveHand(), stack, getMaxProjectileSpeed(stack), firingError());
 		}
 	}
 	
