@@ -168,7 +168,7 @@ public interface AdvancementGenUtil {
 		 * @return 进度条目
 		 */
 		public AdvancementEntry build() {
-			return build(modPass.modData().ofId(path.isEmpty() ? "" : path + '/' + id));
+			return build(modPass.modData().ofId(path.isEmpty() ? id : path + '/' + id));
 		}
 	}
 }
