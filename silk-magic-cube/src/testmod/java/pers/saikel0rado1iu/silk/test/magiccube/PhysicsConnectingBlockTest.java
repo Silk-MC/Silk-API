@@ -12,7 +12,6 @@
 package pers.saikel0rado1iu.silk.test.magiccube;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ConnectingBlock;
 import net.minecraft.block.entity.BlockEntity;
@@ -20,8 +19,6 @@ import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.NotNull;
 import pers.saikel0rado1iu.silk.magiccube.PhysicsConnectingBlock;
 import pers.saikel0rado1iu.silk.test.magiccube.entity.PhysicsConnectingBlockEntityTest;
-
-import java.util.Set;
 
 /**
  * Test {@link PhysicsConnectingBlock}
@@ -40,23 +37,25 @@ public final class PhysicsConnectingBlockTest extends PhysicsConnectingBlock {
 	}
 	
 	/**
-	 * 可放置方块，此方块可以放在这些方法的上方
+	 * 是否可放置
 	 *
-	 * @return 如果为 {@link Set#of()} 则此连接块可以放置在任何完整方块上
+	 * @param state 检测方块状态
+	 * @return 如果为 {@code true} 则此连接块可以放置在这些完整方块上
 	 */
 	@Override
-	public Set<Block> placeableBlocks() {
-		return Set.of();
+	public boolean isPlaceable(BlockState state) {
+		return true;
 	}
 	
 	/**
-	 * 可连接方块，此方块会将这些方块识别为可连接的一部分
+	 * 是否可连接
 	 *
-	 * @return 如果为 {@link Set#of()} 则此连接块只能连接自身
+	 * @param state 检测方块状态
+	 * @return 如果为 {@code true} 此方块会将这些方块识别为可连接的一部分
 	 */
 	@Override
-	public Set<Block> connectedBlocks() {
-		return Set.of();
+	public boolean isConnectable(BlockState state) {
+		return state.isOf(this);
 	}
 	
 	@Override

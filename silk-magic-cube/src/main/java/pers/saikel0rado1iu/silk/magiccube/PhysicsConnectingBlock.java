@@ -13,7 +13,6 @@ package pers.saikel0rado1iu.silk.magiccube;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
@@ -26,6 +25,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
@@ -35,8 +35,6 @@ import pers.saikel0rado1iu.silk.common.collect.MultiWayTree;
 import pers.saikel0rado1iu.silk.magiccube.entity.PhysicsConnectingBlockEntity;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * <h2 style="color:FFC800">物理连接块</h2>
@@ -77,22 +75,53 @@ public abstract class PhysicsConnectingBlock extends ConnectingBlock implements 
 	}
 	
 	/**
-	 * 可放置方块，此方块可以放在这些方法的上方
+	 * 是否可放置
 	 *
-	 * @return 如果为 {@link Set#of()} 则此连接块可以放置在任何完整方块上
+	 * @param state 检测方块状态
+	 * @return 如果为 {@code true} 则此连接块可以放置在这些完整方块上
 	 */
-	public abstract Set<Block> placeableBlocks();
+	public abstract boolean isPlaceable(BlockState state);
 	
 	/**
-	 * 可连接方块，此方块会将这些方块识别为可连接的一部分
+	 * 是否可连接
 	 *
-	 * @return 如果为 {@link Set#of()} 则此连接块只能连接自身
+	 * @param state 检测方块状态
+	 * @return 如果为 {@code true} 此方块会将这些方块识别为可连接的一部分
 	 */
-	public abstract Set<Block> connectedBlocks();
+	public abstract boolean isConnectable(BlockState state);
+	
+	/**
+	 * 获取具有连接属性的块
+	 *
+	 * @param world 块视图
+	 * @param pos   块坐标
+	 * @param state 原始方块状态
+	 * @return 带了连接属性的块
+	 */
+	public BlockState withConnectionProperties(BlockView world, BlockPos pos, BlockState state) {
+		ImmutableSet.Builder<Direction> directionsBuilder = ImmutableSet.builder();
+		BlockPos downPos = pos.down();
+		BlockState downBlock = world.getBlockState(downPos);
+		boolean havePlaceableBlock = downBlock.isSideSolidFullSquare(world, downPos, Direction.UP) && isPlaceable(downBlock);
+		if (havePlaceableBlock) directionsBuilder.add(Direction.DOWN);
+		for (Direction direction : Direction.values()) {
+			BlockPos offsetPos = pos.offset(direction);
+			BlockState offsetState = world.getBlockState(offsetPos);
+			if (isConnectable(offsetState)) directionsBuilder.add(direction);
+		}
+		for (Direction direction : directionsBuilder.build()) if (state != null) state = state.with(FACING_PROPERTIES.get(direction), true);
+		return state;
+	}
 	
 	@Override
 	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
 		builder.add(NORTH, EAST, SOUTH, WEST, UP, DOWN);
+	}
+	
+	@Nullable
+	@Override
+	public BlockState getPlacementState(ItemPlacementContext ctx) {
+		return withConnectionProperties(ctx.getWorld(), ctx.getBlockPos(), super.getPlacementState(ctx));
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -100,17 +129,11 @@ public abstract class PhysicsConnectingBlock extends ConnectingBlock implements 
 	public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
 		BlockPos downPos = pos.down();
 		BlockState downBlock = world.getBlockState(downPos);
-		boolean havePlaceableBlock = downBlock.isSideSolidFullSquare(world, downPos, Direction.UP) && (placeableBlocks().isEmpty() || placeableBlocks().contains(downBlock.getBlock()));
+		boolean havePlaceableBlock = downBlock.isSideSolidFullSquare(world, downPos, Direction.UP) && isPlaceable(downBlock);
 		boolean canConnect = false;
 		for (Direction direction : Direction.values()) {
-			Block block = world.getBlockState(pos.offset(direction)).getBlock();
-			HashSet<Block> connectedBlocks = Sets.newHashSet(connectedBlocks());
-			connectedBlocks.add(this);
-			if (connectedBlocks.contains(block)) {
-				if (block instanceof PhysicsConnectingBlock) {
-					canConnect = true;
-				}
-			}
+			BlockState offsetState = world.getBlockState(pos.offset(direction));
+			if (offsetState.isOf(this) || isConnectable(offsetState)) canConnect = true;
 		}
 		for (Vec3i[] conflictOffsets : PhysicsConnectingBlock.CONFLICT_OFFSETS) {
 			if (Arrays.stream(conflictOffsets).allMatch(vec3i -> world.getBlockState(pos.add(vec3i)).isOf(this))) {
@@ -120,38 +143,14 @@ public abstract class PhysicsConnectingBlock extends ConnectingBlock implements 
 		return havePlaceableBlock || canConnect;
 	}
 	
-	@Nullable
-	@Override
-	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		World world = ctx.getWorld();
-		BlockPos pos = ctx.getBlockPos();
-		ImmutableSet.Builder<Direction> directionsBuilder = ImmutableSet.builder();
-		BlockPos downPos = pos.down();
-		BlockState downBlock = world.getBlockState(downPos);
-		boolean havePlaceableBlock = downBlock.isSideSolidFullSquare(world, downPos, Direction.UP) && (placeableBlocks().isEmpty() || placeableBlocks().contains(downBlock.getBlock()));
-		if (havePlaceableBlock) directionsBuilder.add(Direction.DOWN);
-		for (Direction direction : Direction.values()) {
-			BlockPos offsetPos = pos.offset(direction);
-			Block block = world.getBlockState(offsetPos).getBlock();
-			HashSet<Block> connectedBlocks = Sets.newHashSet(connectedBlocks());
-			connectedBlocks.add(this);
-			if (connectedBlocks.contains(block)) directionsBuilder.add(direction);
-		}
-		BlockState state = super.getPlacementState(ctx);
-		for (Direction direction : directionsBuilder.build()) if (state != null) state = state.with(FACING_PROPERTIES.get(direction), true);
-		return state;
-	}
-	
 	@SuppressWarnings("deprecation")
 	@Override
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
 		BlockState blockState = super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
-		boolean isPlaceableBlock = neighborState.isSideSolidFullSquare(world, neighborPos, direction.getOpposite()) && (placeableBlocks().isEmpty() || placeableBlocks().contains(neighborState.getBlock()));
-		Block block = world.getBlockState(pos.offset(direction)).getBlock();
-		HashSet<Block> connectedBlocks = Sets.newHashSet(connectedBlocks());
-		connectedBlocks.add(this);
+		boolean isPlaceableBlock = neighborState.isSideSolidFullSquare(world, neighborPos, direction.getOpposite()) && isPlaceable(neighborState);
+		BlockState offsetState = world.getBlockState(pos.offset(direction));
 		if (neighborState.isAir()) blockState = blockState.with(FACING_PROPERTIES.get(direction), false);
-		else if (isPlaceableBlock || connectedBlocks.contains(block)) blockState = blockState.with(FACING_PROPERTIES.get(direction), true);
+		else if (isPlaceableBlock || isConnectable(offsetState)) blockState = blockState.with(FACING_PROPERTIES.get(direction), true);
 		return blockState;
 	}
 	
@@ -163,23 +162,19 @@ public abstract class PhysicsConnectingBlock extends ConnectingBlock implements 
 		if (blockEntity == null) return;
 		BlockPos downPos = pos.down();
 		BlockState downBlock = world.getBlockState(downPos);
-		boolean havePlaceableBlock = downBlock.isSideSolidFullSquare(world, downPos, Direction.UP) && (placeableBlocks().isEmpty() || placeableBlocks().contains(downBlock.getBlock()));
-		HashSet<Block> connectedBlocks = Sets.newHashSet(connectedBlocks());
-		connectedBlocks.add(this);
-		if (havePlaceableBlock && !connectedBlocks.contains(downBlock.getBlock())) {
+		boolean havePlaceableBlock = downBlock.isSideSolidFullSquare(world, downPos, Direction.UP) && isPlaceable(downBlock);
+		if (havePlaceableBlock && !isConnectable(downBlock)) {
 			blockEntity.setRootTree(new MultiWayTree<>(pos, ""));
 			blockEntity.setTreeNode(blockEntity.getRootTree().getRoot());
 			return;
 		}
 		for (Direction direction : Direction.values()) {
 			BlockPos offsetPos = pos.offset(direction);
-			Block block = world.getBlockState(offsetPos).getBlock();
-			if (connectedBlocks.contains(block)) {
-				if (world.getBlockEntity(offsetPos) instanceof PhysicsConnectingBlockEntity e) {
-					blockEntity.setRootTree(e.getRootTree());
-					blockEntity.setTreeNode(e.getTreeNode().addChild(pos, ""));
-					return;
-				}
+			BlockState offsetState = world.getBlockState(offsetPos);
+			if (isConnectable(offsetState) && world.getBlockEntity(offsetPos) instanceof PhysicsConnectingBlockEntity e) {
+				blockEntity.setRootTree(e.getRootTree());
+				blockEntity.setTreeNode(e.getTreeNode().addChild(pos, ""));
+				return;
 			}
 		}
 	}
