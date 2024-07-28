@@ -17,6 +17,7 @@ import pers.saikel0rado1iu.silk.generate.DataGenerator;
 import pers.saikel0rado1iu.silk.generate.DynamicDataEntry;
 import pers.saikel0rado1iu.silk.modpass.ModData;
 import pers.saikel0rado1iu.silk.test.generate.data.*;
+import pers.saikel0rado1iu.silk.test.generate.entity.damage.DamageTypeEntryTest;
 import pers.saikel0rado1iu.silk.test.generate.world.*;
 
 import java.util.Optional;
@@ -56,6 +57,7 @@ public final class DataGen implements DataGenerator {
 	@Override
 	public Set<DynamicDataEntry<?>> dynamicDataEntries() {
 		return ImmutableSet.of(
+				DamageTypeEntryTest.INSTANCE,
 				BiomeEntryTest.INSTANCE,
 				ChunkGeneratorSettingEntryTest.INSTANCE,
 				ConfiguredFeatureEntryTest.INSTANCE,
