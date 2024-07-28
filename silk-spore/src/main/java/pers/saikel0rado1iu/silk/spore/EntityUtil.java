@@ -9,16 +9,16 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.spore.projectile;
+package pers.saikel0rado1iu.silk.spore;
 
 /**
- * <h2 style="color:FFC800">发射物实用工具</h2>
- * 跟发射物有关的相关方法与静态字段
+ * <h2 style="color:FFC800">实体实用工具</h2>
+ * 跟实体有关的相关方法与静态字段
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
-public interface ProjectileUtil {
+public interface EntityUtil {
 	/**
 	 * 实体位置偏移
 	 */

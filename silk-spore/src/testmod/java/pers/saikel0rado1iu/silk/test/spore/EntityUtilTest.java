@@ -12,19 +12,19 @@
 package pers.saikel0rado1iu.silk.test.spore;
 
 import pers.saikel0rado1iu.silk.impl.SilkSpore;
-import pers.saikel0rado1iu.silk.spore.projectile.ProjectileUtil;
+import pers.saikel0rado1iu.silk.spore.EntityUtil;
 
 /**
- * ProjectileUtilTest
+ * EntityUtilTest
  */
-public class ProjectileUtilTest {
+public class EntityUtilTest {
 	/**
 	 * 测试
 	 */
 	static void test() {
-		SilkSpore.getInstance().logger().error("ProjectileUtil.POS_SHIFTING: " + ProjectileUtil.POS_SHIFTING);
-		SilkSpore.getInstance().logger().error("ProjectileUtil.PROJECTILE_BOX: " + ProjectileUtil.PROJECTILE_BOX);
-		SilkSpore.getInstance().logger().error("ProjectileUtil.PROJECTILE_RANGE: " + ProjectileUtil.PROJECTILE_RANGE);
-		SilkSpore.getInstance().logger().error("ProjectileUtil.PROJECTILE_UPDATE_RATE: " + ProjectileUtil.PROJECTILE_UPDATE_RATE);
+		SilkSpore.getInstance().logger().error("EntityUtil.POS_SHIFTING: " + EntityUtil.POS_SHIFTING);
+		SilkSpore.getInstance().logger().error("EntityUtil.PROJECTILE_BOX: " + EntityUtil.PROJECTILE_BOX);
+		SilkSpore.getInstance().logger().error("EntityUtil.PROJECTILE_RANGE: " + EntityUtil.PROJECTILE_RANGE);
+		SilkSpore.getInstance().logger().error("EntityUtil.PROJECTILE_UPDATE_RATE: " + EntityUtil.PROJECTILE_UPDATE_RATE);
 	}
 }
