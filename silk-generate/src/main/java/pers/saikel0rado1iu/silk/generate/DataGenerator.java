@@ -16,6 +16,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.registry.RegistryBuilder;
 import net.minecraft.registry.RegistryWrapper;
+import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.modpass.ModDataExpansion;
 import pers.saikel0rado1iu.silk.modpass.ModPass;
 
@@ -84,6 +85,12 @@ public interface DataGenerator extends DataGeneratorEntrypoint, ModPass {
 	 * @return 列表动态数据集合
 	 */
 	Set<DynamicDataEntry<?>> dynamicDataEntries();
+	
+	@Override
+	@Nullable
+	default String getEffectiveModId() {
+		return modData().id();
+	}
 	
 	@Override
 	default void buildRegistry(RegistryBuilder registryBuilder) {
