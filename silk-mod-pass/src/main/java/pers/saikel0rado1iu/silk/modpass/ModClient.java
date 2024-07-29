@@ -27,6 +27,8 @@ public interface ModClient extends ClientModInitializer, ModEntry<ClientRegistra
 	@Override
 	default void onInitializeClient() {
 		main(this);
-		for (Class<? extends RegisterableModPass<?>> clazz : registry()) RegisterableModPass.loggingRegistration(this, clazz, RegistrationType.CLIENT_ONLY);
+		for (Class<? extends RegisterableModPass<?>> clazz : registry()) {
+			RegisterableModPass.loggingRegistration(registrationNamespace(), clazz, RegistrationType.CLIENT_ONLY);
+		}
 	}
 }

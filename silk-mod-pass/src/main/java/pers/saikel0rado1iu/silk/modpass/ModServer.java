@@ -27,6 +27,8 @@ public interface ModServer extends DedicatedServerModInitializer, ModEntry<Serve
 	@Override
 	default void onInitializeServer() {
 		main(this);
-		for (Class<? extends RegisterableModPass<?>> clazz : registry()) RegisterableModPass.loggingRegistration(this, clazz, RegistrationType.SERVER_ONLY);
+		for (Class<? extends RegisterableModPass<?>> clazz : registry()) {
+			RegisterableModPass.loggingRegistration(registrationNamespace(), clazz, RegistrationType.SERVER_ONLY);
+		}
 	}
 }

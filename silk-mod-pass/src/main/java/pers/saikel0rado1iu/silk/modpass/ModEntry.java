@@ -37,4 +37,14 @@ public interface ModEntry<T extends RegisterableModPass<?>> extends ModPass {
 	 * @return 注册表的类型集合
 	 */
 	Set<Class<? extends T>> registry();
+	
+	/**
+	 * 注册命名空间<br>
+	 * 默认的注册命名空间为 {@code modData()} 中提供的模组通
+	 *
+	 * @return 注册命名空间的模组通
+	 */
+	default ModPass registrationNamespace() {
+		return modData();
+	}
 }

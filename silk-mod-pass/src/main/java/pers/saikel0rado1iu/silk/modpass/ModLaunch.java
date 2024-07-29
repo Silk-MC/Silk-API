@@ -27,6 +27,8 @@ public interface ModLaunch extends PreLaunchEntrypoint, ModEntry<LaunchRegistrat
 	@Override
 	default void onPreLaunch() {
 		main(this);
-		for (Class<? extends RegisterableModPass<?>> c : registry()) LaunchRegistrationProvider.loggingRegistration(this, c, RegistrationType.PRE_LAUNCH);
+		for (Class<? extends RegisterableModPass<?>> clazz : registry()) {
+			LaunchRegistrationProvider.loggingRegistration(registrationNamespace(), clazz, RegistrationType.PRE_LAUNCH);
+		}
 	}
 }
