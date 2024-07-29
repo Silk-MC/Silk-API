@@ -33,6 +33,7 @@ import java.util.Optional;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0
  */
+@FunctionalInterface
 public interface ModData extends ModPass {
 	@Override
 	default ModData modData() {

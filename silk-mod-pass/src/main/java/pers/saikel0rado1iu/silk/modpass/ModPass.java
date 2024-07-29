@@ -18,6 +18,7 @@ package pers.saikel0rado1iu.silk.modpass;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
+@FunctionalInterface
 public interface ModPass {
 	/**
 	 * 用于提供模组数据以基于模组数据实现功能
