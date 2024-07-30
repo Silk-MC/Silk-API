@@ -39,5 +39,8 @@
 		"fabric-datagen": [
 			"pers.saikel0rado1iu.silk.entrypoint.modpass.DataGen"
 		]
-	}
+	},
+	"mixins": [
+		"silk-mod-pass.mixins.json"
+	]
 }

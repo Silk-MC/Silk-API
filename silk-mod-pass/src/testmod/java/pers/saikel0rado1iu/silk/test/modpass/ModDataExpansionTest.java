@@ -43,9 +43,9 @@ public interface ModDataExpansionTest {
 		SilkModPass.getInstance().writeFormatLog(Level.WARN, SilkApiBase.getInstance(), "SilkApiBase/TestingModExtendedData");
 		SilkModPass.getInstance().writeFormatLog(Level.ERROR, SilkApiBase.getInstance(), "SilkApiBase/TestingModExtendedData");
 		SilkModPass.getInstance().writeFormatLog(Level.TRACE, SilkApiBase.getInstance(), "SilkApiBase/TestingModExtendedData");
-		LOGGER.info("DataPack.create() = {}", DataPack.create("pack", ResourcePackActivationType.ALWAYS_ENABLED, SilkModPass.getInstance()));
+		LOGGER.info("DataPack.create() = {}", DataPack.createSimple("pack", ResourcePackActivationType.ALWAYS_ENABLED, SilkModPass.getInstance()));
 		LOGGER.info("DataPack.getDescKey() = {}", DataPack.getDescKey(SilkModPass.getInstance()));
-		LOGGER.info("ResourcePack.create() = {}", ResourcePack.create("pack", ResourcePackActivationType.ALWAYS_ENABLED, SilkModPass.getInstance()));
+		LOGGER.info("ResourcePack.create() = {}", ResourcePack.createSimple("pack", ResourcePackActivationType.ALWAYS_ENABLED, SilkModPass.getInstance()));
 		LOGGER.info("ResourcePack.getDescKey() = {}", ResourcePack.getDescKey(SilkModPass.getInstance()));
 		LOGGER.info("SilkModPass.getInstance().email() = {}", SilkModPass.getInstance().email());
 		LOGGER.info("SilkModPass.getInstance().irc() = {}", SilkModPass.getInstance().irc());

@@ -11,12 +11,12 @@
 
 package pers.saikel0rado1iu.silk.modpass.pack;
 
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import pers.saikel0rado1iu.silk.modpass.ModData;
 import pers.saikel0rado1iu.silk.modpass.ModPass;
+
+import java.util.List;
 
 /**
  * <h2 style="color:FFC800">数据包</h2>
@@ -27,15 +27,40 @@ import pers.saikel0rado1iu.silk.modpass.ModPass;
  */
 public interface DataPack extends BasePack {
 	/**
-	 * 创建一个数据包
+	 * 创建一个简单数据包
 	 *
 	 * @param packRoot 包的根目录
 	 * @param type     包激活类型
 	 * @param modPass  所需的模组数据
-	 * @return 数据包
+	 * @return 简单数据包
 	 */
-	static DataPack create(String packRoot, ResourcePackActivationType type, ModPass modPass) {
+	static Simple createSimple(String packRoot, ResourcePackActivationType type, ModPass modPass) {
 		return new Simple(packRoot, type, modPass);
+	}
+	
+	/**
+	 * 创建一个组数据包
+	 *
+	 * @param packRoot  包的根目录
+	 * @param orderList 排序列表
+	 * @param type      包激活类型
+	 * @param modPass   所需的模组数据
+	 * @return 组数据包
+	 */
+	static Group createGroup(String packRoot, List<String> orderList, ResourcePackActivationType type, ModPass modPass) {
+		return new Group(packRoot, orderList, type, modPass);
+	}
+	
+	/**
+	 * 创建一个组数据包
+	 *
+	 * @param packRoot 包的根目录
+	 * @param type     包激活类型
+	 * @param modPass  所需的模组数据
+	 * @return 组数据包
+	 */
+	static Group createGroup(String packRoot, ResourcePackActivationType type, ModPass modPass) {
+		return createGroup(packRoot, List.of(modPass.modData().id()), type, modPass);
 	}
 	
 	/**
@@ -58,11 +83,7 @@ public interface DataPack extends BasePack {
 		return String.format("dataPack.%s.description", modPass.modData().id());
 	}
 	
-	/**
-	 * 数据包名称文本
-	 *
-	 * @return 名称文本
-	 */
+	@Override
 	default Text name() {
 		return Text.translatable(getNameKey(modData()));
 	}
@@ -72,21 +93,21 @@ public interface DataPack extends BasePack {
 		return modData().ofId(packRoot());
 	}
 	
-	@Override
-	default boolean registry() {
-		return ResourceManagerHelper.registerBuiltinResourcePack(id(), modData().mod(), name(), type());
+	/**
+	 * 简单资源包
+	 */
+	final class Simple extends BasePack.Simple implements DataPack {
+		Simple(String packRoot, ResourcePackActivationType type, ModPass modPass) {
+			super(packRoot, type, modPass);
+		}
 	}
 	
 	/**
-	 * 数据包的简单实现
-	 *
-	 * @param packRoot 包的根目录
-	 * @param type     包激活类型
-	 * @param modData  所需的模组数据
+	 * 组资源包
 	 */
-	record Simple(String packRoot, ResourcePackActivationType type, ModData modData) implements DataPack {
-		private Simple(String packRoot, ResourcePackActivationType type, ModPass modPass) {
-			this(packRoot, type, modPass.modData());
+	final class Group extends BasePack.Group implements DataPack {
+		Group(String packRoot, List<String> orderList, ResourcePackActivationType type, ModPass modPass) {
+			super(packRoot, getNameKey(modPass), getDescKey(modPass), orderList, type, modPass);
 		}
 	}
 }

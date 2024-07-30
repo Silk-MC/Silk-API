@@ -39,12 +39,12 @@ public final class Main implements ModMain {
 		
 		@Override
 		public Optional<DataPack> dataPack() {
-			return Optional.of(DataPack.create("data", ResourcePackActivationType.ALWAYS_ENABLED, modData()));
+			return Optional.of(DataPack.createGroup("data", ResourcePackActivationType.ALWAYS_ENABLED, modData()));
 		}
 		
 		@Override
 		public Optional<ResourcePack> resourcePack() {
-			return Optional.of(ResourcePack.create("resource", ResourcePackActivationType.ALWAYS_ENABLED, modData()));
+			return Optional.of(ResourcePack.createGroup("resource", ResourcePackActivationType.ALWAYS_ENABLED, modData()));
 		}
 	};
 	
