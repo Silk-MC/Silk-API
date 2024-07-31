@@ -13,10 +13,7 @@ package pers.saikel0rado1iu.silk.magiccube;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ConnectingBlock;
+import net.minecraft.block.*;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
@@ -35,6 +32,8 @@ import pers.saikel0rado1iu.silk.common.collect.MultiWayTree;
 import pers.saikel0rado1iu.silk.magiccube.entity.PhysicsConnectingBlockEntity;
 
 import java.util.Arrays;
+import java.util.Optional;
+import java.util.function.BiConsumer;
 
 /**
  * <h2 style="color:FFC800">物理连接块</h2>
@@ -91,6 +90,19 @@ public abstract class PhysicsConnectingBlock extends ConnectingBlock implements 
 	public abstract boolean isConnectable(BlockState state);
 	
 	/**
+	 * 放置方块方法<br>
+	 * 用于在区块生成时使用的放置方法
+	 *
+	 * @param world  块视图
+	 * @param pos    块坐标
+	 * @param placer 放置方法
+	 */
+	public void placeBlock(BlockView world, BlockPos pos, BiConsumer<BlockPos, BlockState> placer) {
+		placer.accept(pos, withConnectionProperties(world, pos, getDefaultState()));
+		setConnectionProperties(world, pos, Optional.ofNullable((PhysicsConnectingBlockEntity) world.getBlockEntity(pos)));
+	}
+	
+	/**
 	 * 获取具有连接属性的块
 	 *
 	 * @param world 块视图
@@ -111,6 +123,41 @@ public abstract class PhysicsConnectingBlock extends ConnectingBlock implements 
 		}
 		for (Direction direction : directionsBuilder.build()) if (state != null) state = state.with(FACING_PROPERTIES.get(direction), true);
 		return state;
+	}
+	
+	/**
+	 * 设置连接属性
+	 *
+	 * @param world       块视图
+	 * @param pos         块坐标
+	 * @param blockEntity 方块实体
+	 */
+	public void setConnectionProperties(BlockView world, BlockPos pos, Optional<PhysicsConnectingBlockEntity> blockEntity) {
+		if (blockEntity.isEmpty()) return;
+		PhysicsConnectingBlockEntity entity = blockEntity.get();
+		if (entity.getRootTree() != null && entity.getTreeNode() != null) return;
+		BlockPos downPos = pos.down();
+		BlockState downBlock = world.getBlockState(downPos);
+		boolean havePlaceableBlock = downBlock.isSideSolidFullSquare(world, downPos, Direction.UP) && isPlaceable(downBlock);
+		if (havePlaceableBlock && !isConnectable(downBlock)) {
+			entity.setRootTree(new MultiWayTree<>(pos, ""));
+			entity.setTreeNode(entity.getRootTree().getRoot());
+			return;
+		}
+		for (Direction direction : Direction.values()) {
+			BlockPos offsetPos = pos.offset(direction);
+			BlockState offsetState = world.getBlockState(offsetPos);
+			if (!isConnectable(offsetState)) continue;
+			if (!offsetState.isOf(this)) {
+				entity.setRootTree(new MultiWayTree<>(offsetPos, ""));
+				entity.setTreeNode(entity.getRootTree().addChild(pos, ""));
+				return;
+			} else if (world.getBlockEntity(offsetPos) instanceof PhysicsConnectingBlockEntity e) {
+				entity.setRootTree(e.getRootTree());
+				entity.setTreeNode(e.getTreeNode().addChild(pos, ""));
+				return;
+			}
+		}
 	}
 	
 	@Override
@@ -148,9 +195,16 @@ public abstract class PhysicsConnectingBlock extends ConnectingBlock implements 
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
 		BlockState blockState = super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
 		boolean isPlaceableBlock = neighborState.isSideSolidFullSquare(world, neighborPos, direction.getOpposite()) && isPlaceable(neighborState);
-		BlockState offsetState = world.getBlockState(pos.offset(direction));
+		if (neighborState.isAir() && direction == Direction.DOWN && world.getBlockEntity(pos) instanceof PhysicsConnectingBlockEntity entity
+				&& entity.getRootTree() != null && entity.getRootTree().getRoot().equals(entity.getTreeNode())) {
+			return onBreak((World) world, pos, Blocks.AIR.getDefaultState(), null);
+		}
+		if (neighborState.isAir() && world.getBlockEntity(pos) instanceof PhysicsConnectingBlockEntity entity
+				&& entity.getRootTree() != null && entity.getRootTree().getRoot().getKey().equals(neighborPos)) {
+			return onBreak((World) world, pos, Blocks.AIR.getDefaultState(), null);
+		}
 		if (neighborState.isAir()) blockState = blockState.with(FACING_PROPERTIES.get(direction), false);
-		else if (isPlaceableBlock || isConnectable(offsetState)) blockState = blockState.with(FACING_PROPERTIES.get(direction), true);
+		else if (isPlaceableBlock || isConnectable(neighborState)) blockState = blockState.with(FACING_PROPERTIES.get(direction), true);
 		return blockState;
 	}
 	
@@ -158,25 +212,7 @@ public abstract class PhysicsConnectingBlock extends ConnectingBlock implements 
 	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
 		super.onPlaced(world, pos, state, placer, itemStack);
 		if (world.isClient) return;
-		PhysicsConnectingBlockEntity blockEntity = (PhysicsConnectingBlockEntity) world.getBlockEntity(pos);
-		if (blockEntity == null) return;
-		BlockPos downPos = pos.down();
-		BlockState downBlock = world.getBlockState(downPos);
-		boolean havePlaceableBlock = downBlock.isSideSolidFullSquare(world, downPos, Direction.UP) && isPlaceable(downBlock);
-		if (havePlaceableBlock && !isConnectable(downBlock)) {
-			blockEntity.setRootTree(new MultiWayTree<>(pos, ""));
-			blockEntity.setTreeNode(blockEntity.getRootTree().getRoot());
-			return;
-		}
-		for (Direction direction : Direction.values()) {
-			BlockPos offsetPos = pos.offset(direction);
-			BlockState offsetState = world.getBlockState(offsetPos);
-			if (isConnectable(offsetState) && world.getBlockEntity(offsetPos) instanceof PhysicsConnectingBlockEntity e) {
-				blockEntity.setRootTree(e.getRootTree());
-				blockEntity.setTreeNode(e.getTreeNode().addChild(pos, ""));
-				return;
-			}
-		}
+		setConnectionProperties(world, pos, Optional.ofNullable((PhysicsConnectingBlockEntity) world.getBlockEntity(pos)));
 	}
 	
 	@Override

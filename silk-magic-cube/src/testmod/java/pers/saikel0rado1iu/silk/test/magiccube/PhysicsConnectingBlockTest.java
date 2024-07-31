@@ -16,6 +16,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.ConnectingBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.NotNull;
 import pers.saikel0rado1iu.silk.magiccube.PhysicsConnectingBlock;
 import pers.saikel0rado1iu.silk.test.magiccube.entity.PhysicsConnectingBlockEntityTest;
@@ -56,6 +57,13 @@ public final class PhysicsConnectingBlockTest extends PhysicsConnectingBlock {
 	@Override
 	public boolean isConnectable(BlockState state) {
 		return state.isOf(this);
+	}
+	
+	@Override
+	public BlockState withConnectionProperties(BlockView world, BlockPos pos, BlockState state) {
+		placeBlock(world, pos, (p, s) -> {
+		});
+		return super.withConnectionProperties(world, pos, state);
 	}
 	
 	@Override
