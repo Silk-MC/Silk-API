@@ -3,6 +3,8 @@
 	"package": "pers.saikel0rado1iu.silk.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
+		"event.magiccube.FireIgniteBlockCallbackMixin",
+		"event.magiccube.FlintAndSteelIgniteBlockCallbackMixin",
 		"magiccube.infect.InfectMushroomMixin",
 		"magiccube.infect.InfectSaplingMixin"
 	],

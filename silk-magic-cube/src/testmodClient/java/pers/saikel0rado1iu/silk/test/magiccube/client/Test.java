@@ -9,25 +9,21 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.test.magiccube;
+package pers.saikel0rado1iu.silk.test.magiccube.client;
 
 import com.google.common.collect.ImmutableSet;
-import pers.saikel0rado1iu.silk.api.event.magiccube.FireIgniteBlockCallback;
-import pers.saikel0rado1iu.silk.api.event.magiccube.FlintAndSteelIgniteBlockCallback;
+import pers.saikel0rado1iu.silk.api.modpass.ModClient;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
-import pers.saikel0rado1iu.silk.api.modpass.ModMain;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
-import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
+import pers.saikel0rado1iu.silk.api.modpass.registry.ClientRegistrationProvider;
 import pers.saikel0rado1iu.silk.impl.SilkMagicCube;
-import pers.saikel0rado1iu.silk.test.magiccube.cauldron.CauldronLikeBehaviorTest;
-import pers.saikel0rado1iu.silk.test.magiccube.entity.EntityTypes;
 
 import java.util.Set;
 
 /**
  * 测试
  */
-public final class Test implements ModMain {
+public final class Test implements ModClient {
 	/**
 	 * 模组主函数
 	 *
@@ -35,17 +31,6 @@ public final class Test implements ModMain {
 	 */
 	@Override
 	public void main(ModPass mod) {
-		CauldronLikeBehaviorTest.INSTANCE.registerBehavior();
-		FireIgniteBlockCallback.EVENT.register((state, world, pos, spreadFactor, random, currentAge) -> {
-			if (!state.isOf(Blocks.TNT_LIKE_BLOCK)) return false;
-			Blocks.TNT_LIKE_BLOCK.primeTnt(world, pos);
-			return true;
-		});
-		FlintAndSteelIgniteBlockCallback.EVENT.register((state, pointer, world, direction, pos, stack) -> {
-			if (!state.isOf(Blocks.TNT_LIKE_BLOCK)) return false;
-			Blocks.TNT_LIKE_BLOCK.primeTnt(world, pos);
-			return true;
-		});
 	}
 	
 	/**
@@ -54,13 +39,8 @@ public final class Test implements ModMain {
 	 * @return 注册表的类型集合
 	 */
 	@Override
-	public Set<Class<? extends MainRegistrationProvider<?>>> registry() {
-		return ImmutableSet.of(
-				Items.class,
-				Blocks.class,
-				BlockEntityTypes.class,
-				EntityTypes.class
-		);
+	public Set<Class<? extends ClientRegistrationProvider<?>>> registry() {
+		return ImmutableSet.of(EntityTypes.class);
 	}
 	
 	/**

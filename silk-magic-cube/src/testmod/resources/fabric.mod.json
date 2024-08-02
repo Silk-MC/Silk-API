@@ -6,6 +6,9 @@
 		"main": [
 			"pers.saikel0rado1iu.silk.test.magiccube.Test"
 		],
+		"client": [
+			"pers.saikel0rado1iu.silk.test.magiccube.client.Test"
+		],
 		"fabric-datagen": [
 			"pers.saikel0rado1iu.silk.test.magiccube.DataGen"
 		]

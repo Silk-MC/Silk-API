@@ -5,5 +5,6 @@ version = project.silk_magic_cube_version + "+" + project.mc_main_version
 dependencies {
 	api project(path: ":silk-api-base", configuration: "namedElements")
 	api project(path: ":silk-mod-pass", configuration: "namedElements")
+	api project(path: ":silk-spore", configuration: "namedElements")
 	testmodImplementation project(path: ":silk-spinning-jenny", configuration: "namedElements")
 }

@@ -1,0 +1,3 @@
+accessWidener	v2	named
+
+transitive-accessible	field	net/minecraft/entity/TntEntity	BLOCK_STATE_NBT_KEY	Ljava/lang/String;

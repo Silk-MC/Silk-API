@@ -2,6 +2,10 @@
 //file:noinspection GroovyAssignabilityCheck
 version = project.silk_spore_version + "+" + project.mc_main_version
 
+loom {
+	accessWidenerPath = file("src/main/resources/${project.name}.accesswidener")
+}
+
 dependencies {
 	api project(path: ":silk-api-base", configuration: "namedElements")
 	api project(path: ":silk-mod-pass", configuration: "namedElements")

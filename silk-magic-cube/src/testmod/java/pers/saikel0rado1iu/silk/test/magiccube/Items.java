@@ -58,4 +58,10 @@ public interface Items extends ItemRegistry {
 	BlockItem EMPTY_POT_BLOCK = ItemRegistry.registrar(new BlockItem(Blocks.EMPTY_POT_BLOCK, new Item.Settings()))
 			.group(ItemGroups.BUILDING_BLOCKS)
 			.register(SilkMagicCube.getInstance().ofId("empty_pot_block"));
+	/**
+	 * tnt_like_block
+	 */
+	BlockItem TNT_LIKE_BLOCK = ItemRegistry.registrar(new BlockItem(Blocks.TNT_LIKE_BLOCK, new Item.Settings()))
+			.group(ItemGroups.BUILDING_BLOCKS)
+			.register(SilkMagicCube.getInstance().ofId("tnt_like_block"));
 }

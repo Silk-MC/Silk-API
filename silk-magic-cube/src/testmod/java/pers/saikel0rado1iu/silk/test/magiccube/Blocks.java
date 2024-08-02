@@ -11,6 +11,7 @@
 
 package pers.saikel0rado1iu.silk.test.magiccube;
 
+import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.registry.RegistryKeys;
@@ -78,4 +79,10 @@ public interface Blocks extends BlockRegistry {
 	 */
 	LeveledCauldronLikeBlockTest POWDER_SNOW_POT_BLOCK = BlockRegistry.registrar(new LeveledCauldronLikeBlockTest(Biome.Precipitation.SNOW, CauldronLikeBehaviorTest.INSTANCE.powderSnowBehavior, AbstractBlock.Settings.create()))
 			.register(SilkMagicCube.getInstance().ofId("powder_snow_pot_block"));
+	/**
+	 * tnt_like_block
+	 */
+	TntLikeBlockTest TNT_LIKE_BLOCK = BlockRegistry.registrar(new TntLikeBlockTest(AbstractBlock.Settings.create()))
+			.other(block -> FlammableBlockRegistry.getDefaultInstance().add(block, 15, 100))
+			.register(SilkMagicCube.getInstance().ofId("tnt_like_block"));
 }
