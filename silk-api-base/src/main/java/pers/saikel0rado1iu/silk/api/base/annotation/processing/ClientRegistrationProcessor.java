@@ -31,6 +31,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import static pers.saikel0rado1iu.silk.api.base.annotation.processing.RegistrationProcessor.getTypeElement;
+
 /**
  * <h2 style="color:FFC800">客户端注册处理器</h2>
  *
@@ -42,12 +44,12 @@ import java.util.Set;
 @SupportedSourceVersion(SourceVersion.RELEASE_17)
 public class ClientRegistrationProcessor extends AbstractProcessor {
 	static Optional<TypeSpec.Builder> generateMethod(Optional<TypeSpec.Builder> optionalBuilder, Element element, ProcessingEnvironment processingEnv, ClientRegistration clientRegistration) {
-		TypeElement registrar = processingEnv.getElementUtils().getTypeElement(clientRegistration.registrar().getCanonicalName());
+		TypeElement registrar = getTypeElement(processingEnv, clientRegistration::registrar);
 		if (registrar == null) {
 			processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, String.format("未找到注册器：%s", clientRegistration.registrar()), element);
 			return Optional.empty();
 		}
-		TypeElement type = processingEnv.getElementUtils().getTypeElement(clientRegistration.type().getCanonicalName());
+		TypeElement type = getTypeElement(processingEnv, clientRegistration::type);
 		if (type == null) {
 			processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, String.format("未找到注册类型：%s", clientRegistration.type()), element);
 			return Optional.empty();
@@ -85,12 +87,12 @@ public class ClientRegistrationProcessor extends AbstractProcessor {
 								static {
 									ItemRegistry.registrar(() -> ColorProviderRegistry.ITEM.register(((stack, tintIndex) -> tintIndex > 0 ? -1 : ((DyeableItem) stack.getItem()).getColor(stack)), EXAMPLE_ITEM)).register(EXAMPLE_ITEM);
 								}
-							
+							\t
 								private ClientFoo() {
 								}
 							}
 							}</pre>
-							
+							\t
 							@param registerMethod   注册方法，在此方法内为所有需要客户端注册的对象进行注册
 							@return                 客户端注册器""")
 					.addAnnotation(annotationSpec)
@@ -121,7 +123,8 @@ public class ClientRegistrationProcessor extends AbstractProcessor {
 		for (Element element : roundEnv.getElementsAnnotatedWith(ClientRegistration.class)) {
 			if (!RegistrationProcessor.checkAnnotation(ClientRegistration.class, roundEnv, processingEnv, (TypeElement) element)) return true;
 			ClientRegistration clientRegistration = element.getAnnotation(ClientRegistration.class);
-			if (clientRegistration.registrar() == Class.class && clientRegistration.type() == Class.class) continue;
+			if ("java.lang.Class".equals(getTypeElement(processingEnv, clientRegistration::registrar).getQualifiedName().toString())
+					&& "java.lang.Class".equals(getTypeElement(processingEnv, clientRegistration::type).getQualifiedName().toString())) continue;
 			// 写入文件
 			String packageName = elementUtils.getPackageOf(element).getQualifiedName().toString();
 			Optional<TypeSpec.Builder> optionalBuilder = ClientRegistrationProcessor.generateMethod(Optional.empty(), element, processingEnv, clientRegistration);

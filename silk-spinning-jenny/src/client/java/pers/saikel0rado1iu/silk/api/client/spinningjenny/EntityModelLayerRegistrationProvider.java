@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.spinningjenny;
+package pers.saikel0rado1iu.silk.api.client.spinningjenny;
 
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
@@ -23,11 +23,8 @@ import pers.saikel0rado1iu.silk.api.modpass.registry.ClientRegistrationProvider;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
-@ClientRegistration(registrar = EntityModelLayerRegistrationProvider.CLIENT_REGISTRAR, type = EntityModelLayerRegistrationProvider.TYPE)
+@ClientRegistration(registrar = EntityModelLayerRegistrationProvider.ClientRegistrar.class, type = EntityModelLayer.class)
 interface EntityModelLayerRegistrationProvider extends ClientRegistrationProvider<EntityModelLayer> {
-	String CLIENT_REGISTRAR = "pers.saikel0rado1iu.silk.spinningjenny.EntityModelLayerRegistrationProvider.ClientRegistrar";
-	String TYPE = "net.minecraft.client.render.entity.model.EntityModelLayer";
-	
 	/**
 	 * 实体模型图层客户端注册器
 	 *

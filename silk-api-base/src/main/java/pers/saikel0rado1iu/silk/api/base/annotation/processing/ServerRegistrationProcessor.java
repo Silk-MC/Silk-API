@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import static pers.saikel0rado1iu.silk.api.base.annotation.processing.RegistrationProcessor.getTypeElement;
+
 /**
  * <h2 style="color:FFC800">服务端注册处理器</h2>
  *
@@ -43,12 +45,12 @@ import java.util.Set;
 @SupportedSourceVersion(SourceVersion.RELEASE_17)
 public class ServerRegistrationProcessor extends AbstractProcessor {
 	static Optional<TypeSpec.Builder> generateMethod(Optional<TypeSpec.Builder> optionalBuilder, Element element, ProcessingEnvironment processingEnv, ServerRegistration serverRegistration) {
-		TypeElement registrar = processingEnv.getElementUtils().getTypeElement(serverRegistration.registrar().getCanonicalName());
+		TypeElement registrar = getTypeElement(processingEnv, serverRegistration::registrar);
 		if (registrar == null) {
 			processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, String.format("未找到注册器：%s", serverRegistration.registrar()), element);
 			return Optional.empty();
 		}
-		TypeElement type = processingEnv.getElementUtils().getTypeElement(serverRegistration.type().getCanonicalName());
+		TypeElement type = getTypeElement(processingEnv, serverRegistration::type);
 		if (type == null) {
 			processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, String.format("未找到注册类型：%s", serverRegistration.type()), element);
 			return Optional.empty();
@@ -70,7 +72,7 @@ public class ServerRegistrationProcessor extends AbstractProcessor {
 				.addJavadoc("""
 						服务端注册方法<br>
 						此方法方法一个服务端注册器，注册器注册返回注册对象<br>
-						
+						\t
 						@param $N   注册对象
 						@return     服务端注册器""", type.getSimpleName().toString().toLowerCase())
 				.addModifiers(Modifier.PUBLIC, Modifier.STATIC)
@@ -90,7 +92,8 @@ public class ServerRegistrationProcessor extends AbstractProcessor {
 		for (Element element : roundEnv.getElementsAnnotatedWith(ServerRegistration.class)) {
 			if (!RegistrationProcessor.checkAnnotation(ServerRegistration.class, roundEnv, processingEnv, (TypeElement) element)) return true;
 			ServerRegistration serverRegistration = element.getAnnotation(ServerRegistration.class);
-			if (serverRegistration.registrar() == Class.class && serverRegistration.type() == Class.class) continue;
+			if ("java.lang.Class".equals(getTypeElement(processingEnv, serverRegistration::registrar).getQualifiedName().toString())
+					&& "java.lang.Class".equals(getTypeElement(processingEnv, serverRegistration::type).getQualifiedName().toString())) continue;
 			// 写入文件
 			String packageName = elementUtils.getPackageOf(element).getQualifiedName().toString();
 			Optional<TypeSpec.Builder> optionalBuilder = ServerRegistrationProcessor.generateMethod(Optional.empty(), element, processingEnv, serverRegistration);

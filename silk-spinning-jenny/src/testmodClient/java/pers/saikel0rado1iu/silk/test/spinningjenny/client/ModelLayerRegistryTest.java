@@ -13,8 +13,8 @@ package pers.saikel0rado1iu.silk.test.spinningjenny.client;
 
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.SpiderEntityModel;
+import pers.saikel0rado1iu.silk.api.client.spinningjenny.EntityModelLayerRegistry;
 import pers.saikel0rado1iu.silk.impl.SilkSpinningJenny;
-import pers.saikel0rado1iu.silk.spinningjenny.EntityModelLayerRegistry;
 
 import static net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry.registerModelLayer;
 

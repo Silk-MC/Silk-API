@@ -19,10 +19,12 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.MirroredTypeException;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 import java.lang.annotation.Annotation;
+import java.util.function.Supplier;
 
 /**
  * <h2 style="color:FFC800">注册注解处理器</h2>
@@ -32,6 +34,32 @@ import java.lang.annotation.Annotation;
  * @since 1.0.0
  */
 interface RegistrationProcessor {
+	/**
+	 * 获取注解中 {@link TypeMirror} 的 {@link TypeElement}
+	 *
+	 * @param supplier 提供方法
+	 * @return {@link TypeElement}
+	 */
+	static TypeElement getTypeElement(ProcessingEnvironment processingEnv, Supplier<Class<?>> supplier) {
+		return (TypeElement) processingEnv.getTypeUtils().asElement(getTypeMirror(supplier));
+	}
+	
+	/**
+	 * 获取注解中的 {@link TypeMirror}
+	 *
+	 * @param supplier 提供方法
+	 * @return {@link TypeMirror}
+	 */
+	static TypeMirror getTypeMirror(Supplier<Class<?>> supplier) {
+		TypeMirror typeMirror = null;
+		try {
+			supplier.get();
+		} catch (MirroredTypeException mte) {
+			typeMirror = mte.getTypeMirror();
+		}
+		return typeMirror;
+	}
+	
 	/**
 	 * 检测子接口是否声明了相同注释
 	 *
@@ -72,7 +100,7 @@ interface RegistrationProcessor {
 				.addJavadoc("""
 						<h2 style="color:FFC800">{@link $N} 注册表</h2>
 						用于注册 {@link $N} 的注册表，由 {@link $N} 构建生成
-						
+						\t
 						@author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
 						@since 1.0.0""", type.getSimpleName(), type.getSimpleName(), superType.getSimpleName())
 				.addModifiers(Modifier.PUBLIC)
