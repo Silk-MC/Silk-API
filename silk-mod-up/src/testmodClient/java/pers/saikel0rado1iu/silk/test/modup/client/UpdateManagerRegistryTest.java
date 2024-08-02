@@ -11,9 +11,9 @@
 
 package pers.saikel0rado1iu.silk.test.modup.client;
 
-import pers.saikel0rado1iu.silk.modup.UpdateManagerRegistry;
+import pers.saikel0rado1iu.silk.api.client.modup.ClientUpdateManager;
+import pers.saikel0rado1iu.silk.api.modup.UpdateManagerRegistry;
 import pers.saikel0rado1iu.silk.test.modup.Test;
-import pers.saikel0rado1iu.silk.update.ClientUpdateManager;
 
 /**
  * Test {@link UpdateManagerRegistry}

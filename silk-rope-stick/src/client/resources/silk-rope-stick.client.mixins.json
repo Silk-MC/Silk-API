@@ -3,16 +3,16 @@
 	"package": "pers.saikel0rado1iu.silk.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"client": [
-		"ropestick.AdjustFovWhileHoldMixin$AdjustFov",
-		"ropestick.AdjustFovWhileHoldMixin$AdjustMouseSpeed",
-		"ropestick.AdjustFovWhileHoldMixin$RenderHudOverlay",
-		"ropestick.AdjustFovWhileUseMixin$AdjustFov",
-		"ropestick.AdjustFovWhileUseMixin$AdjustMouseSpeed",
-		"ropestick.AdjustFovWhileUseMixin$RenderHudOverlay",
-		"ropestick.ModifyMoveWhileHoldMixin",
-		"ropestick.ModifyMoveWhileUseMixin",
-		"ropestick.tool.CrossbowMixin$FirstPersonRender",
-		"ropestick.tool.CrossbowMixin$ThirdPersonRender"
+		"client.ropestick.AdjustFovWhileHoldMixin$AdjustFov",
+		"client.ropestick.AdjustFovWhileHoldMixin$AdjustMouseSpeed",
+		"client.ropestick.AdjustFovWhileHoldMixin$RenderHudOverlay",
+		"client.ropestick.AdjustFovWhileUseMixin$AdjustFov",
+		"client.ropestick.AdjustFovWhileUseMixin$AdjustMouseSpeed",
+		"client.ropestick.AdjustFovWhileUseMixin$RenderHudOverlay",
+		"client.ropestick.ModifyMoveWhileHoldMixin",
+		"client.ropestick.ModifyMoveWhileUseMixin",
+		"client.ropestick.tool.CrossbowMixin$FirstPersonRender",
+		"client.ropestick.tool.CrossbowMixin$ThirdPersonRender"
 	],
 	"injectors": {
 		"defaultRequire": 1

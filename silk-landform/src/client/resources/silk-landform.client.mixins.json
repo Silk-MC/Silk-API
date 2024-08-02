@@ -3,21 +3,21 @@
 	"package": "pers.saikel0rado1iu.silk.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"client": [
-		"event.landform.WorldPresetCustomButtonCallbackMixin$AddButton",
-		"event.landform.WorldPresetCustomButtonCallbackMixin$ShowCustom",
-		"event.landform.WorldPresetSetDefaultCallbackMixin",
-		"landform.UpgradeLevelSummaryMixin$AddWorldEntryWarning",
-		"landform.UpgradeLevelSummaryMixin$FixSummaryShow",
-		"landform.screen.UpgradePromptScreenMixin",
-		"landform.screen.UpgradeWarningScreenMixin$GetParentScreen",
-		"landform.screen.UpgradeWarningScreenMixin$ShowScreen"
+		"client.event.landform.WorldPresetCustomButtonCallbackMixin$AddButton",
+		"client.event.landform.WorldPresetCustomButtonCallbackMixin$ShowCustom",
+		"client.event.landform.WorldPresetSetDefaultCallbackMixin",
+		"client.landform.UpgradeLevelSummaryMixin$AddWorldEntryWarning",
+		"client.landform.UpgradeLevelSummaryMixin$FixSummaryShow",
+		"client.landform.screen.UpgradePromptScreenMixin",
+		"client.landform.screen.UpgradeWarningScreenMixin$GetParentScreen",
+		"client.landform.screen.UpgradeWarningScreenMixin$ShowScreen"
 	],
 	"injectors": {
 		"defaultRequire": 1
 	},
 	"mixins": [
-		"event.landform.ClientWorldUpgradeManagerCallbackMixin$LevelListEvent",
-		"event.landform.ClientWorldUpgradeManagerCallbackMixin$SessionEvent",
-		"landform.UpgradeLevelSummaryMixin$CreateDetails"
+		"client.event.landform.ClientWorldUpgradeManagerCallbackMixin$LevelListEvent",
+		"client.event.landform.ClientWorldUpgradeManagerCallbackMixin$SessionEvent",
+		"client.landform.UpgradeLevelSummaryMixin$CreateDetails"
 	]
 }

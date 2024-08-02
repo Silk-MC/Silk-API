@@ -17,9 +17,9 @@ import pers.saikel0rado1iu.silk.api.modpass.ModClient;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.api.modpass.registry.ClientRegistrationProvider;
-import pers.saikel0rado1iu.silk.ropestick.ranged.BowModelPredicateProvider;
-import pers.saikel0rado1iu.silk.ropestick.ranged.CrossbowModelPredicateProvider;
-import pers.saikel0rado1iu.silk.ropestick.ranged.FirearmModelPredicateProvider;
+import pers.saikel0rado1iu.silk.api.client.ropestick.ranged.BowModelPredicateProvider;
+import pers.saikel0rado1iu.silk.api.client.ropestick.ranged.CrossbowModelPredicateProvider;
+import pers.saikel0rado1iu.silk.api.client.ropestick.ranged.FirearmModelPredicateProvider;
 import pers.saikel0rado1iu.silk.test.ropestick.Items;
 
 import java.util.Set;

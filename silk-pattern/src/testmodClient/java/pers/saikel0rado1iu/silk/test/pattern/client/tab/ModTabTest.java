@@ -12,7 +12,7 @@
 package pers.saikel0rado1iu.silk.test.pattern.client.tab;
 
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
-import pers.saikel0rado1iu.silk.pattern.tab.ModTab;
+import pers.saikel0rado1iu.silk.api.client.pattern.tab.ModTab;
 
 /**
  * Test {@link ModTab}

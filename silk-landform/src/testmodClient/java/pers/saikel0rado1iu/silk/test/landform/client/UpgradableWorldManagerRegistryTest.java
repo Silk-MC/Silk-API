@@ -12,7 +12,7 @@
 package pers.saikel0rado1iu.silk.test.landform.client;
 
 import pers.saikel0rado1iu.silk.api.landform.UpgradableWorldManagerRegistry;
-import pers.saikel0rado1iu.silk.landform.ClientUpgradableWorldManager;
+import pers.saikel0rado1iu.silk.api.client.landform.ClientUpgradableWorldManager;
 import pers.saikel0rado1iu.silk.test.landform.Test;
 
 /**
