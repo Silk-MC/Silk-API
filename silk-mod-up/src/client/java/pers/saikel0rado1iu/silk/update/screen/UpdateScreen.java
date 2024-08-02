@@ -25,13 +25,13 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
 import org.jetbrains.annotations.Nullable;
-import pers.saikel0rado1iu.silk.codex.OptionTexts;
+import pers.saikel0rado1iu.silk.api.codex.OptionTexts;
 import pers.saikel0rado1iu.silk.impl.SilkModUp;
-import pers.saikel0rado1iu.silk.modup.UpdateData;
-import pers.saikel0rado1iu.silk.modup.UpdateMode;
-import pers.saikel0rado1iu.silk.modup.UpdateSettings;
+import pers.saikel0rado1iu.silk.api.modup.UpdateData;
+import pers.saikel0rado1iu.silk.api.modup.UpdateMode;
+import pers.saikel0rado1iu.silk.api.modup.UpdateSettings;
 import pers.saikel0rado1iu.silk.pattern.screen.BaseScreen;
-import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
+import pers.saikel0rado1iu.silk.api.pattern.widget.WidgetTexts;
 import pers.saikel0rado1iu.silk.update.ClientUpdateManager;
 
 import java.util.ArrayList;

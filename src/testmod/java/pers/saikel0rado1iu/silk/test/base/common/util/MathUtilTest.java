@@ -13,7 +13,7 @@ package pers.saikel0rado1iu.silk.test.base.common.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pers.saikel0rado1iu.silk.common.util.MathUtil;
+import pers.saikel0rado1iu.silk.api.base.common.util.MathUtil;
 
 /**
  * Test {@link MathUtil}

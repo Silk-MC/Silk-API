@@ -20,13 +20,13 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import pers.saikel0rado1iu.silk.generate.data.RecipeGenUtil;
+import pers.saikel0rado1iu.silk.api.generate.data.RecipeGenUtil;
 import pers.saikel0rado1iu.silk.impl.Minecraft;
 
 import java.util.Map;
 
-import static pers.saikel0rado1iu.silk.generate.data.RecipeGenUtil.getInput;
-import static pers.saikel0rado1iu.silk.generate.data.RecipeGenUtil.getNamespace;
+import static pers.saikel0rado1iu.silk.api.generate.data.RecipeGenUtil.getInput;
+import static pers.saikel0rado1iu.silk.api.generate.data.RecipeGenUtil.getNamespace;
 
 /**
  * <h2 style="color:FFC800">{@link RecipeGenUtil} 混入</h2>

@@ -13,6 +13,7 @@ package pers.saikel0rado1iu.silk.ropestick.ranged;
 
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.util.Identifier;
+import pers.saikel0rado1iu.silk.api.ropestick.ranged.Bow;
 
 /**
  * <h2 style="color:FFC800">弓模型谓词提供器</h2>

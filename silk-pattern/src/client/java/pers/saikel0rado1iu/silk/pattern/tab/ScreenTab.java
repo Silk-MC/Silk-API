@@ -18,10 +18,10 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.tab.GridScreenTab;
 import net.minecraft.client.gui.widget.ClickableWidget;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
+import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.pattern.screen.LinkTrusted;
 import pers.saikel0rado1iu.silk.pattern.screen.ModScreen;
-import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
+import pers.saikel0rado1iu.silk.api.pattern.widget.WidgetTexts;
 
 import java.util.ArrayList;
 import java.util.List;

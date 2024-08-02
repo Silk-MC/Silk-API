@@ -19,9 +19,11 @@ import net.minecraft.server.integrated.IntegratedServerLoader;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.level.storage.LevelStorage;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
+import pers.saikel0rado1iu.silk.api.landform.UpgradableWorldData;
+import pers.saikel0rado1iu.silk.api.landform.UpgradableWorldManager;
 import pers.saikel0rado1iu.silk.event.landform.ClientWorldUpgradeManagerCallback;
 import pers.saikel0rado1iu.silk.impl.SilkLandform;
-import pers.saikel0rado1iu.silk.landform.gen.chunk.ChunkGeneratorUpgradable;
+import pers.saikel0rado1iu.silk.api.landform.gen.chunk.ChunkGeneratorUpgradable;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;

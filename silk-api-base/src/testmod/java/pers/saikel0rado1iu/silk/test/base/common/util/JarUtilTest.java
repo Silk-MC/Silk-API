@@ -13,7 +13,7 @@ package pers.saikel0rado1iu.silk.test.base.common.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pers.saikel0rado1iu.silk.common.util.JarUtil;
+import pers.saikel0rado1iu.silk.api.base.common.util.JarUtil;
 
 import java.net.URISyntaxException;
 import java.nio.file.Path;

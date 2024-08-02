@@ -20,7 +20,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import pers.saikel0rado1iu.silk.magiccube.PlantableBlock;
+import pers.saikel0rado1iu.silk.api.magiccube.PlantableBlock;
 
 /**
  * Test {@link PlantableBlock}

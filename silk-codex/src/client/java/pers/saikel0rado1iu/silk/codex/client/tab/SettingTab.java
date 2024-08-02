@@ -14,10 +14,10 @@ package pers.saikel0rado1iu.silk.codex.client.tab;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import pers.saikel0rado1iu.silk.codex.SettingData;
+import pers.saikel0rado1iu.silk.api.codex.SettingData;
 import pers.saikel0rado1iu.silk.codex.client.SettingOptionHelper;
-import pers.saikel0rado1iu.silk.codex.SettingType;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
+import pers.saikel0rado1iu.silk.api.codex.SettingType;
+import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.pattern.tab.OptionsTab;
 import pers.saikel0rado1iu.silk.pattern.widget.OptionMenuWidget;
 

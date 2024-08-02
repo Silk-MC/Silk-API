@@ -33,9 +33,9 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import pers.saikel0rado1iu.silk.ropestick.property.EffectiveItemSlot;
-import pers.saikel0rado1iu.silk.ropestick.property.InherentStatusEffect;
-import pers.saikel0rado1iu.silk.ropestick.property.ItemProperty;
+import pers.saikel0rado1iu.silk.api.ropestick.property.EffectiveItemSlot;
+import pers.saikel0rado1iu.silk.api.ropestick.property.InherentStatusEffect;
+import pers.saikel0rado1iu.silk.api.ropestick.property.ItemProperty;
 
 import java.util.HashMap;
 import java.util.List;

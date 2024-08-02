@@ -13,8 +13,8 @@ package pers.saikel0rado1iu.silk.test.spore;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
+import pers.saikel0rado1iu.silk.api.spinningjenny.ItemRegistry;
 import pers.saikel0rado1iu.silk.impl.SilkSpore;
-import pers.saikel0rado1iu.silk.spinningjenny.ItemRegistry;
 
 /**
  * Items

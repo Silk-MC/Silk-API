@@ -14,7 +14,7 @@ package pers.saikel0rado1iu.silk.test.modpass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pers.saikel0rado1iu.silk.impl.SilkModPass;
-import pers.saikel0rado1iu.silk.modpass.ModData;
+import pers.saikel0rado1iu.silk.api.modpass.ModData;
 
 /**
  * Test {@link ModData}

@@ -16,6 +16,9 @@ import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
+import pers.saikel0rado1iu.silk.api.ropestick.ranged.Crossbow;
+import pers.saikel0rado1iu.silk.api.ropestick.ranged.ProjectileContainer;
+import pers.saikel0rado1iu.silk.api.ropestick.ranged.ShootExpansion;
 
 import static net.minecraft.item.CrossbowItem.CHARGED_PROJECTILES_KEY;
 

@@ -21,12 +21,12 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import pers.saikel0rado1iu.silk.event.pattern.AddButtonInGameMenuCallback;
 import pers.saikel0rado1iu.silk.event.pattern.AddButtonInTitleScreenCallback;
 import pers.saikel0rado1iu.silk.impl.SilkPattern;
-import pers.saikel0rado1iu.silk.modpass.ModClient;
-import pers.saikel0rado1iu.silk.modpass.ModData;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
-import pers.saikel0rado1iu.silk.modpass.registry.ClientRegistrationProvider;
+import pers.saikel0rado1iu.silk.api.modpass.ModClient;
+import pers.saikel0rado1iu.silk.api.modpass.ModData;
+import pers.saikel0rado1iu.silk.api.modpass.ModPass;
+import pers.saikel0rado1iu.silk.api.modpass.registry.ClientRegistrationProvider;
 import pers.saikel0rado1iu.silk.pattern.screen.PlaceholderScreen;
-import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
+import pers.saikel0rado1iu.silk.api.pattern.widget.WidgetTexts;
 import pers.saikel0rado1iu.silk.test.pattern.client.screen.ModScreenTest;
 
 import java.util.Set;

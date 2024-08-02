@@ -14,6 +14,7 @@ package pers.saikel0rado1iu.silk.ropestick.ranged;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.util.Identifier;
+import pers.saikel0rado1iu.silk.api.ropestick.ranged.Crossbow;
 
 /**
  * <h2 style="color:FFC800">弩模型谓词提供器</h2>

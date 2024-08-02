@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import pers.saikel0rado1iu.silk.spore.projectile.FixedDamage;
+import pers.saikel0rado1iu.silk.api.spore.projectile.FixedDamage;
 
 /**
  * <h2 style="color:FFC800">{@link FixedDamage} 混入</h2>

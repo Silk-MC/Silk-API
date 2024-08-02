@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import pers.saikel0rado1iu.silk.ropestick.tool.ModifyMoveWhileHold;
+import pers.saikel0rado1iu.silk.api.ropestick.tool.ModifyMoveWhileHold;
 
 /**
  * <h2 style="color:FFC800">{@link ModifyMoveWhileHold} 混入</h2>

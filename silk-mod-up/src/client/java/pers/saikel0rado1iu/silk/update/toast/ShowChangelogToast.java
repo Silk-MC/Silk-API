@@ -12,8 +12,8 @@
 package pers.saikel0rado1iu.silk.update.toast;
 
 import net.minecraft.text.Text;
-import pers.saikel0rado1iu.silk.modup.UpdateData;
-import pers.saikel0rado1iu.silk.modup.UpdateState;
+import pers.saikel0rado1iu.silk.api.modup.UpdateData;
+import pers.saikel0rado1iu.silk.api.modup.UpdateState;
 import pers.saikel0rado1iu.silk.update.ClientUpdateManager;
 
 /**

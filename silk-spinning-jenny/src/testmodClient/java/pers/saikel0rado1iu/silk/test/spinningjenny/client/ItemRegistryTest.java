@@ -11,7 +11,7 @@
 
 package pers.saikel0rado1iu.silk.test.spinningjenny.client;
 
-import pers.saikel0rado1iu.silk.spinningjenny.ItemRegistry;
+import pers.saikel0rado1iu.silk.api.spinningjenny.ItemRegistry;
 
 import static pers.saikel0rado1iu.silk.test.spinningjenny.ItemRegistryTest.TEST_ITEM;
 

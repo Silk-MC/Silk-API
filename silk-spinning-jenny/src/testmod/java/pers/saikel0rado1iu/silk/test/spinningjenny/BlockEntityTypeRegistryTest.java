@@ -14,8 +14,8 @@ package pers.saikel0rado1iu.silk.test.spinningjenny;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.ChestBlockEntity;
+import pers.saikel0rado1iu.silk.api.spinningjenny.BlockEntityTypeRegistry;
 import pers.saikel0rado1iu.silk.impl.SilkSpinningJenny;
-import pers.saikel0rado1iu.silk.spinningjenny.BlockEntityTypeRegistry;
 
 /**
  * Test {@link BlockEntityTypeRegistry}

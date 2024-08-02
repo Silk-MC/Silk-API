@@ -12,8 +12,8 @@
 package pers.saikel0rado1iu.silk.test.spinningjenny;
 
 import net.minecraft.sound.SoundEvent;
+import pers.saikel0rado1iu.silk.api.spinningjenny.SoundEventRegistry;
 import pers.saikel0rado1iu.silk.impl.SilkSpinningJenny;
-import pers.saikel0rado1iu.silk.spinningjenny.SoundEventRegistry;
 
 /**
  * Test {@link SoundEventRegistry}

@@ -29,8 +29,8 @@ import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.util.Identifier;
-import pers.saikel0rado1iu.silk.generate.data.AdvancementGenUtil;
-import pers.saikel0rado1iu.silk.generate.data.LootTableGenUtil;
+import pers.saikel0rado1iu.silk.api.generate.data.AdvancementGenUtil;
+import pers.saikel0rado1iu.silk.api.generate.data.LootTableGenUtil;
 
 import java.util.function.BiConsumer;
 

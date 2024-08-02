@@ -20,8 +20,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import pers.saikel0rado1iu.silk.ropestick.property.CustomEntityHurt;
-import pers.saikel0rado1iu.silk.ropestick.property.ItemProperty;
+import pers.saikel0rado1iu.silk.api.ropestick.property.CustomEntityHurt;
+import pers.saikel0rado1iu.silk.api.ropestick.property.ItemProperty;
 
 import java.io.IOException;
 import java.util.Optional;

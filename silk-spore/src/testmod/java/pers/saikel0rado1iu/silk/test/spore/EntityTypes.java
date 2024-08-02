@@ -22,8 +22,8 @@ import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Position;
 import net.minecraft.world.World;
+import pers.saikel0rado1iu.silk.api.spinningjenny.EntityTypeRegistry;
 import pers.saikel0rado1iu.silk.impl.SilkSpore;
-import pers.saikel0rado1iu.silk.spinningjenny.EntityTypeRegistry;
 
 /**
  * EntityTypes

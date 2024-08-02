@@ -13,7 +13,7 @@ package pers.saikel0rado1iu.silk.test.spinningjenny.data.gen;
 
 import net.minecraft.advancement.criterion.BeeNestDestroyedCriterion;
 import net.minecraft.advancement.criterion.Criterion;
-import pers.saikel0rado1iu.silk.spinningjenny.data.gen.CriterionRegistry;
+import pers.saikel0rado1iu.silk.api.spinningjenny.data.gen.CriterionRegistry;
 
 /**
  * Test {@link CriterionRegistry}

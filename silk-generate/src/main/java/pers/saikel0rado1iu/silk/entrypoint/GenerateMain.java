@@ -12,13 +12,13 @@
 package pers.saikel0rado1iu.silk.entrypoint;
 
 import com.google.common.collect.ImmutableSet;
-import pers.saikel0rado1iu.silk.generate.advancement.criterion.Criteria;
-import pers.saikel0rado1iu.silk.generate.recipe.RecipeSerializer;
+import pers.saikel0rado1iu.silk.api.generate.advancement.criterion.Criteria;
+import pers.saikel0rado1iu.silk.api.generate.recipe.RecipeSerializer;
 import pers.saikel0rado1iu.silk.impl.SilkMagicCube;
-import pers.saikel0rado1iu.silk.modpass.ModData;
-import pers.saikel0rado1iu.silk.modpass.ModMain;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
-import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
+import pers.saikel0rado1iu.silk.api.modpass.ModData;
+import pers.saikel0rado1iu.silk.api.modpass.ModMain;
+import pers.saikel0rado1iu.silk.api.modpass.ModPass;
+import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
 
 import java.util.Set;
 

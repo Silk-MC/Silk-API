@@ -23,9 +23,9 @@ import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
+import pers.saikel0rado1iu.silk.api.codex.*;
 import pers.saikel0rado1iu.silk.codex.client.screen.SettingScreen;
-import pers.saikel0rado1iu.silk.codex.*;
-import pers.saikel0rado1iu.silk.common.util.MathUtil;
+import pers.saikel0rado1iu.silk.api.base.common.util.MathUtil;
 import pers.saikel0rado1iu.silk.pattern.screen.ModScreen;
 
 import java.util.List;

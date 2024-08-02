@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import pers.saikel0rado1iu.silk.spinningjenny.tag.BlockTags;
+import pers.saikel0rado1iu.silk.api.spinningjenny.tag.BlockTags;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;

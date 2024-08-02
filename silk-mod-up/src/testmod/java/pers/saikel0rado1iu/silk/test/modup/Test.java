@@ -13,14 +13,17 @@ package pers.saikel0rado1iu.silk.test.modup;
 
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.text.Text;
-import pers.saikel0rado1iu.silk.codex.SettingData;
+import pers.saikel0rado1iu.silk.api.codex.SettingData;
+import pers.saikel0rado1iu.silk.api.modpass.ModData;
+import pers.saikel0rado1iu.silk.api.modpass.ModDataExpansion;
+import pers.saikel0rado1iu.silk.api.modpass.ModMain;
+import pers.saikel0rado1iu.silk.api.modpass.ModPass;
+import pers.saikel0rado1iu.silk.api.modpass.pack.DataPack;
+import pers.saikel0rado1iu.silk.api.modpass.pack.ResourcePack;
+import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
+import pers.saikel0rado1iu.silk.api.modup.UpdateData;
 import pers.saikel0rado1iu.silk.impl.SilkModUp;
 import pers.saikel0rado1iu.silk.impl.SilkRopeStick;
-import pers.saikel0rado1iu.silk.modpass.*;
-import pers.saikel0rado1iu.silk.modpass.pack.DataPack;
-import pers.saikel0rado1iu.silk.modpass.pack.ResourcePack;
-import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
-import pers.saikel0rado1iu.silk.modup.UpdateData;
 
 import java.util.Optional;
 import java.util.Set;

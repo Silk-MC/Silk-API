@@ -18,8 +18,8 @@ import net.minecraft.client.gui.widget.SimplePositioningWidget;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.impl.SilkModUp;
-import pers.saikel0rado1iu.silk.modup.UpdateData;
-import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
+import pers.saikel0rado1iu.silk.api.modup.UpdateData;
+import pers.saikel0rado1iu.silk.api.pattern.widget.WidgetTexts;
 import pers.saikel0rado1iu.silk.update.ClientUpdateManager;
 
 /**

@@ -14,7 +14,7 @@ package pers.saikel0rado1iu.silk.test.landform;
 import net.minecraft.registry.RegistryBuilder;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.gen.WorldPreset;
-import pers.saikel0rado1iu.silk.generate.world.WorldPresetEntry;
+import pers.saikel0rado1iu.silk.api.generate.world.WorldPresetEntry;
 
 import static pers.saikel0rado1iu.silk.test.landform.Launch.MOD_PASS;
 

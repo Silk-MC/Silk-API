@@ -13,7 +13,7 @@ package pers.saikel0rado1iu.silk.test.base.common.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pers.saikel0rado1iu.silk.common.util.PlayerUtil;
+import pers.saikel0rado1iu.silk.api.base.common.util.PlayerUtil;
 
 /**
  * Test {@link PlayerUtil}

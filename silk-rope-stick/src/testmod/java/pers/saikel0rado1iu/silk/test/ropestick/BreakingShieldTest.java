@@ -13,7 +13,7 @@ package pers.saikel0rado1iu.silk.test.ropestick;
 
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.Item;
-import pers.saikel0rado1iu.silk.ropestick.weapon.BreakingShield;
+import pers.saikel0rado1iu.silk.api.ropestick.weapon.BreakingShield;
 
 /**
  * Test {@link BreakingShield}

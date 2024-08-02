@@ -13,13 +13,13 @@ package pers.saikel0rado1iu.silk.test.generate;
 
 import com.google.common.collect.ImmutableSet;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import pers.saikel0rado1iu.silk.api.modpass.ModData;
+import pers.saikel0rado1iu.silk.api.modpass.ModMain;
+import pers.saikel0rado1iu.silk.api.modpass.ModPass;
+import pers.saikel0rado1iu.silk.api.modpass.pack.DataPack;
+import pers.saikel0rado1iu.silk.api.modpass.pack.ResourcePack;
+import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
 import pers.saikel0rado1iu.silk.impl.SilkApi;
-import pers.saikel0rado1iu.silk.modpass.ModData;
-import pers.saikel0rado1iu.silk.modpass.ModMain;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
-import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
-import pers.saikel0rado1iu.silk.modpass.pack.DataPack;
-import pers.saikel0rado1iu.silk.modpass.pack.ResourcePack;
 
 import java.util.Optional;
 import java.util.Set;

@@ -13,10 +13,10 @@ package pers.saikel0rado1iu.silk.test.pattern.client.screen;
 
 import net.minecraft.client.gui.screen.Screen;
 import org.jetbrains.annotations.Nullable;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
+import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.pattern.screen.BaseScreen;
 import pers.saikel0rado1iu.silk.pattern.widget.ButtonHelper;
-import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
+import pers.saikel0rado1iu.silk.api.pattern.widget.WidgetTexts;
 
 /**
  * Test {@link ButtonHelper}

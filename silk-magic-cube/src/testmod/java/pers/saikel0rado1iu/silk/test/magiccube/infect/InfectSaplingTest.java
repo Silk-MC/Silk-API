@@ -27,8 +27,8 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.TreeConfiguredFeatures;
-import pers.saikel0rado1iu.silk.magiccube.PlantableBlock;
-import pers.saikel0rado1iu.silk.magiccube.infect.InfectSapling;
+import pers.saikel0rado1iu.silk.api.magiccube.PlantableBlock;
+import pers.saikel0rado1iu.silk.api.magiccube.infect.InfectSapling;
 
 /**
  * Test {@link InfectSapling}

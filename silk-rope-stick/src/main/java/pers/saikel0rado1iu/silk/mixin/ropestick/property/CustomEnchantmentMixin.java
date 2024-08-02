@@ -24,8 +24,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import pers.saikel0rado1iu.silk.ropestick.property.CustomEnchantment;
-import pers.saikel0rado1iu.silk.ropestick.property.ItemProperty;
+import pers.saikel0rado1iu.silk.api.ropestick.property.CustomEnchantment;
+import pers.saikel0rado1iu.silk.api.ropestick.property.ItemProperty;
 
 import java.util.ArrayList;
 import java.util.List;

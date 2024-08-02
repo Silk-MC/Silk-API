@@ -13,7 +13,7 @@ package pers.saikel0rado1iu.silk.test.magiccube.entity;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
-import pers.saikel0rado1iu.silk.magiccube.entity.PhysicsConnectingBlockEntity;
+import pers.saikel0rado1iu.silk.api.magiccube.entity.PhysicsConnectingBlockEntity;
 import pers.saikel0rado1iu.silk.test.magiccube.BlockEntityTypes;
 
 /**

@@ -27,7 +27,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pers.saikel0rado1iu.silk.common.util.ParticleUtil;
+import pers.saikel0rado1iu.silk.api.base.common.util.ParticleUtil;
 
 /**
  * Test ParticleUtil

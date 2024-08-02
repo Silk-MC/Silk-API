@@ -15,7 +15,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.apache.commons.lang3.StringUtils;
-import pers.saikel0rado1iu.silk.modpass.ModData;
+import pers.saikel0rado1iu.silk.api.modpass.ModData;
 
 import java.util.ArrayList;
 import java.util.Arrays;

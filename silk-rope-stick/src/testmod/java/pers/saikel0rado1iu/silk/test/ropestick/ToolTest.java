@@ -16,11 +16,11 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.*;
 import net.minecraft.recipe.Ingredient;
-import pers.saikel0rado1iu.silk.ropestick.property.CustomEnchantment;
-import pers.saikel0rado1iu.silk.ropestick.property.EffectiveItemSlot;
-import pers.saikel0rado1iu.silk.ropestick.property.InherentStatusEffect;
-import pers.saikel0rado1iu.silk.ropestick.property.ItemProperty;
-import pers.saikel0rado1iu.silk.ropestick.tool.Tool;
+import pers.saikel0rado1iu.silk.api.ropestick.property.CustomEnchantment;
+import pers.saikel0rado1iu.silk.api.ropestick.property.EffectiveItemSlot;
+import pers.saikel0rado1iu.silk.api.ropestick.property.InherentStatusEffect;
+import pers.saikel0rado1iu.silk.api.ropestick.property.ItemProperty;
+import pers.saikel0rado1iu.silk.api.ropestick.tool.Tool;
 
 /**
  * Test {@link Tool}

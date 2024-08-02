@@ -15,7 +15,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryKey;
 import pers.saikel0rado1iu.silk.impl.SilkRopeStick;
-import pers.saikel0rado1iu.silk.ropestick.ItemGroupCreator;
+import pers.saikel0rado1iu.silk.api.ropestick.ItemGroupCreator;
 
 /**
  * Test {@link ItemGroupCreator}

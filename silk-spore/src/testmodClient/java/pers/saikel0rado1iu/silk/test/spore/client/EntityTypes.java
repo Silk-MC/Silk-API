@@ -12,7 +12,7 @@
 package pers.saikel0rado1iu.silk.test.spore.client;
 
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import pers.saikel0rado1iu.silk.spinningjenny.EntityTypeRegistry;
+import pers.saikel0rado1iu.silk.api.spinningjenny.EntityTypeRegistry;
 
 import static pers.saikel0rado1iu.silk.test.spore.EntityTypes.FIXED_DAMAGE_TEST;
 

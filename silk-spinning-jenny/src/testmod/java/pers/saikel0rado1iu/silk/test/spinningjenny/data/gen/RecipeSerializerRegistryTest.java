@@ -13,7 +13,7 @@ package pers.saikel0rado1iu.silk.test.spinningjenny.data.gen;
 
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.ShapedRecipe;
-import pers.saikel0rado1iu.silk.spinningjenny.data.gen.RecipeSerializerRegistry;
+import pers.saikel0rado1iu.silk.api.spinningjenny.data.gen.RecipeSerializerRegistry;
 
 /**
  * Test {@link RecipeSerializerRegistry}

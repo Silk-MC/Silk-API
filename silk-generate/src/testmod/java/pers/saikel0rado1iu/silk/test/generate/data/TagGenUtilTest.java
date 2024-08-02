@@ -15,8 +15,8 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.registry.RegistryWrapper;
-import pers.saikel0rado1iu.silk.generate.data.TagGenUtil;
-import pers.saikel0rado1iu.silk.spinningjenny.tag.EntityTypeTags;
+import pers.saikel0rado1iu.silk.api.generate.data.TagGenUtil;
+import pers.saikel0rado1iu.silk.api.spinningjenny.tag.EntityTypeTags;
 
 import java.util.concurrent.CompletableFuture;
 

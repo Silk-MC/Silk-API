@@ -12,15 +12,15 @@
 package pers.saikel0rado1iu.silk.test.codex;
 
 import com.google.common.collect.ImmutableSet;
-import pers.saikel0rado1iu.silk.codex.OptionType;
-import pers.saikel0rado1iu.silk.codex.SettingData;
-import pers.saikel0rado1iu.silk.codex.SettingOption;
-import pers.saikel0rado1iu.silk.codex.SettingType;
+import pers.saikel0rado1iu.silk.api.codex.OptionType;
+import pers.saikel0rado1iu.silk.api.codex.SettingData;
+import pers.saikel0rado1iu.silk.api.codex.SettingOption;
+import pers.saikel0rado1iu.silk.api.codex.SettingType;
 import pers.saikel0rado1iu.silk.impl.SilkCodex;
-import pers.saikel0rado1iu.silk.modpass.ModData;
-import pers.saikel0rado1iu.silk.modpass.ModMain;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
-import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
+import pers.saikel0rado1iu.silk.api.modpass.ModData;
+import pers.saikel0rado1iu.silk.api.modpass.ModMain;
+import pers.saikel0rado1iu.silk.api.modpass.ModPass;
+import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
 
 import java.util.Set;
 

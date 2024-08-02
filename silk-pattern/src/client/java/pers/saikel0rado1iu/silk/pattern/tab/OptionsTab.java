@@ -14,7 +14,7 @@ package pers.saikel0rado1iu.silk.pattern.tab;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
+import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.pattern.widget.OptionMenuWidget;
 
 /**

@@ -20,10 +20,10 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtString;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
-import pers.saikel0rado1iu.silk.common.util.TickUtil;
-import pers.saikel0rado1iu.silk.generate.data.RecipeGenUtil;
-import pers.saikel0rado1iu.silk.generate.data.family.EquipFamily;
-import pers.saikel0rado1iu.silk.generate.recipe.NbtShapedRecipeJsonBuilder;
+import pers.saikel0rado1iu.silk.api.base.common.util.TickUtil;
+import pers.saikel0rado1iu.silk.api.generate.data.RecipeGenUtil;
+import pers.saikel0rado1iu.silk.api.generate.data.family.EquipFamily;
+import pers.saikel0rado1iu.silk.api.generate.recipe.NbtShapedRecipeJsonBuilder;
 import pers.saikel0rado1iu.silk.impl.SilkGenerate;
 
 /**

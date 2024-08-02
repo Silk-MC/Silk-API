@@ -14,7 +14,7 @@ package pers.saikel0rado1iu.silk.test.generate.world;
 import net.minecraft.registry.RegistryBuilder;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
-import pers.saikel0rado1iu.silk.generate.world.ConfiguredFeatureEntry;
+import pers.saikel0rado1iu.silk.api.generate.world.ConfiguredFeatureEntry;
 import pers.saikel0rado1iu.silk.impl.SilkGenerate;
 import pers.saikel0rado1iu.silk.test.generate.Main;
 

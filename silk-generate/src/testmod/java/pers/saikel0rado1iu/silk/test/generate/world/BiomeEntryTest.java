@@ -19,7 +19,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.OverworldBiomeCreator;
 import net.minecraft.world.gen.carver.ConfiguredCarver;
 import net.minecraft.world.gen.feature.PlacedFeature;
-import pers.saikel0rado1iu.silk.generate.world.BiomeEntry;
+import pers.saikel0rado1iu.silk.api.generate.world.BiomeEntry;
 import pers.saikel0rado1iu.silk.impl.SilkGenerate;
 import pers.saikel0rado1iu.silk.test.generate.Main;
 

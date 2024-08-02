@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import pers.saikel0rado1iu.silk.ropestick.weapon.BreakingShield;
+import pers.saikel0rado1iu.silk.api.ropestick.weapon.BreakingShield;
 
 /**
  * <h2 style="color:FFC800">{@link BreakingShield} 混入</h2>

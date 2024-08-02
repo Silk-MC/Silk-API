@@ -13,7 +13,7 @@ package pers.saikel0rado1iu.silk.test.magiccube;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.SpreadableBlock;
-import pers.saikel0rado1iu.silk.magiccube.SpreadableSoilBlock;
+import pers.saikel0rado1iu.silk.api.magiccube.SpreadableSoilBlock;
 
 /**
  * Test {@link SpreadableSoilBlock}

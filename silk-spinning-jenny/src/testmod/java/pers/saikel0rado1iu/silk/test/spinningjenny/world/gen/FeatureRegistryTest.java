@@ -14,7 +14,7 @@ package pers.saikel0rado1iu.silk.test.spinningjenny.world.gen;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IcebergFeature;
 import net.minecraft.world.gen.feature.SingleStateFeatureConfig;
-import pers.saikel0rado1iu.silk.spinningjenny.world.gen.FeatureRegistry;
+import pers.saikel0rado1iu.silk.api.spinningjenny.world.gen.FeatureRegistry;
 
 /**
  * Test {@link FeatureRegistry}

@@ -17,8 +17,8 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.MultilineTextWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.util.Formatting;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
-import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
+import pers.saikel0rado1iu.silk.api.modpass.ModPass;
+import pers.saikel0rado1iu.silk.api.pattern.widget.WidgetTexts;
 
 /**
  * <h2 style="color:FFC800">概要选项卡</h2>

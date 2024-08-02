@@ -13,9 +13,9 @@ package pers.saikel0rado1iu.silk.test.landform;
 
 import com.google.common.collect.ImmutableSet;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import pers.saikel0rado1iu.silk.generate.DataGenerator;
-import pers.saikel0rado1iu.silk.generate.DynamicDataEntry;
-import pers.saikel0rado1iu.silk.modpass.ModData;
+import pers.saikel0rado1iu.silk.api.generate.DataGenerator;
+import pers.saikel0rado1iu.silk.api.generate.DynamicDataEntry;
+import pers.saikel0rado1iu.silk.api.modpass.ModData;
 
 import java.util.Optional;
 import java.util.Set;

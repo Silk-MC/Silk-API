@@ -13,7 +13,7 @@ package pers.saikel0rado1iu.silk.test.spinningjenny.client;
 
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.minecraft.client.particle.SpitParticle;
-import pers.saikel0rado1iu.silk.spinningjenny.ParticleTypeRegistry;
+import pers.saikel0rado1iu.silk.api.spinningjenny.ParticleTypeRegistry;
 
 import static pers.saikel0rado1iu.silk.test.spinningjenny.ParticleTypeRegistryTest.TEST_PARTICLE_TYPE;
 

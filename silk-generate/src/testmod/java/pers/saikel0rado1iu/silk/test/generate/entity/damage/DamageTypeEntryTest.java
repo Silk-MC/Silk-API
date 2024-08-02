@@ -15,7 +15,7 @@ import net.minecraft.entity.damage.DamageEffects;
 import net.minecraft.entity.damage.DamageType;
 import net.minecraft.registry.RegistryBuilder;
 import net.minecraft.registry.RegistryKey;
-import pers.saikel0rado1iu.silk.generate.entity.damage.DamageTypeEntry;
+import pers.saikel0rado1iu.silk.api.generate.entity.damage.DamageTypeEntry;
 import pers.saikel0rado1iu.silk.impl.SilkGenerate;
 import pers.saikel0rado1iu.silk.test.generate.Main;
 

@@ -19,12 +19,12 @@ import net.minecraft.client.gui.widget.IconWidget;
 import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.text.Text;
 import pers.saikel0rado1iu.silk.impl.SilkPattern;
-import pers.saikel0rado1iu.silk.modpass.ModData;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
-import pers.saikel0rado1iu.silk.modpass.log.Changelog;
+import pers.saikel0rado1iu.silk.api.modpass.ModData;
+import pers.saikel0rado1iu.silk.api.modpass.ModPass;
+import pers.saikel0rado1iu.silk.api.modpass.log.Changelog;
 import pers.saikel0rado1iu.silk.pattern.widget.ButtonHelper;
 import pers.saikel0rado1iu.silk.pattern.widget.TextListWidget;
-import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
+import pers.saikel0rado1iu.silk.api.pattern.widget.WidgetTexts;
 
 /**
  * <h2 style="color:FFC800">模组选项卡</h2>

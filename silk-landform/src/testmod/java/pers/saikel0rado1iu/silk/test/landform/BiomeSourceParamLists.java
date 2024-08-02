@@ -17,7 +17,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.MultiNoiseBiomeSourceParameterList;
-import pers.saikel0rado1iu.silk.generate.world.MultiNoiseBiomeSourceParameterListEntry;
+import pers.saikel0rado1iu.silk.api.generate.world.MultiNoiseBiomeSourceParameterListEntry;
 
 import static pers.saikel0rado1iu.silk.test.landform.Launch.MOD_PASS;
 

@@ -14,8 +14,8 @@ package pers.saikel0rado1iu.silk.test.magiccube;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
+import pers.saikel0rado1iu.silk.api.spinningjenny.ItemRegistry;
 import pers.saikel0rado1iu.silk.impl.SilkMagicCube;
-import pers.saikel0rado1iu.silk.spinningjenny.ItemRegistry;
 
 /**
  * 物品

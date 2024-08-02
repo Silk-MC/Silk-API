@@ -13,13 +13,13 @@ package pers.saikel0rado1iu.silk.test.landform;
 
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.world.dimension.DimensionOptions;
-import pers.saikel0rado1iu.silk.codex.SettingData;
+import pers.saikel0rado1iu.silk.api.codex.SettingData;
 import pers.saikel0rado1iu.silk.impl.SilkLandform;
-import pers.saikel0rado1iu.silk.landform.UpgradableWorldData;
-import pers.saikel0rado1iu.silk.modpass.ModData;
-import pers.saikel0rado1iu.silk.modpass.ModMain;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
-import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
+import pers.saikel0rado1iu.silk.api.landform.UpgradableWorldData;
+import pers.saikel0rado1iu.silk.api.modpass.ModData;
+import pers.saikel0rado1iu.silk.api.modpass.ModMain;
+import pers.saikel0rado1iu.silk.api.modpass.ModPass;
+import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
 
 import java.util.Set;
 

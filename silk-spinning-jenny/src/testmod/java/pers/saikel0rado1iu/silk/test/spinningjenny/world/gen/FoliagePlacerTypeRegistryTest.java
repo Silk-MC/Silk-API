@@ -13,7 +13,7 @@ package pers.saikel0rado1iu.silk.test.spinningjenny.world.gen;
 
 import net.minecraft.world.gen.foliage.BlobFoliagePlacer;
 import net.minecraft.world.gen.foliage.FoliagePlacerType;
-import pers.saikel0rado1iu.silk.spinningjenny.world.gen.FoliagePlacerTypeRegistry;
+import pers.saikel0rado1iu.silk.api.spinningjenny.world.gen.FoliagePlacerTypeRegistry;
 
 /**
  * Test {@link FoliagePlacerTypeRegistry}

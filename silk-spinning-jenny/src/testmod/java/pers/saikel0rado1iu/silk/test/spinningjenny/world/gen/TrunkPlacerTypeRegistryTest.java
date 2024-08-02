@@ -13,7 +13,7 @@ package pers.saikel0rado1iu.silk.test.spinningjenny.world.gen;
 
 import net.minecraft.world.gen.trunk.TrunkPlacer;
 import net.minecraft.world.gen.trunk.TrunkPlacerType;
-import pers.saikel0rado1iu.silk.spinningjenny.world.gen.TrunkPlacerTypeRegistry;
+import pers.saikel0rado1iu.silk.api.spinningjenny.world.gen.TrunkPlacerTypeRegistry;
 
 /**
  * Test {@link TrunkPlacerTypeRegistry}

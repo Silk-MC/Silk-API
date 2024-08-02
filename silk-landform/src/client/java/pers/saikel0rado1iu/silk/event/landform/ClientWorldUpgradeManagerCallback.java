@@ -26,8 +26,11 @@ import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.level.storage.LevelStorage;
 import net.minecraft.world.level.storage.LevelSummary;
 import org.jetbrains.annotations.ApiStatus;
+import pers.saikel0rado1iu.silk.api.landform.UpgradableWorldData;
+import pers.saikel0rado1iu.silk.api.landform.UpgradableWorldInfo;
+import pers.saikel0rado1iu.silk.api.landform.UpgradableWorldManager;
 import pers.saikel0rado1iu.silk.landform.*;
-import pers.saikel0rado1iu.silk.landform.gen.chunk.ChunkGeneratorUpgradable;
+import pers.saikel0rado1iu.silk.api.landform.gen.chunk.ChunkGeneratorUpgradable;
 
 import java.util.function.BiFunction;
 import java.util.function.Consumer;

@@ -13,7 +13,7 @@ package pers.saikel0rado1iu.silk.test.base.common.collect;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pers.saikel0rado1iu.silk.common.collect.MultiWayTree;
+import pers.saikel0rado1iu.silk.api.base.common.collect.MultiWayTree;
 
 /**
  * Test {@link MultiWayTree}

@@ -20,7 +20,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.event.GameEvent;
-import pers.saikel0rado1iu.silk.magiccube.cauldron.LeveledCauldronLikeBlock;
+import pers.saikel0rado1iu.silk.api.magiccube.cauldron.LeveledCauldronLikeBlock;
 
 /**
  * Test {@link LeveledCauldronLikeBlock}

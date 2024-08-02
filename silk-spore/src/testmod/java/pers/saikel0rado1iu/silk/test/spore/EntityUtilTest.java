@@ -12,7 +12,7 @@
 package pers.saikel0rado1iu.silk.test.spore;
 
 import pers.saikel0rado1iu.silk.impl.SilkSpore;
-import pers.saikel0rado1iu.silk.spore.EntityUtil;
+import pers.saikel0rado1iu.silk.api.spore.EntityUtil;
 
 /**
  * EntityUtilTest

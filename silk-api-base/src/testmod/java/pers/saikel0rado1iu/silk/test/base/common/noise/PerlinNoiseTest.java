@@ -13,7 +13,7 @@ package pers.saikel0rado1iu.silk.test.base.common.noise;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pers.saikel0rado1iu.silk.common.noise.PerlinNoise;
+import pers.saikel0rado1iu.silk.api.base.common.noise.PerlinNoise;
 
 import java.time.Duration;
 import java.time.Instant;

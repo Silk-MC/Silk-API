@@ -12,7 +12,7 @@
 package pers.saikel0rado1iu.silk.entrypoint;
 
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import pers.saikel0rado1iu.silk.common.api.I18nModInfoProvider;
+import pers.saikel0rado1iu.silk.api.base.common.api.I18nModInfoProvider;
 import pers.saikel0rado1iu.silk.impl.SilkId;
 
 /**

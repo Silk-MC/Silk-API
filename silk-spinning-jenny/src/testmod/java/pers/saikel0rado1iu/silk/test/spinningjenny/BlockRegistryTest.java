@@ -13,7 +13,7 @@ package pers.saikel0rado1iu.silk.test.spinningjenny;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
-import pers.saikel0rado1iu.silk.spinningjenny.BlockRegistry;
+import pers.saikel0rado1iu.silk.api.spinningjenny.BlockRegistry;
 
 /**
  * Test {@link BlockRegistry}

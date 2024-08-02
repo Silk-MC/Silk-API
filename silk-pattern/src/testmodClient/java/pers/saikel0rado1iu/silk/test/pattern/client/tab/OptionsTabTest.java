@@ -14,11 +14,11 @@ package pers.saikel0rado1iu.silk.test.pattern.client.tab;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.SimpleOption;
 import pers.saikel0rado1iu.silk.impl.SilkPattern;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
+import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.pattern.screen.PlaceholderScreen;
 import pers.saikel0rado1iu.silk.pattern.tab.OptionsTab;
 import pers.saikel0rado1iu.silk.pattern.widget.OptionMenuWidget;
-import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
+import pers.saikel0rado1iu.silk.api.pattern.widget.WidgetTexts;
 import pers.saikel0rado1iu.silk.test.pattern.client.screen.ButtonHelperScreen;
 
 /**

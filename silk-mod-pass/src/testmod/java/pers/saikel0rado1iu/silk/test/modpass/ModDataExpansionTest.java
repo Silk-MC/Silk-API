@@ -17,9 +17,9 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
 import pers.saikel0rado1iu.silk.impl.SilkApiBase;
 import pers.saikel0rado1iu.silk.impl.SilkModPass;
-import pers.saikel0rado1iu.silk.modpass.ModDataExpansion;
-import pers.saikel0rado1iu.silk.modpass.pack.DataPack;
-import pers.saikel0rado1iu.silk.modpass.pack.ResourcePack;
+import pers.saikel0rado1iu.silk.api.modpass.ModDataExpansion;
+import pers.saikel0rado1iu.silk.api.modpass.pack.DataPack;
+import pers.saikel0rado1iu.silk.api.modpass.pack.ResourcePack;
 
 /**
  * Test {@link ModDataExpansion}

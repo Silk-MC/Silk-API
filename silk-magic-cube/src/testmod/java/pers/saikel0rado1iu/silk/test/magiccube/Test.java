@@ -13,10 +13,10 @@ package pers.saikel0rado1iu.silk.test.magiccube;
 
 import com.google.common.collect.ImmutableSet;
 import pers.saikel0rado1iu.silk.impl.SilkMagicCube;
-import pers.saikel0rado1iu.silk.modpass.ModData;
-import pers.saikel0rado1iu.silk.modpass.ModMain;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
-import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
+import pers.saikel0rado1iu.silk.api.modpass.ModData;
+import pers.saikel0rado1iu.silk.api.modpass.ModMain;
+import pers.saikel0rado1iu.silk.api.modpass.ModPass;
+import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
 import pers.saikel0rado1iu.silk.test.magiccube.cauldron.CauldronLikeBehaviorTest;
 
 import java.util.Set;

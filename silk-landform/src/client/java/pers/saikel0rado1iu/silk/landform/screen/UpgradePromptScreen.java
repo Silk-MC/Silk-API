@@ -29,11 +29,11 @@ import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.impl.SilkCodex;
 import pers.saikel0rado1iu.silk.impl.SilkLandform;
 import pers.saikel0rado1iu.silk.landform.UpgradableLevelSummary;
-import pers.saikel0rado1iu.silk.landform.gen.chunk.ChunkGeneratorUpgradable;
-import pers.saikel0rado1iu.silk.modpass.ModData;
+import pers.saikel0rado1iu.silk.api.landform.gen.chunk.ChunkGeneratorUpgradable;
+import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.pattern.screen.BaseScreen;
 import pers.saikel0rado1iu.silk.pattern.widget.ButtonHelper;
-import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
+import pers.saikel0rado1iu.silk.api.pattern.widget.WidgetTexts;
 
 import java.util.Objects;
 

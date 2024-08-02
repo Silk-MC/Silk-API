@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import pers.saikel0rado1iu.silk.magiccube.infect.InfectMushroom;
+import pers.saikel0rado1iu.silk.api.magiccube.infect.InfectMushroom;
 
 /**
  * <h2 style="color:FFC800">{@link InfectMushroom} 混入</h2>

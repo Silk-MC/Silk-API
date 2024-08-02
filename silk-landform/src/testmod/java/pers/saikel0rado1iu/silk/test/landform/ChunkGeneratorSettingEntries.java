@@ -18,9 +18,9 @@ import net.minecraft.world.gen.chunk.ChunkGeneratorSettings;
 import net.minecraft.world.gen.densityfunction.DensityFunctions;
 import net.minecraft.world.gen.noise.NoiseRouter;
 import net.minecraft.world.gen.surfacebuilder.VanillaSurfaceRules;
-import pers.saikel0rado1iu.silk.generate.world.ChunkGeneratorSettingEntry;
-import pers.saikel0rado1iu.silk.generate.world.chunk.ChunkGenerationShapeConfig;
-import pers.saikel0rado1iu.silk.landform.biome.source.util.DefaultBiomeParameters;
+import pers.saikel0rado1iu.silk.api.generate.world.ChunkGeneratorSettingEntry;
+import pers.saikel0rado1iu.silk.api.generate.world.chunk.ChunkGenerationShapeConfig;
+import pers.saikel0rado1iu.silk.api.landform.biome.source.util.DefaultBiomeParameters;
 
 import static pers.saikel0rado1iu.silk.test.landform.Launch.MOD_PASS;
 

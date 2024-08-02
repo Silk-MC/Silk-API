@@ -13,8 +13,8 @@ package pers.saikel0rado1iu.silk.spinningjenny;
 
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
-import pers.saikel0rado1iu.silk.annotation.ClientRegistration;
-import pers.saikel0rado1iu.silk.modpass.registry.ClientRegistrationProvider;
+import pers.saikel0rado1iu.silk.api.base.annotation.ClientRegistration;
+import pers.saikel0rado1iu.silk.api.modpass.registry.ClientRegistrationProvider;
 
 /**
  * <h2 style="color:FFC800">实体模型图层注册提供器</h2>

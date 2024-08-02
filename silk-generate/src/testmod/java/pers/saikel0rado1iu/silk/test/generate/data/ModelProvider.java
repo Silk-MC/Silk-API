@@ -21,9 +21,9 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.Items;
 import net.minecraft.item.SpawnEggItem;
-import pers.saikel0rado1iu.silk.generate.data.client.ExtendedBlockStateModelGenerator;
-import pers.saikel0rado1iu.silk.generate.data.client.ExtendedItemModelGenerator;
-import pers.saikel0rado1iu.silk.generate.data.client.TextureKeys;
+import pers.saikel0rado1iu.silk.api.generate.data.client.ExtendedBlockStateModelGenerator;
+import pers.saikel0rado1iu.silk.api.generate.data.client.ExtendedItemModelGenerator;
+import pers.saikel0rado1iu.silk.api.generate.data.client.TextureKeys;
 
 import static pers.saikel0rado1iu.silk.test.generate.Items.TEST_BOW;
 import static pers.saikel0rado1iu.silk.test.generate.Items.TEST_CROSSBOW;

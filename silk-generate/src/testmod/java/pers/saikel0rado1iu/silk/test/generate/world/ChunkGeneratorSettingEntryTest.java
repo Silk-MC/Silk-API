@@ -14,8 +14,8 @@ package pers.saikel0rado1iu.silk.test.generate.world;
 import net.minecraft.registry.RegistryBuilder;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.gen.chunk.ChunkGeneratorSettings;
-import pers.saikel0rado1iu.silk.generate.world.ChunkGeneratorSettingEntry;
-import pers.saikel0rado1iu.silk.generate.world.chunk.ChunkGenerationShapeConfig;
+import pers.saikel0rado1iu.silk.api.generate.world.ChunkGeneratorSettingEntry;
+import pers.saikel0rado1iu.silk.api.generate.world.chunk.ChunkGenerationShapeConfig;
 import pers.saikel0rado1iu.silk.impl.SilkGenerate;
 import pers.saikel0rado1iu.silk.test.generate.Main;
 

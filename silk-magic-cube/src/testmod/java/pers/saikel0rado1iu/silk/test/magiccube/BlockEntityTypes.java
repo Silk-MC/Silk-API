@@ -13,8 +13,8 @@ package pers.saikel0rado1iu.silk.test.magiccube;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
+import pers.saikel0rado1iu.silk.api.spinningjenny.BlockEntityTypeRegistry;
 import pers.saikel0rado1iu.silk.impl.SilkMagicCube;
-import pers.saikel0rado1iu.silk.spinningjenny.BlockEntityTypeRegistry;
 import pers.saikel0rado1iu.silk.test.magiccube.entity.PhysicsConnectingBlockEntityTest;
 
 /**

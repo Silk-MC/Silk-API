@@ -30,7 +30,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
-import pers.saikel0rado1iu.silk.ropestick.tool.AdjustFovWhileHold;
+import pers.saikel0rado1iu.silk.api.ropestick.tool.AdjustFovWhileHold;
 
 /**
  * <h2 style="color:FFC800">{@link AdjustFovWhileHold} 混入</h2>

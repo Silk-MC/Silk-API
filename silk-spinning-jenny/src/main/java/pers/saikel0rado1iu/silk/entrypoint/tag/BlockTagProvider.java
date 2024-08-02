@@ -15,7 +15,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.block.Blocks;
 import net.minecraft.registry.RegistryWrapper;
-import pers.saikel0rado1iu.silk.spinningjenny.tag.BlockTags;
+import pers.saikel0rado1iu.silk.api.spinningjenny.tag.BlockTags;
 
 import java.util.concurrent.CompletableFuture;
 

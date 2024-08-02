@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import pers.saikel0rado1iu.silk.magiccube.infect.InfectSapling;
+import pers.saikel0rado1iu.silk.api.magiccube.infect.InfectSapling;
 
 /**
  * <h2 style="color:FFC800">{@link InfectSapling} 混入</h2>

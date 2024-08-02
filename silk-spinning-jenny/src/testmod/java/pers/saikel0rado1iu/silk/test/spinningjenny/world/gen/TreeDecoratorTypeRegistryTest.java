@@ -13,7 +13,7 @@ package pers.saikel0rado1iu.silk.test.spinningjenny.world.gen;
 
 import net.minecraft.world.gen.treedecorator.TreeDecorator;
 import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
-import pers.saikel0rado1iu.silk.spinningjenny.world.gen.TreeDecoratorTypeRegistry;
+import pers.saikel0rado1iu.silk.api.spinningjenny.world.gen.TreeDecoratorTypeRegistry;
 
 /**
  * Test {@link TreeDecoratorTypeRegistry}

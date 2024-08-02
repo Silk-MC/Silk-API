@@ -14,8 +14,8 @@ package pers.saikel0rado1iu.silk.test.magiccube.cauldron;
 import net.minecraft.block.AbstractCauldronBlock;
 import net.minecraft.block.Block;
 import net.minecraft.registry.tag.TagKey;
-import pers.saikel0rado1iu.silk.magiccube.cauldron.CauldronLikeBehavior;
-import pers.saikel0rado1iu.silk.magiccube.cauldron.LeveledCauldronLikeBlock;
+import pers.saikel0rado1iu.silk.api.magiccube.cauldron.CauldronLikeBehavior;
+import pers.saikel0rado1iu.silk.api.magiccube.cauldron.LeveledCauldronLikeBlock;
 import pers.saikel0rado1iu.silk.test.magiccube.Blocks;
 
 /**

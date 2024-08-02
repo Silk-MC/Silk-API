@@ -24,10 +24,10 @@ import net.minecraft.world.level.storage.LevelSummary;
 import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.impl.SilkCodex;
 import pers.saikel0rado1iu.silk.impl.SilkLandform;
-import pers.saikel0rado1iu.silk.modpass.ModData;
+import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.pattern.screen.BaseScreen;
 import pers.saikel0rado1iu.silk.pattern.widget.ButtonHelper;
-import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
+import pers.saikel0rado1iu.silk.api.pattern.widget.WidgetTexts;
 
 import java.util.Objects;
 import java.util.function.Consumer;

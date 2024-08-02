@@ -11,9 +11,9 @@
 
 package pers.saikel0rado1iu.silk.test.codex;
 
-import pers.saikel0rado1iu.silk.codex.*;
-import pers.saikel0rado1iu.silk.codex.stream.SettingLoader;
-import pers.saikel0rado1iu.silk.codex.stream.SettingStorage;
+import pers.saikel0rado1iu.silk.api.codex.*;
+import pers.saikel0rado1iu.silk.api.codex.stream.SettingLoader;
+import pers.saikel0rado1iu.silk.api.codex.stream.SettingStorage;
 import pers.saikel0rado1iu.silk.impl.SilkCodex;
 
 /**

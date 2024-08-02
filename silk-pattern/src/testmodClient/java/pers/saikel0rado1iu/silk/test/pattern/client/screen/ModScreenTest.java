@@ -13,7 +13,7 @@ package pers.saikel0rado1iu.silk.test.pattern.client.screen;
 
 import net.minecraft.client.gui.screen.Screen;
 import org.jetbrains.annotations.Nullable;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
+import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.pattern.screen.ModScreen;
 import pers.saikel0rado1iu.silk.test.pattern.client.tab.ModTabTest;
 import pers.saikel0rado1iu.silk.test.pattern.client.tab.OptionsTabTest;

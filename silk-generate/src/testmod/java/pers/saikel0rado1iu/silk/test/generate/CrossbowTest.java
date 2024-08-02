@@ -18,10 +18,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
-import pers.saikel0rado1iu.silk.generate.advancement.criterion.Criteria;
-import pers.saikel0rado1iu.silk.generate.advancement.criterion.RangedKilledEntityCriterion;
-import pers.saikel0rado1iu.silk.ropestick.ranged.Crossbow;
-import pers.saikel0rado1iu.silk.ropestick.tool.AdjustFovWhileUse;
+import pers.saikel0rado1iu.silk.api.generate.advancement.criterion.Criteria;
+import pers.saikel0rado1iu.silk.api.generate.advancement.criterion.RangedKilledEntityCriterion;
+import pers.saikel0rado1iu.silk.api.ropestick.ranged.Crossbow;
+import pers.saikel0rado1iu.silk.api.ropestick.tool.AdjustFovWhileUse;
 
 import java.util.Optional;
 import java.util.Set;

@@ -27,8 +27,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import pers.saikel0rado1iu.silk.generate.advancement.criterion.Criteria;
-import pers.saikel0rado1iu.silk.generate.advancement.criterion.RangedKilledEntityCriterion;
+import pers.saikel0rado1iu.silk.api.generate.advancement.criterion.Criteria;
+import pers.saikel0rado1iu.silk.api.generate.advancement.criterion.RangedKilledEntityCriterion;
 
 /**
  * <h2 style="color:FFC800">{@link RangedKilledEntityCriterion} 混入</h2>

@@ -14,7 +14,7 @@ package pers.saikel0rado1iu.silk.test.generate.data;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.gen.WorldPresets;
-import pers.saikel0rado1iu.silk.generate.data.LinkedLanguageProvider;
+import pers.saikel0rado1iu.silk.api.generate.data.LinkedLanguageProvider;
 import pers.saikel0rado1iu.silk.impl.SilkGenerate;
 
 /**

@@ -14,10 +14,10 @@ package pers.saikel0rado1iu.silk.impl;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.event.Level;
-import pers.saikel0rado1iu.silk.modpass.ModData;
-import pers.saikel0rado1iu.silk.modpass.ModDataExpansion;
-import pers.saikel0rado1iu.silk.modpass.pack.DataPack;
-import pers.saikel0rado1iu.silk.modpass.pack.ResourcePack;
+import pers.saikel0rado1iu.silk.api.modpass.ModData;
+import pers.saikel0rado1iu.silk.api.modpass.ModDataExpansion;
+import pers.saikel0rado1iu.silk.api.modpass.pack.DataPack;
+import pers.saikel0rado1iu.silk.api.modpass.pack.ResourcePack;
 
 import java.net.MalformedURLException;
 import java.net.URL;

@@ -20,9 +20,9 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
-import pers.saikel0rado1iu.silk.common.util.TickUtil;
-import pers.saikel0rado1iu.silk.ropestick.ranged.SemiAutomaticFirearm;
-import pers.saikel0rado1iu.silk.ropestick.tool.AdjustFovWhileUse;
+import pers.saikel0rado1iu.silk.api.base.common.util.TickUtil;
+import pers.saikel0rado1iu.silk.api.ropestick.ranged.SemiAutomaticFirearm;
+import pers.saikel0rado1iu.silk.api.ropestick.tool.AdjustFovWhileUse;
 
 import java.util.Optional;
 import java.util.Set;

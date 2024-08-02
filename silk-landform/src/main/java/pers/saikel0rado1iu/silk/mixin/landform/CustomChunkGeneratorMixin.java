@@ -32,7 +32,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import pers.saikel0rado1iu.silk.landform.gen.chunk.ChunkGeneratorCustom;
+import pers.saikel0rado1iu.silk.api.landform.gen.chunk.ChunkGeneratorCustom;
 
 import java.util.function.Function;
 import java.util.function.Predicate;

@@ -16,8 +16,8 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.gen.WorldPreset;
 import net.minecraft.world.gen.chunk.FlatChunkGenerator;
 import net.minecraft.world.gen.chunk.FlatChunkGeneratorConfig;
-import pers.saikel0rado1iu.silk.generate.world.BiomeEntry;
-import pers.saikel0rado1iu.silk.generate.world.WorldPresetEntry;
+import pers.saikel0rado1iu.silk.api.generate.world.BiomeEntry;
+import pers.saikel0rado1iu.silk.api.generate.world.WorldPresetEntry;
 import pers.saikel0rado1iu.silk.impl.SilkGenerate;
 import pers.saikel0rado1iu.silk.test.generate.Main;
 

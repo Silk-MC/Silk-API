@@ -31,10 +31,10 @@ import net.minecraft.world.gen.WorldPreset;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.ChunkGeneratorSettings;
 import org.apache.commons.lang3.StringUtils;
-import pers.saikel0rado1iu.silk.generate.world.WorldPresetEntry;
+import pers.saikel0rado1iu.silk.api.generate.world.WorldPresetEntry;
 import pers.saikel0rado1iu.silk.impl.SilkLandform;
-import pers.saikel0rado1iu.silk.landform.ChunkStorageData;
-import pers.saikel0rado1iu.silk.landform.gen.chunk.ModifiedChunkGenerator;
+import pers.saikel0rado1iu.silk.api.landform.ChunkStorageData;
+import pers.saikel0rado1iu.silk.api.landform.gen.chunk.ModifiedChunkGenerator;
 
 import java.util.Arrays;
 import java.util.List;

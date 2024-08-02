@@ -16,7 +16,7 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.world.World;
-import pers.saikel0rado1iu.silk.spore.projectile.FixedDamage;
+import pers.saikel0rado1iu.silk.api.spore.projectile.FixedDamage;
 
 /**
  * Test {@link FixedDamage}

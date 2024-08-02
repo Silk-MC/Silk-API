@@ -14,7 +14,7 @@ package pers.saikel0rado1iu.silk.test.base.common.util;
 import net.minecraft.entity.mob.SpiderEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pers.saikel0rado1iu.silk.common.util.SpawnUtil;
+import pers.saikel0rado1iu.silk.api.base.common.util.SpawnUtil;
 
 /**
  * Test SpawnUtil

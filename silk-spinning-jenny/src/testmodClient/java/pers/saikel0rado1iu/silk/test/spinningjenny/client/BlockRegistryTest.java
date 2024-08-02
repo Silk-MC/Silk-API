@@ -13,7 +13,7 @@ package pers.saikel0rado1iu.silk.test.spinningjenny.client;
 
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.client.render.RenderLayer;
-import pers.saikel0rado1iu.silk.spinningjenny.BlockRegistry;
+import pers.saikel0rado1iu.silk.api.spinningjenny.BlockRegistry;
 
 import static pers.saikel0rado1iu.silk.test.spinningjenny.BlockRegistryTest.TEST_BLOCK;
 

@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.impl.SilkModUp;
 import pers.saikel0rado1iu.silk.pattern.screen.ModScreen;
 import pers.saikel0rado1iu.silk.pattern.tab.ScreenTab;
-import pers.saikel0rado1iu.silk.pattern.widget.WidgetTexts;
+import pers.saikel0rado1iu.silk.api.pattern.widget.WidgetTexts;
 import pers.saikel0rado1iu.silk.update.ClientUpdateManager;
 
 /**

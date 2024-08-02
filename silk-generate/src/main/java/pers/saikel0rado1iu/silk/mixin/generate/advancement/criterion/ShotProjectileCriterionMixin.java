@@ -23,8 +23,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import pers.saikel0rado1iu.silk.generate.advancement.criterion.Criteria;
-import pers.saikel0rado1iu.silk.generate.advancement.criterion.ShotProjectileCriterion;
+import pers.saikel0rado1iu.silk.api.generate.advancement.criterion.Criteria;
+import pers.saikel0rado1iu.silk.api.generate.advancement.criterion.ShotProjectileCriterion;
 
 /**
  * <h2 style="color:FFC800">{@link ShotProjectileCriterion} 混入</h2>

@@ -12,9 +12,9 @@
 package pers.saikel0rado1iu.silk.test.ropestick;
 
 import net.minecraft.item.*;
+import pers.saikel0rado1iu.silk.api.ropestick.armor.CustomDyeableArmorItem;
+import pers.saikel0rado1iu.silk.api.spinningjenny.ItemRegistry;
 import pers.saikel0rado1iu.silk.impl.SilkRopeStick;
-import pers.saikel0rado1iu.silk.ropestick.armor.CustomDyeableArmorItem;
-import pers.saikel0rado1iu.silk.spinningjenny.ItemRegistry;
 
 /**
  * 物品

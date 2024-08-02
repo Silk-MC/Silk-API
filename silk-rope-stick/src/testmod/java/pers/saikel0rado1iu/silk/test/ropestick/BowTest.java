@@ -17,8 +17,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
-import pers.saikel0rado1iu.silk.ropestick.ranged.Bow;
-import pers.saikel0rado1iu.silk.ropestick.tool.AdjustFovWhileUse;
+import pers.saikel0rado1iu.silk.api.ropestick.ranged.Bow;
+import pers.saikel0rado1iu.silk.api.ropestick.tool.AdjustFovWhileUse;
 
 import java.util.Optional;
 import java.util.Set;

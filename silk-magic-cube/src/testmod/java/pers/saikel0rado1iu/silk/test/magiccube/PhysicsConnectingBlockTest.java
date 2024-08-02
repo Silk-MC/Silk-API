@@ -18,7 +18,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.NotNull;
-import pers.saikel0rado1iu.silk.magiccube.PhysicsConnectingBlock;
+import pers.saikel0rado1iu.silk.api.magiccube.PhysicsConnectingBlock;
 import pers.saikel0rado1iu.silk.test.magiccube.entity.PhysicsConnectingBlockEntityTest;
 
 /**

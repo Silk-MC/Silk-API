@@ -13,7 +13,7 @@ package pers.saikel0rado1iu.silk.test.spinningjenny.client;
 
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.entity.ArrowEntityRenderer;
-import pers.saikel0rado1iu.silk.spinningjenny.EntityTypeRegistry;
+import pers.saikel0rado1iu.silk.api.spinningjenny.EntityTypeRegistry;
 
 import static pers.saikel0rado1iu.silk.test.spinningjenny.EntityTypeRegistryTest.TEST_ENTITY_TYPE;
 

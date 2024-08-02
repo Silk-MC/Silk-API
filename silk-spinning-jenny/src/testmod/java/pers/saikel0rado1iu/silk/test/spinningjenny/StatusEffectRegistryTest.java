@@ -15,7 +15,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
-import pers.saikel0rado1iu.silk.spinningjenny.StatusEffectRegistry;
+import pers.saikel0rado1iu.silk.api.spinningjenny.StatusEffectRegistry;
 
 /**
  * Test {@link StatusEffectRegistry}

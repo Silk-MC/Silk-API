@@ -12,10 +12,10 @@
 package pers.saikel0rado1iu.silk.test.modpass;
 
 import pers.saikel0rado1iu.silk.impl.SilkModPass;
-import pers.saikel0rado1iu.silk.modpass.ModData;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
-import pers.saikel0rado1iu.silk.modpass.ModServer;
-import pers.saikel0rado1iu.silk.modpass.registry.ServerRegistrationProvider;
+import pers.saikel0rado1iu.silk.api.modpass.ModData;
+import pers.saikel0rado1iu.silk.api.modpass.ModPass;
+import pers.saikel0rado1iu.silk.api.modpass.ModServer;
+import pers.saikel0rado1iu.silk.api.modpass.registry.ServerRegistrationProvider;
 
 import java.util.Set;
 

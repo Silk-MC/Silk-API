@@ -19,12 +19,12 @@ import net.minecraft.world.biome.source.FixedBiomeSource;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.ChunkGeneratorSettings;
 import net.minecraft.world.gen.chunk.NoiseChunkGenerator;
-import pers.saikel0rado1iu.silk.spinningjenny.world.gen.chunk.ChunkGeneratorCodecRegistry;
+import pers.saikel0rado1iu.silk.api.spinningjenny.world.gen.chunk.ChunkGeneratorCodecRegistry;
 
 import java.util.List;
 
-import static pers.saikel0rado1iu.silk.landform.gen.chunk.ChunkGeneratorUpgradable.NON_VERSION;
-import static pers.saikel0rado1iu.silk.landform.gen.chunk.ChunkGeneratorUpgradable.VERSION_KEY;
+import static pers.saikel0rado1iu.silk.api.landform.gen.chunk.ChunkGeneratorUpgradable.NON_VERSION;
+import static pers.saikel0rado1iu.silk.api.landform.gen.chunk.ChunkGeneratorUpgradable.VERSION_KEY;
 import static pers.saikel0rado1iu.silk.test.landform.Launch.MOD_PASS;
 
 /**

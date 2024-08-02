@@ -26,9 +26,9 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.TreeConfiguredFeatures;
-import pers.saikel0rado1iu.silk.magiccube.PlantableBlock;
-import pers.saikel0rado1iu.silk.magiccube.infect.InfectMushroom;
-import pers.saikel0rado1iu.silk.spinningjenny.tag.ItemTags;
+import pers.saikel0rado1iu.silk.api.magiccube.PlantableBlock;
+import pers.saikel0rado1iu.silk.api.magiccube.infect.InfectMushroom;
+import pers.saikel0rado1iu.silk.api.spinningjenny.tag.ItemTags;
 
 /**
  * Test {@link InfectMushroom}

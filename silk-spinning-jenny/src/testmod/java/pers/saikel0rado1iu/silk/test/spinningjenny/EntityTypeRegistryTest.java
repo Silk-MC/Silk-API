@@ -17,7 +17,7 @@ import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.world.World;
-import pers.saikel0rado1iu.silk.spinningjenny.EntityTypeRegistry;
+import pers.saikel0rado1iu.silk.api.spinningjenny.EntityTypeRegistry;
 
 /**
  * Test {@link EntityTypeRegistry}

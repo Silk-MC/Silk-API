@@ -17,9 +17,9 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.MultiNoiseBiomeSourceParameterList;
 import net.minecraft.world.biome.source.util.MultiNoiseUtil;
-import pers.saikel0rado1iu.silk.generate.world.biome.source.MultiNoiseBiomeSourceFunction;
-import pers.saikel0rado1iu.silk.landform.biome.source.util.DefaultBiomeParameters;
-import pers.saikel0rado1iu.silk.spinningjenny.world.biome.source.BiomeSourceParamListPresetRegistry;
+import pers.saikel0rado1iu.silk.api.generate.world.biome.source.MultiNoiseBiomeSourceFunction;
+import pers.saikel0rado1iu.silk.api.landform.biome.source.util.DefaultBiomeParameters;
+import pers.saikel0rado1iu.silk.api.spinningjenny.world.biome.source.BiomeSourceParamListPresetRegistry;
 
 import java.util.function.Function;
 
