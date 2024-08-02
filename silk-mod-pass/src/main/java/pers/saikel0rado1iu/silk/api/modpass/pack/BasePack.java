@@ -27,7 +27,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.Nullable;
-import pers.saikel0rado1iu.silk.event.modpass.RegisterGroupResourcePackCallback;
+import pers.saikel0rado1iu.silk.api.event.registry.RegisterGroupResourcePackCallback;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 

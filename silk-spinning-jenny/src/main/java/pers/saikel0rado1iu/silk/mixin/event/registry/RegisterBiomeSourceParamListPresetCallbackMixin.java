@@ -9,13 +9,13 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.mixin.event.spinningjenny.world.biome.source;
+package pers.saikel0rado1iu.silk.mixin.event.registry;
 
 import net.minecraft.world.biome.source.MultiNoiseBiomeSourceParameterList;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import pers.saikel0rado1iu.silk.event.spinningjenny.world.biome.source.RegisterBiomeSourceParamListPresetCallback;
+import pers.saikel0rado1iu.silk.api.event.registry.RegisterBiomeSourceParamListPresetCallback;
 
 import java.util.ArrayList;
 import java.util.List;
