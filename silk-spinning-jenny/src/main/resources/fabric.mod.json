@@ -37,7 +37,7 @@
 	"environment": "*",
 	"entrypoints": {
 		"fabric-datagen": [
-			"pers.saikel0rado1iu.silk.entrypoint.spinningjenny.DataGen"
+			"pers.saikel0rado1iu.silk.entrypoint.SpinningJennyDataGen"
 		]
 	},
 	"mixins": [

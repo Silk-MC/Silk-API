@@ -9,45 +9,27 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.test.generate;
+package pers.saikel0rado1iu.silk.entrypoints;
 
 import com.google.common.collect.ImmutableSet;
-import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
-import pers.saikel0rado1iu.silk.impl.SilkApi;
+import pers.saikel0rado1iu.silk.generate.advancement.criterion.Criteria;
+import pers.saikel0rado1iu.silk.generate.recipe.RecipeSerializer;
+import pers.saikel0rado1iu.silk.impl.SilkMagicCube;
 import pers.saikel0rado1iu.silk.modpass.ModData;
 import pers.saikel0rado1iu.silk.modpass.ModMain;
 import pers.saikel0rado1iu.silk.modpass.ModPass;
 import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
-import pers.saikel0rado1iu.silk.modpass.pack.DataPack;
-import pers.saikel0rado1iu.silk.modpass.pack.ResourcePack;
 
-import java.util.Optional;
 import java.util.Set;
 
 /**
- * GenerateMain
+ * <h2 style="color:FFC800">主类</h2>
+ * Silk API: Generate 的主类
+ *
+ * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
+ * @since 1.0.0
  */
-public final class Main implements ModMain {
-	/**
-	 * MOD_PASS
-	 */
-	public static final SilkApi MOD_PASS = new SilkApi() {
-		@Override
-		public String id() {
-			return "silk-generate-test";
-		}
-		
-		@Override
-		public Optional<DataPack> dataPack() {
-			return Optional.of(DataPack.createGroup("data", ResourcePackActivationType.ALWAYS_ENABLED, modData()));
-		}
-		
-		@Override
-		public Optional<ResourcePack> resourcePack() {
-			return Optional.of(ResourcePack.createGroup("resource", ResourcePackActivationType.ALWAYS_ENABLED, modData()));
-		}
-	};
-	
+public final class GenerateMain implements ModMain {
 	/**
 	 * 模组主函数
 	 *
@@ -64,7 +46,7 @@ public final class Main implements ModMain {
 	 */
 	@Override
 	public Set<Class<? extends MainRegistrationProvider<?>>> registry() {
-		return ImmutableSet.of(Items.class);
+		return ImmutableSet.of(Criteria.class, RecipeSerializer.class);
 	}
 	
 	/**
@@ -74,6 +56,6 @@ public final class Main implements ModMain {
 	 */
 	@Override
 	public ModData modData() {
-		return MOD_PASS;
+		return SilkMagicCube.getInstance();
 	}
 }

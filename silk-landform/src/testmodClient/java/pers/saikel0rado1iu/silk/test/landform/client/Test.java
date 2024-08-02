@@ -20,7 +20,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.world.WorldCreator;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
-import pers.saikel0rado1iu.silk.codex.tab.SettingTab;
+import pers.saikel0rado1iu.silk.codex.client.tab.SettingTab;
 import pers.saikel0rado1iu.silk.event.landform.WorldPresetCustomButtonCallback;
 import pers.saikel0rado1iu.silk.event.landform.WorldPresetSetDefaultCallback;
 import pers.saikel0rado1iu.silk.event.pattern.AddButtonInTitleScreenCallback;

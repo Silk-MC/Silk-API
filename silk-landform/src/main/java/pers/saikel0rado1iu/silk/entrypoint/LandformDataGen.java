@@ -9,26 +9,31 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.test.landform;
+package pers.saikel0rado1iu.silk.entrypoint;
 
-import com.google.common.collect.ImmutableSet;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import pers.saikel0rado1iu.silk.generate.DataGenerator;
 import pers.saikel0rado1iu.silk.generate.DynamicDataEntry;
+import pers.saikel0rado1iu.silk.impl.SilkLandform;
 import pers.saikel0rado1iu.silk.modpass.ModData;
 
 import java.util.Optional;
 import java.util.Set;
 
-import static pers.saikel0rado1iu.silk.test.landform.Launch.MOD_PASS;
-
 /**
- * BaseDataGen
+ * <h2 style="color:FFC800">数据生成器</h2>
+ * 用于 Silk API: Landform 的数据生成器
+ *
+ * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
+ * @since 0.1.0
  */
-public final class DataGen implements DataGenerator {
+public final class LandformDataGen implements DataGenerator {
 	@Override
 	public void generate(FabricDataGenerator.Pack builtinPack, Optional<FabricDataGenerator.Pack> dataPack, Optional<FabricDataGenerator.Pack> resourcePack) {
-		builtinPack.addProvider(WorldPresetTagProvider::new);
+		builtinPack.addProvider(LandformI18nProvider.EN_US::provider);
+		builtinPack.addProvider(LandformI18nProvider.ZH_CN::provider);
+		builtinPack.addProvider(LandformI18nProvider.ZH_HK::provider);
+		builtinPack.addProvider(LandformI18nProvider.ZH_TW::provider);
 	}
 	
 	/**
@@ -38,7 +43,7 @@ public final class DataGen implements DataGenerator {
 	 */
 	@Override
 	public Set<DynamicDataEntry<?>> dynamicDataEntries() {
-		return ImmutableSet.of(ChunkGeneratorSettingEntries.INSTANCE, BiomeSourceParamLists.INSTANCE, WorldPresets.INSTANCE);
+		return Set.of();
 	}
 	
 	/**
@@ -48,6 +53,6 @@ public final class DataGen implements DataGenerator {
 	 */
 	@Override
 	public ModData modData() {
-		return MOD_PASS;
+		return SilkLandform.getInstance();
 	}
 }
