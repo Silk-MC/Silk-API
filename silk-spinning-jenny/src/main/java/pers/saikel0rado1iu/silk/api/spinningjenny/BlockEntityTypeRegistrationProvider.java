@@ -26,11 +26,8 @@ import java.util.Optional;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
-@ServerRegistration(registrar = BlockEntityTypeRegistrationProvider.SERVER_REGISTRAR, type = BlockEntityTypeRegistrationProvider.TYPE)
+@ServerRegistration(registrar = BlockEntityTypeRegistrationProvider.MainRegistrar.class, type = BlockEntityType.class)
 interface BlockEntityTypeRegistrationProvider extends MainRegistrationProvider<BlockEntityType<?>> {
-	String SERVER_REGISTRAR = "pers.saikel0rado1iu.silk.api.spinningjenny.BlockEntityTypeRegistrationProvider.MainRegistrar";
-	String TYPE = "net.minecraft.block.entity.BlockEntityType";
-	
 	/**
 	 * 方块实体类型主注册器
 	 *

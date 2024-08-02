@@ -29,13 +29,9 @@ import java.util.Optional;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
-@ServerRegistration(registrar = ParticleTypeRegistrationProvider.SERVER_REGISTRAR, type = ParticleTypeRegistrationProvider.TYPE)
-@ClientRegistration(registrar = ParticleTypeRegistrationProvider.CLIENT_REGISTRAR, type = ParticleTypeRegistrationProvider.TYPE)
+@ServerRegistration(registrar = ParticleTypeRegistrationProvider.MainRegistrar.class, type = ParticleType.class)
+@ClientRegistration(registrar = ParticleTypeRegistrationProvider.ClientRegistrar.class, type = ParticleType.class)
 interface ParticleTypeRegistrationProvider extends MainRegistrationProvider<ParticleType<?>>, ClientRegistrationProvider<ParticleType<?>> {
-	String SERVER_REGISTRAR = "pers.saikel0rado1iu.silk.api.spinningjenny.ParticleTypeRegistrationProvider.MainRegistrar";
-	String CLIENT_REGISTRAR = "pers.saikel0rado1iu.silk.api.spinningjenny.ParticleTypeRegistrationProvider.ClientRegistrar";
-	String TYPE = "net.minecraft.particle.ParticleType";
-	
 	/**
 	 * 粒子类型主注册器
 	 *

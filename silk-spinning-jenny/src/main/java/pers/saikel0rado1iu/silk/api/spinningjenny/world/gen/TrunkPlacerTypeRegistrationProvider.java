@@ -26,11 +26,8 @@ import java.util.Optional;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
-@ServerRegistration(registrar = TrunkPlacerTypeRegistrationProvider.SERVER_REGISTRAR, type = TrunkPlacerTypeRegistrationProvider.TYPE)
+@ServerRegistration(registrar = TrunkPlacerTypeRegistrationProvider.MainRegistrar.class, type = TrunkPlacerType.class)
 interface TrunkPlacerTypeRegistrationProvider extends MainRegistrationProvider<TrunkPlacerType<?>> {
-	String SERVER_REGISTRAR = "pers.saikel0rado1iu.silk.api.spinningjenny.world.gen.TrunkPlacerTypeRegistrationProvider.MainRegistrar";
-	String TYPE = "net.minecraft.world.gen.trunk.TrunkPlacerType";
-	
 	/**
 	 * 树干放置器类型主注册器
 	 *

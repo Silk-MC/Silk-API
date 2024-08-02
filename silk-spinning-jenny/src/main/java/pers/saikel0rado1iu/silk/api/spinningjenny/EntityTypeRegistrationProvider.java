@@ -29,13 +29,9 @@ import java.util.Optional;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
-@ServerRegistration(registrar = EntityTypeRegistrationProvider.SERVER_REGISTRAR, type = EntityTypeRegistrationProvider.TYPE)
-@ClientRegistration(registrar = EntityTypeRegistrationProvider.CLIENT_REGISTRAR, type = EntityTypeRegistrationProvider.TYPE)
+@ServerRegistration(registrar = EntityTypeRegistrationProvider.MainRegistrar.class, type = EntityType.class)
+@ClientRegistration(registrar = EntityTypeRegistrationProvider.ClientRegistrar.class, type = EntityType.class)
 interface EntityTypeRegistrationProvider extends MainRegistrationProvider<EntityType<?>>, ClientRegistrationProvider<EntityType<?>> {
-	String SERVER_REGISTRAR = "pers.saikel0rado1iu.silk.api.spinningjenny.EntityTypeRegistrationProvider.MainRegistrar";
-	String CLIENT_REGISTRAR = "pers.saikel0rado1iu.silk.api.spinningjenny.EntityTypeRegistrationProvider.ClientRegistrar";
-	String TYPE = "net.minecraft.entity.EntityType";
-	
 	/**
 	 * 实体类型主注册器
 	 *
@@ -55,7 +51,6 @@ interface EntityTypeRegistrationProvider extends MainRegistrationProvider<Entity
 		protected Optional<Registry<?>> registry() {
 			return Optional.of(Registries.ENTITY_TYPE);
 		}
-		
 	}
 	
 	/**

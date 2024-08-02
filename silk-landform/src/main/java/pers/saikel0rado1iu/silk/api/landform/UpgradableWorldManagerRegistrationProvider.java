@@ -23,18 +23,14 @@ import pers.saikel0rado1iu.silk.impl.SilkLandform;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
-@ClientRegistration(registrar = UpgradableWorldManagerRegistrationProvider.CLIENT_REGISTRAR, type = UpgradableWorldManagerRegistrationProvider.TYPE)
+@ClientRegistration(registrar = UpgradableWorldManagerRegistrationProvider.ClientRegistrar.class, type = UpgradableWorldManager.class)
 interface UpgradableWorldManagerRegistrationProvider extends ClientRegistrationProvider<UpgradableWorldManager<?>> {
-	String CLIENT_REGISTRAR = "pers.saikel0rado1iu.silk.api.landform.UpgradableWorldManagerRegistrationProvider.ClientRegistrar";
-	String TYPE = "pers.saikel0rado1iu.silk.api.landform.UpgradableWorldManager";
-	
 	/**
 	 * 更新管理器客户端注册器
 	 *
 	 * @param <T> 更新管理器类型
 	 */
-	@SuppressWarnings("rawtypes")
-	final class ClientRegistrar<T extends UpgradableWorldManager> extends ClientRegistrationProvider.Registrar<T> {
+	final class ClientRegistrar<T extends UpgradableWorldManager<?>> extends ClientRegistrationProvider.Registrar<T> {
 		ClientRegistrar() {
 			super(() -> {
 			});

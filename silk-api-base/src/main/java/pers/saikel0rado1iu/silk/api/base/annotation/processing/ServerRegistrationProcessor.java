@@ -43,12 +43,12 @@ import java.util.Set;
 @SupportedSourceVersion(SourceVersion.RELEASE_17)
 public class ServerRegistrationProcessor extends AbstractProcessor {
 	static Optional<TypeSpec.Builder> generateMethod(Optional<TypeSpec.Builder> optionalBuilder, Element element, ProcessingEnvironment processingEnv, ServerRegistration serverRegistration) {
-		TypeElement registrar = processingEnv.getElementUtils().getTypeElement(serverRegistration.registrar());
+		TypeElement registrar = processingEnv.getElementUtils().getTypeElement(serverRegistration.registrar().getCanonicalName());
 		if (registrar == null) {
 			processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, String.format("未找到注册器：%s", serverRegistration.registrar()), element);
 			return Optional.empty();
 		}
-		TypeElement type = processingEnv.getElementUtils().getTypeElement(serverRegistration.type());
+		TypeElement type = processingEnv.getElementUtils().getTypeElement(serverRegistration.type().getCanonicalName());
 		if (type == null) {
 			processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, String.format("未找到注册类型：%s", serverRegistration.type()), element);
 			return Optional.empty();
@@ -90,14 +90,7 @@ public class ServerRegistrationProcessor extends AbstractProcessor {
 		for (Element element : roundEnv.getElementsAnnotatedWith(ServerRegistration.class)) {
 			if (!RegistrationProcessor.checkAnnotation(ServerRegistration.class, roundEnv, processingEnv, (TypeElement) element)) return true;
 			ServerRegistration serverRegistration = element.getAnnotation(ServerRegistration.class);
-			if ("root".equals(serverRegistration.registrar()) && "root".equals(serverRegistration.type())) continue;
-			if (serverRegistration.registrar().isEmpty()) {
-				processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "未声明注册器", element);
-				return false;
-			} else if (serverRegistration.type().isEmpty()) {
-				processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "未声明注册类型", element);
-				return false;
-			}
+			if (serverRegistration.registrar() == Class.class && serverRegistration.type() == Class.class) continue;
 			// 写入文件
 			String packageName = elementUtils.getPackageOf(element).getQualifiedName().toString();
 			Optional<TypeSpec.Builder> optionalBuilder = ServerRegistrationProcessor.generateMethod(Optional.empty(), element, processingEnv, serverRegistration);

@@ -26,11 +26,8 @@ import java.util.Optional;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
-@ServerRegistration(registrar = CriterionRegistrationProvider.SERVER_REGISTRAR, type = CriterionRegistrationProvider.TYPE)
+@ServerRegistration(registrar = CriterionRegistrationProvider.MainRegistrar.class, type = Criterion.class)
 interface CriterionRegistrationProvider extends MainRegistrationProvider<Criterion<?>> {
-	String SERVER_REGISTRAR = "pers.saikel0rado1iu.silk.api.spinningjenny.data.gen.CriterionRegistrationProvider.MainRegistrar";
-	String TYPE = "net.minecraft.advancement.criterion.Criterion";
-	
 	/**
 	 * 标准主注册器
 	 *

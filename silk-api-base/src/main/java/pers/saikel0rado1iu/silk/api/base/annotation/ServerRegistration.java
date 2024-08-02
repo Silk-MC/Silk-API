@@ -30,14 +30,14 @@ public @interface ServerRegistration {
 	/**
 	 * 提供注册器用于生成注册方法
 	 *
-	 * @return 注册器
+	 * @return 注册器的类
 	 */
-	String registrar();
+	Class<?> registrar();
 	
 	/**
 	 * 提供注册类型用于生成注册方法<br>
 	 *
-	 * @return 注册类型
+	 * @return 注册类型的类
 	 */
-	String type();
+	Class<?> type();
 }

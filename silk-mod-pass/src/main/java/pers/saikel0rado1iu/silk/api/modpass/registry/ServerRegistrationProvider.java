@@ -24,7 +24,7 @@ import java.util.function.Consumer;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
-@ServerRegistration(registrar = "root", type = "root")
+@ServerRegistration(registrar = Class.class, type = Class.class)
 public interface ServerRegistrationProvider<T> extends RegisterableModPass<T> {
 	/**
 	 * 服务端注册器<br>

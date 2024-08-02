@@ -15,9 +15,9 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import pers.saikel0rado1iu.silk.api.base.annotation.ServerRegistration;
-import pers.saikel0rado1iu.silk.impl.SilkModPass;
 import pers.saikel0rado1iu.silk.api.modpass.ModMain;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
+import pers.saikel0rado1iu.silk.impl.SilkModPass;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
@@ -34,7 +34,7 @@ import java.util.function.Consumer;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
-@ServerRegistration(registrar = "root", type = "root")
+@ServerRegistration(registrar = Class.class, type = Class.class)
 public interface MainRegistrationProvider<T> extends RegisterableModPass<T> {
 	/**
 	 * 记录注册事件

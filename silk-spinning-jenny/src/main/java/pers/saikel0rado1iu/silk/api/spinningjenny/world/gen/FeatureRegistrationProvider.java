@@ -26,11 +26,8 @@ import java.util.Optional;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
-@ServerRegistration(registrar = FeatureRegistrationProvider.SERVER_REGISTRAR, type = FeatureRegistrationProvider.TYPE)
+@ServerRegistration(registrar = FeatureRegistrationProvider.MainRegistrar.class, type = Feature.class)
 interface FeatureRegistrationProvider extends MainRegistrationProvider<Feature<?>> {
-	String SERVER_REGISTRAR = "pers.saikel0rado1iu.silk.api.spinningjenny.world.gen.FeatureRegistrationProvider.MainRegistrar";
-	String TYPE = "net.minecraft.world.gen.feature.Feature";
-	
 	/**
 	 * 地物主注册器
 	 *

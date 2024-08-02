@@ -29,13 +29,9 @@ import java.util.Optional;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
-@ServerRegistration(registrar = UpdateManagerRegistrationProvider.SERVER_REGISTRAR, type = UpdateManagerRegistrationProvider.TYPE)
-@ClientRegistration(registrar = UpdateManagerRegistrationProvider.CLIENT_REGISTRAR, type = UpdateManagerRegistrationProvider.TYPE)
+@ServerRegistration(registrar = UpdateManagerRegistrationProvider.MainRegistrar.class, type = UpdateManager.class)
+@ClientRegistration(registrar = UpdateManagerRegistrationProvider.ClientRegistrar.class, type = UpdateManager.class)
 interface UpdateManagerRegistrationProvider extends MainRegistrationProvider<UpdateManager>, ClientRegistrationProvider<UpdateManager> {
-	String SERVER_REGISTRAR = "pers.saikel0rado1iu.silk.api.modup.UpdateManagerRegistrationProvider.MainRegistrar";
-	String CLIENT_REGISTRAR = "pers.saikel0rado1iu.silk.api.modup.UpdateManagerRegistrationProvider.ClientRegistrar";
-	String TYPE = "pers.saikel0rado1iu.silk.api.modup.UpdateManager";
-	
 	/**
 	 * 更新管理器服务端注册器
 	 *

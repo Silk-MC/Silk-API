@@ -29,13 +29,9 @@ import java.util.Optional;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
-@ServerRegistration(registrar = BlockRegistrationProvider.SERVER_REGISTRAR, type = BlockRegistrationProvider.TYPE)
-@ClientRegistration(registrar = BlockRegistrationProvider.CLIENT_REGISTRAR, type = BlockRegistrationProvider.TYPE)
+@ServerRegistration(registrar = BlockRegistrationProvider.MainRegistrar.class, type = Block.class)
+@ClientRegistration(registrar = BlockRegistrationProvider.ClientRegistrar.class, type = Block.class)
 interface BlockRegistrationProvider extends MainRegistrationProvider<Block>, ClientRegistrationProvider<Block> {
-	String SERVER_REGISTRAR = "pers.saikel0rado1iu.silk.api.spinningjenny.BlockRegistrationProvider.MainRegistrar";
-	String CLIENT_REGISTRAR = "pers.saikel0rado1iu.silk.api.spinningjenny.BlockRegistrationProvider.ClientRegistrar";
-	String TYPE = "net.minecraft.block.Block";
-	
 	/**
 	 * 方块主注册器
 	 *

@@ -26,11 +26,8 @@ import java.util.Optional;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
-@ServerRegistration(registrar = TreeDecoratorTypeRegistrationProvider.SERVER_REGISTRAR, type = TreeDecoratorTypeRegistrationProvider.TYPE)
+@ServerRegistration(registrar = TreeDecoratorTypeRegistrationProvider.MainRegistrar.class, type = TreeDecoratorType.class)
 interface TreeDecoratorTypeRegistrationProvider extends MainRegistrationProvider<TreeDecoratorType<?>> {
-	String SERVER_REGISTRAR = "pers.saikel0rado1iu.silk.api.spinningjenny.world.gen.TreeDecoratorTypeRegistrationProvider.MainRegistrar";
-	String TYPE = "net.minecraft.world.gen.treedecorator.TreeDecoratorType";
-	
 	/**
 	 * 树木装饰器类型主注册器
 	 *
@@ -50,6 +47,5 @@ interface TreeDecoratorTypeRegistrationProvider extends MainRegistrationProvider
 		protected Optional<Registry<?>> registry() {
 			return Optional.of(Registries.TREE_DECORATOR_TYPE);
 		}
-		
 	}
 }

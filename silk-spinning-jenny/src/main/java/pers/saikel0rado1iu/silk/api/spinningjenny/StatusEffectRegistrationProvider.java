@@ -26,11 +26,8 @@ import java.util.Optional;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
-@ServerRegistration(registrar = StatusEffectRegistrationProvider.SERVER_REGISTRAR, type = StatusEffectRegistrationProvider.TYPE)
+@ServerRegistration(registrar = StatusEffectRegistrationProvider.MainRegistrar.class, type = StatusEffect.class)
 interface StatusEffectRegistrationProvider extends MainRegistrationProvider<StatusEffect> {
-	String SERVER_REGISTRAR = "pers.saikel0rado1iu.silk.api.spinningjenny.StatusEffectRegistrationProvider.MainRegistrar";
-	String TYPE = "net.minecraft.entity.effect.StatusEffect";
-	
 	/**
 	 * 状态效果主注册器
 	 *

@@ -33,13 +33,9 @@ import java.util.Optional;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
-@ServerRegistration(registrar = ItemRegistrationProvider.SERVER_REGISTRAR, type = ItemRegistrationProvider.TYPE)
-@ClientRegistration(registrar = ItemRegistrationProvider.CLIENT_REGISTRAR, type = ItemRegistrationProvider.TYPE)
+@ServerRegistration(registrar = ItemRegistrationProvider.MainRegistrar.class, type = Item.class)
+@ClientRegistration(registrar = ItemRegistrationProvider.ClientRegistrar.class, type = Item.class)
 interface ItemRegistrationProvider extends MainRegistrationProvider<Item>, ClientRegistrationProvider<Item> {
-	String SERVER_REGISTRAR = "pers.saikel0rado1iu.silk.api.spinningjenny.ItemRegistrationProvider.MainRegistrar";
-	String CLIENT_REGISTRAR = "pers.saikel0rado1iu.silk.api.spinningjenny.ItemRegistrationProvider.ClientRegistrar";
-	String TYPE = "net.minecraft.item.Item";
-	
 	/**
 	 * 物品主注册器
 	 *
@@ -71,7 +67,6 @@ interface ItemRegistrationProvider extends MainRegistrationProvider<Item>, Clien
 			Arrays.stream(groups).forEach(group -> ItemGroupEvents.modifyEntriesEvent(group).register(content -> content.add(type)));
 			return this;
 		}
-		
 	}
 	
 	/**

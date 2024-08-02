@@ -26,11 +26,8 @@ import java.util.Optional;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
-@ServerRegistration(registrar = FoliagePlacerTypeRegistrationProvider.SERVER_REGISTRAR, type = FoliagePlacerTypeRegistrationProvider.TYPE)
+@ServerRegistration(registrar = FoliagePlacerTypeRegistrationProvider.MainRegistrar.class, type = FoliagePlacerType.class)
 interface FoliagePlacerTypeRegistrationProvider extends MainRegistrationProvider<FoliagePlacerType<?>> {
-	String SERVER_REGISTRAR = "pers.saikel0rado1iu.silk.api.spinningjenny.world.gen.FoliagePlacerTypeRegistrationProvider.MainRegistrar";
-	String TYPE = "net.minecraft.world.gen.foliage.FoliagePlacerType";
-	
 	/**
 	 * 树叶放置器类型主注册器
 	 *

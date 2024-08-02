@@ -23,7 +23,7 @@ import pers.saikel0rado1iu.silk.api.modpass.ModData;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
-@ClientRegistration(registrar = "root", type = "root")
+@ClientRegistration(registrar = Class.class, type = Class.class)
 public interface ClientRegistrationProvider<T> extends RegisterableModPass<T> {
 	/**
 	 * 客户端注册器<br>
