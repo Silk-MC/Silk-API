@@ -38,10 +38,10 @@
 	"accessWidener": "silk-generate.accesswidener",
 	"entrypoints": {
 		"main": [
-			"pers.saikel0rado1iu.silk.entrypoints.GenerateMain"
+			"pers.saikel0rado1iu.silk.entrypoint.GenerateMain"
 		],
 		"fabric-datagen": [
-			"pers.saikel0rado1iu.silk.entrypoints.GenerateDataGen"
+			"pers.saikel0rado1iu.silk.entrypoint.GenerateDataGen"
 		]
 	},
 	"mixins": [

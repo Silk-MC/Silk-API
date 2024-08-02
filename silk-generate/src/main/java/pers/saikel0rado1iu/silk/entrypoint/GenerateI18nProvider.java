@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.entrypoints;
+package pers.saikel0rado1iu.silk.entrypoint;
 
 import pers.saikel0rado1iu.silk.common.api.I18nModInfoProvider;
 import pers.saikel0rado1iu.silk.impl.SilkGenerate;

@@ -9,44 +9,41 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.entrypoints;
+package pers.saikel0rado1iu.silk.entrypoint;
 
-import com.google.common.collect.ImmutableSet;
-import pers.saikel0rado1iu.silk.generate.advancement.criterion.Criteria;
-import pers.saikel0rado1iu.silk.generate.recipe.RecipeSerializer;
-import pers.saikel0rado1iu.silk.impl.SilkMagicCube;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import pers.saikel0rado1iu.silk.generate.DataGenerator;
+import pers.saikel0rado1iu.silk.generate.DynamicDataEntry;
+import pers.saikel0rado1iu.silk.impl.SilkGenerate;
 import pers.saikel0rado1iu.silk.modpass.ModData;
-import pers.saikel0rado1iu.silk.modpass.ModMain;
-import pers.saikel0rado1iu.silk.modpass.ModPass;
-import pers.saikel0rado1iu.silk.modpass.registry.MainRegistrationProvider;
 
+import java.util.Optional;
 import java.util.Set;
 
 /**
- * <h2 style="color:FFC800">主类</h2>
- * Silk API: Generate 的主类
+ * <h2 style="color:FFC800">数据生成器</h2>
+ * 用于 Silk API: Generate 的数据生成器
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
- * @since 1.0.0
+ * @since 0.1.0
  */
-public final class GenerateMain implements ModMain {
-	/**
-	 * 模组主函数
-	 *
-	 * @param mod 提供的模组通
-	 */
+public final class GenerateDataGen implements DataGenerator {
 	@Override
-	public void main(ModPass mod) {
+	public void generate(FabricDataGenerator.Pack builtinPack, Optional<FabricDataGenerator.Pack> dataPack, Optional<FabricDataGenerator.Pack> resourcePack) {
+		builtinPack.addProvider(GenerateI18nProvider.EN_US::provider);
+		builtinPack.addProvider(GenerateI18nProvider.ZH_CN::provider);
+		builtinPack.addProvider(GenerateI18nProvider.ZH_HK::provider);
+		builtinPack.addProvider(GenerateI18nProvider.ZH_TW::provider);
 	}
 	
 	/**
-	 * 注册表方法，提供注册表以供注册
+	 * 动态数据条目表
 	 *
-	 * @return 注册表的类型集合
+	 * @return 列表动态数据集合
 	 */
 	@Override
-	public Set<Class<? extends MainRegistrationProvider<?>>> registry() {
-		return ImmutableSet.of(Criteria.class, RecipeSerializer.class);
+	public Set<DynamicDataEntry<?>> dynamicDataEntries() {
+		return Set.of();
 	}
 	
 	/**
@@ -56,6 +53,6 @@ public final class GenerateMain implements ModMain {
 	 */
 	@Override
 	public ModData modData() {
-		return SilkMagicCube.getInstance();
+		return SilkGenerate.getInstance();
 	}
 }
