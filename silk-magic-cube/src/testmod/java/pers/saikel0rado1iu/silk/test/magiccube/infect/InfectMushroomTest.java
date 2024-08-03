@@ -15,25 +15,18 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.MushroomPlantBlock;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.TreeConfiguredFeatures;
-import pers.saikel0rado1iu.silk.api.magiccube.PlantableBlock;
 import pers.saikel0rado1iu.silk.api.magiccube.infect.InfectMushroom;
-import pers.saikel0rado1iu.silk.api.spinningjenny.tag.ItemTags;
 
 /**
  * Test {@link InfectMushroom}
  */
-public final class InfectMushroomTest extends Block implements PlantableBlock, InfectMushroom {
+public final class InfectMushroomTest extends Block implements InfectMushroom {
 	/**
 	 * @param settings 方块设置
 	 */
@@ -56,12 +49,5 @@ public final class InfectMushroomTest extends Block implements PlantableBlock, I
 		world.setBlockState(pos, Blocks.AIR.getDefaultState());
 		ConfiguredFeature<?, ?> registryEntry = world.getRegistryManager().get(RegistryKeys.CONFIGURED_FEATURE).getEntry(TreeConfiguredFeatures.CHERRY).orElseThrow().value();
 		return registryEntry.generate(world, world.getChunkManager().getChunkGenerator(), random, pos);
-	}
-	
-	@SuppressWarnings("deprecation")
-	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		ActionResult actionResult = onUse(world, pos, player, hand, hit, ItemTags.MUSHROOMS);
-		return actionResult.equals(ActionResult.PASS) ? super.onUse(state, world, pos, player, hand, hit) : actionResult;
 	}
 }

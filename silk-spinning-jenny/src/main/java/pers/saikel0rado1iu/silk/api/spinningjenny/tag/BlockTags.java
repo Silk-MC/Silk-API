@@ -26,14 +26,32 @@ import pers.saikel0rado1iu.silk.impl.SilkApi;
 public interface BlockTags {
 	/**
 	 * 在此标签中的方块属于泥土的变种，可被锄犁为普通泥土
+	 *
+	 * @since 0.1.0
 	 */
 	TagKey<Block> SOIL = TagKey.of(RegistryKeys.BLOCK, SilkApi.getInstance().ofId("soil"));
 	/**
 	 * 在此标签中的方块属于可犁地方块，可被锄犁为耕地
+	 *
+	 * @since 0.1.0
 	 */
 	TagKey<Block> TILLABLE_BLOCKS = TagKey.of(RegistryKeys.BLOCK, SilkApi.getInstance().ofId("tillable_blocks"));
 	/**
 	 * 在此标签中的方块使用剪刀或剑会加速破坏
+	 *
+	 * @since 0.1.0
 	 */
 	TagKey<Block> COBWEB = TagKey.of(RegistryKeys.BLOCK, SilkApi.getInstance().ofId("cobweb"));
+	/**
+	 * 在此标签中的方块可以种植树苗
+	 *
+	 * @since 1.1.0
+	 */
+	TagKey<Block> SAPLING_GROW_BLOCK = TagKey.of(RegistryKeys.BLOCK, SilkApi.getInstance().ofId("sapling_grow_block"));
+	/**
+	 * 在此标签中的方块可以种植所有植株
+	 *
+	 * @since 1.1.0
+	 */
+	TagKey<Block> PLANT_GROW_BLOCK = TagKey.of(RegistryKeys.BLOCK, SilkApi.getInstance().ofId("plant_grow_block"));
 }

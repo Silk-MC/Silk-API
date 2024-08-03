@@ -14,10 +14,13 @@ package pers.saikel0rado1iu.silk.mixin.spinningjenny.tag;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.PlantBlock;
+import net.minecraft.block.SaplingBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.*;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -155,6 +158,32 @@ interface BlockTagsMixin {
 			return context.getWorld().getBlockState(context.getBlockPos()).isIn(BlockTags.TILLABLE_BLOCKS)
 					? Pair.of(HoeItem::canTillFarmland, HoeItem.createTillAction(Blocks.FARMLAND.getDefaultState()))
 					: pair;
+		}
+	}
+	
+	/**
+	 * 设置树苗种植块的可种植效果
+	 */
+	@Mixin(SaplingBlock.class)
+	abstract class SaplingGrowBlock extends PlantBlock {
+		private SaplingGrowBlock(Settings settings) {
+			super(settings);
+		}
+		
+		@Override
+		protected boolean canPlantOnTop(BlockState floor, BlockView world, BlockPos pos) {
+			return super.canPlantOnTop(floor, world, pos) || floor.isIn(BlockTags.SAPLING_GROW_BLOCK);
+		}
+	}
+	
+	/**
+	 * 设置植株种植块的可种植效果
+	 */
+	@Mixin(PlantBlock.class)
+	abstract class PlantGrowBlock {
+		@Inject(method = "canPlantOnTop", at = @At("RETURN"), cancellable = true)
+		private void canPlantOnTop(BlockState floor, BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+			cir.setReturnValue(cir.getReturnValue() || floor.isIn(BlockTags.PLANT_GROW_BLOCK));
 		}
 	}
 }

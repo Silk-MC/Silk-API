@@ -7,6 +7,8 @@
 		"spinningjenny.tag.BlockTagsMixin$Cobweb$ShearsBreak",
 		"spinningjenny.tag.BlockTagsMixin$Cobweb$SwordBreak",
 		"spinningjenny.tag.BlockTagsMixin$Dirt",
+		"spinningjenny.tag.BlockTagsMixin$PlantGrowBlock",
+		"spinningjenny.tag.BlockTagsMixin$SaplingGrowBlock",
 		"spinningjenny.tag.BlockTagsMixin$Soil",
 		"spinningjenny.tag.BlockTagsMixin$TillableBlock"
 	],
