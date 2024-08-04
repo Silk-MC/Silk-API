@@ -18,6 +18,7 @@ import pers.saikel0rado1iu.silk.api.landform.gen.chunk.ChunkGeneratorUpgradable;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -32,7 +33,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * @since 1.0.0
  */
 public abstract class UpgradableWorldManager<T extends ChunkGenerator & ChunkGeneratorUpgradable> extends Thread implements ModPass {
-	protected static final AtomicReference<DynamicRegistryManager> REGISTRY_MANAGER = new AtomicReference<>();
+	protected static final AtomicReference<CompletableFuture<DynamicRegistryManager.Immutable>> REGISTRY_MANAGER_GETTER = new AtomicReference<>();
 	protected static final String GET_MANAGER_ERROR_MSG = "Special Error: An issue occurred while obtaining the DynamicRegistryManager.";
 	private static final ScheduledExecutorService WORLD_UPGRADE_MANAGER_POOL = new ScheduledThreadPoolExecutor(1,
 			new BasicThreadFactory.Builder().daemon(true).build());
@@ -58,7 +59,8 @@ public abstract class UpgradableWorldManager<T extends ChunkGenerator & ChunkGen
 	 * @return 动态注册表管理器
 	 */
 	public static DynamicRegistryManager registryManager() {
-		return REGISTRY_MANAGER.get();
+		while (REGISTRY_MANAGER_GETTER.get() == null) Thread.yield();
+		return REGISTRY_MANAGER_GETTER.get().join();
 	}
 	
 	/**
@@ -68,13 +70,6 @@ public abstract class UpgradableWorldManager<T extends ChunkGenerator & ChunkGen
 	 */
 	public UpgradableWorldData<T> upgradableWorldData() {
 		return upgradableWorldData;
-	}
-	
-	/**
-	 * 汇合获取方法
-	 */
-	public synchronized void joinGet() {
-		while (REGISTRY_MANAGER.get() == null) Thread.yield();
 	}
 	
 	@Override

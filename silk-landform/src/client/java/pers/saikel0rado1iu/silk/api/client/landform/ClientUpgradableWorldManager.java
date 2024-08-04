@@ -11,20 +11,33 @@
 
 package pers.saikel0rado1iu.silk.api.client.landform;
 
+import com.google.common.collect.Maps;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.resource.DataConfiguration;
+import net.minecraft.resource.DataPackSettings;
 import net.minecraft.resource.ResourcePackManager;
 import net.minecraft.resource.VanillaDataPackProvider;
+import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.server.SaveLoader;
+import net.minecraft.server.SaveLoading;
+import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.integrated.IntegratedServerLoader;
+import net.minecraft.util.Util;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.level.storage.LevelStorage;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
+import pers.saikel0rado1iu.silk.api.client.event.landform.ClientWorldUpgradeManagerCallback;
 import pers.saikel0rado1iu.silk.api.landform.UpgradableWorldData;
 import pers.saikel0rado1iu.silk.api.landform.UpgradableWorldManager;
-import pers.saikel0rado1iu.silk.api.client.event.landform.ClientWorldUpgradeManagerCallback;
-import pers.saikel0rado1iu.silk.impl.SilkLandform;
 import pers.saikel0rado1iu.silk.api.landform.gen.chunk.ChunkGeneratorUpgradable;
+import pers.saikel0rado1iu.silk.impl.SilkLandform;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -39,6 +52,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class ClientUpgradableWorldManager<T extends ChunkGenerator & ChunkGeneratorUpgradable> extends UpgradableWorldManager<T> {
 	private static final ScheduledExecutorService GET_MANAGER_POOL = new ScheduledThreadPoolExecutor(1, new BasicThreadFactory.Builder().daemon(true).build());
+	private static final Map<String, DynamicRegistryManager.Immutable> SAVE_MANAGER_MAP = Maps.newHashMapWithExpectedSize(8);
 	
 	/**
 	 * @param upgradableWorldData 可升级世界数据
@@ -59,10 +73,18 @@ public class ClientUpgradableWorldManager<T extends ChunkGenerator & ChunkGenera
 	 */
 	public void start(LevelStorage.LevelList levels) {
 		GET_MANAGER_POOL.schedule(new Thread(() -> {
-			IntegratedServerLoader integratedServerLoader = MinecraftClient.getInstance().createIntegratedServerLoader();
-			try (LevelStorage.Session session = MinecraftClient.getInstance().getLevelStorage().createSession(levels.levels().get(0).getRootPath());
-			     SaveLoader saveLoader = integratedServerLoader.load(session.readLevelProperties(), false, VanillaDataPackProvider.createManager(session))) {
-				REGISTRY_MANAGER.set(saveLoader.combinedDynamicRegistries().getCombinedRegistryManager());
+			try (LevelStorage.Session session = MinecraftClient.getInstance().getLevelStorage().createSession(levels.levels().get(0).getRootPath())) {
+				ResourcePackManager resourcePackManager = VanillaDataPackProvider.createManager(session);
+				DataConfiguration dataConfiguration = new DataConfiguration(new DataPackSettings(new ArrayList<String>(resourcePackManager.getNames()), List.of()), FeatureFlags.FEATURE_MANAGER.getFeatureSet());
+				SaveLoading.DataPacks dataPacks = new SaveLoading.DataPacks(resourcePackManager, dataConfiguration, false, true);
+				SaveLoading.ServerConfig serverConfig = new SaveLoading.ServerConfig(dataPacks, CommandManager.RegistrationEnvironment.INTEGRATED, 2);
+				REGISTRY_MANAGER_GETTER.set(SaveLoading.load(serverConfig, context -> new SaveLoading.LoadContext<>(null, context.dimensionsRegistryManager()),
+						(resourceManager, dataPackContents, combinedDynamicRegistries, generatorOptions) -> {
+							resourceManager.close();
+							return combinedDynamicRegistries.getCombinedRegistryManager();
+						}, Util.getMainWorkerExecutor(), (MinecraftClient.getInstance())));
+				Objects.requireNonNull(REGISTRY_MANAGER_GETTER.get());
+				MinecraftClient.getInstance().runTasks(REGISTRY_MANAGER_GETTER.get()::isDone);
 			} catch (Exception e) {
 				logging(e);
 			}
@@ -75,11 +97,18 @@ public class ClientUpgradableWorldManager<T extends ChunkGenerator & ChunkGenera
 	 * @param session 关卡存储器会话
 	 */
 	public void start(LevelStorage.Session session) {
+		REGISTRY_MANAGER_GETTER.set(null);
+		if (SAVE_MANAGER_MAP.get(session.getDirectoryName()) != null) {
+			REGISTRY_MANAGER_GETTER.set(CompletableFuture.completedFuture(SAVE_MANAGER_MAP.get(session.getDirectoryName())));
+			return;
+		}
 		GET_MANAGER_POOL.schedule(new Thread(() -> {
 			IntegratedServerLoader integratedServerLoader = MinecraftClient.getInstance().createIntegratedServerLoader();
 			ResourcePackManager resourcePackManager = VanillaDataPackProvider.createManager(session);
 			try (SaveLoader saveLoader = integratedServerLoader.load(session.readLevelProperties(), false, resourcePackManager)) {
-				REGISTRY_MANAGER.set(saveLoader.combinedDynamicRegistries().getCombinedRegistryManager());
+				DynamicRegistryManager.Immutable manager = saveLoader.combinedDynamicRegistries().getCombinedRegistryManager();
+				SAVE_MANAGER_MAP.put(session.getDirectoryName(), manager);
+				REGISTRY_MANAGER_GETTER.set(CompletableFuture.completedFuture(manager));
 			} catch (Exception e) {
 				logging(e);
 			}

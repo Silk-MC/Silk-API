@@ -73,7 +73,6 @@ public interface ClientWorldUpgradeManagerCallback extends Supplier<ClientUpgrad
 			ClientUpgradableWorldManager<?> manager = event.get();
 			LEVEL_LIST_START_EVENT.register(manager::start);
 			LEVEL_LIST_OPERATION_EVENT.register((dynamic, summary) -> {
-				manager.joinGet();
 				DynamicRegistryManager registryManager = UpgradableWorldManager.registryManager();
 				UpgradableWorldData<?> upgradableWorldData = manager.upgradableWorldData();
 				ChunkGeneratorUpgradable generator = upgradableWorldData.getGenerator(registryManager);
@@ -112,9 +111,11 @@ public interface ClientWorldUpgradeManagerCallback extends Supplier<ClientUpgrad
 	Event<Supplier<ClientUpgradableWorldManager<?>>> SESSION_EVENT = EventFactory.createArrayBacked(Supplier.class, listeners -> () -> {
 		for (Supplier<ClientUpgradableWorldManager<?>> event : listeners) {
 			ClientUpgradableWorldManager<?> manager = event.get();
-			SESSION_START_EVENT.register(manager::start);
+			SESSION_START_EVENT.register(session -> {
+				manager.start(session);
+				UpgradableWorldManager.registryManager();
+			});
 			SESSION_OPERATION_EVENT.register((nbt) -> {
-				manager.joinGet();
 				UpgradableWorldData<?> upgradableWorldData = manager.upgradableWorldData();
 				DynamicRegistryManager registryManager = UpgradableWorldManager.registryManager();
 				if (null == registryManager) return nbt;
