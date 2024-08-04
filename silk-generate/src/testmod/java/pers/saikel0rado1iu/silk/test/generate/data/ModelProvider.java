@@ -53,8 +53,7 @@ public final class ModelProvider extends FabricModelProvider {
 		generator.registerEmptyCauldron(Blocks.CAULDRON, false);
 		generator.registerLavaCauldron(Blocks.LAVA_CAULDRON, Models.TEMPLATE_CAULDRON_FULL);
 		try {
-			generator.registerWaterCauldron((LeveledCauldronLikeBlock) Blocks.WATER_CAULDRON, Models.TEMPLATE_CAULDRON_LEVEL1, Models.TEMPLATE_CAULDRON_LEVEL2, Models.TEMPLATE_CAULDRON_FULL);
-			generator.registerSnowCauldron((LeveledCauldronLikeBlock) Blocks.POWDER_SNOW_CAULDRON, Models.TEMPLATE_CAULDRON_LEVEL1, Models.TEMPLATE_CAULDRON_LEVEL2, Models.TEMPLATE_CAULDRON_FULL);
+			generator.registerLeveledCauldron(Blocks.WATER, (LeveledCauldronLikeBlock) Blocks.WATER_CAULDRON, Models.TEMPLATE_CAULDRON_LEVEL1, Models.TEMPLATE_CAULDRON_LEVEL2, Models.TEMPLATE_CAULDRON_FULL);
 		} catch (Exception e) {
 		}
 	}

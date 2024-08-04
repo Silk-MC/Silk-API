@@ -26,7 +26,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import static net.minecraft.block.Blocks.*;
+import static net.minecraft.block.Blocks.LAVA;
 
 /**
  * <h2 style="color:FFC800">扩展方块状态模型生成器</h2>
@@ -175,32 +175,18 @@ public class ExtendedBlockStateModelGenerator extends BlockStateModelGenerator {
 	}
 	
 	/**
-	 * 注册含水坩埚块
+	 * 注册可调整液面坩埚块
 	 *
-	 * @param water     含水坩埚块
+	 * @param fluid     液体方块
+	 * @param leveled   可调整液面坩埚块
 	 * @param templates 模型模板
 	 */
-	public void registerWaterCauldron(LeveledCauldronLikeBlock water, Model... templates) {
-		BlockStateVariantMap.SingleProperty<Integer> map = BlockStateVariantMap.create(water.level());
-		for (int count = 1; count <= water.maxLevel(); count++) {
-			map = map.register(count, BlockStateVariant.create().put(VariantSettings.MODEL, templates[count - 1].upload(water, count != water.maxLevel() ? "_level" + count : "_full",
-					TextureMap.cauldron(TextureMap.getSubId(WATER, "_still")), modelCollector)));
+	public void registerLeveledCauldron(Block fluid, LeveledCauldronLikeBlock leveled, Model... templates) {
+		BlockStateVariantMap.SingleProperty<Integer> map = BlockStateVariantMap.create(leveled.level());
+		for (int count = 1; count <= leveled.maxLevel(); count++) {
+			map = map.register(count, BlockStateVariant.create().put(VariantSettings.MODEL, templates[count - 1].upload(leveled, count != leveled.maxLevel() ? "_level" + count : "_full",
+					TextureMap.cauldron(TextureMap.getSubId(fluid, "_still")), modelCollector)));
 		}
-		blockStateCollector.accept(VariantsBlockStateSupplier.create(water).coordinate(map));
-	}
-	
-	/**
-	 * 注册含细雪坩埚块
-	 *
-	 * @param snow      含细雪坩埚块
-	 * @param templates 模型模板
-	 */
-	public void registerSnowCauldron(LeveledCauldronLikeBlock snow, Model... templates) {
-		BlockStateVariantMap.SingleProperty<Integer> map = BlockStateVariantMap.create(snow.level());
-		for (int count = 1; count <= snow.maxLevel(); count++) {
-			map = map.register(count, BlockStateVariant.create().put(VariantSettings.MODEL, templates[count - 1].upload(snow, count != snow.maxLevel() ? "_level" + count : "_full",
-					TextureMap.cauldron(TextureMap.getSubId(POWDER_SNOW, "_still")), modelCollector)));
-		}
-		blockStateCollector.accept(VariantsBlockStateSupplier.create(snow).coordinate(map));
+		blockStateCollector.accept(VariantsBlockStateSupplier.create(leveled).coordinate(map));
 	}
 }
