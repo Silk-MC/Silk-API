@@ -40,11 +40,6 @@ public interface Blocks extends BlockRegistry {
 	PhysicsConnectingBlockTest TEST_BLOCK = BlockRegistry.registrar(new PhysicsConnectingBlockTest(AbstractBlock.Settings.create()))
 			.register(SilkMagicCube.getInstance().ofId("test_block"));
 	/**
-	 * test_plantable_block
-	 */
-	PlantableBlockTest TEST_PLANTABLE_BLOCK = BlockRegistry.registrar(new PlantableBlockTest(AbstractBlock.Settings.create()))
-			.register(SilkMagicCube.getInstance().ofId("test_plantable_block"));
-	/**
 	 * test_spreadable_soil_block
 	 */
 	SpreadableSoilBlockTest TEST_SPREADABLE_SOIL_BLOCK = BlockRegistry.registrar(new SpreadableSoilBlockTest(AbstractBlock.Settings.create().ticksRandomly()))
