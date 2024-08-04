@@ -147,18 +147,18 @@ public class ExtendedBlockStateModelGenerator extends BlockStateModelGenerator {
 	}
 	
 	/**
-	 * 注册空坩埚方块
+	 * 注册自定义模型方块
 	 *
-	 * @param empty      空坩埚块
+	 * @param block      方块
 	 * @param isFlatItem 是否为平面物品
 	 */
-	public void registerEmptyCauldron(Block empty, boolean isFlatItem) {
+	public void registerCustomModel(Block block, boolean isFlatItem) {
 		if (isFlatItem) {
-			registerItemModel(empty.asItem());
+			registerItemModel(block.asItem());
 		} else {
-			new Model(Optional.of(ModelIds.getBlockModelId(empty)), Optional.empty()).upload(ModelIds.getItemModelId(empty.asItem()), new TextureMap(), modelCollector);
+			new Model(Optional.of(ModelIds.getBlockModelId(block)), Optional.empty()).upload(ModelIds.getItemModelId(block.asItem()), new TextureMap(), modelCollector);
 		}
-		registerSimpleState(empty);
+		registerSimpleState(block);
 	}
 	
 	/**
