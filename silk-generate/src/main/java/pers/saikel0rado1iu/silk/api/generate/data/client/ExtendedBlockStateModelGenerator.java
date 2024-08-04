@@ -17,11 +17,16 @@ import net.minecraft.block.Blocks;
 import net.minecraft.data.client.Models;
 import net.minecraft.data.client.*;
 import net.minecraft.item.Item;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
+import pers.saikel0rado1iu.silk.api.magiccube.cauldron.LeveledCauldronLikeBlock;
 
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+
+import static net.minecraft.block.Blocks.*;
 
 /**
  * <h2 style="color:FFC800">扩展方块状态模型生成器</h2>
@@ -45,6 +50,19 @@ public class ExtendedBlockStateModelGenerator extends BlockStateModelGenerator {
 	 */
 	public ExtendedBlockStateModelGenerator(Consumer<BlockStateSupplier> blockStateCollector, BiConsumer<Identifier, Supplier<JsonElement>> modelCollector, Consumer<Item> simpleItemModelExemptionCollector) {
 		super(blockStateCollector, modelCollector, simpleItemModelExemptionCollector);
+	}
+	
+	/**
+	 * 注册立方体柱模型
+	 *
+	 * @param block       方块
+	 * @param sideTexture 侧边纹理
+	 * @param endTexture  两端纹理
+	 */
+	public void registerCubeColumn(Block block, Identifier sideTexture, Identifier endTexture) {
+		TextureMap textureMap = TextureMap.sideEnd(sideTexture, endTexture);
+		Identifier identifier = Models.CUBE_COLUMN.upload(block, textureMap, modelCollector);
+		blockStateCollector.accept(createSingletonBlockState(block, identifier));
 	}
 	
 	/**
@@ -86,5 +104,103 @@ public class ExtendedBlockStateModelGenerator extends BlockStateModelGenerator {
 		registerPlantPart(plant, plantStem, tintType);
 		registerItemModel(plant, "_plant");
 		excludeFromSimpleItemModelGeneration(plantStem);
+	}
+	
+	/**
+	 * 注册连接块模型
+	 *
+	 * @param block 连接块
+	 */
+	public void registerConnectingBlock(Block block) {
+		Identifier side = ModelIds.getBlockSubModelId(block, "_side");
+		Identifier noSide = ModelIds.getBlockSubModelId(block, "_noside");
+		Identifier noSide1 = ModelIds.getBlockSubModelId(block, "_noside1");
+		Identifier noSide2 = ModelIds.getBlockSubModelId(block, "_noside2");
+		Identifier noSide3 = ModelIds.getBlockSubModelId(block, "_noside3");
+		blockStateCollector.accept(MultipartBlockStateSupplier.create(block)
+				.with(When.create().set(Properties.NORTH, true), BlockStateVariant.create().put(VariantSettings.MODEL, side))
+				.with(When.create().set(Properties.EAST, true), BlockStateVariant.create().put(VariantSettings.MODEL, side).put(VariantSettings.Y, VariantSettings.Rotation.R90).put(VariantSettings.UVLOCK, true))
+				.with(When.create().set(Properties.SOUTH, true), BlockStateVariant.create().put(VariantSettings.MODEL, side).put(VariantSettings.Y, VariantSettings.Rotation.R180).put(VariantSettings.UVLOCK, true))
+				.with(When.create().set(Properties.WEST, true), BlockStateVariant.create().put(VariantSettings.MODEL, side).put(VariantSettings.Y, VariantSettings.Rotation.R270).put(VariantSettings.UVLOCK, true))
+				.with(When.create().set(Properties.UP, true), BlockStateVariant.create().put(VariantSettings.MODEL, side).put(VariantSettings.X, VariantSettings.Rotation.R270).put(VariantSettings.UVLOCK, true))
+				.with(When.create().set(Properties.DOWN, true), BlockStateVariant.create().put(VariantSettings.MODEL, side).put(VariantSettings.X, VariantSettings.Rotation.R90).put(VariantSettings.UVLOCK, true))
+				.with(When.create().set(Properties.NORTH, false), new BlockStateVariant[]{BlockStateVariant.create().put(VariantSettings.MODEL, noSide).put(VariantSettings.WEIGHT, 2),
+						BlockStateVariant.create().put(VariantSettings.MODEL, noSide1), BlockStateVariant.create().put(VariantSettings.MODEL, noSide2), BlockStateVariant.create().put(VariantSettings.MODEL, noSide3)})
+				.with(When.create().set(Properties.EAST, false), new BlockStateVariant[]{BlockStateVariant.create().put(VariantSettings.MODEL, noSide1).put(VariantSettings.Y, VariantSettings.Rotation.R90).put(VariantSettings.UVLOCK, true),
+						BlockStateVariant.create().put(VariantSettings.MODEL, noSide2).put(VariantSettings.Y, VariantSettings.Rotation.R90).put(VariantSettings.UVLOCK, true),
+						BlockStateVariant.create().put(VariantSettings.MODEL, noSide3).put(VariantSettings.Y, VariantSettings.Rotation.R90).put(VariantSettings.UVLOCK, true),
+						BlockStateVariant.create().put(VariantSettings.MODEL, noSide).put(VariantSettings.WEIGHT, 2).put(VariantSettings.Y, VariantSettings.Rotation.R90).put(VariantSettings.UVLOCK, true)})
+				.with(When.create().set(Properties.SOUTH, false), new BlockStateVariant[]{BlockStateVariant.create().put(VariantSettings.MODEL, noSide2).put(VariantSettings.Y, VariantSettings.Rotation.R180).put(VariantSettings.UVLOCK, true),
+						BlockStateVariant.create().put(VariantSettings.MODEL, noSide3).put(VariantSettings.Y, VariantSettings.Rotation.R180).put(VariantSettings.UVLOCK, true),
+						BlockStateVariant.create().put(VariantSettings.MODEL, noSide).put(VariantSettings.WEIGHT, 2).put(VariantSettings.Y, VariantSettings.Rotation.R180).put(VariantSettings.UVLOCK, true),
+						BlockStateVariant.create().put(VariantSettings.MODEL, noSide1).put(VariantSettings.Y, VariantSettings.Rotation.R180).put(VariantSettings.UVLOCK, true)})
+				.with(When.create().set(Properties.WEST, false), new BlockStateVariant[]{BlockStateVariant.create().put(VariantSettings.MODEL, noSide3).put(VariantSettings.Y, VariantSettings.Rotation.R270).put(VariantSettings.UVLOCK, true),
+						BlockStateVariant.create().put(VariantSettings.MODEL, noSide).put(VariantSettings.WEIGHT, 2).put(VariantSettings.Y, VariantSettings.Rotation.R270).put(VariantSettings.UVLOCK, true),
+						BlockStateVariant.create().put(VariantSettings.MODEL, noSide1).put(VariantSettings.Y, VariantSettings.Rotation.R270).put(VariantSettings.UVLOCK, true),
+						BlockStateVariant.create().put(VariantSettings.MODEL, noSide2).put(VariantSettings.Y, VariantSettings.Rotation.R270).put(VariantSettings.UVLOCK, true)})
+				.with(When.create().set(Properties.UP, false), new BlockStateVariant[]{BlockStateVariant.create().put(VariantSettings.MODEL, noSide).put(VariantSettings.WEIGHT, 2).put(VariantSettings.X, VariantSettings.Rotation.R270).put(VariantSettings.UVLOCK, true),
+						BlockStateVariant.create().put(VariantSettings.MODEL, noSide3).put(VariantSettings.X, VariantSettings.Rotation.R270).put(VariantSettings.UVLOCK, true),
+						BlockStateVariant.create().put(VariantSettings.MODEL, noSide1).put(VariantSettings.X, VariantSettings.Rotation.R270).put(VariantSettings.UVLOCK, true),
+						BlockStateVariant.create().put(VariantSettings.MODEL, noSide2).put(VariantSettings.X, VariantSettings.Rotation.R270).put(VariantSettings.UVLOCK, true)})
+				.with(When.create().set(Properties.DOWN, false), BlockStateVariant.create().put(VariantSettings.MODEL, noSide3).put(VariantSettings.X, VariantSettings.Rotation.R90).put(VariantSettings.UVLOCK, true),
+						BlockStateVariant.create().put(VariantSettings.MODEL, noSide2).put(VariantSettings.X, VariantSettings.Rotation.R90).put(VariantSettings.UVLOCK, true),
+						BlockStateVariant.create().put(VariantSettings.MODEL, noSide1).put(VariantSettings.X, VariantSettings.Rotation.R90).put(VariantSettings.UVLOCK, true),
+						BlockStateVariant.create().put(VariantSettings.MODEL, noSide).put(VariantSettings.WEIGHT, 2).put(VariantSettings.X, VariantSettings.Rotation.R90).put(VariantSettings.UVLOCK, true)));
+	}
+	
+	/**
+	 * 注册空坩埚方块
+	 *
+	 * @param empty      空坩埚块
+	 * @param isFlatItem 是否为平面物品
+	 */
+	public void registerEmptyCauldron(Block empty, boolean isFlatItem) {
+		if (isFlatItem) {
+			registerItemModel(empty.asItem());
+		} else {
+			new Model(Optional.of(ModelIds.getBlockModelId(empty)), Optional.empty()).upload(ModelIds.getItemModelId(empty.asItem()), new TextureMap(), modelCollector);
+		}
+		registerSimpleState(empty);
+	}
+	
+	/**
+	 * 注册含岩浆坩埚块
+	 *
+	 * @param lava     含岩浆坩埚块
+	 * @param template 模型模板
+	 */
+	public void registerLavaCauldron(Block lava, Model template) {
+		blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(lava, template.upload(lava,
+				TextureMap.cauldron(TextureMap.getSubId(LAVA, "_still")), modelCollector)));
+	}
+	
+	/**
+	 * 注册含水坩埚块
+	 *
+	 * @param water     含水坩埚块
+	 * @param templates 模型模板
+	 */
+	public void registerWaterCauldron(LeveledCauldronLikeBlock water, Model... templates) {
+		BlockStateVariantMap.SingleProperty<Integer> map = BlockStateVariantMap.create(water.level());
+		for (int count = 1; count <= water.maxLevel(); count++) {
+			map = map.register(count, BlockStateVariant.create().put(VariantSettings.MODEL, templates[count - 1].upload(water, count != water.maxLevel() ? "_level" + count : "_full",
+					TextureMap.cauldron(TextureMap.getSubId(WATER, "_still")), modelCollector)));
+		}
+		blockStateCollector.accept(VariantsBlockStateSupplier.create(water).coordinate(map));
+	}
+	
+	/**
+	 * 注册含细雪坩埚块
+	 *
+	 * @param snow      含细雪坩埚块
+	 * @param templates 模型模板
+	 */
+	public void registerSnowCauldron(LeveledCauldronLikeBlock snow, Model... templates) {
+		BlockStateVariantMap.SingleProperty<Integer> map = BlockStateVariantMap.create(snow.level());
+		for (int count = 1; count <= snow.maxLevel(); count++) {
+			map = map.register(count, BlockStateVariant.create().put(VariantSettings.MODEL, templates[count - 1].upload(snow, count != snow.maxLevel() ? "_level" + count : "_full",
+					TextureMap.cauldron(TextureMap.getSubId(POWDER_SNOW, "_still")), modelCollector)));
+		}
+		blockStateCollector.accept(VariantsBlockStateSupplier.create(snow).coordinate(map));
 	}
 }

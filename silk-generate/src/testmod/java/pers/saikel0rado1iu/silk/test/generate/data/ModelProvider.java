@@ -17,6 +17,8 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
+import net.minecraft.data.client.Models;
+import net.minecraft.data.client.TextureMap;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.Items;
@@ -24,6 +26,7 @@ import net.minecraft.item.SpawnEggItem;
 import pers.saikel0rado1iu.silk.api.generate.data.client.ExtendedBlockStateModelGenerator;
 import pers.saikel0rado1iu.silk.api.generate.data.client.ExtendedItemModelGenerator;
 import pers.saikel0rado1iu.silk.api.generate.data.client.TextureKeys;
+import pers.saikel0rado1iu.silk.api.magiccube.cauldron.LeveledCauldronLikeBlock;
 
 import static pers.saikel0rado1iu.silk.test.generate.Items.TEST_BOW;
 import static pers.saikel0rado1iu.silk.test.generate.Items.TEST_CROSSBOW;
@@ -42,9 +45,18 @@ public final class ModelProvider extends FabricModelProvider {
 	@Override
 	public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
 		ExtendedBlockStateModelGenerator generator = new ExtendedBlockStateModelGenerator(blockStateModelGenerator);
+		generator.registerCubeColumn(Blocks.OAK_LOG, TextureMap.getId(Blocks.OAK_LOG), TextureMap.getId(Blocks.OAK_LEAVES));
 		generator.registerCarpet(Blocks.BLACK_CARPET, true);
 		generator.registerTopSoil(Blocks.GRASS_BLOCK);
 		generator.registerVines(Blocks.WEEPING_VINES, Blocks.WEEPING_VINES_PLANT, BlockStateModelGenerator.TintType.NOT_TINTED);
+		generator.registerConnectingBlock(Blocks.CHORUS_PLANT);
+		generator.registerEmptyCauldron(Blocks.CAULDRON, false);
+		generator.registerLavaCauldron(Blocks.LAVA_CAULDRON, Models.TEMPLATE_CAULDRON_FULL);
+		try {
+			generator.registerWaterCauldron((LeveledCauldronLikeBlock) Blocks.WATER_CAULDRON, Models.TEMPLATE_CAULDRON_LEVEL1, Models.TEMPLATE_CAULDRON_LEVEL2, Models.TEMPLATE_CAULDRON_FULL);
+			generator.registerSnowCauldron((LeveledCauldronLikeBlock) Blocks.POWDER_SNOW_CAULDRON, Models.TEMPLATE_CAULDRON_LEVEL1, Models.TEMPLATE_CAULDRON_LEVEL2, Models.TEMPLATE_CAULDRON_FULL);
+		} catch (Exception e) {
+		}
 	}
 	
 	@Override
