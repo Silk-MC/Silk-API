@@ -26,8 +26,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import static net.minecraft.block.Blocks.LAVA;
-
 /**
  * <h2 style="color:FFC800">扩展方块状态模型生成器</h2>
  * 提供了其他可能用到的高级方块状态模型方法
@@ -164,14 +162,15 @@ public class ExtendedBlockStateModelGenerator extends BlockStateModelGenerator {
 	}
 	
 	/**
-	 * 注册含岩浆坩埚块
+	 * 注册装满的坩埚块
 	 *
-	 * @param lava     含岩浆坩埚块
+	 * @param fluid    液体方块
+	 * @param full     装满的坩埚块
 	 * @param template 模型模板
 	 */
-	public void registerLavaCauldron(Block lava, Model template) {
-		blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(lava, template.upload(lava,
-				TextureMap.cauldron(TextureMap.getSubId(LAVA, "_still")), modelCollector)));
+	public void registerFullCauldron(Block fluid, Block full, Model template) {
+		blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(full, template.upload(full,
+				TextureMap.cauldron(TextureMap.getSubId(fluid, "_still")), modelCollector)));
 	}
 	
 	/**
