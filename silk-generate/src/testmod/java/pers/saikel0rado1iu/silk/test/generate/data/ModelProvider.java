@@ -51,9 +51,9 @@ public final class ModelProvider extends FabricModelProvider {
 		generator.registerVines(Blocks.WEEPING_VINES, Blocks.WEEPING_VINES_PLANT, BlockStateModelGenerator.TintType.NOT_TINTED);
 		generator.registerConnectingBlock(Blocks.CHORUS_PLANT);
 		generator.registerCustomModel(Blocks.CAULDRON, false);
-		generator.registerFullCauldron(Blocks.LAVA, Blocks.LAVA_CAULDRON, Models.TEMPLATE_CAULDRON_FULL);
+		generator.registerFullCauldron(TextureMap.getSubId(Blocks.LAVA, "_still"), Blocks.LAVA_CAULDRON, Models.TEMPLATE_CAULDRON_FULL);
 		try {
-			generator.registerLeveledCauldron(Blocks.WATER, (LeveledCauldronLikeBlock) Blocks.WATER_CAULDRON, Models.TEMPLATE_CAULDRON_LEVEL1, Models.TEMPLATE_CAULDRON_LEVEL2, Models.TEMPLATE_CAULDRON_FULL);
+			generator.registerLeveledCauldron(TextureMap.getSubId(Blocks.WATER, "_still"), (LeveledCauldronLikeBlock) Blocks.WATER_CAULDRON, Models.TEMPLATE_CAULDRON_LEVEL1, Models.TEMPLATE_CAULDRON_LEVEL2, Models.TEMPLATE_CAULDRON_FULL);
 		} catch (Exception e) {
 		}
 	}

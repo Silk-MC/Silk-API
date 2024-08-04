@@ -164,27 +164,26 @@ public class ExtendedBlockStateModelGenerator extends BlockStateModelGenerator {
 	/**
 	 * 注册装满的坩埚块
 	 *
-	 * @param fluid    液体方块
-	 * @param full     装满的坩埚块
-	 * @param template 模型模板
+	 * @param fluidTexture 液体纹理
+	 * @param full         装满的坩埚块
+	 * @param template     模型模板
 	 */
-	public void registerFullCauldron(Block fluid, Block full, Model template) {
-		blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(full, template.upload(full,
-				TextureMap.cauldron(TextureMap.getSubId(fluid, "_still")), modelCollector)));
+	public void registerFullCauldron(Identifier fluidTexture, Block full, Model template) {
+		blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(full, template.upload(full, TextureMap.cauldron(fluidTexture), modelCollector)));
 	}
 	
 	/**
 	 * 注册可调整液面坩埚块
 	 *
-	 * @param fluid     液体方块
-	 * @param leveled   可调整液面坩埚块
-	 * @param templates 模型模板
+	 * @param fluidTexture 液体纹理
+	 * @param leveled      可调整液面坩埚块
+	 * @param templates    模型模板
 	 */
-	public void registerLeveledCauldron(Block fluid, LeveledCauldronLikeBlock leveled, Model... templates) {
+	public void registerLeveledCauldron(Identifier fluidTexture, LeveledCauldronLikeBlock leveled, Model... templates) {
 		BlockStateVariantMap.SingleProperty<Integer> map = BlockStateVariantMap.create(leveled.level());
 		for (int count = 1; count <= leveled.maxLevel(); count++) {
 			map = map.register(count, BlockStateVariant.create().put(VariantSettings.MODEL, templates[count - 1].upload(leveled, count != leveled.maxLevel() ? "_level" + count : "_full",
-					TextureMap.cauldron(TextureMap.getSubId(fluid, "_still")), modelCollector)));
+					TextureMap.cauldron(fluidTexture), modelCollector)));
 		}
 		blockStateCollector.accept(VariantsBlockStateSupplier.create(leveled).coordinate(map));
 	}
