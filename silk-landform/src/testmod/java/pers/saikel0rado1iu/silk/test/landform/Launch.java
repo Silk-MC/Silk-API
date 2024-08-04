@@ -12,11 +12,11 @@
 package pers.saikel0rado1iu.silk.test.landform;
 
 import com.google.common.collect.ImmutableSet;
-import pers.saikel0rado1iu.silk.impl.SilkLandform;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.api.modpass.ModLaunch;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.api.modpass.registry.LaunchRegistrationProvider;
+import pers.saikel0rado1iu.silk.impl.SilkLandform;
 
 import java.util.Set;
 

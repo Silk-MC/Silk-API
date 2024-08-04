@@ -16,11 +16,11 @@ import pers.saikel0rado1iu.silk.api.codex.OptionType;
 import pers.saikel0rado1iu.silk.api.codex.SettingData;
 import pers.saikel0rado1iu.silk.api.codex.SettingOption;
 import pers.saikel0rado1iu.silk.api.codex.SettingType;
-import pers.saikel0rado1iu.silk.impl.SilkCodex;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.api.modpass.ModMain;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
+import pers.saikel0rado1iu.silk.impl.SilkCodex;
 
 import java.util.Set;
 

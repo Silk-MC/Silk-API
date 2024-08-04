@@ -24,8 +24,8 @@ import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.api.generate.advancement.criterion.RangedKilledEntityCriterion;
 import pers.saikel0rado1iu.silk.api.generate.advancement.criterion.ShotProjectileCriterion;
 import pers.saikel0rado1iu.silk.api.generate.data.AdvancementGenUtil;
-import pers.saikel0rado1iu.silk.impl.SilkGenerate;
 import pers.saikel0rado1iu.silk.api.spinningjenny.tag.EntityTypeTags;
+import pers.saikel0rado1iu.silk.impl.SilkGenerate;
 
 import java.util.function.Consumer;
 

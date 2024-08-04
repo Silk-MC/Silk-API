@@ -18,10 +18,10 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
-import pers.saikel0rado1iu.silk.api.pattern.widget.WidgetTexts;
-import pers.saikel0rado1iu.silk.impl.SilkPattern;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
+import pers.saikel0rado1iu.silk.api.pattern.widget.WidgetTexts;
+import pers.saikel0rado1iu.silk.impl.SilkPattern;
 
 /**
  * <h2 style="color:FFC800">按钮助手</h2>

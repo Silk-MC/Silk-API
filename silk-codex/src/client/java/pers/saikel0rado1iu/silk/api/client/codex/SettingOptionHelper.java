@@ -23,10 +23,10 @@ import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
-import pers.saikel0rado1iu.silk.api.client.codex.screen.SettingScreen;
-import pers.saikel0rado1iu.silk.api.codex.*;
 import pers.saikel0rado1iu.silk.api.base.common.util.MathUtil;
+import pers.saikel0rado1iu.silk.api.client.codex.screen.SettingScreen;
 import pers.saikel0rado1iu.silk.api.client.pattern.screen.ModScreen;
+import pers.saikel0rado1iu.silk.api.codex.*;
 
 import java.util.List;
 import java.util.Optional;

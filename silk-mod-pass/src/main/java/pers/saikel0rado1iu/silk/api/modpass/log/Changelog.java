@@ -11,8 +11,8 @@
 
 package pers.saikel0rado1iu.silk.api.modpass.log;
 
-import pers.saikel0rado1iu.silk.impl.SilkModPass;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
+import pers.saikel0rado1iu.silk.impl.SilkModPass;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

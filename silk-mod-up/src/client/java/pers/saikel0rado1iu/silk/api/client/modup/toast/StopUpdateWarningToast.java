@@ -12,9 +12,9 @@
 package pers.saikel0rado1iu.silk.api.client.modup.toast;
 
 import net.minecraft.text.Text;
+import pers.saikel0rado1iu.silk.api.client.modup.ClientUpdateManager;
 import pers.saikel0rado1iu.silk.api.modup.UpdateData;
 import pers.saikel0rado1iu.silk.api.modup.UpdateState;
-import pers.saikel0rado1iu.silk.api.client.modup.ClientUpdateManager;
 
 /**
  * <h2 style="color:FFC800">停止更新警告提示框</h2>

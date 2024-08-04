@@ -19,11 +19,11 @@ import net.minecraft.client.gui.widget.SimplePositioningWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
+import pers.saikel0rado1iu.silk.api.client.modup.ClientUpdateManager;
+import pers.saikel0rado1iu.silk.api.client.pattern.widget.TextListWidget;
 import pers.saikel0rado1iu.silk.api.modpass.log.Changelog;
 import pers.saikel0rado1iu.silk.api.modup.UpdateData;
 import pers.saikel0rado1iu.silk.api.modup.UpdateState;
-import pers.saikel0rado1iu.silk.api.client.pattern.widget.TextListWidget;
-import pers.saikel0rado1iu.silk.api.client.modup.ClientUpdateManager;
 
 import java.util.Optional;
 

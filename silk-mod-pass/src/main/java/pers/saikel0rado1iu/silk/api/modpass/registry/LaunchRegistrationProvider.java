@@ -11,8 +11,8 @@
 
 package pers.saikel0rado1iu.silk.api.modpass.registry;
 
-import pers.saikel0rado1iu.silk.impl.SilkModPass;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
+import pers.saikel0rado1iu.silk.impl.SilkModPass;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

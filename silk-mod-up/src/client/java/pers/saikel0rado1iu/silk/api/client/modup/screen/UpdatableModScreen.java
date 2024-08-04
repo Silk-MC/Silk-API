@@ -17,11 +17,11 @@ import net.minecraft.client.gui.widget.PressableTextWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
-import pers.saikel0rado1iu.silk.impl.SilkModUp;
+import pers.saikel0rado1iu.silk.api.client.modup.ClientUpdateManager;
 import pers.saikel0rado1iu.silk.api.client.pattern.screen.ModScreen;
 import pers.saikel0rado1iu.silk.api.client.pattern.tab.ScreenTab;
 import pers.saikel0rado1iu.silk.api.pattern.widget.WidgetTexts;
-import pers.saikel0rado1iu.silk.api.client.modup.ClientUpdateManager;
+import pers.saikel0rado1iu.silk.impl.SilkModUp;
 
 /**
  * <h2 style="color:FFC800">可更新模组屏幕</h2>

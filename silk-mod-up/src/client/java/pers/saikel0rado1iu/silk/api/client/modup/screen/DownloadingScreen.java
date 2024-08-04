@@ -19,13 +19,13 @@ import net.minecraft.client.gui.widget.GridWidget;
 import net.minecraft.client.gui.widget.SimplePositioningWidget;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
-import pers.saikel0rado1iu.silk.impl.SilkModUp;
+import pers.saikel0rado1iu.silk.api.client.modup.ClientUpdateManager;
 import pers.saikel0rado1iu.silk.api.modup.ModUpdater;
 import pers.saikel0rado1iu.silk.api.modup.UpdateData;
 import pers.saikel0rado1iu.silk.api.modup.UpdateMode;
 import pers.saikel0rado1iu.silk.api.modup.UpdateSettings;
 import pers.saikel0rado1iu.silk.api.pattern.widget.WidgetTexts;
-import pers.saikel0rado1iu.silk.api.client.modup.ClientUpdateManager;
+import pers.saikel0rado1iu.silk.impl.SilkModUp;
 
 /**
  * <h2 style="color:FFC800">下载中屏幕</h2>

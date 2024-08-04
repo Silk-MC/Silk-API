@@ -13,8 +13,8 @@ package pers.saikel0rado1iu.silk.test.modpass.log;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pers.saikel0rado1iu.silk.impl.SilkApi;
 import pers.saikel0rado1iu.silk.api.modpass.log.Changelog;
+import pers.saikel0rado1iu.silk.impl.SilkApi;
 
 /**
  * Test {@link Changelog}

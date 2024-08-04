@@ -20,10 +20,10 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import org.jetbrains.annotations.Nullable;
-import pers.saikel0rado1iu.silk.impl.SilkModUp;
+import pers.saikel0rado1iu.silk.api.client.modup.ClientUpdateManager;
 import pers.saikel0rado1iu.silk.api.modup.UpdateData;
 import pers.saikel0rado1iu.silk.api.pattern.widget.WidgetTexts;
-import pers.saikel0rado1iu.silk.api.client.modup.ClientUpdateManager;
+import pers.saikel0rado1iu.silk.impl.SilkModUp;
 
 import java.io.File;
 

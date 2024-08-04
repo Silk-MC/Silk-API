@@ -12,8 +12,8 @@
 package pers.saikel0rado1iu.silk.api.codex.stream;
 
 import pers.saikel0rado1iu.silk.api.codex.SettingData;
-import pers.saikel0rado1iu.silk.impl.SilkCodex;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
+import pers.saikel0rado1iu.silk.impl.SilkCodex;
 
 import java.io.IOException;
 import java.nio.file.Files;

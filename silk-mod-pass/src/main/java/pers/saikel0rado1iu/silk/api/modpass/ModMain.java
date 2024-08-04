@@ -13,10 +13,10 @@ package pers.saikel0rado1iu.silk.api.modpass;
 
 import net.fabricmc.api.ModInitializer;
 import pers.saikel0rado1iu.silk.api.modpass.pack.DataPack;
+import pers.saikel0rado1iu.silk.api.modpass.pack.ResourcePack;
 import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
 import pers.saikel0rado1iu.silk.api.modpass.registry.RegisterableModPass;
 import pers.saikel0rado1iu.silk.api.modpass.registry.RegistrationType;
-import pers.saikel0rado1iu.silk.api.modpass.pack.ResourcePack;
 
 /**
  * <h2 style="color:FFC800">模组主类</h2>

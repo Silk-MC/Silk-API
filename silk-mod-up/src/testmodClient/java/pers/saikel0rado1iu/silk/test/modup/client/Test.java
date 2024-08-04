@@ -22,14 +22,14 @@ import pers.saikel0rado1iu.silk.api.client.codex.screen.SettingScreen;
 import pers.saikel0rado1iu.silk.api.client.codex.tab.SettingTab;
 import pers.saikel0rado1iu.silk.api.client.event.pattern.AddButtonInGameMenuCallback;
 import pers.saikel0rado1iu.silk.api.client.event.pattern.AddButtonInTitleScreenCallback;
-import pers.saikel0rado1iu.silk.impl.SilkModUp;
-import pers.saikel0rado1iu.silk.impl.SilkRopeStick;
+import pers.saikel0rado1iu.silk.api.client.modup.screen.UpdatableModScreen;
 import pers.saikel0rado1iu.silk.api.modpass.ModClient;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.api.modpass.registry.ClientRegistrationProvider;
 import pers.saikel0rado1iu.silk.api.pattern.widget.WidgetTexts;
-import pers.saikel0rado1iu.silk.api.client.modup.screen.UpdatableModScreen;
+import pers.saikel0rado1iu.silk.impl.SilkModUp;
+import pers.saikel0rado1iu.silk.impl.SilkRopeStick;
 
 import java.util.Set;
 import java.util.function.Function;

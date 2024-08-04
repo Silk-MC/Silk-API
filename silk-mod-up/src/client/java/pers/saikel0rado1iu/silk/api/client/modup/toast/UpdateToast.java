@@ -23,9 +23,9 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.api.base.common.util.TickUtil;
-import pers.saikel0rado1iu.silk.impl.SilkModUp;
-import pers.saikel0rado1iu.silk.api.modup.UpdateData;
 import pers.saikel0rado1iu.silk.api.client.modup.ClientUpdateManager;
+import pers.saikel0rado1iu.silk.api.modup.UpdateData;
+import pers.saikel0rado1iu.silk.impl.SilkModUp;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

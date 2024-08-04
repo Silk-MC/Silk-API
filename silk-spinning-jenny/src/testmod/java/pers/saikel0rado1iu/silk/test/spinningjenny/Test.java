@@ -11,11 +11,11 @@
 
 package pers.saikel0rado1iu.silk.test.spinningjenny;
 
-import pers.saikel0rado1iu.silk.impl.SilkSpinningJenny;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.api.modpass.ModMain;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
+import pers.saikel0rado1iu.silk.impl.SilkSpinningJenny;
 import pers.saikel0rado1iu.silk.test.spinningjenny.data.gen.CriterionRegistryTest;
 import pers.saikel0rado1iu.silk.test.spinningjenny.data.gen.RecipeSerializerRegistryTest;
 import pers.saikel0rado1iu.silk.test.spinningjenny.world.gen.FeatureRegistryTest;

@@ -26,8 +26,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import pers.saikel0rado1iu.silk.api.codex.SettingData;
 import pers.saikel0rado1iu.silk.api.codex.SettingOption;
-import pers.saikel0rado1iu.silk.impl.SilkCodex;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
+import pers.saikel0rado1iu.silk.impl.SilkCodex;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;

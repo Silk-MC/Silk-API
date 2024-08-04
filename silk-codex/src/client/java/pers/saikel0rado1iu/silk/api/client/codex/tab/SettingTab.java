@@ -14,12 +14,12 @@ package pers.saikel0rado1iu.silk.api.client.codex.tab;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import pers.saikel0rado1iu.silk.api.codex.SettingData;
 import pers.saikel0rado1iu.silk.api.client.codex.SettingOptionHelper;
-import pers.saikel0rado1iu.silk.api.codex.SettingType;
-import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.api.client.pattern.tab.OptionsTab;
 import pers.saikel0rado1iu.silk.api.client.pattern.widget.OptionMenuWidget;
+import pers.saikel0rado1iu.silk.api.codex.SettingData;
+import pers.saikel0rado1iu.silk.api.codex.SettingType;
+import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 
 /**
  * <h2 style="color:FFC800">设置选项卡</h2>

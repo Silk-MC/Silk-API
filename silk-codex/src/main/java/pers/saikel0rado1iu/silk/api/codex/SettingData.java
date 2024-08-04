@@ -15,11 +15,11 @@ import com.google.common.collect.Maps;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
-import pers.saikel0rado1iu.silk.api.codex.stream.SettingStorage;
 import pers.saikel0rado1iu.silk.api.codex.stream.SettingLoader;
-import pers.saikel0rado1iu.silk.impl.SilkCodex;
+import pers.saikel0rado1iu.silk.api.codex.stream.SettingStorage;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
+import pers.saikel0rado1iu.silk.impl.SilkCodex;
 
 import java.lang.reflect.Array;
 import java.nio.charset.Charset;

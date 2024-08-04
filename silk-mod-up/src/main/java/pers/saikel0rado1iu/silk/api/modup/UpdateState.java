@@ -11,8 +11,8 @@
 
 package pers.saikel0rado1iu.silk.api.modup;
 
-import pers.saikel0rado1iu.silk.impl.SilkModUp;
 import pers.saikel0rado1iu.silk.api.pattern.widget.WidgetTexts;
+import pers.saikel0rado1iu.silk.impl.SilkModUp;
 
 /**
  * <h2 style="color:FFC800">更新状态</h2>

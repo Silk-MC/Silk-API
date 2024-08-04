@@ -13,9 +13,9 @@ package pers.saikel0rado1iu.silk.api.spinningjenny.world.biome.source;
 
 import net.minecraft.world.biome.source.MultiNoiseBiomeSourceParameterList;
 import pers.saikel0rado1iu.silk.api.event.registry.RegisterBiomeSourceParamListPresetCallback;
-import pers.saikel0rado1iu.silk.impl.SilkModPass;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.api.modpass.registry.LaunchRegistrationProvider;
+import pers.saikel0rado1iu.silk.impl.SilkModPass;
 
 import java.lang.reflect.Field;
 

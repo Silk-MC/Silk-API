@@ -11,11 +11,11 @@
 
 package pers.saikel0rado1iu.silk.test.spore;
 
-import pers.saikel0rado1iu.silk.impl.SilkSpore;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.api.modpass.ModMain;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
+import pers.saikel0rado1iu.silk.impl.SilkSpore;
 
 import java.util.Set;
 

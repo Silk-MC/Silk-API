@@ -13,12 +13,12 @@ package pers.saikel0rado1iu.silk.entrypoint;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import pers.saikel0rado1iu.silk.api.codex.OptionTexts;
 import pers.saikel0rado1iu.silk.api.base.common.api.I18nModInfoProvider;
+import pers.saikel0rado1iu.silk.api.codex.OptionTexts;
 import pers.saikel0rado1iu.silk.api.generate.data.LinkedLanguageProvider;
-import pers.saikel0rado1iu.silk.impl.SilkLandform;
 import pers.saikel0rado1iu.silk.api.landform.WorldUpgradeSettings;
 import pers.saikel0rado1iu.silk.api.pattern.widget.WidgetTexts;
+import pers.saikel0rado1iu.silk.impl.SilkLandform;
 
 import java.util.Arrays;
 import java.util.Iterator;

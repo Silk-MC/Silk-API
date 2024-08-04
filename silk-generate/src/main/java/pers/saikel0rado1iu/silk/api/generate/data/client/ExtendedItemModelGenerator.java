@@ -27,11 +27,11 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import pers.saikel0rado1iu.silk.api.generate.data.ModelGenUtil;
-import pers.saikel0rado1iu.silk.impl.SilkApi;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.api.ropestick.ItemGroupCreator;
 import pers.saikel0rado1iu.silk.api.ropestick.ranged.Bow;
 import pers.saikel0rado1iu.silk.api.ropestick.ranged.Crossbow;
+import pers.saikel0rado1iu.silk.impl.SilkApi;
 
 import java.util.Map;
 import java.util.Optional;

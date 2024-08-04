@@ -17,11 +17,11 @@ import net.minecraft.client.gui.widget.MultilineTextWidget;
 import net.minecraft.client.gui.widget.SimplePositioningWidget;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
+import pers.saikel0rado1iu.silk.api.client.modup.ClientUpdateManager;
+import pers.saikel0rado1iu.silk.api.client.pattern.widget.ButtonHelper;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.api.modup.UpdateData;
 import pers.saikel0rado1iu.silk.api.modup.UpdateState;
-import pers.saikel0rado1iu.silk.api.client.pattern.widget.ButtonHelper;
-import pers.saikel0rado1iu.silk.api.client.modup.ClientUpdateManager;
 
 /**
  * <h2 style="color:FFC800">新版本 MC 模组更新屏幕</h2>

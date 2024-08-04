@@ -16,14 +16,14 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.OptionListWidget;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
-import pers.saikel0rado1iu.silk.api.codex.*;
 import pers.saikel0rado1iu.silk.api.client.codex.SettingOptionHelper;
-import pers.saikel0rado1iu.silk.impl.SilkCodex;
-import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.api.client.pattern.screen.BaseScreen;
 import pers.saikel0rado1iu.silk.api.client.pattern.screen.LinkTrusted;
 import pers.saikel0rado1iu.silk.api.client.pattern.screen.ModScreen;
 import pers.saikel0rado1iu.silk.api.client.pattern.widget.ButtonHelper;
+import pers.saikel0rado1iu.silk.api.codex.*;
+import pers.saikel0rado1iu.silk.api.modpass.ModData;
+import pers.saikel0rado1iu.silk.impl.SilkCodex;
 
 import java.util.Optional;
 

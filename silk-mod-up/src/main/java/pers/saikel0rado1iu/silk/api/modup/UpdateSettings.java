@@ -15,8 +15,8 @@ import pers.saikel0rado1iu.silk.api.codex.OptionType;
 import pers.saikel0rado1iu.silk.api.codex.SettingData;
 import pers.saikel0rado1iu.silk.api.codex.SettingOption;
 import pers.saikel0rado1iu.silk.api.codex.SettingType;
-import pers.saikel0rado1iu.silk.impl.SilkModUp;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
+import pers.saikel0rado1iu.silk.impl.SilkModUp;
 
 /**
  * <h2 style="color:FFC800">更新设置</h2>

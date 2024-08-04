@@ -13,8 +13,8 @@ package pers.saikel0rado1iu.silk.api.generate.data.client;
 
 import net.minecraft.data.client.Model;
 import net.minecraft.data.client.TextureKey;
-import pers.saikel0rado1iu.silk.impl.SilkApi;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
+import pers.saikel0rado1iu.silk.impl.SilkApi;
 
 import java.util.Optional;
 

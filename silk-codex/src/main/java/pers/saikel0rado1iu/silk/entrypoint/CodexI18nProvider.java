@@ -14,8 +14,8 @@ package pers.saikel0rado1iu.silk.entrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import pers.saikel0rado1iu.silk.api.base.common.api.I18nModInfoProvider;
-import pers.saikel0rado1iu.silk.impl.SilkCodex;
 import pers.saikel0rado1iu.silk.api.pattern.widget.WidgetTexts;
+import pers.saikel0rado1iu.silk.impl.SilkCodex;
 
 import java.util.Arrays;
 import java.util.Iterator;

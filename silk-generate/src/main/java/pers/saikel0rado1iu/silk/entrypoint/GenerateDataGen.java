@@ -14,8 +14,8 @@ package pers.saikel0rado1iu.silk.entrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import pers.saikel0rado1iu.silk.api.generate.DataGenerator;
 import pers.saikel0rado1iu.silk.api.generate.DynamicDataEntry;
-import pers.saikel0rado1iu.silk.impl.SilkGenerate;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
+import pers.saikel0rado1iu.silk.impl.SilkGenerate;
 
 import java.util.Optional;
 import java.util.Set;

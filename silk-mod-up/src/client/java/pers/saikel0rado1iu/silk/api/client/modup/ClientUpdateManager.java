@@ -18,12 +18,12 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import pers.saikel0rado1iu.silk.api.client.modup.screen.*;
 import pers.saikel0rado1iu.silk.api.client.modup.toast.*;
+import pers.saikel0rado1iu.silk.api.client.pattern.screen.LinkTrusted;
+import pers.saikel0rado1iu.silk.api.client.pattern.screen.ModScreen;
 import pers.saikel0rado1iu.silk.api.modup.UpdateData;
 import pers.saikel0rado1iu.silk.api.modup.UpdateManager;
 import pers.saikel0rado1iu.silk.api.modup.UpdateSettings;
 import pers.saikel0rado1iu.silk.impl.SilkModUp;
-import pers.saikel0rado1iu.silk.api.client.pattern.screen.LinkTrusted;
-import pers.saikel0rado1iu.silk.api.client.pattern.screen.ModScreen;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;

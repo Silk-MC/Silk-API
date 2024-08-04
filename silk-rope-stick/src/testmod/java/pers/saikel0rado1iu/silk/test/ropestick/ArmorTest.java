@@ -19,9 +19,9 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
+import pers.saikel0rado1iu.silk.api.ropestick.armor.Armor;
 import pers.saikel0rado1iu.silk.api.ropestick.property.*;
 import pers.saikel0rado1iu.silk.impl.SilkRopeStick;
-import pers.saikel0rado1iu.silk.api.ropestick.armor.Armor;
 
 /**
  * Test {@link Armor}
