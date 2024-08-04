@@ -30,6 +30,10 @@ public final class Test implements ModClient {
 	 */
 	@Override
 	public void main(ModPass mod) {
+		try {
+			new CustomEntityRendererTest(null, null, 0);
+		} catch (Exception e) {
+		}
 	}
 	
 	/**
