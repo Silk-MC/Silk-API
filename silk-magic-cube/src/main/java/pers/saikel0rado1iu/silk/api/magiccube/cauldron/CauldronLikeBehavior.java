@@ -114,7 +114,7 @@ public abstract class CauldronLikeBehavior {
 			}
 		});
 		registerBucketBehavior(waterBehavior.map());
-		waterBehavior.map().put(Items.BUCKET, (state, world, pos, player, hand, stack) -> emptyCauldron(state, world, pos, player, hand, stack, new ItemStack(Items.WATER_BUCKET), (blockState) -> blockState.get(leveledCauldronLikeBlock().level()) == 3, SoundEvents.ITEM_BUCKET_FILL));
+		waterBehavior.map().put(Items.BUCKET, (state, world, pos, player, hand, stack) -> emptyCauldron(state, world, pos, player, hand, stack, new ItemStack(Items.WATER_BUCKET), (blockState) -> blockState.get(leveledCauldronLikeBlock().level()) == leveledCauldronLikeBlock().maxLevel(), SoundEvents.ITEM_BUCKET_FILL));
 		waterBehavior.map().put(Items.GLASS_BOTTLE, (state, world, pos, player, hand, stack) -> {
 			if (!world.isClient) {
 				if (cantUse(world, pos)) return ActionResult.PASS;
@@ -130,7 +130,7 @@ public abstract class CauldronLikeBehavior {
 			return ActionResult.success(world.isClient);
 		});
 		waterBehavior.map().put(Items.POTION, (state, world, pos, player, hand, stack) -> {
-			if (state.get(leveledCauldronLikeBlock().level()) != 3 && PotionUtil.getPotion(stack) == Potions.WATER) {
+			if (state.get(leveledCauldronLikeBlock().level()) != leveledCauldronLikeBlock().maxLevel() && PotionUtil.getPotion(stack) == Potions.WATER) {
 				if (!world.isClient) {
 					if (cantUse(world, pos)) return ActionResult.PASS;
 					player.setStackInHand(hand, ItemUsage.exchangeStack(stack, player, new ItemStack(Items.GLASS_BOTTLE)));
@@ -185,7 +185,7 @@ public abstract class CauldronLikeBehavior {
 		waterBehavior.map().put(Items.YELLOW_SHULKER_BOX, cleanShulkerBox);
 		lavaBehavior.map().put(Items.BUCKET, (state, world, pos, player, hand, stack) -> emptyCauldron(state, world, pos, player, hand, stack, new ItemStack(Items.LAVA_BUCKET), (blockState) -> true, SoundEvents.ITEM_BUCKET_FILL_LAVA));
 		registerBucketBehavior(lavaBehavior.map());
-		powderSnowBehavior.map().put(Items.BUCKET, (state, world, pos, player, hand, stack) -> emptyCauldron(state, world, pos, player, hand, stack, new ItemStack(Items.POWDER_SNOW_BUCKET), (blockState) -> blockState.get(leveledCauldronLikeBlock().level()) == 3, SoundEvents.ITEM_BUCKET_FILL_POWDER_SNOW));
+		powderSnowBehavior.map().put(Items.BUCKET, (state, world, pos, player, hand, stack) -> emptyCauldron(state, world, pos, player, hand, stack, new ItemStack(Items.POWDER_SNOW_BUCKET), (blockState) -> blockState.get(leveledCauldronLikeBlock().level()) == leveledCauldronLikeBlock().maxLevel(), SoundEvents.ITEM_BUCKET_FILL_POWDER_SNOW));
 		registerBucketBehavior(powderSnowBehavior.map());
 	}
 	
@@ -319,7 +319,7 @@ public abstract class CauldronLikeBehavior {
 	}
 	
 	protected CauldronBehavior fillWithPowderSnow() {
-		return (state, world, pos, player, hand, stack) -> fillCauldron(world, pos, player, hand, stack, powderSnowCauldronLikeBlock().getDefaultState().with(leveledCauldronLikeBlock().level(), 3), SoundEvents.ITEM_BUCKET_EMPTY_POWDER_SNOW);
+		return (state, world, pos, player, hand, stack) -> fillCauldron(world, pos, player, hand, stack, powderSnowCauldronLikeBlock().getDefaultState().with(leveledCauldronLikeBlock().level(), leveledCauldronLikeBlock().maxLevel()), SoundEvents.ITEM_BUCKET_EMPTY_POWDER_SNOW);
 	}
 	
 	protected CauldronBehavior fillWithLava() {
@@ -327,7 +327,7 @@ public abstract class CauldronLikeBehavior {
 	}
 	
 	protected CauldronBehavior fillWithWater() {
-		return (state, world, pos, player, hand, stack) -> fillCauldron(world, pos, player, hand, stack, waterCauldronLikeBlock().getDefaultState().with(leveledCauldronLikeBlock().level(), 3), SoundEvents.ITEM_BUCKET_EMPTY);
+		return (state, world, pos, player, hand, stack) -> fillCauldron(world, pos, player, hand, stack, waterCauldronLikeBlock().getDefaultState().with(leveledCauldronLikeBlock().level(), leveledCauldronLikeBlock().maxLevel()), SoundEvents.ITEM_BUCKET_EMPTY);
 	}
 	
 	/**

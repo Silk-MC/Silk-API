@@ -46,6 +46,16 @@ public final class LeveledCauldronLikeBlockTest extends LeveledCauldronLikeBlock
 	}
 	
 	/**
+	 * 最大液位
+	 *
+	 * @return 一个正整数
+	 */
+	@Override
+	public int maxLevel() {
+		return 3;
+	}
+	
+	/**
 	 * 递减液位方法
 	 *
 	 * @param world 存档世界

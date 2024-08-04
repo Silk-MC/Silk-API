@@ -39,6 +39,13 @@ public abstract class LeveledCauldronLikeBlock extends LeveledCauldronBlock {
 	public abstract IntProperty level();
 	
 	/**
+	 * 最大液位
+	 *
+	 * @return 一个正整数
+	 */
+	public abstract int maxLevel();
+	
+	/**
 	 * 递减液位方法
 	 *
 	 * @param world 存档世界
