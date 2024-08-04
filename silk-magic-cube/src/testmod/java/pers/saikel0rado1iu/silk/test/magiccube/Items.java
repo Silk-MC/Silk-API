@@ -29,12 +29,6 @@ public interface Items extends ItemRegistry {
 			.group(ItemGroups.BUILDING_BLOCKS)
 			.register(SilkMagicCube.getInstance().ofId("test_block"));
 	/**
-	 * test_plantable_block
-	 */
-	BlockItem TEST_PLANTABLE_BLOCK = ItemRegistry.registrar(new BlockItem(Blocks.TEST_PLANTABLE_BLOCK, new Item.Settings()))
-			.group(ItemGroups.BUILDING_BLOCKS)
-			.register(SilkMagicCube.getInstance().ofId("test_plantable_block"));
-	/**
 	 * test_spreadable_soil_block
 	 */
 	BlockItem TEST_SPREADABLE_SOIL_BLOCK = ItemRegistry.registrar(new BlockItem(Blocks.TEST_SPREADABLE_SOIL_BLOCK, new Item.Settings()))
