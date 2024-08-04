@@ -22,6 +22,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.data.DataOutput;
 import net.minecraft.data.DataWriter;
+import net.minecraft.entity.damage.DamageType;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
@@ -124,6 +125,17 @@ public abstract class LinkedLanguageProvider extends FabricLanguageProvider {
 	 */
 	public static String soundSub(SoundEvent soundEvent) {
 		return "subtitles." + soundEvent.getId().getNamespace() + '.' + soundEvent.getId().getPath();
+	}
+	
+	/**
+	 * 死亡信息翻译键方法
+	 *
+	 * @param damageType 伤害类型
+	 * @param suffix     后缀
+	 * @return 死亡信息
+	 */
+	public static String deathMessage(RegistryKey<DamageType> damageType, String suffix) {
+		return String.format("death.attack.%s%s", damageType.getValue().getPath(), "".equals(suffix) ? "" : '.' + suffix);
 	}
 	
 	/**

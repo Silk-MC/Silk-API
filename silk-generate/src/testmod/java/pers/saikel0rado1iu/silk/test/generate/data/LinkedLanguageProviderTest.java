@@ -12,6 +12,7 @@
 package pers.saikel0rado1iu.silk.test.generate.data;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.world.gen.WorldPresets;
 import pers.saikel0rado1iu.silk.api.generate.data.LinkedLanguageProvider;
@@ -37,6 +38,7 @@ public final class LinkedLanguageProviderTest extends LinkedLanguageProvider {
 		translationBuilder.add(advancementTitle(AdvancementGenUtilTest.TEST), "advancementTitle");
 		translationBuilder.add(advancementDesc(AdvancementGenUtilTest.TEST), "advancementDesc");
 		translationBuilder.add(soundSub(SoundEvents.ITEM_ARMOR_EQUIP_TURTLE), "equip");
+		translationBuilder.add(deathMessage(DamageTypes.ARROW, ""), "death");
 		translationBuilder.add(worldPreset(WorldPresets.DEFAULT), "default");
 	}
 }
