@@ -73,6 +73,7 @@ public class ClientUpgradableWorldManager<T extends ChunkGenerator & ChunkGenera
 	 */
 	public void start(LevelStorage.LevelList levels) {
 		GET_MANAGER_POOL.schedule(new Thread(() -> {
+			if (REGISTRY_MANAGER_GETTER.get() != null) return;
 			try (LevelStorage.Session session = MinecraftClient.getInstance().getLevelStorage().createSession(levels.levels().get(0).getRootPath())) {
 				ResourcePackManager resourcePackManager = VanillaDataPackProvider.createManager(session);
 				DataConfiguration dataConfiguration = new DataConfiguration(new DataPackSettings(new ArrayList<String>(resourcePackManager.getNames()), List.of()), FeatureFlags.FEATURE_MANAGER.getFeatureSet());
