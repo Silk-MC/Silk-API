@@ -141,6 +141,7 @@ public interface MainRegistrationProvider<T> extends RegisterableModPass<T> {
 		 *
 		 * @return 注册项
 		 */
+		@Deprecated
 		@ApiStatus.Obsolete
 		public T register() {
 			register("");

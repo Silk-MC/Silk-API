@@ -48,7 +48,13 @@ interface SoundEventRegistrationProvider extends MainRegistrationProvider<SoundE
 			return Optional.of(Registries.SOUND_EVENT);
 		}
 		
+		/**
+		 * 注册此项目无需提供标识符
+		 *
+		 * @return 注册项
+		 */
 		@Override
+		@SuppressWarnings("deprecation")
 		public T register() {
 			return register(type.getId());
 		}
