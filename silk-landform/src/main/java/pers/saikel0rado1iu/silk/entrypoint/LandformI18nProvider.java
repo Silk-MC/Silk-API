@@ -37,6 +37,7 @@ final class LandformI18nProvider extends I18nModInfoProvider {
 					"terrain, biome modifications, and world upgrader and other functions related to world generation.", new String[]{
 			"Text translation of the world upgrade system",
 			"World Upgrade Settings",
+			"Settings options for adjusting mod world Upgrades",
 			"Chunk Block Scan Granularity: Interval %1$s", """
 			The granularity of block scanning to detect if a chunk needs to be upgraded.
 			Larger granularity results in shorter scan time but lower accuracy.
@@ -100,6 +101,7 @@ final class LandformI18nProvider extends I18nModInfoProvider {
 			"此系统包含了丝绸开发库中用于实现原版噪声区块生成器修改，地形、生物群系修改以及世界升级器等与世界生成有关的功能。", new String[]{
 			"世界升级系统的文本翻译",
 			"世界升级设置",
+			"用于调整模组世界升级的设置选项",
 			"区块方块扫描粒度：间隔 %1$s", """
 			检测区块是否需要升级的方块扫描粒度
 			粒度越大耗时越短、精准度越低
@@ -162,6 +164,7 @@ final class LandformI18nProvider extends I18nModInfoProvider {
 			"此系統包含了絲綢開發庫中用於實現原版噪聲區塊生成器修改，地形、生物羣落修改以及世界升級器等與世界生成有關嘅功能。", new String[]{
 			"世界升級系統嘅文本翻譯",
 			"世界升級設置",
+			"用於調整模組世界升級嘅設置選項",
 			"區塊方塊掃描粒度：間隔 %1$s", """
 			檢測區塊是否需要升級嘅方塊掃描粒度
 			粒度越大耗時越短、精準度越低
@@ -224,6 +227,7 @@ final class LandformI18nProvider extends I18nModInfoProvider {
 			"此系統包含了絲綢開發庫中用於實現原版噪聲區塊生成器修改，地形、生態域修改以及世界升級器等與世界生成有關的功能。", new String[]{
 			"世界升級系統的文字翻譯",
 			"世界升級設定",
+			"用於調整模組世界升級的設定選項",
 			"區塊方塊掃描粒度：間隔 %1$s", """
 			檢測區塊是否需要升級的方塊掃描粒度
 			粒度越大耗時越短、精準度越低
@@ -303,6 +307,7 @@ final class LandformI18nProvider extends I18nModInfoProvider {
 		Iterator<String> texts = Arrays.stream(allText).iterator();
 		translationBuilder.add(LinkedLanguageProvider.comment("world_upgrade"), texts.next());
 		translationBuilder.add(OptionTexts.textKey(WorldUpgradeSettings.WORLD_UPGRADE_SETTINGS), texts.next());
+		translationBuilder.add(OptionTexts.tipKey(WorldUpgradeSettings.WORLD_UPGRADE_SETTINGS), texts.next());
 		translationBuilder.add(OptionTexts.textKey(WorldUpgradeSettings.CHUNK_BLOCK_SCAN_GRANULARITY), texts.next());
 		translationBuilder.add(OptionTexts.tipKey(WorldUpgradeSettings.CHUNK_BLOCK_SCAN_GRANULARITY), texts.next());
 		translationBuilder.add(OptionTexts.textKey(WorldUpgradeSettings.CHUNK_BLOCK_SCAN_GRANULARITY, "default"), texts.next());
