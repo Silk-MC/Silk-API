@@ -40,12 +40,14 @@ import java.util.stream.Collectors;
 public final class UpdateChecker implements Callable<UpdateData> {
 	private static final ScheduledExecutorService UPDATE_CHECKER_POOL = new ScheduledThreadPoolExecutor(1, new BasicThreadFactory.Builder().daemon(true).build());
 	private final UpdateData.Builder updateDataBuilder;
+	private final String projectLink;
 	private final String basicLink;
 	private URL updateLink;
 	
 	private UpdateChecker(UpdateData.Builder updateDataBuilder) {
 		this.updateDataBuilder = updateDataBuilder;
-		this.basicLink = String.format("https://api.modrinth.com/v2/project/%s/version?loaders=[%%22fabric%%22]", updateDataBuilder.modData().slug());
+		this.projectLink = String.format("https://api.modrinth.com/v2/project/%s", updateDataBuilder.modData().slug());
+		this.basicLink = projectLink + "/version?loaders=[%%22fabric%%22]";
 	}
 	
 	/**
@@ -98,6 +100,17 @@ public final class UpdateChecker implements Callable<UpdateData> {
 			SilkModUp.getInstance().logger().warn(msg);
 			return UpdateState.NONE;
 		}
+		// 检查是否存在项目主页，如不存在项目主页则报错
+		try {
+			URL testOnline = new URL(projectLink);
+			HttpsURLConnection connection = (HttpsURLConnection) testOnline.openConnection();
+			connection.setConnectTimeout(1000);
+			connection.connect();
+		} catch (IOException unknownHostException) {
+			String msg = "URL Error: The update link you attempted to connect to does not exist. Please check if the slug provided by ModPass is correct.";
+			SilkModUp.getInstance().logger().error(msg);
+			return UpdateState.NONE;
+		}
 		// 判断是否有更新
 		try {
 			String checkUpdateBasic = String.format("%s&version_type=%s", basicLink, value);
@@ -131,7 +144,7 @@ public final class UpdateChecker implements Callable<UpdateData> {
 			if (UpdateData.canShowChangelog(updateDataBuilder.updateSettings)) return UpdateState.MOD_LOG;
 			return UpdateState.DONE;
 		} catch (IOException e) {
-			String msg = "URL Error: The update link you attempted to connect to does not exist. Please check if the slug provided by ModPass is correct.";
+			String msg = "URL Error: The update link you attempted to connect to does not exist.";
 			SilkModUp.getInstance().logger().error(msg, e);
 			return UpdateState.UPDATE_FAIL;
 		}
