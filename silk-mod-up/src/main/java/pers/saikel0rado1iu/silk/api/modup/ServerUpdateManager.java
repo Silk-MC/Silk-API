@@ -69,7 +69,7 @@ public class ServerUpdateManager extends UpdateManager {
 				if (!manager.prevModVersion.equals(updateData.modVersion())) manager.canShowUpdateNotify = false;
 				manager.prevModVersion = updateData.modVersion();
 				Future<URL> urlFuture = ModUpdater.downloadUrl(updateData);
-				while (!urlFuture.isDone()) Thread.yield();
+				while (!urlFuture.isDone() && !urlFuture.isCancelled()) Thread.yield();
 				URL url = urlFuture.get();
 				Text modName = updateData.modData().i18nName().copy().styled(style -> style
 						.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, String.format("https://modrinth.com/mod/%s", updateData.modData().slug())))
@@ -107,12 +107,12 @@ public class ServerUpdateManager extends UpdateManager {
 			if (!manager.canShowUpdateNotify2) return;
 			try {
 				Future<UpdateData> updateDataFuture = updateDataSupplier.get();
-				while (!updateDataFuture.isDone()) Thread.yield();
+				while (!updateDataFuture.isDone() && !updateDataFuture.isCancelled()) Thread.yield();
 				UpdateData updateData = updateDataFuture.get();
 				if (!manager.prevModVersion2.equals(updateData.modVersion())) manager.canShowUpdateNotify2 = false;
 				manager.prevModVersion2 = updateData.modVersion();
 				Future<URL> urlFuture = ModUpdater.downloadUrl(updateData);
-				while (!urlFuture.isDone()) Thread.yield();
+				while (!urlFuture.isDone() && !urlFuture.isCancelled()) Thread.yield();
 				URL url = urlFuture.get();
 				Text modName = updateData.modData().i18nName().copy().styled(style -> style
 						.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, String.format("https://modrinth.com/mod/%s", updateData.modData().slug())))

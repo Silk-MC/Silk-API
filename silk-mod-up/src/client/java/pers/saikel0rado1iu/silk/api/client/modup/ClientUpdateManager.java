@@ -23,6 +23,7 @@ import pers.saikel0rado1iu.silk.api.client.pattern.screen.ModScreen;
 import pers.saikel0rado1iu.silk.api.modup.UpdateData;
 import pers.saikel0rado1iu.silk.api.modup.UpdateManager;
 import pers.saikel0rado1iu.silk.api.modup.UpdateSettings;
+import pers.saikel0rado1iu.silk.api.modup.UpdateState;
 import pers.saikel0rado1iu.silk.impl.SilkModUp;
 
 import java.util.concurrent.ExecutionException;
@@ -39,7 +40,7 @@ import java.util.function.Supplier;
 public class ClientUpdateManager extends UpdateManager implements LinkTrusted {
 	private static final int COOLDOWN_TIME = 5000;
 	private long titleScreenTime = System.currentTimeMillis() - COOLDOWN_TIME;
-	private Future<UpdateData> titleScreenUpdateDataFuture;
+	private Future<UpdateData> updateDataFuture;
 	
 	/**
 	 * @param updateDataBuilder 更新数据构建器
@@ -52,12 +53,13 @@ public class ClientUpdateManager extends UpdateManager implements LinkTrusted {
 		if (System.currentTimeMillis() - manager.titleScreenTime < COOLDOWN_TIME) return;
 		if (!manager.canShowUpdateNotify) return;
 		try {
-			if (manager.titleScreenUpdateDataFuture == null) manager.titleScreenUpdateDataFuture = updateDataSupplier.get();
-			if (!manager.titleScreenUpdateDataFuture.isDone()) return;
-			UpdateData updateData = manager.titleScreenUpdateDataFuture.get();
-			manager.titleScreenUpdateDataFuture = updateDataSupplier.get();
+			if (manager.updateDataFuture == null) manager.updateDataFuture = updateDataSupplier.get();
+			if (!manager.updateDataFuture.isDone() && !manager.updateDataFuture.isCancelled()) return;
+			UpdateData updateData = manager.updateDataFuture.get();
+			manager.updateDataFuture = updateDataSupplier.get();
 			manager.titleScreenTime = System.currentTimeMillis();
 			if (manager.prevModVersion.equals(updateData.modVersion())) {
+				if (updateData.getUpdateState() == UpdateState.UPDATE_FAIL) manager.canShowUpdateNotify = false;
 				manager.prevModVersion = updateData.modVersion();
 				return;
 			} else {

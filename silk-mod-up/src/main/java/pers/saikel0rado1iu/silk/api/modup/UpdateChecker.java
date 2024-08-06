@@ -25,6 +25,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.*;
@@ -105,11 +106,13 @@ public final class UpdateChecker implements Callable<UpdateData> {
 			URL testOnline = new URL(projectLink);
 			HttpsURLConnection connection = (HttpsURLConnection) testOnline.openConnection();
 			connection.setConnectTimeout(1000);
+			connection.setReadTimeout(1000);
 			connection.connect();
+			if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) throw new IOException();
 		} catch (IOException unknownHostException) {
 			String msg = "URL Error: The update link you attempted to connect to does not exist. Please check if the slug provided by ModPass is correct.";
 			SilkModUp.getInstance().logger().error(msg);
-			return UpdateState.NONE;
+			return UpdateState.UPDATE_FAIL;
 		}
 		// 判断是否有更新
 		try {
@@ -176,6 +179,7 @@ public final class UpdateChecker implements Callable<UpdateData> {
 	@Override
 	public UpdateData call() {
 		UpdateState state = check();
+		if (state == UpdateState.UPDATE_FAIL) return updateDataBuilder.updateState(UpdateState.UPDATE_FAIL).build();
 		try {
 			String modVersion = getUpdateModVersion();
 			String minecraftVersion = getUpdateMinecraftVersion();
