@@ -12,7 +12,8 @@
 package pers.saikel0rado1iu.silk.api.landform;
 
 import net.minecraft.util.Identifier;
-import pers.saikel0rado1iu.silk.api.base.annotation.ClientRegistration;
+import org.jetbrains.annotations.ApiStatus;
+import pers.saikel0rado1iu.silk.api.annotation.ClientRegistration;
 import pers.saikel0rado1iu.silk.api.modpass.registry.ClientRegistrationProvider;
 import pers.saikel0rado1iu.silk.impl.SilkLandform;
 
@@ -23,8 +24,9 @@ import pers.saikel0rado1iu.silk.impl.SilkLandform;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
+@ApiStatus.OverrideOnly
 @ClientRegistration(registrar = UpgradableWorldManagerRegistrationProvider.ClientRegistrar.class, type = UpgradableWorldManager.class)
-interface UpgradableWorldManagerRegistrationProvider extends ClientRegistrationProvider<UpgradableWorldManager<?>> {
+public interface UpgradableWorldManagerRegistrationProvider extends ClientRegistrationProvider<UpgradableWorldManager<?>> {
 	/**
 	 * 更新管理器客户端注册器
 	 *

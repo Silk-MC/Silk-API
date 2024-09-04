@@ -20,6 +20,7 @@ import net.minecraft.client.gui.tab.GridScreenTab;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import pers.saikel0rado1iu.silk.api.client.pattern.screen.LinkTrusted;
 import pers.saikel0rado1iu.silk.api.client.pattern.screen.ModScreen;
+import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.api.pattern.widget.WidgetTexts;
 
@@ -33,7 +34,7 @@ import java.util.List;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 0.1.0
  */
-public abstract class ScreenTab extends GridScreenTab implements LinkTrusted {
+public abstract class ScreenTab extends GridScreenTab implements LinkTrusted, ModPass {
 	/**
 	 * 选项卡顶部坐标
 	 */
@@ -117,15 +118,6 @@ public abstract class ScreenTab extends GridScreenTab implements LinkTrusted {
 	}
 	
 	/**
-	 * 获取模组通
-	 *
-	 * @return 模组通
-	 */
-	public ModPass getModPass() {
-		return modPass;
-	}
-	
-	/**
 	 * 获取可绘制控件列表
 	 *
 	 * @return 可绘制控件列表
@@ -143,5 +135,10 @@ public abstract class ScreenTab extends GridScreenTab implements LinkTrusted {
 	@SuppressWarnings("unchecked")
 	public <T extends Element & Selectable> List<T> getSelectableWidgetList() {
 		return selectableWidgetList;
+	}
+	
+	@Override
+	public ModData modData() {
+		return modPass.modData();
 	}
 }

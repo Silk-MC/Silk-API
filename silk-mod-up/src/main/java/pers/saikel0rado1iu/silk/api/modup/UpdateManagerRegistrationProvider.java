@@ -13,13 +13,15 @@ package pers.saikel0rado1iu.silk.api.modup;
 
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import pers.saikel0rado1iu.silk.api.base.annotation.ClientRegistration;
-import pers.saikel0rado1iu.silk.api.base.annotation.ServerRegistration;
+import org.jetbrains.annotations.ApiStatus;
+import pers.saikel0rado1iu.silk.api.annotation.ClientRegistration;
+import pers.saikel0rado1iu.silk.api.annotation.ServerRegistration;
 import pers.saikel0rado1iu.silk.api.modpass.registry.ClientRegistrationProvider;
 import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
 import pers.saikel0rado1iu.silk.impl.SilkModUp;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * <h2 style="color:FFC800">更新管理器注册提供器</h2>
@@ -29,16 +31,17 @@ import java.util.Optional;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
+@ApiStatus.OverrideOnly
 @ServerRegistration(registrar = UpdateManagerRegistrationProvider.MainRegistrar.class, type = UpdateManager.class)
 @ClientRegistration(registrar = UpdateManagerRegistrationProvider.ClientRegistrar.class, type = UpdateManager.class)
-interface UpdateManagerRegistrationProvider extends MainRegistrationProvider<UpdateManager>, ClientRegistrationProvider<UpdateManager> {
+public interface UpdateManagerRegistrationProvider extends MainRegistrationProvider<UpdateManager>, ClientRegistrationProvider<UpdateManager> {
 	/**
 	 * 更新管理器服务端注册器
 	 *
 	 * @param <T> 更新管理器类型
 	 */
 	final class MainRegistrar<T extends UpdateManager> extends MainRegistrationProvider.Registrar<T, MainRegistrar<T>> {
-		MainRegistrar(T type) {
+		MainRegistrar(Supplier<T> type) {
 			super(type);
 		}
 		

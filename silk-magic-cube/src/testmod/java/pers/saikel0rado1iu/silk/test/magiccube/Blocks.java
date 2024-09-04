@@ -37,47 +37,47 @@ public interface Blocks extends BlockRegistry {
 	/**
 	 * test_block
 	 */
-	PhysicsConnectingBlockTest TEST_BLOCK = BlockRegistry.registrar(new PhysicsConnectingBlockTest(AbstractBlock.Settings.create()))
+	PhysicsConnectingBlockTest TEST_BLOCK = BlockRegistry.registrar(() -> new PhysicsConnectingBlockTest(AbstractBlock.Settings.create()))
 			.register(SilkMagicCube.getInstance().ofId("test_block"));
 	/**
 	 * test_spreadable_soil_block
 	 */
-	SpreadableSoilBlockTest TEST_SPREADABLE_SOIL_BLOCK = BlockRegistry.registrar(new SpreadableSoilBlockTest(AbstractBlock.Settings.create().ticksRandomly()))
+	SpreadableSoilBlockTest TEST_SPREADABLE_SOIL_BLOCK = BlockRegistry.registrar(() -> new SpreadableSoilBlockTest(AbstractBlock.Settings.create().ticksRandomly()))
 			.register(SilkMagicCube.getInstance().ofId("test_spreadable_soil_block"));
 	/**
 	 * test_infect_sapling_block
 	 */
-	InfectSaplingTest TEST_INFECT_SAPLING_BLOCK = BlockRegistry.registrar(new InfectSaplingTest(AbstractBlock.Settings.create()))
+	InfectSaplingTest TEST_INFECT_SAPLING_BLOCK = BlockRegistry.registrar(() -> new InfectSaplingTest(AbstractBlock.Settings.create()))
 			.register(SilkMagicCube.getInstance().ofId("test_infect_sapling_block"));
 	/**
 	 * test_infect_mushroom_block
 	 */
-	InfectMushroomTest TEST_INFECT_MUSHROOM_BLOCK = BlockRegistry.registrar(new InfectMushroomTest(AbstractBlock.Settings.create()))
+	InfectMushroomTest TEST_INFECT_MUSHROOM_BLOCK = BlockRegistry.registrar(() -> new InfectMushroomTest(AbstractBlock.Settings.create()))
 			.register(SilkMagicCube.getInstance().ofId("test_infect_mushroom_block"));
 	/**
 	 * empty_pot_block
 	 */
-	EmptyPotBlock EMPTY_POT_BLOCK = BlockRegistry.registrar(new EmptyPotBlock(AbstractBlock.Settings.create()))
+	EmptyPotBlock EMPTY_POT_BLOCK = BlockRegistry.registrar(() -> new EmptyPotBlock(AbstractBlock.Settings.create()))
 			.register(SilkMagicCube.getInstance().ofId("empty_pot_block"));
 	/**
 	 * lava_pot_block
 	 */
-	LavaPotBlock LAVA_POT_BLOCK = BlockRegistry.registrar(new LavaPotBlock(AbstractBlock.Settings.create()))
+	LavaPotBlock LAVA_POT_BLOCK = BlockRegistry.registrar(() -> new LavaPotBlock(AbstractBlock.Settings.create()))
 			.register(SilkMagicCube.getInstance().ofId("lava_pot_block"));
 	/**
 	 * water_pot_block
 	 */
-	LeveledCauldronLikeBlockTest WATER_POT_BLOCK = BlockRegistry.registrar(new LeveledCauldronLikeBlockTest(Biome.Precipitation.RAIN, CauldronLikeBehaviorTest.INSTANCE.waterBehavior, AbstractBlock.Settings.create()))
+	LeveledCauldronLikeBlockTest WATER_POT_BLOCK = BlockRegistry.registrar(() -> new LeveledCauldronLikeBlockTest(Biome.Precipitation.RAIN, CauldronLikeBehaviorTest.INSTANCE.waterBehavior, AbstractBlock.Settings.create()))
 			.register(SilkMagicCube.getInstance().ofId("water_pot_block"));
 	/**
 	 * powder_snow_pot_block
 	 */
-	LeveledCauldronLikeBlockTest POWDER_SNOW_POT_BLOCK = BlockRegistry.registrar(new LeveledCauldronLikeBlockTest(Biome.Precipitation.SNOW, CauldronLikeBehaviorTest.INSTANCE.powderSnowBehavior, AbstractBlock.Settings.create()))
+	LeveledCauldronLikeBlockTest POWDER_SNOW_POT_BLOCK = BlockRegistry.registrar(() -> new LeveledCauldronLikeBlockTest(Biome.Precipitation.SNOW, CauldronLikeBehaviorTest.INSTANCE.powderSnowBehavior, AbstractBlock.Settings.create()))
 			.register(SilkMagicCube.getInstance().ofId("powder_snow_pot_block"));
 	/**
 	 * tnt_like_block
 	 */
-	TntLikeBlockTest TNT_LIKE_BLOCK = BlockRegistry.registrar(new TntLikeBlockTest(AbstractBlock.Settings.create()))
+	TntLikeBlockTest TNT_LIKE_BLOCK = BlockRegistry.registrar(() -> new TntLikeBlockTest(AbstractBlock.Settings.create()))
 			.other(block -> FlammableBlockRegistry.getDefaultInstance().add(block, 15, 100))
 			.register(SilkMagicCube.getInstance().ofId("tnt_like_block"));
 }

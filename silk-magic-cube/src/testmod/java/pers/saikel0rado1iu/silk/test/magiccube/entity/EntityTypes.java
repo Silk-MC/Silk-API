@@ -24,7 +24,7 @@ public interface EntityTypes extends EntityTypeRegistry {
 	/**
 	 * tnt_like_entity
 	 */
-	EntityType<TntLikeEntityTest> TNT_LIKE_ENTITY = EntityTypeRegistry.registrar(FabricEntityTypeBuilder.<TntLikeEntityTest>create(SpawnGroup.MISC, TntLikeEntityTest::new)
+	EntityType<TntLikeEntityTest> TNT_LIKE_ENTITY = EntityTypeRegistry.registrar(() -> FabricEntityTypeBuilder.<TntLikeEntityTest>create(SpawnGroup.MISC, TntLikeEntityTest::new)
 					.dimensions(EntityDimensions.fixed(1, 1)).fireImmune().build())
 			.register("tnt_like_entity");
 }

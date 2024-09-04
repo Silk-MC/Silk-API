@@ -25,6 +25,6 @@ public interface BlockEntityTypes extends BlockEntityTypeRegistry {
 	 * test_block_entity_type
 	 */
 	BlockEntityType<PhysicsConnectingBlockEntityTest> TEST_BLOCK_ENTITY = BlockEntityTypeRegistry
-			.registrar(FabricBlockEntityTypeBuilder.create(PhysicsConnectingBlockEntityTest::new, Blocks.TEST_BLOCK).build())
+			.registrar(() -> FabricBlockEntityTypeBuilder.create(PhysicsConnectingBlockEntityTest::new, Blocks.TEST_BLOCK).build())
 			.register(SilkMagicCube.getInstance().ofId("test_block_entity_type"));
 }

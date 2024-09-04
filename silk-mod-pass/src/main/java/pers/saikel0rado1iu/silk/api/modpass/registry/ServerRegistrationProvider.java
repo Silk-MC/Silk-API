@@ -11,10 +11,12 @@
 
 package pers.saikel0rado1iu.silk.api.modpass.registry;
 
-import pers.saikel0rado1iu.silk.api.base.annotation.ServerRegistration;
+import com.google.common.base.Suppliers;
+import pers.saikel0rado1iu.silk.api.annotation.ServerRegistration;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * <h2 style="color:FFC800">服务端注册提供器</h2>
@@ -33,10 +35,10 @@ public interface ServerRegistrationProvider<T> extends RegisterableModPass<T> {
 	 * @param <T> 注册的数据类
 	 */
 	abstract class Registrar<T, R extends Registrar<T, R>> {
-		protected final T type;
+		protected final Supplier<T> type;
 		
-		protected Registrar(T type) {
-			this.type = type;
+		protected Registrar(Supplier<T> type) {
+			this.type = Suppliers.memoize(type::get);
 		}
 		
 		protected abstract R self();
@@ -48,7 +50,7 @@ public interface ServerRegistrationProvider<T> extends RegisterableModPass<T> {
 		 * @return 服务端注册器
 		 */
 		public R other(Consumer<T> consumer) {
-			consumer.accept(type);
+			consumer.accept(type.get());
 			return self();
 		}
 		
@@ -61,7 +63,7 @@ public interface ServerRegistrationProvider<T> extends RegisterableModPass<T> {
 		 */
 		protected T register(ModPass modPass, String id) {
 			RegisterableModPass.loggingRegistration(modPass, type, modPass.modData().ofId(id), RegistrationType.SERVER_ONLY);
-			return type;
+			return type.get();
 		}
 	}
 }

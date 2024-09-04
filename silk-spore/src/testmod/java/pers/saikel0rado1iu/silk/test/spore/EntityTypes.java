@@ -32,7 +32,7 @@ public interface EntityTypes extends EntityTypeRegistry {
 	/**
 	 * fixed_damage_test
 	 */
-	EntityType<FixedDamageTest> FIXED_DAMAGE_TEST = EntityTypeRegistry.registrar(FabricEntityTypeBuilder.<FixedDamageTest>create(SpawnGroup.MISC, FixedDamageTest::new)
+	EntityType<FixedDamageTest> FIXED_DAMAGE_TEST = EntityTypeRegistry.registrar(() -> FabricEntityTypeBuilder.<FixedDamageTest>create(SpawnGroup.MISC, FixedDamageTest::new)
 					.dimensions(EntityDimensions.fixed(0.25F, 0.25F)).trackRangeBlocks(4).trackedUpdateRate(20).build())
 			.other(entityType -> DispenserBlock.registerBehavior(Items.FIXED_DAMAGE_TEST_ITEM, new ProjectileDispenserBehavior() {
 				@Override

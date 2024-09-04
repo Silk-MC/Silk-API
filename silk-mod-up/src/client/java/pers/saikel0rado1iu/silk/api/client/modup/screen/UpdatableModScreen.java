@@ -73,7 +73,7 @@ public class UpdatableModScreen extends ModScreen {
 	@Override
 	protected void init() {
 		super.init();
-		String modVerString = tabs.get(0).getModPass().modData().version();
+		String modVerString = tabs.get(0).modData().version();
 		modVersion = new PressableTextWidget(0, height - 12, textRenderer.getWidth(modVerString), textRenderer.fontHeight,
 				Text.of(modVerString), buttonWidget -> manager.setShowNow(), textRenderer);
 		addDrawableChild(modVersion);

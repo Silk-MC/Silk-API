@@ -73,7 +73,7 @@ public interface RegisterableModPass<T> extends ModPass {
 	 */
 	static void loggingRegistration(ModPass modPass, Object object, Identifier id, RegistrationType registrationType) {
 		String name = object.getClass().getSimpleName().isEmpty() ? object.getClass().getName() : object.getClass().getSimpleName();
-		SilkModPass.getInstance().logger().info("Register {} ({}): {} '{}' from {} has been successfully registered.",
+		SilkModPass.getInstance().logger().debug("Register {} ({}): {} '{}' from {} has been successfully registered.",
 				name, registrationType.key(), name, id, modPass.modData().debugName());
 	}
 	
@@ -107,7 +107,7 @@ public interface RegisterableModPass<T> extends ModPass {
 	}
 	
 	private static void registrationLog(ModPass modPass, Class<?> type, RegistrationType registrationType) {
-		SilkModPass.getInstance().logger().info("Register {} ({}): All {}(s) in {} has been successfully registered.",
+		SilkModPass.getInstance().logger().debug("Register {} ({}): All {}(s) in {} has been successfully registered.",
 				type.getSimpleName(), registrationType.key(), type.getSimpleName().toLowerCase(), modPass.modData().debugName());
 	}
 	

@@ -25,37 +25,37 @@ public interface Items extends ItemRegistry {
 	/**
 	 * test_block
 	 */
-	BlockItem TEST_BLOCK = ItemRegistry.registrar(new BlockItem(Blocks.TEST_BLOCK, new Item.Settings()))
+	BlockItem TEST_BLOCK = ItemRegistry.registrar(() -> new BlockItem(Blocks.TEST_BLOCK, new Item.Settings()))
 			.group(ItemGroups.BUILDING_BLOCKS)
 			.register(SilkMagicCube.getInstance().ofId("test_block"));
 	/**
 	 * test_spreadable_soil_block
 	 */
-	BlockItem TEST_SPREADABLE_SOIL_BLOCK = ItemRegistry.registrar(new BlockItem(Blocks.TEST_SPREADABLE_SOIL_BLOCK, new Item.Settings()))
+	BlockItem TEST_SPREADABLE_SOIL_BLOCK = ItemRegistry.registrar(() -> new BlockItem(Blocks.TEST_SPREADABLE_SOIL_BLOCK, new Item.Settings()))
 			.group(ItemGroups.BUILDING_BLOCKS)
 			.register(SilkMagicCube.getInstance().ofId("test_spreadable_soil_block"));
 	/**
 	 * test_infect_sapling_block
 	 */
-	BlockItem TEST_INFECT_SAPLING_BLOCK = ItemRegistry.registrar(new BlockItem(Blocks.TEST_INFECT_SAPLING_BLOCK, new Item.Settings()))
+	BlockItem TEST_INFECT_SAPLING_BLOCK = ItemRegistry.registrar(() -> new BlockItem(Blocks.TEST_INFECT_SAPLING_BLOCK, new Item.Settings()))
 			.group(ItemGroups.BUILDING_BLOCKS)
 			.register(SilkMagicCube.getInstance().ofId("test_infect_sapling_block"));
 	/**
 	 * test_infect_mushroom_block
 	 */
-	BlockItem TEST_INFECT_MUSHROOM_BLOCK = ItemRegistry.registrar(new BlockItem(Blocks.TEST_INFECT_MUSHROOM_BLOCK, new Item.Settings()))
+	BlockItem TEST_INFECT_MUSHROOM_BLOCK = ItemRegistry.registrar(() -> new BlockItem(Blocks.TEST_INFECT_MUSHROOM_BLOCK, new Item.Settings()))
 			.group(ItemGroups.BUILDING_BLOCKS)
 			.register(SilkMagicCube.getInstance().ofId("test_infect_mushroom_block"));
 	/**
 	 * empty_pot_block
 	 */
-	BlockItem EMPTY_POT_BLOCK = ItemRegistry.registrar(new BlockItem(Blocks.EMPTY_POT_BLOCK, new Item.Settings()))
+	BlockItem EMPTY_POT_BLOCK = ItemRegistry.registrar(() -> new BlockItem(Blocks.EMPTY_POT_BLOCK, new Item.Settings()))
 			.group(ItemGroups.BUILDING_BLOCKS)
 			.register(SilkMagicCube.getInstance().ofId("empty_pot_block"));
 	/**
 	 * tnt_like_block
 	 */
-	BlockItem TNT_LIKE_BLOCK = ItemRegistry.registrar(new BlockItem(Blocks.TNT_LIKE_BLOCK, new Item.Settings()))
+	BlockItem TNT_LIKE_BLOCK = ItemRegistry.registrar(() -> new BlockItem(Blocks.TNT_LIKE_BLOCK, new Item.Settings()))
 			.group(ItemGroups.BUILDING_BLOCKS)
 			.register(SilkMagicCube.getInstance().ofId("tnt_like_block"));
 }

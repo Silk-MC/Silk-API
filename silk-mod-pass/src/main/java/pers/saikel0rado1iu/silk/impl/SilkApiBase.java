@@ -31,6 +31,6 @@ public interface SilkApiBase extends SilkApi {
 	
 	@Override
 	default String id() {
-		return "silk-api-base";
+		return "assets/silk-api-annotation-processor";
 	}
 }

@@ -12,5 +12,5 @@ dependencies {
 	api project(path: ":silk-pattern", configuration: "namedElements")
 	api project(path: ":silk-codex", configuration: "namedElements")
 	api project(path: ":silk-generate", configuration: "namedElements")
-	annotationProcessor project(path: ":silk-api-base", configuration: "namedElements")
+	annotationProcessor project(path: ":silk-api-annotation-processor", configuration: "namedElements")
 }

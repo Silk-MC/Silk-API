@@ -34,7 +34,7 @@ public interface ChunkGeneratorCodecs extends ChunkGeneratorCodecRegistry {
 	/**
 	 * test
 	 */
-	Codec<TestChunkGenerator> TEST = ChunkGeneratorCodecRegistry.registrar(TestChunkGenerator.class, RecordCodecBuilder.create(instance -> instance.group(
+	Codec<TestChunkGenerator> TEST = ChunkGeneratorCodecRegistry.registrar(TestChunkGenerator.class, () -> RecordCodecBuilder.create(instance -> instance.group(
 							BiomeSource.CODEC.fieldOf("biome_source").forGetter(ChunkGenerator::getBiomeSource),
 							Codecs.createStrictOptionalFieldCodec(FixedBiomeSource.CODEC.listOf(), "fixed_biome_sources", List.of()).forGetter(TestChunkGenerator::additionalBiomeSources),
 							ChunkGeneratorSettings.REGISTRY_CODEC.fieldOf("settings").forGetter(NoiseChunkGenerator::getSettings),

@@ -22,5 +22,5 @@ public interface UpdateManagerRegistryTest extends UpdateManagerRegistry {
 	 * UPDATE_MANAGER
 	 */
 	@SuppressWarnings("unused")
-	ServerUpdateManager SERVER_UPDATE_MANAGER = UpdateManagerRegistry.registrar(new ServerUpdateManager(Test.UPDATE_DATA_BUILDER)).register();
+	ServerUpdateManager SERVER_UPDATE_MANAGER = UpdateManagerRegistry.registrar(() -> new ServerUpdateManager(Test.UPDATE_DATA_BUILDER)).register();
 }

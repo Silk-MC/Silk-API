@@ -4,5 +4,5 @@ version = project.silk_mod_pass_version + "+" + project.mc_main_version
 
 dependencies {
 	api project(path: ":silk-api-base", configuration: "namedElements")
-	annotationProcessor project(path: ":silk-api-base", configuration: "namedElements")
+	annotationProcessor project(path: ":silk-api-annotation-processor", configuration: "namedElements")
 }

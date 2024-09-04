@@ -19,6 +19,7 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -35,17 +36,8 @@ public interface Changelog {
 	 *
 	 * @return 更新日志路径
 	 */
-	static Path path() {
-		String msg = "Unexpected error: Unable to read the changelog path!";
-		try {
-			return Path.of(Optional.ofNullable(Changelog.class.getResource("/CHANGELOG")).orElseThrow(() -> {
-				SilkModPass.getInstance().logger().error(msg);
-				return new RuntimeException(msg);
-			}).toURI());
-		} catch (URISyntaxException e) {
-			SilkModPass.getInstance().logger().error(msg);
-			throw new RuntimeException(msg);
-		}
+	static Path path() throws NoSuchElementException, URISyntaxException {
+		return Path.of(Optional.ofNullable(Changelog.class.getResource("/CHANGELOG")).orElseThrow().toURI());
 	}
 	
 	/**
@@ -59,13 +51,19 @@ public interface Changelog {
 	 * 如果没有更新日志则返回 {@link  Optional#empty()}
 	 */
 	static Optional<Path> get(ModPass modPass, String langCode) {
-		String ChangelogName = String.format("%s.%s.md", modPass.modData().id(), langCode);
-		Path Changelog = path().resolve(ChangelogName);
-		if (Files.exists(Changelog)) return Optional.of(Changelog);
-		ChangelogName = String.format("%s.%s.md", modPass.modData().id(), "en_us");
-		Changelog = path().resolve(ChangelogName);
-		if (Files.exists(Changelog)) return Optional.of(Changelog);
-		return Optional.empty();
+		String msg = "Unexpected error: Unable to read the changelog path!";
+		try {
+			String ChangelogName = String.format("%s.%s.md", modPass.modData().id(), langCode);
+			Path Changelog = path().resolve(ChangelogName);
+			if (Files.exists(Changelog)) return Optional.of(Changelog);
+			ChangelogName = String.format("%s.%s.md", modPass.modData().id(), "en_us");
+			Changelog = path().resolve(ChangelogName);
+			if (Files.exists(Changelog)) return Optional.of(Changelog);
+			return Optional.empty();
+		} catch (NoSuchElementException | URISyntaxException e) {
+			SilkModPass.getInstance().logger().warn(msg);
+			return Optional.empty();
+		}
 	}
 	
 	/**

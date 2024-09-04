@@ -11,10 +11,11 @@
 
 package pers.saikel0rado1iu.silk.api.modpass.registry;
 
+import com.google.common.base.Suppliers;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
-import pers.saikel0rado1iu.silk.api.base.annotation.ServerRegistration;
+import pers.saikel0rado1iu.silk.api.annotation.ServerRegistration;
 import pers.saikel0rado1iu.silk.api.modpass.ModMain;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.impl.SilkModPass;
@@ -25,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * <h2 style="color:FFC800">主要注册提供器</h2>
@@ -86,8 +88,8 @@ public interface MainRegistrationProvider<T> extends RegisterableModPass<T> {
 		private static final ThreadLocal<Map<Object, RegistryData>> THREAD_LOCAL_TAGS = ThreadLocal.withInitial(HashMap::new);
 		protected final T type;
 		
-		protected Registrar(T type) {
-			this.type = type;
+		protected Registrar(Supplier<T> type) {
+			this.type = Suppliers.memoize(type::get).get();
 		}
 		
 		protected abstract R self();
@@ -118,8 +120,7 @@ public interface MainRegistrationProvider<T> extends RegisterableModPass<T> {
 		 * @return 注册项
 		 */
 		public T register(Identifier id) {
-			register(id.toString());
-			return type;
+			return register(id.toString());
 		}
 		
 		/**
@@ -144,8 +145,7 @@ public interface MainRegistrationProvider<T> extends RegisterableModPass<T> {
 		@Deprecated
 		@ApiStatus.Obsolete
 		public T register() {
-			register("");
-			return type;
+			return register("");
 		}
 		
 		private record RegistryData(Optional<Registry<?>> registry, String id) {

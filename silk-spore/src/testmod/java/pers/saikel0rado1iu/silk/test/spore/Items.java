@@ -23,6 +23,6 @@ public interface Items extends ItemRegistry {
 	/**
 	 * fixed_damage_test_item
 	 */
-	Item FIXED_DAMAGE_TEST_ITEM = ItemRegistry.registrar(new Item(new Item.Settings()))
+	Item FIXED_DAMAGE_TEST_ITEM = ItemRegistry.registrar(() -> new Item(new Item.Settings()))
 			.group(ItemGroups.COMBAT).register(SilkSpore.getInstance().ofId("fixed_damage_test_item"));
 }

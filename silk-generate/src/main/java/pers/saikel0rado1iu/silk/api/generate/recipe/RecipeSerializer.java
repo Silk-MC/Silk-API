@@ -25,5 +25,5 @@ public interface RecipeSerializer extends RecipeSerializerRegistry {
 	/**
 	 * 带 NBT 的有序配方序列化器
 	 */
-	NbtShapedRecipe.Serializer NBT_SHAPED = RecipeSerializerRegistry.registrar(new NbtShapedRecipe.Serializer()).register(SilkApi.getInternal().ofId("crafting_nbt_shaped"));
+	NbtShapedRecipe.Serializer NBT_SHAPED = RecipeSerializerRegistry.registrar(NbtShapedRecipe.Serializer::new).register(SilkApi.getInternal().ofId("crafting_nbt_shaped"));
 }

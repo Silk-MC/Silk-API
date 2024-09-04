@@ -44,10 +44,10 @@ public class SynopsisTab extends ScreenTab {
 	
 	@Override
 	public void init(MinecraftClient client, TextRenderer textRenderer, int width, int height) {
-		introTitle = addDrawableChild(new TextWidget(WidgetTexts.title(modPass, "tab.synopsis.intro").formatted(Formatting.BOLD), textRenderer));
-		visionTitle = addDrawableChild(new TextWidget(WidgetTexts.title(modPass, "tab.synopsis.vision").formatted(Formatting.BOLD), textRenderer));
-		introText = addDrawableChild(new MultilineTextWidget(WidgetTexts.text(modPass, "tab.synopsis.intro"), textRenderer));
-		visionText = addDrawableChild(new MultilineTextWidget(WidgetTexts.text(modPass, "tab.synopsis.vision"), textRenderer));
+		introTitle = addDrawableChild(new TextWidget(WidgetTexts.title(modData(), "tab.synopsis.intro").formatted(Formatting.BOLD), textRenderer));
+		visionTitle = addDrawableChild(new TextWidget(WidgetTexts.title(modData(), "tab.synopsis.vision").formatted(Formatting.BOLD), textRenderer));
+		introText = addDrawableChild(new MultilineTextWidget(WidgetTexts.text(modData(), "tab.synopsis.intro"), textRenderer));
+		visionText = addDrawableChild(new MultilineTextWidget(WidgetTexts.text(modData(), "tab.synopsis.vision"), textRenderer));
 	}
 	
 	@Override

@@ -12,7 +12,7 @@
 package pers.saikel0rado1iu.silk.api.modpass.registry;
 
 import net.minecraft.util.Identifier;
-import pers.saikel0rado1iu.silk.api.base.annotation.ClientRegistration;
+import pers.saikel0rado1iu.silk.api.annotation.ClientRegistration;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
 
 /**
