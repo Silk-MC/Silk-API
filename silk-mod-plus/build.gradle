@@ -1,1 +1,26 @@
+//file:noinspection DependencyNotationArgument
+//file:noinspection GroovyAssignabilityCheck
 version = project.silk_mod_plus_version + "+" + project.mc_main_version
+
+dependencies {
+	def dependentProjects = [
+			':silk-api-base',
+			':silk-mod-pass',
+			':silk-mod-up',
+			':silk-spinning-jenny',
+			':silk-rope-stick',
+			':silk-magic-cube',
+			':silk-spore',
+			':silk-generate',
+			':silk-pattern',
+			':silk-codex',
+			':silk-landform']
+	modImplementation fileTree(dir: 'libs', includes: ['*.jar'])
+	dependentProjects.each { dependentProject ->
+		//implementation project(path: dependentProject, configuration: "namedElements")
+	}
+	
+	implementation project(path: ":silk-api-annotation-processor", configuration: "namedElements")
+	annotationProcessor project(path: ":silk-api-annotation-processor", configuration: "namedElements")
+	testmodAnnotationProcessor project(path: ":silk-api-annotation-processor", configuration: "namedElements")
+}
