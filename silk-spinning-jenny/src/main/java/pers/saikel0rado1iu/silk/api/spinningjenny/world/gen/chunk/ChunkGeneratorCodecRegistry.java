@@ -18,6 +18,7 @@ import net.minecraft.world.gen.chunk.ChunkGenerator;
 import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * <h2 style="color:FFC800">{@link Codec}{@code <? extends }{@link ChunkGenerator}{@code >} 注册表</h2>
@@ -36,7 +37,7 @@ public interface ChunkGeneratorCodecRegistry extends MainRegistrationProvider<Co
 	 * @param <T>     区块生成器类型
 	 * @return 服务端注册器
 	 */
-	static <T extends ChunkGenerator> ChunkGeneratorCodecRegistry.MainRegistrar<T> registrar(Class<T> ignored, Codec<T> codec) {
+	static <T extends ChunkGenerator> ChunkGeneratorCodecRegistry.MainRegistrar<T> registrar(Class<T> ignored, Supplier<Codec<T>> codec) {
 		return new ChunkGeneratorCodecRegistry.MainRegistrar<>(codec);
 	}
 	
@@ -46,7 +47,7 @@ public interface ChunkGeneratorCodecRegistry extends MainRegistrationProvider<Co
 	 * @param <T> 区块生成器解编码器
 	 */
 	final class MainRegistrar<T extends ChunkGenerator> extends Registrar<Codec<T>, MainRegistrar<T>> {
-		MainRegistrar(Codec<T> type) {
+		MainRegistrar(Supplier<Codec<T>> type) {
 			super(type);
 		}
 		

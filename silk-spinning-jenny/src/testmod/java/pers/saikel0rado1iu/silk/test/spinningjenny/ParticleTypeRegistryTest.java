@@ -23,6 +23,6 @@ public interface ParticleTypeRegistryTest extends ParticleTypeRegistry {
 	 * test_particle_type
 	 */
 	@SuppressWarnings("unused")
-	DefaultParticleType TEST_PARTICLE_TYPE = ParticleTypeRegistry.registrar(FabricParticleTypes.simple())
+	DefaultParticleType TEST_PARTICLE_TYPE = ParticleTypeRegistry.registrar(() -> FabricParticleTypes.simple())
 			.register("test_particle_type");
 }

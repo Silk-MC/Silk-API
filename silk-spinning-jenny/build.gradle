@@ -5,5 +5,5 @@ version = project.silk_spinning_jenny_version + "+" + project.mc_main_version
 dependencies {
 	api project(path: ":silk-api-base", configuration: "namedElements")
 	api project(path: ":silk-mod-pass", configuration: "namedElements")
-	annotationProcessor project(path: ":silk-api-base", configuration: "namedElements")
+	annotationProcessor project(path: ":silk-api-annotation-processor", configuration: "namedElements")
 }

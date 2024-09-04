@@ -18,13 +18,15 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
-import pers.saikel0rado1iu.silk.api.base.annotation.ClientRegistration;
-import pers.saikel0rado1iu.silk.api.base.annotation.ServerRegistration;
+import org.jetbrains.annotations.ApiStatus;
+import pers.saikel0rado1iu.silk.api.annotation.ClientRegistration;
+import pers.saikel0rado1iu.silk.api.annotation.ServerRegistration;
 import pers.saikel0rado1iu.silk.api.modpass.registry.ClientRegistrationProvider;
 import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * <h2 style="color:FFC800">物品注册提供器</h2>
@@ -33,16 +35,17 @@ import java.util.Optional;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
+@ApiStatus.OverrideOnly
 @ServerRegistration(registrar = ItemRegistrationProvider.MainRegistrar.class, type = Item.class)
 @ClientRegistration(registrar = ItemRegistrationProvider.ClientRegistrar.class, type = Item.class)
-interface ItemRegistrationProvider extends MainRegistrationProvider<Item>, ClientRegistrationProvider<Item> {
+public interface ItemRegistrationProvider extends MainRegistrationProvider<Item>, ClientRegistrationProvider<Item> {
 	/**
 	 * 物品主注册器
 	 *
 	 * @param <T> 物品类型
 	 */
 	final class MainRegistrar<T extends Item> extends MainRegistrationProvider.Registrar<T, MainRegistrar<T>> {
-		MainRegistrar(T type) {
+		MainRegistrar(Supplier<T> type) {
 			super(type);
 		}
 		

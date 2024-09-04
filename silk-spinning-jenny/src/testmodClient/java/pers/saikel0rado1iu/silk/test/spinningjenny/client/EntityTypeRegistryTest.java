@@ -22,7 +22,7 @@ import static pers.saikel0rado1iu.silk.test.spinningjenny.EntityTypeRegistryTest
  */
 public abstract class EntityTypeRegistryTest implements EntityTypeRegistry {
 	static {
-		EntityTypeRegistry.registrar((Runnable) () -> EntityRendererRegistry.register(TEST_ENTITY_TYPE, ArrowEntityRenderer::new)).register(TEST_ENTITY_TYPE);
+		EntityTypeRegistry.registrar(() -> EntityRendererRegistry.register(TEST_ENTITY_TYPE, ArrowEntityRenderer::new)).register(TEST_ENTITY_TYPE);
 	}
 	
 	private EntityTypeRegistryTest() {

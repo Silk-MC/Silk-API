@@ -14,10 +14,12 @@ package pers.saikel0rado1iu.silk.api.spinningjenny.data.gen;
 import net.minecraft.advancement.criterion.Criterion;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import pers.saikel0rado1iu.silk.api.base.annotation.ServerRegistration;
+import org.jetbrains.annotations.ApiStatus;
+import pers.saikel0rado1iu.silk.api.annotation.ServerRegistration;
 import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * <h2 style="color:FFC800">标准注册提供器</h2>
@@ -26,15 +28,16 @@ import java.util.Optional;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
+@ApiStatus.OverrideOnly
 @ServerRegistration(registrar = CriterionRegistrationProvider.MainRegistrar.class, type = Criterion.class)
-interface CriterionRegistrationProvider extends MainRegistrationProvider<Criterion<?>> {
+public interface CriterionRegistrationProvider extends MainRegistrationProvider<Criterion<?>> {
 	/**
 	 * 标准主注册器
 	 *
 	 * @param <T> 标准
 	 */
 	final class MainRegistrar<T extends Criterion<?>> extends Registrar<T, MainRegistrar<T>> {
-		MainRegistrar(T type) {
+		MainRegistrar(Supplier<T> type) {
 			super(type);
 		}
 		

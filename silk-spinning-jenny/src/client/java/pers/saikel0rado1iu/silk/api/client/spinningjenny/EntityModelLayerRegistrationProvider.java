@@ -13,7 +13,8 @@ package pers.saikel0rado1iu.silk.api.client.spinningjenny;
 
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
-import pers.saikel0rado1iu.silk.api.base.annotation.ClientRegistration;
+import org.jetbrains.annotations.ApiStatus;
+import pers.saikel0rado1iu.silk.api.annotation.ClientRegistration;
 import pers.saikel0rado1iu.silk.api.modpass.registry.ClientRegistrationProvider;
 
 /**
@@ -23,8 +24,9 @@ import pers.saikel0rado1iu.silk.api.modpass.registry.ClientRegistrationProvider;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
+@ApiStatus.OverrideOnly
 @ClientRegistration(registrar = EntityModelLayerRegistrationProvider.ClientRegistrar.class, type = EntityModelLayer.class)
-interface EntityModelLayerRegistrationProvider extends ClientRegistrationProvider<EntityModelLayer> {
+public interface EntityModelLayerRegistrationProvider extends ClientRegistrationProvider<EntityModelLayer> {
 	/**
 	 * 实体模型图层客户端注册器
 	 *

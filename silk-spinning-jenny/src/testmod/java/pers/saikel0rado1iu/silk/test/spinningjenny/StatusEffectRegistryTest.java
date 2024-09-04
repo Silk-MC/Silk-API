@@ -25,7 +25,7 @@ public interface StatusEffectRegistryTest extends StatusEffectRegistry {
 	 * test_status_effect
 	 */
 	@SuppressWarnings("unused")
-	TestStatusEffect TEST_STATUS_EFFECT = StatusEffectRegistry.registrar(new TestStatusEffect())
+	TestStatusEffect TEST_STATUS_EFFECT = StatusEffectRegistry.registrar(TestStatusEffect::new)
 			.register("test_status_effect");
 	
 	/**

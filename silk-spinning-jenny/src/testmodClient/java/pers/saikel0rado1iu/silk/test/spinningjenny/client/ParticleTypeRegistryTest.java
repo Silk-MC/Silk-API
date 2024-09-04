@@ -22,7 +22,7 @@ import static pers.saikel0rado1iu.silk.test.spinningjenny.ParticleTypeRegistryTe
  */
 public abstract class ParticleTypeRegistryTest implements ParticleTypeRegistry {
 	static {
-		ParticleTypeRegistry.registrar((Runnable) () -> ParticleFactoryRegistry.getInstance().register(TEST_PARTICLE_TYPE, SpitParticle.Factory::new)).register(TEST_PARTICLE_TYPE);
+		ParticleTypeRegistry.registrar(() -> ParticleFactoryRegistry.getInstance().register(TEST_PARTICLE_TYPE, SpitParticle.Factory::new)).register(TEST_PARTICLE_TYPE);
 	}
 	
 	private ParticleTypeRegistryTest() {

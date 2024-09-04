@@ -24,6 +24,6 @@ public interface FeatureRegistryTest extends FeatureRegistry {
 	 * test_feature
 	 */
 	@SuppressWarnings("unused")
-	Feature<SingleStateFeatureConfig> TEST_FEATURE = FeatureRegistry.registrar(new IcebergFeature(SingleStateFeatureConfig.CODEC))
+	Feature<SingleStateFeatureConfig> TEST_FEATURE = FeatureRegistry.registrar(() -> new IcebergFeature(SingleStateFeatureConfig.CODEC))
 			.register("test_feature");
 }

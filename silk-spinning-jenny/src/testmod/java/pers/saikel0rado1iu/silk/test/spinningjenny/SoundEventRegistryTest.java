@@ -23,6 +23,6 @@ public interface SoundEventRegistryTest extends SoundEventRegistry {
 	 * test_sound_event
 	 */
 	@SuppressWarnings("unused")
-	SoundEvent TEST_SOUND_EVENT = SoundEventRegistry.registrar(SoundEvent.of(
+	SoundEvent TEST_SOUND_EVENT = SoundEventRegistry.registrar(() -> SoundEvent.of(
 			SilkSpinningJenny.getInstance().ofId("test"))).register();
 }

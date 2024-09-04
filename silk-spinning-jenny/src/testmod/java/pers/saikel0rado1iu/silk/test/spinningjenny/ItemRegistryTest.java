@@ -24,7 +24,7 @@ public interface ItemRegistryTest extends ItemRegistry {
 	/**
 	 * test_item
 	 */
-	Item TEST_ITEM = ItemRegistry.registrar(new Item(new Item.Settings()))
+	Item TEST_ITEM = ItemRegistry.registrar(() -> new Item(new Item.Settings()))
 			.group(ItemGroups.BUILDING_BLOCKS)
 			.other(item -> SilkSpinningJenny.getInstance().logger().info("other"))
 			.register();
@@ -32,7 +32,7 @@ public interface ItemRegistryTest extends ItemRegistry {
 	 * test_block
 	 */
 	@SuppressWarnings("unused")
-	BlockItem TEST_BLOCK = ItemRegistry.registrar(new BlockItem(BlockRegistryTest.TEST_BLOCK, new Item.Settings()))
+	BlockItem TEST_BLOCK = ItemRegistry.registrar(() -> new BlockItem(BlockRegistryTest.TEST_BLOCK, new Item.Settings()))
 			.group(ItemGroups.BUILDING_BLOCKS)
 			.register(SilkSpinningJenny.getInstance().ofId("test_block"));
 }

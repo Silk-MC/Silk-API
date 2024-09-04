@@ -23,6 +23,6 @@ public interface RecipeSerializerRegistryTest extends RecipeSerializerRegistry {
 	 * test_recipe_serializer
 	 */
 	@SuppressWarnings("unused")
-	RecipeSerializer<ShapedRecipe> TEST_RECIPE_SERIALIZER = RecipeSerializerRegistry.registrar(new ShapedRecipe.Serializer())
+	RecipeSerializer<ShapedRecipe> TEST_RECIPE_SERIALIZER = RecipeSerializerRegistry.registrar(ShapedRecipe.Serializer::new)
 			.register("test_recipe_serializer");
 }

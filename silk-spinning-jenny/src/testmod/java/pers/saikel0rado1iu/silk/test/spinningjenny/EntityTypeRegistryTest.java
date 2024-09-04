@@ -27,7 +27,7 @@ public interface EntityTypeRegistryTest extends EntityTypeRegistry {
 	 * test_entity_type
 	 */
 	@SuppressWarnings("unused")
-	EntityType<TestEntityType> TEST_ENTITY_TYPE = EntityTypeRegistry.registrar(FabricEntityTypeBuilder.create(SpawnGroup.MISC, TestEntityType::new).build())
+	EntityType<TestEntityType> TEST_ENTITY_TYPE = EntityTypeRegistry.registrar(() -> FabricEntityTypeBuilder.create(SpawnGroup.MISC, TestEntityType::new).build())
 			.register("test_entity_type");
 	
 	/**

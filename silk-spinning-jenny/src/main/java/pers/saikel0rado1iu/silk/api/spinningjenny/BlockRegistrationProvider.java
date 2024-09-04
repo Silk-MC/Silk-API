@@ -15,12 +15,14 @@ import net.minecraft.block.Block;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import pers.saikel0rado1iu.silk.api.base.annotation.ClientRegistration;
-import pers.saikel0rado1iu.silk.api.base.annotation.ServerRegistration;
+import org.jetbrains.annotations.ApiStatus;
+import pers.saikel0rado1iu.silk.api.annotation.ClientRegistration;
+import pers.saikel0rado1iu.silk.api.annotation.ServerRegistration;
 import pers.saikel0rado1iu.silk.api.modpass.registry.ClientRegistrationProvider;
 import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * <h2 style="color:FFC800">方块注册提供器</h2>
@@ -29,16 +31,17 @@ import java.util.Optional;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
+@ApiStatus.OverrideOnly
 @ServerRegistration(registrar = BlockRegistrationProvider.MainRegistrar.class, type = Block.class)
 @ClientRegistration(registrar = BlockRegistrationProvider.ClientRegistrar.class, type = Block.class)
-interface BlockRegistrationProvider extends MainRegistrationProvider<Block>, ClientRegistrationProvider<Block> {
+public interface BlockRegistrationProvider extends MainRegistrationProvider<Block>, ClientRegistrationProvider<Block> {
 	/**
 	 * 方块主注册器
 	 *
 	 * @param <T> 方块类型
 	 */
 	final class MainRegistrar<T extends Block> extends MainRegistrationProvider.Registrar<T, MainRegistrar<T>> {
-		MainRegistrar(T type) {
+		MainRegistrar(Supplier<T> type) {
 			super(type);
 		}
 		

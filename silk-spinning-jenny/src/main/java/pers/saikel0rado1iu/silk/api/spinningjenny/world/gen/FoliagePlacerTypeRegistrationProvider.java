@@ -14,10 +14,12 @@ package pers.saikel0rado1iu.silk.api.spinningjenny.world.gen;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.world.gen.foliage.FoliagePlacerType;
-import pers.saikel0rado1iu.silk.api.base.annotation.ServerRegistration;
+import org.jetbrains.annotations.ApiStatus;
+import pers.saikel0rado1iu.silk.api.annotation.ServerRegistration;
 import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * <h2 style="color:FFC800">树叶放置器类型注册提供器</h2>
@@ -26,15 +28,16 @@ import java.util.Optional;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
+@ApiStatus.OverrideOnly
 @ServerRegistration(registrar = FoliagePlacerTypeRegistrationProvider.MainRegistrar.class, type = FoliagePlacerType.class)
-interface FoliagePlacerTypeRegistrationProvider extends MainRegistrationProvider<FoliagePlacerType<?>> {
+public interface FoliagePlacerTypeRegistrationProvider extends MainRegistrationProvider<FoliagePlacerType<?>> {
 	/**
 	 * 树叶放置器类型主注册器
 	 *
 	 * @param <T> 树叶放置器类型
 	 */
 	final class MainRegistrar<T extends FoliagePlacerType<?>> extends Registrar<T, MainRegistrar<T>> {
-		MainRegistrar(T type) {
+		MainRegistrar(Supplier<T> type) {
 			super(type);
 		}
 		

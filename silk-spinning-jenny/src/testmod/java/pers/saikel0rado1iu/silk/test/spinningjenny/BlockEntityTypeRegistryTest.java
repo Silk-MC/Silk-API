@@ -25,6 +25,6 @@ public interface BlockEntityTypeRegistryTest extends BlockEntityTypeRegistry {
 	 * test_block_entity_type
 	 */
 	@SuppressWarnings("unused")
-	BlockEntityType<ChestBlockEntity> TEST_BLOCK_ENTITY_TYPE = BlockEntityTypeRegistry.registrar(FabricBlockEntityTypeBuilder.create(ChestBlockEntity::new, BlockRegistryTest.TEST_BLOCK).build())
+	BlockEntityType<ChestBlockEntity> TEST_BLOCK_ENTITY_TYPE = BlockEntityTypeRegistry.registrar(() -> FabricBlockEntityTypeBuilder.create(ChestBlockEntity::new, BlockRegistryTest.TEST_BLOCK).build())
 			.register(SilkSpinningJenny.getInstance().ofId("test_block"));
 }

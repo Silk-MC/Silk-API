@@ -22,7 +22,7 @@ import static pers.saikel0rado1iu.silk.test.spinningjenny.BlockRegistryTest.TEST
  */
 public abstract class BlockRegistryTest implements BlockRegistry {
 	static {
-		BlockRegistry.registrar((Runnable) () -> BlockRenderLayerMap.INSTANCE.putBlock(TEST_BLOCK, RenderLayer.getCutout())).register(TEST_BLOCK);
+		BlockRegistry.registrar(() -> BlockRenderLayerMap.INSTANCE.putBlock(TEST_BLOCK, RenderLayer.getCutout())).register(TEST_BLOCK);
 	}
 	
 	private BlockRegistryTest() {

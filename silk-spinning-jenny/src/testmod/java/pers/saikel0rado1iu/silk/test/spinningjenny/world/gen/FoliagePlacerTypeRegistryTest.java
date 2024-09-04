@@ -23,6 +23,6 @@ public interface FoliagePlacerTypeRegistryTest extends FoliagePlacerTypeRegistry
 	 * test_foliage_placer_type
 	 */
 	@SuppressWarnings("unused")
-	FoliagePlacerType<BlobFoliagePlacer> TEST_FOLIAGE_PLACER_TYPE = FoliagePlacerTypeRegistry.registrar(new FoliagePlacerType<>(BlobFoliagePlacer.CODEC))
+	FoliagePlacerType<BlobFoliagePlacer> TEST_FOLIAGE_PLACER_TYPE = FoliagePlacerTypeRegistry.registrar(() -> new FoliagePlacerType<>(BlobFoliagePlacer.CODEC))
 			.register("test_foliage_placer_type");
 }

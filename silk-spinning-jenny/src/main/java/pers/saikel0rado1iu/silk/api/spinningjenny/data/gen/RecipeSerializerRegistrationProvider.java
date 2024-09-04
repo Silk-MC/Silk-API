@@ -14,10 +14,12 @@ package pers.saikel0rado1iu.silk.api.spinningjenny.data.gen;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import pers.saikel0rado1iu.silk.api.base.annotation.ServerRegistration;
+import org.jetbrains.annotations.ApiStatus;
+import pers.saikel0rado1iu.silk.api.annotation.ServerRegistration;
 import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * <h2 style="color:FFC800">配方序列化器注册提供器</h2>
@@ -26,15 +28,16 @@ import java.util.Optional;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
+@ApiStatus.OverrideOnly
 @ServerRegistration(registrar = RecipeSerializerRegistrationProvider.MainRegistrar.class, type = RecipeSerializer.class)
-interface RecipeSerializerRegistrationProvider extends MainRegistrationProvider<RecipeSerializer<?>> {
+public interface RecipeSerializerRegistrationProvider extends MainRegistrationProvider<RecipeSerializer<?>> {
 	/**
 	 * 配方序列化器主注册器
 	 *
 	 * @param <T> 配方序列化器
 	 */
 	final class MainRegistrar<T extends RecipeSerializer<?>> extends Registrar<T, MainRegistrar<T>> {
-		MainRegistrar(T type) {
+		MainRegistrar(Supplier<T> type) {
 			super(type);
 		}
 		

@@ -23,6 +23,6 @@ public interface CriterionRegistryTest extends CriterionRegistry {
 	 * test_criterion
 	 */
 	@SuppressWarnings("unused")
-	Criterion<BeeNestDestroyedCriterion.Conditions> TEST_CRITERION = CriterionRegistry.registrar(new BeeNestDestroyedCriterion())
+	Criterion<BeeNestDestroyedCriterion.Conditions> TEST_CRITERION = CriterionRegistry.registrar(BeeNestDestroyedCriterion::new)
 			.register("test_criterion");
 }

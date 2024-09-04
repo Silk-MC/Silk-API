@@ -22,5 +22,5 @@ public interface BlockRegistryTest extends BlockRegistry {
 	/**
 	 * test_block
 	 */
-	Block TEST_BLOCK = BlockRegistry.registrar(new Block(FabricBlockSettings.create())).register("test_block");
+	Block TEST_BLOCK = BlockRegistry.registrar(() -> new Block(FabricBlockSettings.create())).register("test_block");
 }
