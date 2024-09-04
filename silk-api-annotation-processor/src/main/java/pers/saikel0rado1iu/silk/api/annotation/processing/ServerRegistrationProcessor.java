@@ -9,12 +9,12 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.api.base.annotation.processing;
+package pers.saikel0rado1iu.silk.api.annotation.processing;
 
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.*;
-import pers.saikel0rado1iu.silk.api.base.annotation.ClientRegistration;
-import pers.saikel0rado1iu.silk.api.base.annotation.ServerRegistration;
+import pers.saikel0rado1iu.silk.api.annotation.ClientRegistration;
+import pers.saikel0rado1iu.silk.api.annotation.ServerRegistration;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
@@ -31,8 +31,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Supplier;
 
-import static pers.saikel0rado1iu.silk.api.base.annotation.processing.RegistrationProcessor.getTypeElement;
+import static pers.saikel0rado1iu.silk.api.annotation.processing.ProcessorUtil.getTypeElement;
 
 /**
  * <h2 style="color:FFC800">服务端注册处理器</h2>
@@ -41,9 +42,9 @@ import static pers.saikel0rado1iu.silk.api.base.annotation.processing.Registrati
  * @since 1.0.0
  */
 @AutoService(Processor.class)
-@SupportedAnnotationTypes("pers.saikel0rado1iu.silk.api.base.annotation.ServerRegistration")
 @SupportedSourceVersion(SourceVersion.RELEASE_17)
-public class ServerRegistrationProcessor extends AbstractProcessor {
+@SupportedAnnotationTypes("pers.saikel0rado1iu.silk.api.annotation.ServerRegistration")
+public final class ServerRegistrationProcessor extends AbstractProcessor {
 	static Optional<TypeSpec.Builder> generateMethod(Optional<TypeSpec.Builder> optionalBuilder, Element element, ProcessingEnvironment processingEnv, ServerRegistration serverRegistration) {
 		TypeElement registrar = getTypeElement(processingEnv, serverRegistration::registrar);
 		if (registrar == null) {
@@ -55,7 +56,7 @@ public class ServerRegistrationProcessor extends AbstractProcessor {
 			processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, String.format("未找到注册类型：%s", serverRegistration.type()), element);
 			return Optional.empty();
 		}
-		TypeSpec.Builder builder = optionalBuilder.orElse(RegistrationProcessor.createTypeBuilder(type, element));
+		TypeSpec.Builder builder = optionalBuilder.orElse(ProcessorUtil.createTypeBuilder(type, element));
 		// 获取类的类型信息
 		TypeMirror typeMirror = type.asType();
 		TypeName typeName = TypeName.get(typeMirror);
@@ -71,13 +72,13 @@ public class ServerRegistrationProcessor extends AbstractProcessor {
 		MethodSpec registrarMethod = MethodSpec.methodBuilder("registrar")
 				.addJavadoc("""
 						服务端注册方法<br>
-						此方法方法一个服务端注册器，注册器注册返回注册对象<br>
+						此方法返回一个服务端注册器，注册器注册返回注册对象<br>
 						\t
-						@param $N   注册对象
+						@param $N   注册对象的提供器
 						@return     服务端注册器""", type.getSimpleName().toString().toLowerCase())
 				.addModifiers(Modifier.PUBLIC, Modifier.STATIC)
 				.addTypeVariable(TypeVariableName.get("T", typeName))
-				.addParameter(TypeVariableName.get("T"), type.getSimpleName().toString().toLowerCase())
+				.addParameter(ParameterizedTypeName.get(ClassName.get(Supplier.class), TypeVariableName.get("T")), type.getSimpleName().toString().toLowerCase())
 				.addStatement("return new $T($N)", registrar, type.getSimpleName().toString().toLowerCase())
 				.returns(TypeName.get(registrar.asType()))
 				.build();
@@ -90,7 +91,7 @@ public class ServerRegistrationProcessor extends AbstractProcessor {
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 		Elements elementUtils = processingEnv.getElementUtils();
 		for (Element element : roundEnv.getElementsAnnotatedWith(ServerRegistration.class)) {
-			if (!RegistrationProcessor.checkAnnotation(ServerRegistration.class, roundEnv, processingEnv, (TypeElement) element)) return true;
+			if (!ProcessorUtil.checkAnnotation(ServerRegistration.class, roundEnv, processingEnv, (TypeElement) element)) return true;
 			ServerRegistration serverRegistration = element.getAnnotation(ServerRegistration.class);
 			if ("java.lang.Class".equals(getTypeElement(processingEnv, serverRegistration::registrar).getQualifiedName().toString())
 					&& "java.lang.Class".equals(getTypeElement(processingEnv, serverRegistration::type).getQualifiedName().toString())) continue;
@@ -101,12 +102,12 @@ public class ServerRegistrationProcessor extends AbstractProcessor {
 			TypeSpec.Builder builder = optionalBuilder.get();
 			ClientRegistration clientRegistration = element.getAnnotation(ClientRegistration.class);
 			if (clientRegistration != null) ClientRegistrationProcessor.generateMethod(Optional.of(builder), element, processingEnv, clientRegistration);
-			TypeSpec provider = builder.build();
+			TypeSpec typeSpec = builder.build();
 			// 创建一个文件
 			try {
-				FileObject existingFile = processingEnv.getFiler().getResource(StandardLocation.SOURCE_OUTPUT, packageName, provider.name + ".java");
+				FileObject existingFile = processingEnv.getFiler().getResource(StandardLocation.SOURCE_OUTPUT, packageName, typeSpec.name + ".java");
 				if (existingFile != null && existingFile.getLastModified() > 0) return true;
-				JavaFile javaFile = JavaFile.builder(packageName, provider).build();
+				JavaFile javaFile = JavaFile.builder(packageName, typeSpec).build();
 				try {
 					javaFile.writeTo(processingEnv.getFiler());
 				} catch (IOException e) {

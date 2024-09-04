@@ -9,12 +9,12 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.api.base.annotation.processing;
+package pers.saikel0rado1iu.silk.api.annotation.processing;
 
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.*;
-import pers.saikel0rado1iu.silk.api.base.annotation.ClientRegistration;
-import pers.saikel0rado1iu.silk.api.base.annotation.ServerRegistration;
+import pers.saikel0rado1iu.silk.api.annotation.ClientRegistration;
+import pers.saikel0rado1iu.silk.api.annotation.ServerRegistration;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static pers.saikel0rado1iu.silk.api.base.annotation.processing.RegistrationProcessor.getTypeElement;
+import static pers.saikel0rado1iu.silk.api.annotation.processing.ProcessorUtil.getTypeElement;
 
 /**
  * <h2 style="color:FFC800">客户端注册处理器</h2>
@@ -40,9 +40,9 @@ import static pers.saikel0rado1iu.silk.api.base.annotation.processing.Registrati
  * @since 1.0.0
  */
 @AutoService(Processor.class)
-@SupportedAnnotationTypes("pers.saikel0rado1iu.silk.api.base.annotation.ClientRegistration")
 @SupportedSourceVersion(SourceVersion.RELEASE_17)
-public class ClientRegistrationProcessor extends AbstractProcessor {
+@SupportedAnnotationTypes("pers.saikel0rado1iu.silk.api.annotation.ClientRegistration")
+public final class ClientRegistrationProcessor extends AbstractProcessor {
 	static Optional<TypeSpec.Builder> generateMethod(Optional<TypeSpec.Builder> optionalBuilder, Element element, ProcessingEnvironment processingEnv, ClientRegistration clientRegistration) {
 		TypeElement registrar = getTypeElement(processingEnv, clientRegistration::registrar);
 		if (registrar == null) {
@@ -54,7 +54,7 @@ public class ClientRegistrationProcessor extends AbstractProcessor {
 			processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, String.format("未找到注册类型：%s", clientRegistration.type()), element);
 			return Optional.empty();
 		}
-		TypeSpec.Builder builder = optionalBuilder.orElse(RegistrationProcessor.createTypeBuilder(type, element));
+		TypeSpec.Builder builder = optionalBuilder.orElse(ProcessorUtil.createTypeBuilder(type, element));
 		// 注册方法
 		// 提取构造方法
 		Optional<ExecutableElement> constructorOpt = registrar.getEnclosedElements().stream()
@@ -121,7 +121,7 @@ public class ClientRegistrationProcessor extends AbstractProcessor {
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 		Elements elementUtils = processingEnv.getElementUtils();
 		for (Element element : roundEnv.getElementsAnnotatedWith(ClientRegistration.class)) {
-			if (!RegistrationProcessor.checkAnnotation(ClientRegistration.class, roundEnv, processingEnv, (TypeElement) element)) return true;
+			if (!ProcessorUtil.checkAnnotation(ClientRegistration.class, roundEnv, processingEnv, (TypeElement) element)) return true;
 			ClientRegistration clientRegistration = element.getAnnotation(ClientRegistration.class);
 			if ("java.lang.Class".equals(getTypeElement(processingEnv, clientRegistration::registrar).getQualifiedName().toString())
 					&& "java.lang.Class".equals(getTypeElement(processingEnv, clientRegistration::type).getQualifiedName().toString())) continue;
@@ -132,12 +132,12 @@ public class ClientRegistrationProcessor extends AbstractProcessor {
 			TypeSpec.Builder builder = optionalBuilder.get();
 			ServerRegistration serverRegistration = element.getAnnotation(ServerRegistration.class);
 			if (serverRegistration != null) ServerRegistrationProcessor.generateMethod(Optional.of(builder), element, processingEnv, serverRegistration);
-			TypeSpec provider = builder.build();
+			TypeSpec typeSpec = builder.build();
 			// 创建一个文件
 			try {
-				FileObject existingFile = processingEnv.getFiler().getResource(StandardLocation.SOURCE_OUTPUT, packageName, provider.name + ".java");
+				FileObject existingFile = processingEnv.getFiler().getResource(StandardLocation.SOURCE_OUTPUT, packageName, typeSpec.name + ".java");
 				if (existingFile != null && existingFile.getLastModified() > 0) return true;
-				JavaFile javaFile = JavaFile.builder(packageName, provider).build();
+				JavaFile javaFile = JavaFile.builder(packageName, typeSpec).build();
 				try {
 					javaFile.writeTo(processingEnv.getFiler());
 				} catch (IOException e) {

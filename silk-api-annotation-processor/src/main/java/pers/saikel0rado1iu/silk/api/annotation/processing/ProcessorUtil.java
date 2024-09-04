@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.api.base.annotation.processing;
+package pers.saikel0rado1iu.silk.api.annotation.processing;
 
 import com.squareup.javapoet.TypeSpec;
 
@@ -27,13 +27,28 @@ import java.lang.annotation.Annotation;
 import java.util.function.Supplier;
 
 /**
- * <h2 style="color:FFC800">注册注解处理器</h2>
+ * <h2 style="color:FFC800">处理器实用工具</h2>
  * 用于提供一些简单的注册注解处理器方法
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
-interface RegistrationProcessor {
+interface ProcessorUtil {
+	/**
+	 * 将字符串转换为大驼峰命名法的字符串格式
+	 *
+	 * @param str 需转换的字符串
+	 * @return 转换后的字符串
+	 */
+	static String capitalize(String str) {
+		if (str == null || str.isEmpty()) return str;
+		str = str.replaceAll("_", " ");
+		String[] words = str.split("\\s+");
+		StringBuilder sb = new StringBuilder();
+		for (String word : words) if (!word.isEmpty()) sb.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1).toLowerCase()).append(" ");
+		return sb.toString().trim().replaceAll(" ", "");
+	}
+	
 	/**
 	 * 获取注解中 {@link TypeMirror} 的 {@link TypeElement}
 	 *
