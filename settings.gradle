@@ -12,9 +12,10 @@ pluginManagement {
 
 rootProject.name = "silk-api"
 
+include 'silk-api-annotation-processor'
 include 'silk-api-base'
 include 'silk-mod-pass'
-// include 'silk-mod-plus'
+include 'silk-mod-plus'
 include 'silk-mod-up'
 include 'silk-spinning-jenny'
 include 'silk-rope-stick'

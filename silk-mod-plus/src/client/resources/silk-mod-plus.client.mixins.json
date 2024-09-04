@@ -1,0 +1,21 @@
+{
+	"required": true,
+	"package": "pers.saikel0rado1iu.silk.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"client": [
+		"client.event.modplus.ModifyModTabEventsMixin$ModifyAll",
+		"client.event.modplus.ModifyModTabEventsMixin$ModifyChangelog",
+		"client.event.modplus.ModifyModTabEventsMixin$ModifyIcon",
+		"client.event.modplus.ModifyModTabEventsMixin$ModifyLink",
+		"client.event.modplus.ModifyModTabEventsMixin$ModifyTarget",
+		"client.event.modplus.ModifyModTabEventsMixin$ModifyTitle",
+		"client.event.modplus.ModifySynopsisTabEventsMixin$ModifyAll",
+		"client.event.modplus.ModifySynopsisTabEventsMixin$ModifyIntroText",
+		"client.event.modplus.ModifySynopsisTabEventsMixin$ModifyIntroTitle",
+		"client.event.modplus.ModifySynopsisTabEventsMixin$ModifyVisionText",
+		"client.event.modplus.ModifySynopsisTabEventsMixin$ModifyVisionTitle"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
