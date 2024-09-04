@@ -5,8 +5,5 @@ repositories {
 }
 
 dependencies {
-	api "com.squareup:javapoet:1.13.0"
-	include "com.squareup:javapoet:1.13.0"
-	implementation 'com.google.auto.service:auto-service:1.1.1'
-	annotationProcessor 'com.google.auto.service:auto-service:1.1.1'
+	api project(path: ":silk-api-annotation-processor", configuration: "namedElements")
 }
