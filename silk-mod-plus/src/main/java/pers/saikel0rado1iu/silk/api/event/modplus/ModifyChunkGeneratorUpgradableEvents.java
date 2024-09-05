@@ -45,23 +45,7 @@ public interface ModifyChunkGeneratorUpgradableEvents {
 			if (entry.getKey() != ActionResult.PASS) return entry;
 			ver = entry.getValue();
 		}
-		record Entry(String version) implements Map.Entry<ActionResult, String> {
-			@Override
-			public ActionResult getKey() {
-				return ActionResult.PASS;
-			}
-			
-			@Override
-			public String getValue() {
-				return version;
-			}
-			
-			@Override
-			public String setValue(String value) {
-				return value;
-			}
-		}
-		return new Entry(ver);
+		return Map.entry(ActionResult.PASS, ver);
 	});
 	
 	/**
@@ -78,23 +62,7 @@ public interface ModifyChunkGeneratorUpgradableEvents {
 			if (entry.getKey() != ActionResult.PASS) return entry;
 			result = entry.getValue();
 		}
-		record Entry(int compare) implements Map.Entry<ActionResult, Integer> {
-			@Override
-			public ActionResult getKey() {
-				return ActionResult.PASS;
-			}
-			
-			@Override
-			public Integer getValue() {
-				return compare;
-			}
-			
-			@Override
-			public Integer setValue(Integer value) {
-				return value;
-			}
-		}
-		return new Entry(result);
+		return Map.entry(ActionResult.PASS, result);
 	});
 	
 	/**
@@ -111,23 +79,7 @@ public interface ModifyChunkGeneratorUpgradableEvents {
 			if (entry.getKey() != ActionResult.PASS) return entry;
 			result = entry.getValue();
 		}
-		record Entry(boolean needRefresh) implements Map.Entry<ActionResult, Boolean> {
-			@Override
-			public ActionResult getKey() {
-				return ActionResult.PASS;
-			}
-			
-			@Override
-			public Boolean getValue() {
-				return needRefresh;
-			}
-			
-			@Override
-			public Boolean setValue(Boolean value) {
-				return value;
-			}
-		}
-		return new Entry(result);
+		return Map.entry(ActionResult.PASS, result);
 	});
 	
 	/**
@@ -144,23 +96,7 @@ public interface ModifyChunkGeneratorUpgradableEvents {
 			if (entry.getKey() != ActionResult.PASS) return entry;
 			result = entry.getValue();
 		}
-		record Entry(boolean needUpgrade) implements Map.Entry<ActionResult, Boolean> {
-			@Override
-			public ActionResult getKey() {
-				return ActionResult.PASS;
-			}
-			
-			@Override
-			public Boolean getValue() {
-				return needUpgrade;
-			}
-			
-			@Override
-			public Boolean setValue(Boolean value) {
-				return value;
-			}
-		}
-		return new Entry(result);
+		return Map.entry(ActionResult.PASS, result);
 	});
 	
 	/**
@@ -177,23 +113,7 @@ public interface ModifyChunkGeneratorUpgradableEvents {
 			if (entry.getKey() != ActionResult.PASS) return entry;
 			result = entry.getValue();
 		}
-		record Entry(boolean needDowngrade) implements Map.Entry<ActionResult, Boolean> {
-			@Override
-			public ActionResult getKey() {
-				return ActionResult.PASS;
-			}
-			
-			@Override
-			public Boolean getValue() {
-				return needDowngrade;
-			}
-			
-			@Override
-			public Boolean setValue(Boolean value) {
-				return value;
-			}
-		}
-		return new Entry(result);
+		return Map.entry(ActionResult.PASS, result);
 	});
 	
 	/**
@@ -210,23 +130,7 @@ public interface ModifyChunkGeneratorUpgradableEvents {
 			if (entry.getKey() != ActionResult.PASS) return entry;
 			c = entry.getValue();
 		}
-		record Entry(Codec<? extends ChunkGenerator> codec) implements Map.Entry<ActionResult, Codec<? extends ChunkGenerator>> {
-			@Override
-			public ActionResult getKey() {
-				return ActionResult.PASS;
-			}
-			
-			@Override
-			public Codec<? extends ChunkGenerator> getValue() {
-				return codec;
-			}
-			
-			@Override
-			public Codec<? extends ChunkGenerator> setValue(Codec<? extends ChunkGenerator> value) {
-				return value;
-			}
-		}
-		return new Entry(c);
+		return Map.entry(ActionResult.PASS, c);
 	});
 	
 	/**

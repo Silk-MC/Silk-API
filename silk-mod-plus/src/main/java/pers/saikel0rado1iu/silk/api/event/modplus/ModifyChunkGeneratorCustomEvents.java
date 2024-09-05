@@ -51,23 +51,7 @@ public interface ModifyChunkGeneratorCustomEvents {
 			if (entry.getKey() != ActionResult.PASS) return entry;
 			optionalPair = entry.getValue();
 		}
-		record Entry(Optional<Pair<BlockPos, RegistryEntry<Biome>>> pair) implements Map.Entry<ActionResult, Optional<Pair<BlockPos, RegistryEntry<Biome>>>> {
-			@Override
-			public ActionResult getKey() {
-				return ActionResult.PASS;
-			}
-			
-			@Override
-			public Optional<Pair<BlockPos, RegistryEntry<Biome>>> getValue() {
-				return pair;
-			}
-			
-			@Override
-			public Optional<Pair<BlockPos, RegistryEntry<Biome>>> setValue(Optional<Pair<BlockPos, RegistryEntry<Biome>>> value) {
-				return value;
-			}
-		}
-		return new Entry(pair);
+		return Map.entry(ActionResult.PASS, pair);
 	});
 	
 	/**
@@ -84,23 +68,7 @@ public interface ModifyChunkGeneratorCustomEvents {
 			if (entry.getKey() != ActionResult.PASS) return entry;
 			biomeSource = entry.getValue();
 		}
-		record Entry(BiomeSource source) implements Map.Entry<ActionResult, BiomeSource> {
-			@Override
-			public ActionResult getKey() {
-				return ActionResult.PASS;
-			}
-			
-			@Override
-			public BiomeSource getValue() {
-				return source;
-			}
-			
-			@Override
-			public BiomeSource setValue(BiomeSource value) {
-				return value;
-			}
-		}
-		return new Entry(source);
+		return Map.entry(ActionResult.PASS, source);
 	});
 	
 	/**
@@ -117,23 +85,7 @@ public interface ModifyChunkGeneratorCustomEvents {
 			if (entry.getKey() != ActionResult.PASS) return entry;
 			blockState = entry.getValue();
 		}
-		record Entry(BlockState state) implements Map.Entry<ActionResult, BlockState> {
-			@Override
-			public ActionResult getKey() {
-				return ActionResult.PASS;
-			}
-			
-			@Override
-			public BlockState getValue() {
-				return state;
-			}
-			
-			@Override
-			public BlockState setValue(BlockState value) {
-				return value;
-			}
-		}
-		return new Entry(state);
+		return Map.entry(ActionResult.PASS, state);
 	});
 	
 	/**

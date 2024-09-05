@@ -19,7 +19,6 @@ import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
 import pers.saikel0rado1iu.silk.api.modplus.Items;
 import pers.saikel0rado1iu.silk.impl.SilkModPlus;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -33,8 +32,7 @@ public final class Test implements ModMain {
 	 */
 	@Override
 	public void main(ModPass mod) {
-		ModifiedChunkGeneratorTest modifiedChunkGeneratorTest = new ModifiedChunkGeneratorTest(null, List.of(), null, "0");
-		SilkModPlus.getInstance().logger().error(modifiedChunkGeneratorTest.version());
+		ModifiedChunkGeneratorTest.test();
 	}
 	
 	/**

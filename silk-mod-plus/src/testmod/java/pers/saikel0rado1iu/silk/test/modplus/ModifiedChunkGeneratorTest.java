@@ -28,6 +28,7 @@ import pers.saikel0rado1iu.silk.api.event.modplus.ModifyChunkGeneratorCustomEven
 import pers.saikel0rado1iu.silk.api.event.modplus.ModifyChunkGeneratorUpgradableEvents;
 import pers.saikel0rado1iu.silk.api.landform.ChunkStorageData;
 import pers.saikel0rado1iu.silk.api.landform.gen.chunk.ModifiedChunkGenerator;
+import pers.saikel0rado1iu.silk.impl.SilkModPlus;
 
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,15 @@ import java.util.function.Predicate;
 public final class ModifiedChunkGeneratorTest extends ModifiedChunkGenerator {
 	ModifiedChunkGeneratorTest(BiomeSource biomeSource, List<FixedBiomeSource> additionalBiomeSources, RegistryEntry<ChunkGeneratorSettings> settings, String version) {
 		super(biomeSource, additionalBiomeSources, settings, version);
+	}
+	
+	public static void test() {
+		ModifiedChunkGeneratorTest modifiedChunkGeneratorTest = new ModifiedChunkGeneratorTest(null, List.of(), null, "0");
+		ModifyChunkGeneratorUpgradableEvents.MODIFY_VERSION.register((upgradable, version) -> {
+			if (upgradable != modifiedChunkGeneratorTest) return Map.entry(ActionResult.PASS, version);
+			return Map.entry(ActionResult.PASS, version + "-mod-plus");
+		});
+		SilkModPlus.getInstance().logger().error(modifiedChunkGeneratorTest.version());
 	}
 	
 	@Override
