@@ -115,7 +115,7 @@ public interface ClientWorldUpgradeManagerCallback extends Supplier<ClientUpgrad
 				manager.start(session);
 				UpgradableWorldManager.registryManager();
 			});
-			SESSION_OPERATION_EVENT.register((nbt) -> {
+			SESSION_OPERATION_EVENT.register(nbt -> {
 				UpgradableWorldData<?> upgradableWorldData = manager.upgradableWorldData();
 				DynamicRegistryManager registryManager = UpgradableWorldManager.registryManager();
 				if (null == registryManager) return nbt;
@@ -130,7 +130,7 @@ public interface ClientWorldUpgradeManagerCallback extends Supplier<ClientUpgrad
 				@SuppressWarnings("unchecked")
 				NbtCompound nbtCompound = (NbtCompound) Util.getResult(((Codec<ChunkGenerator>) codec).encodeStart(RegistryOps.of(NbtOps.INSTANCE, registryManager), chunkGenerator), IllegalStateException::new);
 				nbtCompound.putString("type", generatorId);
-				dimension.put("chunkGenerator", nbtCompound);
+				dimension.put("generator", nbtCompound);
 				return nbt;
 			});
 		}

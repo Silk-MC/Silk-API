@@ -20,7 +20,6 @@ import net.minecraft.registry.*;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.biome.source.*;
@@ -34,9 +33,7 @@ import org.apache.commons.lang3.StringUtils;
 import pers.saikel0rado1iu.silk.api.generate.world.WorldPresetEntry;
 import pers.saikel0rado1iu.silk.api.landform.ChunkStorageData;
 import pers.saikel0rado1iu.silk.api.landform.gen.chunk.ModifiedChunkGenerator;
-import pers.saikel0rado1iu.silk.impl.SilkLandform;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -87,8 +84,8 @@ public final class TestChunkGenerator extends ModifiedChunkGenerator {
 	
 	@Override
 	public Optional<Pair<BlockPos, RegistryEntry<Biome>>> locateBiome(BlockPos origin, int radius, int horizontalBlockCheckInterval, int verticalBlockCheckInterval, Predicate<RegistryEntry<Biome>> predicate, MultiNoiseUtil.MultiNoiseSampler noiseSampler, ServerWorld world) {
-		SilkLandform.getInstance().logger().info(seed() + "");
-		SilkLandform.getInstance().logger().info(ChunkStorageData.blockToChunkCoord(0) + "");
+		// SilkLandform.getInstance().logger().info(seed() + "");
+		// SilkLandform.getInstance().logger().info(ChunkStorageData.blockToChunkCoord(0) + "");
 		return super.locateBiome(origin, radius, horizontalBlockCheckInterval, verticalBlockCheckInterval, predicate, noiseSampler, world);
 	}
 	
@@ -165,11 +162,11 @@ public final class TestChunkGenerator extends ModifiedChunkGenerator {
 	 */
 	@Override
 	public boolean needDowngrade(BlockPos pos, ChunkStorageData chunk, String version) {
-		SilkLandform.getInstance().logger().info(chunk.getBiome(pos) + "");
-		SilkLandform.getInstance().logger().info(chunk.getBlockEntityNbt(pos) + "");
-		SilkLandform.getInstance().logger().info(chunk.getStructureStart(null) + "");
-		SilkLandform.getInstance().logger().info(chunk.getStructureReferences(null) + "");
-		SilkLandform.getInstance().logger().info(Arrays.toString(chunk.getHeightmap(Heightmap.Type.MOTION_BLOCKING)));
+		// SilkLandform.getInstance().logger().info(chunk.getBiome(pos) + "");
+		// SilkLandform.getInstance().logger().info(chunk.getBlockEntityNbt(pos) + "");
+		// SilkLandform.getInstance().logger().info(chunk.getStructureStart(null) + "");
+		// SilkLandform.getInstance().logger().info(chunk.getStructureReferences(null) + "");
+		// SilkLandform.getInstance().logger().info(Arrays.toString(chunk.getHeightmap(Heightmap.Type.MOTION_BLOCKING)));
 		return check(pos);
 	}
 	
