@@ -51,7 +51,7 @@ public interface ModifyChunkGeneratorCustomEvents {
 			if (entry.getKey() != ActionResult.PASS) return entry;
 			optionalPair = entry.getValue();
 		}
-		return Map.entry(ActionResult.PASS, pair);
+		return Map.entry(ActionResult.PASS, optionalPair);
 	});
 	
 	/**
@@ -68,7 +68,7 @@ public interface ModifyChunkGeneratorCustomEvents {
 			if (entry.getKey() != ActionResult.PASS) return entry;
 			biomeSource = entry.getValue();
 		}
-		return Map.entry(ActionResult.PASS, source);
+		return Map.entry(ActionResult.PASS, biomeSource);
 	});
 	
 	/**
@@ -85,7 +85,7 @@ public interface ModifyChunkGeneratorCustomEvents {
 			if (entry.getKey() != ActionResult.PASS) return entry;
 			blockState = entry.getValue();
 		}
-		return Map.entry(ActionResult.PASS, state);
+		return Map.entry(ActionResult.PASS, blockState);
 	});
 	
 	/**
