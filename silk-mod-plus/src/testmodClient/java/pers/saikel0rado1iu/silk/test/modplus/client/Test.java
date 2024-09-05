@@ -48,7 +48,7 @@ public final class Test implements ModClient {
 			}
 		});
 		ModifyModTabEvents.MODIFY_ALL.register(mod -> (ModData) () -> "modmenu");
-		//ModifySynopsisTabEvents.MODIFY_ALL.register(mod -> (ModData) () -> "modmenu");
+		ModifySynopsisTabEvents.MODIFY_ALL.register(mod -> (ModData) () -> "modmenu");
 	}
 	
 	@Override
