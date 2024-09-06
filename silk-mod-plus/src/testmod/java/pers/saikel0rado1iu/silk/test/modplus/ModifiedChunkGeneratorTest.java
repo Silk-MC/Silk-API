@@ -11,21 +11,30 @@
 
 package pers.saikel0rado1iu.silk.test.modplus;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.Registerable;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.source.BiomeSource;
-import net.minecraft.world.biome.source.FixedBiomeSource;
+import net.minecraft.world.biome.source.*;
 import net.minecraft.world.biome.source.util.MultiNoiseUtil;
+import net.minecraft.world.dimension.DimensionOptions;
+import net.minecraft.world.dimension.DimensionTypes;
+import net.minecraft.world.gen.WorldPreset;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.ChunkGeneratorSettings;
 import pers.saikel0rado1iu.silk.api.event.modplus.ModifyChunkGeneratorCustomEvents;
+import pers.saikel0rado1iu.silk.api.event.modplus.ModifyChunkGeneratorInstanceEvents;
 import pers.saikel0rado1iu.silk.api.event.modplus.ModifyChunkGeneratorUpgradableEvents;
+import pers.saikel0rado1iu.silk.api.generate.world.WorldPresetEntry;
 import pers.saikel0rado1iu.silk.api.landform.ChunkStorageData;
 import pers.saikel0rado1iu.silk.api.landform.gen.chunk.ModifiedChunkGenerator;
 import pers.saikel0rado1iu.silk.impl.SilkModPlus;
@@ -40,8 +49,30 @@ import java.util.function.Predicate;
  */
 @SuppressWarnings("DataFlowIssue")
 public final class ModifiedChunkGeneratorTest extends ModifiedChunkGenerator {
+	private static final String VERSION = "1";
+	
 	ModifiedChunkGeneratorTest(BiomeSource biomeSource, List<FixedBiomeSource> additionalBiomeSources, RegistryEntry<ChunkGeneratorSettings> settings, String version) {
 		super(biomeSource, additionalBiomeSources, settings, version);
+	}
+	
+	@SuppressWarnings("unused")
+	public static ModifiedChunkGeneratorTest getInstance(DynamicRegistryManager registryManager) {
+		RegistryEntry<MultiNoiseBiomeSourceParameterList> parameters = registryManager.get(RegistryKeys.MULTI_NOISE_BIOME_SOURCE_PARAMETER_LIST)
+				.getEntry(MultiNoiseBiomeSourceParameterLists.OVERWORLD).orElseThrow();
+		RegistryEntry<ChunkGeneratorSettings> settings = registryManager.get(RegistryKeys.CHUNK_GENERATOR_SETTINGS).getEntry(ChunkGeneratorSettings.OVERWORLD).orElseThrow();
+		return ModifyChunkGeneratorInstanceEvents.MODIFY_DATA_GEN_INSTANCE.invoker().getInstance(new ModifiedChunkGeneratorTest(MultiNoiseBiomeSource.create(parameters), ImmutableList.of(), settings, VERSION), registryManager);
+	}
+	
+	private static ModifiedChunkGeneratorTest getInstance(Registerable<WorldPreset> registerable, WorldPresetEntry.Registrar registrar) {
+		RegistryEntry<MultiNoiseBiomeSourceParameterList> parameters = registrar.multiNoisePresetLookup.getOrThrow(MultiNoiseBiomeSourceParameterLists.OVERWORLD);
+		RegistryEntry<ChunkGeneratorSettings> settings = registrar.chunkGeneratorSettingsLookup.getOrThrow(ChunkGeneratorSettings.OVERWORLD);
+		return ModifyChunkGeneratorInstanceEvents.MODIFY_REGISTER_INSTANCE.invoker().getInstance(new ModifiedChunkGeneratorTest(MultiNoiseBiomeSource.create(parameters), ImmutableList.of(), settings, VERSION), registerable, registrar);
+	}
+	
+	@SuppressWarnings("unused")
+	public static void register(RegistryKey<WorldPreset> worldPreset, Registerable<WorldPreset> registerable) {
+		WorldPresetEntry.Registrar registrar = new WorldPresetEntry.Registrar(registerable);
+		registrar.register(worldPreset, new DimensionOptions(registerable.getRegistryLookup(RegistryKeys.DIMENSION_TYPE).getOrThrow(DimensionTypes.OVERWORLD), getInstance(registerable, registrar)));
 	}
 	
 	public static void test() {
@@ -93,6 +124,7 @@ public final class ModifiedChunkGeneratorTest extends ModifiedChunkGenerator {
 		return result.getValue();
 	}
 	
+	@SuppressWarnings("ConstantValue")
 	@Override
 	public Codec<? extends ChunkGenerator> getCodec() {
 		Codec<? extends ChunkGenerator> codec = null;
@@ -109,6 +141,7 @@ public final class ModifiedChunkGeneratorTest extends ModifiedChunkGenerator {
 		return result.getValue();
 	}
 	
+	@SuppressWarnings("ConstantValue")
 	@Override
 	public BiomeSource getBiomeSource(BlockPos blockPos) {
 		BiomeSource source = null;
@@ -117,6 +150,7 @@ public final class ModifiedChunkGeneratorTest extends ModifiedChunkGenerator {
 		return result.getValue();
 	}
 	
+	@SuppressWarnings("ConstantValue")
 	@Override
 	public BlockState getTerrainNoise(BlockPos blockPos, BlockState blockState, int i) {
 		BlockState state = null;
