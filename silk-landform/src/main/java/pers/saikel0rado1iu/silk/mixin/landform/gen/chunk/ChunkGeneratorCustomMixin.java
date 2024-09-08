@@ -34,6 +34,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import pers.saikel0rado1iu.silk.api.landform.gen.chunk.ChunkGeneratorCustom;
 
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -124,16 +125,15 @@ interface ChunkGeneratorCustomMixin {
 			BlockState state = instance.sampleBlockState();
 			if (!(((Object) this) instanceof ChunkGeneratorCustom generator)) return state;
 			return generator.getTerrainNoise(new BlockPos(instance.blockX(), instance.blockY(), instance.blockZ()),
-					state, instance.estimateSurfaceHeight(instance.blockX(), instance.blockZ()));
+					Optional.ofNullable(state), instance.estimateSurfaceHeight(instance.blockX(), instance.blockZ())).orElse(null);
 		}
-		
 		
 		@Redirect(method = "sampleHeightmap", at = @At(value = "INVOKE", target = "L net/minecraft/world/gen/chunk/ChunkNoiseSampler;sampleBlockState()L net/minecraft/block/BlockState;"))
 		private BlockState sampleHeightmap(ChunkNoiseSampler instance) {
 			BlockState state = instance.sampleBlockState();
 			if (!(((Object) this) instanceof ChunkGeneratorCustom generator)) return state;
 			return generator.getTerrainNoise(new BlockPos(instance.blockX(), instance.blockY(), instance.blockZ()),
-					state, instance.estimateSurfaceHeight(instance.blockX(), instance.blockZ()));
+					Optional.ofNullable(state), instance.estimateSurfaceHeight(instance.blockX(), instance.blockZ())).orElse(null);
 		}
 	}
 }

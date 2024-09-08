@@ -77,5 +77,5 @@ public interface ChunkGeneratorCustom {
 	 * @param estimateSurfaceHeight 预期表面高度
 	 * @return 应设置的噪声块
 	 */
-	BlockState getTerrainNoise(BlockPos pos, BlockState originBlock, int estimateSurfaceHeight);
+	Optional<BlockState> getTerrainNoise(BlockPos pos, Optional<BlockState> originBlock, int estimateSurfaceHeight);
 }

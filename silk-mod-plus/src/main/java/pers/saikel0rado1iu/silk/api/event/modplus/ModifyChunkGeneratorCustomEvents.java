@@ -72,16 +72,16 @@ public interface ModifyChunkGeneratorCustomEvents {
 	});
 	
 	/**
-	 * 此事件将 {@link ChunkGeneratorCustom} 修改方法 {@link ChunkGeneratorCustom#getTerrainNoise(BlockPos, BlockState, int)}<br>
+	 * 此事件将 {@link ChunkGeneratorCustom} 修改方法 {@link ChunkGeneratorCustom#getTerrainNoise(BlockPos, Optional, int)} <br>
 	 * <br>
 	 * - {@link ActionResult#SUCCESS} 退出原始方法实现，模组作者应返回对应的 {@link BlockState}<br>
 	 * - {@link ActionResult#FAIL} 回落到原始方法实现，模组作者应返回原始方法的 {@link BlockState}<br>
 	 * - {@link ActionResult#PASS} 回落到原始方法实现，如果没有其他的监听器了，模组作者应返回原始方法的 {@link BlockState}<br>
 	 */
 	Event<ModifyGetTerrainNoise> MODIFY_GET_TERRAIN_NOISE = EventFactory.createArrayBacked(ModifyGetTerrainNoise.class, listeners -> (custom, state, pos, originBlock, estimateSurfaceHeight) -> {
-		BlockState blockState = state;
+		Optional<BlockState> blockState = state;
 		for (ModifyGetTerrainNoise event : listeners) {
-			Map.Entry<ActionResult, BlockState> entry = event.getTerrainNoise(custom, blockState, pos, originBlock, estimateSurfaceHeight);
+			Map.Entry<ActionResult, Optional<BlockState>> entry = event.getTerrainNoise(custom, blockState, pos, originBlock, estimateSurfaceHeight);
 			if (entry.getKey() != ActionResult.PASS) return entry;
 			blockState = entry.getValue();
 		}
@@ -109,6 +109,6 @@ public interface ModifyChunkGeneratorCustomEvents {
 	 */
 	@FunctionalInterface
 	interface ModifyGetTerrainNoise {
-		Map.Entry<ActionResult, BlockState> getTerrainNoise(ChunkGeneratorCustom custom, BlockState state, BlockPos pos, BlockState originBlock, int estimateSurfaceHeight);
+		Map.Entry<ActionResult, Optional<BlockState>> getTerrainNoise(ChunkGeneratorCustom custom, Optional<BlockState> state, BlockPos pos, Optional<BlockState> originBlock, int estimateSurfaceHeight);
 	}
 }

@@ -150,11 +150,11 @@ public final class ModifiedChunkGeneratorTest extends ModifiedChunkGenerator {
 		return result.getValue();
 	}
 	
-	@SuppressWarnings("ConstantValue")
+	@SuppressWarnings("UnnecessaryLocalVariable")
 	@Override
-	public BlockState getTerrainNoise(BlockPos blockPos, BlockState blockState, int i) {
-		BlockState state = null;
-		Map.Entry<ActionResult, BlockState> result = ModifyChunkGeneratorCustomEvents.MODIFY_GET_TERRAIN_NOISE.invoker().getTerrainNoise(this, state, blockPos, blockState, i);
+	public Optional<BlockState> getTerrainNoise(BlockPos blockPos, Optional<BlockState> blockState, int i) {
+		Optional<BlockState> state = blockState;
+		Map.Entry<ActionResult, Optional<BlockState>> result = ModifyChunkGeneratorCustomEvents.MODIFY_GET_TERRAIN_NOISE.invoker().getTerrainNoise(this, state, blockPos, blockState, i);
 		if (ActionResult.FAIL == result.getKey()) return state;
 		return result.getValue();
 	}
