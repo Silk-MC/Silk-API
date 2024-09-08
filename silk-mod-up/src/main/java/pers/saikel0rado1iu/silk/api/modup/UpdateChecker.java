@@ -112,7 +112,7 @@ public final class UpdateChecker implements Callable<UpdateData> {
 		} catch (IOException unknownHostException) {
 			String msg = "URL Error: The update link you attempted to connect to does not exist. Please check if the slug provided by ModPass is correct.";
 			SilkModUp.getInstance().logger().error(msg);
-			return UpdateState.UPDATE_FAIL;
+			return UpdateState.NONE;
 		}
 		// 判断是否有更新
 		try {
