@@ -88,8 +88,10 @@ public class ServerUpdateManager extends UpdateManager {
 							Text.translatable(updateTextKey(UpdateState.MOD_LOG), modName, Changelog.read(updateData, String.format("%s_%s", Locale.getDefault().getLanguage(), Locale.getDefault().getCountry().toLowerCase()))));
 					case STOP_UPDATE -> server.sendMessage(
 							Text.translatable(updateTextKey(UpdateState.STOP_UPDATE), modName));
-					case UPDATE_FAIL -> server.sendMessage(
-							Text.translatable(updateTextKey(UpdateState.UPDATE_FAIL), modName));
+					case UPDATE_FAIL -> {
+						server.sendMessage(Text.translatable(updateTextKey(UpdateState.UPDATE_FAIL), modName));
+						manager.canShowUpdateNotify = false;
+					}
 					case DONE -> manager.canShowUpdateNotify = true;
 					case NONE -> {
 					}
@@ -129,8 +131,10 @@ public class ServerUpdateManager extends UpdateManager {
 							Text.translatable(updateTextKey(UpdateState.THIS_MC_VER), modName, updateData.modVersion(), updateText), false);
 					case STOP_UPDATE -> handler.player.sendMessageToClient(
 							Text.translatable(updateTextKey(UpdateState.STOP_UPDATE), modName), false);
-					case UPDATE_FAIL -> handler.player.sendMessageToClient(
-							Text.translatable(updateTextKey(UpdateState.UPDATE_FAIL), modName), false);
+					case UPDATE_FAIL -> {
+						handler.player.sendMessageToClient(Text.translatable(updateTextKey(UpdateState.UPDATE_FAIL), modName), false);
+						manager.canShowUpdateNotify = false;
+					}
 					case DONE -> manager.canShowUpdateNotify2 = true;
 					case MOD_LOG, NONE -> {
 					}
