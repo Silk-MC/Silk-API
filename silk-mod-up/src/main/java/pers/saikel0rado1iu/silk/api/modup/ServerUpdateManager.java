@@ -133,7 +133,7 @@ public class ServerUpdateManager extends UpdateManager {
 							Text.translatable(updateTextKey(UpdateState.STOP_UPDATE), modName), false);
 					case UPDATE_FAIL -> {
 						handler.player.sendMessageToClient(Text.translatable(updateTextKey(UpdateState.UPDATE_FAIL), modName), false);
-						manager.canShowUpdateNotify = false;
+						manager.canShowUpdateNotify2 = false;
 					}
 					case DONE -> manager.canShowUpdateNotify2 = true;
 					case MOD_LOG, NONE -> {
