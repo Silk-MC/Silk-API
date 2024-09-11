@@ -11,6 +11,7 @@
 
 package pers.saikel0rado1iu.silk.api.spinningjenny;
 
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -25,7 +26,9 @@ import pers.saikel0rado1iu.silk.api.modpass.registry.ClientRegistrationProvider;
 import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 /**
@@ -68,6 +71,33 @@ public interface ItemRegistrationProvider extends MainRegistrationProvider<Item>
 		@SafeVarargs
 		public final MainRegistrar<T> group(RegistryKey<ItemGroup>... groups) {
 			Arrays.stream(groups).forEach(group -> ItemGroupEvents.modifyEntriesEvent(group).register(content -> content.add(type)));
+			return this;
+		}
+		
+		/**
+		 * 注册物品组<br>
+		 * 将此物品按照特定的顺序放置在物品组中
+		 *
+		 * @param group       物品组
+		 * @param addConsumer 添加方法
+		 * @return 注册器
+		 */
+		public MainRegistrar<T> group(RegistryKey<ItemGroup> group, BiConsumer<FabricItemGroupEntries, Item> addConsumer) {
+			ItemGroupEvents.modifyEntriesEvent(group).register(content -> addConsumer.accept(content, type));
+			return this;
+		}
+		
+		/**
+		 * 注册物品组<br>
+		 * 将此物品按照特定的顺序放置在每一个物品组中
+		 *
+		 * @param groupMap 物品组图表
+		 * @return 注册器
+		 */
+		public MainRegistrar<T> group(Map<RegistryKey<ItemGroup>, BiConsumer<FabricItemGroupEntries, Item>> groupMap) {
+			for (Map.Entry<RegistryKey<ItemGroup>, BiConsumer<FabricItemGroupEntries, Item>> entry : groupMap.entrySet()) {
+				ItemGroupEvents.modifyEntriesEvent(entry.getKey()).register(content -> entry.getValue().accept(content, type));
+			}
 			return this;
 		}
 	}
