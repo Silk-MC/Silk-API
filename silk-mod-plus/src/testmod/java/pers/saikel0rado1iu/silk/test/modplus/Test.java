@@ -16,7 +16,6 @@ import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.api.modpass.ModMain;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
-import pers.saikel0rado1iu.silk.api.modplus.Items;
 import pers.saikel0rado1iu.silk.impl.SilkModPlus;
 
 import java.util.Set;
@@ -42,7 +41,7 @@ public final class Test implements ModMain {
 	 */
 	@Override
 	public Set<Class<? extends MainRegistrationProvider<?>>> registry() {
-		return ImmutableSet.of(Items.class);
+		return ImmutableSet.of();
 	}
 	
 	/**

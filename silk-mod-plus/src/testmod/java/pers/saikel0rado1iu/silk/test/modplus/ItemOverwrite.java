@@ -11,22 +11,13 @@
 
 package pers.saikel0rado1iu.silk.test.modplus;
 
-import net.minecraft.item.BowItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.registry.RegistryKey;
-import pers.saikel0rado1iu.silk.api.annotation.MainRegistryOverwrite;
-import pers.saikel0rado1iu.silk.api.annotation.Register;
-import pers.saikel0rado1iu.silk.api.modplus.Items;
-import pers.saikel0rado1iu.silk.impl.SilkModPlus;
-
-import java.util.function.Consumer;
-
 /**
  * ItemOverwrite
  */
+
+@SuppressWarnings("unused")
 public interface ItemOverwrite {
-	@MainRegistryOverwrite(
+/*	@MainRegistryOverwrite(
 			pack = "pers.saikel0rado1iu.silk.test.modplus.mixin",
 			registrar = Items.class,
 			field = "TEST_ITEM1",
@@ -42,5 +33,5 @@ public interface ItemOverwrite {
 					)})
 	Item OVERWRITE = new BowItem(new Item.Settings());
 	RegistryKey<?>[] ITEM_GROUP = {ItemGroups.BUILDING_BLOCKS};
-	Consumer<Item> ITEM_CONSUMER = item -> SilkModPlus.getInstance().logger().warn("dog");
+	Consumer<Item> ITEM_CONSUMER = item -> SilkModPlus.getInstance().logger().warn("dog");*/
 }

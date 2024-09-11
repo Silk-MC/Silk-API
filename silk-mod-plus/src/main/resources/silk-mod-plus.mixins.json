@@ -3,6 +3,8 @@
 	"package": "pers.saikel0rado1iu.silk.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
+		"event.modplus.ModifyModResourcePackEventsMixin$ModifyGroupDataPackOrder",
+		"event.modplus.ModifyModResourcePackEventsMixin$ModifyGroupResourcePackOrder"
 	],
 	"injectors": {
 		"defaultRequire": 1
