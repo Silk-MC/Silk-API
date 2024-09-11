@@ -26,6 +26,8 @@ import pers.saikel0rado1iu.silk.api.modpass.registry.RegistrationType;
 public interface ModClient extends ClientModInitializer, ModEntry<ClientRegistrationProvider<?>> {
 	@Override
 	default void onInitializeClient() {
+		if (isExecuted()) return;
+		ENTRYPOINT_EXECUTED.put(getClass(), true);
 		main(this);
 		for (Class<? extends RegisterableModPass<?>> clazz : registry()) {
 			RegisterableModPass.loggingRegistration(registrationNamespace(), clazz, RegistrationType.CLIENT_ONLY);

@@ -11,8 +11,10 @@
 
 package pers.saikel0rado1iu.silk.api.modpass;
 
+import com.google.common.collect.Maps;
 import pers.saikel0rado1iu.silk.api.modpass.registry.RegisterableModPass;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -24,6 +26,8 @@ import java.util.Set;
  * @since 1.0.0
  */
 public interface ModEntry<T extends RegisterableModPass<?>> extends ModPass {
+	Map<Class<?>, Boolean> ENTRYPOINT_EXECUTED = Maps.newHashMap();
+	
 	/**
 	 * 模组主函数
 	 *
@@ -46,5 +50,17 @@ public interface ModEntry<T extends RegisterableModPass<?>> extends ModPass {
 	 */
 	default ModPass registrationNamespace() {
 		return modData();
+	}
+	
+	/**
+	 * 是否已执行<br>
+	 * 用于判断是否已经执行过此入口点
+	 *
+	 * @return 是否已执行
+	 */
+	default boolean isExecuted() {
+		Boolean isExecuted = ENTRYPOINT_EXECUTED.get(getClass());
+		if (null == isExecuted) return false;
+		return isExecuted;
 	}
 }

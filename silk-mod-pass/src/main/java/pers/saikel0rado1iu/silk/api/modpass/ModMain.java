@@ -28,6 +28,8 @@ import pers.saikel0rado1iu.silk.api.modpass.registry.RegistrationType;
 public interface ModMain extends ModInitializer, ModEntry<MainRegistrationProvider<?>> {
 	@Override
 	default void onInitialize() {
+		if (isExecuted()) return;
+		ENTRYPOINT_EXECUTED.put(getClass(), true);
 		main(this);
 		if (modData() instanceof ModDataExpansion modDataExpansion) {
 			modDataExpansion.dataPack().ifPresent(DataPack::registry);

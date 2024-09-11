@@ -26,6 +26,8 @@ import pers.saikel0rado1iu.silk.api.modpass.registry.RegistrationType;
 public interface ModLaunch extends PreLaunchEntrypoint, ModEntry<LaunchRegistrationProvider<?>> {
 	@Override
 	default void onPreLaunch() {
+		if (isExecuted()) return;
+		ENTRYPOINT_EXECUTED.put(getClass(), true);
 		main(this);
 		for (Class<? extends RegisterableModPass<?>> clazz : registry()) {
 			LaunchRegistrationProvider.loggingRegistration(registrationNamespace(), clazz, RegistrationType.PRE_LAUNCH);
