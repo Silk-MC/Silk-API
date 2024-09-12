@@ -40,7 +40,7 @@ interface ModifyModResourcePackEventsMixin {
 				index = 1,
 				remap = false)
 		private static List<String> modify(List<String> orderList, @Local(argsOnly = true) ModPass modPass) {
-			return ModifyModResourcePackEvents.MODIFY_GROUP_RESOURCE_PACK_ORDER.invoker().apply(modPass, orderList).getValue();
+			return ModifyModResourcePackEvents.MODIFY_GROUP_DATA_PACK_ORDER.invoker().apply(modPass, orderList).getValue();
 		}
 	}
 	
