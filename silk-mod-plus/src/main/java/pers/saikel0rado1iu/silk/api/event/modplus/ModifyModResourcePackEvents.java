@@ -13,6 +13,7 @@ package pers.saikel0rado1iu.silk.api.event.modplus;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
+import pers.saikel0rado1iu.silk.api.modpass.ModLaunch;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.api.modpass.pack.BasePack;
 import pers.saikel0rado1iu.silk.api.modpass.pack.DataPack;
@@ -24,7 +25,8 @@ import java.util.function.BiFunction;
 
 /**
  * <h2 style="color:FFC800">修改模组 {@link BasePack} 事件</h2>
- * 用于动态的修改模组之间的资源包覆盖关系或完全替换模组的资源部
+ * 需在 {@link ModLaunch} 中使用此事件，否则无法正确修改<br>
+ * 用于动态的修改模组之间的资源包覆盖关系或完全替换模组的资源包
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 版本

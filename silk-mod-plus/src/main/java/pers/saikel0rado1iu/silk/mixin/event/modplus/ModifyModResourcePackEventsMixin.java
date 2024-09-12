@@ -22,6 +22,7 @@ import pers.saikel0rado1iu.silk.api.modpass.pack.DataPack;
 import pers.saikel0rado1iu.silk.api.modpass.pack.ResourcePack;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <h2 style="color:FFC800">{@link ModifyModResourcePackEvents} 混入</h2>
@@ -40,7 +41,8 @@ interface ModifyModResourcePackEventsMixin {
 				index = 1,
 				remap = false)
 		private static List<String> modify(List<String> orderList, @Local(argsOnly = true) ModPass modPass) {
-			return ModifyModResourcePackEvents.MODIFY_GROUP_DATA_PACK_ORDER.invoker().apply(modPass, orderList).getValue();
+			Map.Entry<ModPass, List<String>> entry = ModifyModResourcePackEvents.MODIFY_GROUP_DATA_PACK_ORDER.invoker().apply(modPass, orderList);
+			return entry.getValue();
 		}
 	}
 	
@@ -54,7 +56,8 @@ interface ModifyModResourcePackEventsMixin {
 				index = 1,
 				remap = false)
 		private static List<String> modify(List<String> orderList, @Local(argsOnly = true) ModPass modPass) {
-			return ModifyModResourcePackEvents.MODIFY_GROUP_RESOURCE_PACK_ORDER.invoker().apply(modPass, orderList).getValue();
+			Map.Entry<ModPass, List<String>> entry = ModifyModResourcePackEvents.MODIFY_GROUP_RESOURCE_PACK_ORDER.invoker().apply(modPass, orderList);
+			return entry.getValue();
 		}
 	}
 }
