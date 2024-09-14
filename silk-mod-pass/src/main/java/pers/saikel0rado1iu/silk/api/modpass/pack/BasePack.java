@@ -12,6 +12,7 @@
 package pers.saikel0rado1iu.silk.api.modpass.pack;
 
 import com.google.common.base.Charsets;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.fabricmc.fabric.api.resource.ModResourcePack;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -161,8 +162,9 @@ public interface BasePack extends ModPass {
 					}
 				}
 				
-				private List<? extends ResourcePack> orderList(List<? extends ResourcePack> packs) {
-					if (packs == null) return null;
+				private List<? extends ResourcePack> orderList(List<? extends ResourcePack> packList) {
+					if (packList == null) return null;
+					List<? extends ResourcePack> packs = Lists.newArrayList(packList);
 					Map<String, Integer> orderMap = Maps.newHashMapWithExpectedSize(packs.size());
 					for (int count = 0; count < orderList.size(); count++) orderMap.put(orderList.get(count), Integer.MAX_VALUE - count);
 					packs.sort(Comparator.comparingInt(pack -> orderMap.getOrDefault(pack.getName(), 0)));
