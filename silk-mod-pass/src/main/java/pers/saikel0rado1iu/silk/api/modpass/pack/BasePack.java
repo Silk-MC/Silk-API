@@ -30,6 +30,7 @@ import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.api.event.registry.RegisterGroupResourcePackCallback;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
+import pers.saikel0rado1iu.silk.impl.SilkModPass;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -168,8 +169,10 @@ public interface BasePack extends ModPass {
 					List<? extends ResourcePack> packs = namespacedPacks.get(id.getNamespace());
 					if (packs == null) return null;
 					Map<String, Integer> orderMap = Maps.newHashMapWithExpectedSize(packs.size());
+					SilkModPass.getInstance().logger().error("orderList: {}", orderList);
 					for (int count = 0; count < orderList.size(); count++) orderMap.put(orderList.get(count), Integer.MAX_VALUE - count);
 					packs.sort(Comparator.comparingInt(pack -> orderMap.getOrDefault(pack.getName(), 0)));
+					SilkModPass.getInstance().logger().error("orderMap: {}", orderMap);
 					// 更改默认的顺序为从上到下，同时保证自身模组中包的内容永远会被优先覆盖，或者按照指定的覆盖顺序覆盖
 					InputSupplier<InputStream> inputSupplier = null;
 					for (int count = packs.size() - 1; count >= 0; count--) {

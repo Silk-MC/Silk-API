@@ -20,7 +20,6 @@ import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.api.modpass.pack.BasePack;
 import pers.saikel0rado1iu.silk.api.modpass.pack.DataPack;
 import pers.saikel0rado1iu.silk.api.modpass.pack.ResourcePack;
-import pers.saikel0rado1iu.silk.impl.SilkModPlus;
 
 import java.util.List;
 
@@ -41,9 +40,7 @@ interface ModifyModResourcePackEventsMixin {
 				index = 1,
 				remap = false)
 		private static List<String> modify(List<String> orderList, @Local(argsOnly = true) ModPass modPass) {
-			List<String> list = ModifyModResourcePackEvents.MODIFY_GROUP_DATA_PACK_ORDER.invoker().apply(modPass, orderList).getValue();
-			SilkModPlus.getInstance().logger().debug("ModifyGroupDataPackOrder: {}", list);
-			return list;
+			return ModifyModResourcePackEvents.MODIFY_GROUP_DATA_PACK_ORDER.invoker().apply(modPass, orderList).getValue();
 		}
 	}
 	
@@ -57,9 +54,7 @@ interface ModifyModResourcePackEventsMixin {
 				index = 1,
 				remap = false)
 		private static List<String> modify(List<String> orderList, @Local(argsOnly = true) ModPass modPass) {
-			List<String> list = ModifyModResourcePackEvents.MODIFY_GROUP_RESOURCE_PACK_ORDER.invoker().apply(modPass, orderList).getValue();
-			SilkModPlus.getInstance().logger().debug("ModifyGroupResourcePackOrder: {}", list);
-			return list;
+			return ModifyModResourcePackEvents.MODIFY_GROUP_RESOURCE_PACK_ORDER.invoker().apply(modPass, orderList).getValue();
 		}
 	}
 }
