@@ -35,6 +35,7 @@
 	],
 	"icon": "assets/silk-mod-pass/icon.png",
 	"environment": "*",
+	"accessWidener": "silk-mod-pass.accesswidener",
 	"entrypoints": {
 		"fabric-datagen": [
 			"pers.saikel0rado1iu.silk.entrypoint.ModPassDataGen"
