@@ -173,6 +173,9 @@ public interface BasePack extends ModPass {
 					for (int count = 0; count < orderList.size(); count++) orderMap.put(orderList.get(count), Integer.MAX_VALUE - count);
 					packs.sort(Comparator.comparingInt(pack -> orderMap.getOrDefault(pack.getName(), 0)));
 					SilkModPass.getInstance().logger().error("orderMap: {}", orderMap);
+					for (int count = 0; count < packs.size(); count++) {
+						SilkModPass.getInstance().logger().warn("packName: {}", packs.get(count).getName());
+					}
 					// 更改默认的顺序为从上到下，同时保证自身模组中包的内容永远会被优先覆盖，或者按照指定的覆盖顺序覆盖
 					InputSupplier<InputStream> inputSupplier = null;
 					for (int count = packs.size() - 1; count >= 0; count--) {
