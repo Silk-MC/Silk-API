@@ -13,6 +13,7 @@ package pers.saikel0rado1iu.silk.api.landform.gen.chunk;
 
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -51,16 +52,16 @@ public abstract class ModifiedChunkGenerator extends DefaultChunkGenerator imple
 	protected static boolean isAdditionalBiomeSources(Predicate<RegistryEntry<Biome>> predicate, List<FixedBiomeSource> additionalBiomeSources) {
 		for (FixedBiomeSource source : additionalBiomeSources) {
 			for (RegistryEntry<Biome> entry : source.getBiomes()) {
-				if (predicate.test(entry)) return false;
+				if (predicate.test(entry)) return true;
 			}
 		}
-		return true;
+		return false;
 	}
 	
 	protected static Optional<Pair<BlockPos, RegistryEntry<Biome>>> getLocateBiomePair(ModifiedChunkGenerator generator, BlockPos pos, Predicate<RegistryEntry<Biome>> predicate, MultiNoiseUtil.MultiNoiseSampler noiseSampler, ServerWorld world) {
-		for (int y = world.getHeight(); y > world.getDimension().minY(); y--) {
-			if (!world.getBlockState(new BlockPos(pos.getX(), y, pos.getZ())).isAir() && generator.getBiomeSource(pos) != generator.biomeSource
-					&& !generator.getBiomeSource(pos).getBiomes().stream().filter(predicate).collect(Collectors.toUnmodifiableSet()).isEmpty()) {
+		if (generator.getBiomeSource(pos) != generator.biomeSource && !generator.getBiomeSource(pos).getBiomes().stream().filter(predicate).collect(Collectors.toUnmodifiableSet()).isEmpty()) {
+			for (int y = world.getHeight(); y > world.getDimension().minY(); y--) {
+				if (world.getBlockState(new BlockPos(pos.getX(), y, pos.getZ())).isAir()) continue;
 				return Optional.of(Pair.of(new BlockPos(pos.getX(), y + 1, pos.getZ()), generator.getBiomeSource(pos).getBiome(pos.getX(), y + 1, pos.getZ(), noiseSampler)));
 			}
 		}
@@ -69,28 +70,45 @@ public abstract class ModifiedChunkGenerator extends DefaultChunkGenerator imple
 	
 	@Override
 	public Optional<Pair<BlockPos, RegistryEntry<Biome>>> locateBiome(BlockPos origin, int radius, int horizontalBlockCheckInterval, int verticalBlockCheckInterval, Predicate<RegistryEntry<Biome>> predicate, MultiNoiseUtil.MultiNoiseSampler noiseSampler, ServerWorld world) {
-		if (isAdditionalBiomeSources(predicate, additionalBiomeSources)) {
+		if (!isAdditionalBiomeSources(predicate, additionalBiomeSources)) {
 			return ChunkGeneratorCustom.super.locateBiome(origin, radius, horizontalBlockCheckInterval, verticalBlockCheckInterval, predicate, noiseSampler, world);
 		}
 		List<Integer> xs = new ArrayList<>();
 		List<Integer> zs = new ArrayList<>();
-		for (int radian = 0; radian < 360; radian++) {
-			for (int count = 0; count < radius; count += horizontalBlockCheckInterval) {
-				xs.add((int) (origin.getX() + count * Math.cos(radian)));
-				zs.add((int) (origin.getZ() + count * Math.sin(radian)));
-			}
+		for (int count = -radius; count < radius; count += horizontalBlockCheckInterval) {
+			xs.add(origin.getX() + count);
+			zs.add(origin.getZ() + count);
 		}
-		for (int x : xs) for (int z : zs) return getLocateBiomePair(this, new BlockPos(x, 0, z), predicate, noiseSampler, world);
+		Optional<Pair<BlockPos, RegistryEntry<Biome>>> pair;
+		for (int x : xs) for (int z : zs) if ((pair = getLocateBiomePair(this, new BlockPos(x, 0, z), predicate, noiseSampler, world)).isPresent()) return pair;
 		return Optional.empty();
+	}
+	
+	/**
+	 * 获取附加生物群系源列表
+	 *
+	 * @return 附加生物群系源列表
+	 */
+	public List<FixedBiomeSource> additionalBiomeSources() {
+		return additionalBiomeSources;
 	}
 	
 	/**
 	 * 获取附加生物群系源
 	 *
+	 * @param biome 生物群系注册键
 	 * @return 附加生物群系源
 	 */
-	public List<FixedBiomeSource> additionalBiomeSources() {
-		return additionalBiomeSources;
+	public Optional<FixedBiomeSource> getAdditionalBiomeSource(RegistryKey<Biome> biome) {
+		FixedBiomeSource fixedBiomeSource = null;
+		for (FixedBiomeSource biomeSource : additionalBiomeSources) {
+			fixedBiomeSource = biomeSource;
+			for (RegistryEntry<Biome> entry : biomeSource.getBiomes()) {
+				if (!biome.equals(entry.getKey().orElseThrow())) continue;
+				return Optional.of(biomeSource);
+			}
+		}
+		return Optional.ofNullable(fixedBiomeSource);
 	}
 	
 	@Override

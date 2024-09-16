@@ -98,7 +98,7 @@ public final class TestChunkGenerator extends ModifiedChunkGenerator {
 	 */
 	@Override
 	public BiomeSource getBiomeSource(BlockPos pos) {
-		return check(pos) ? additionalBiomeSources().iterator().next() : biomeSource;
+		return check(pos) ? getAdditionalBiomeSource(BiomeKeys.DESERT).orElse(null) : biomeSource;
 	}
 	
 	/**
