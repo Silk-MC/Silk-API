@@ -98,8 +98,16 @@ public abstract class PhysicsConnectingBlock extends ConnectingBlock implements 
 	 * @param placer 放置方法
 	 */
 	public void placeBlock(BlockView world, BlockPos pos, BiConsumer<BlockPos, BlockState> placer) {
-		placer.accept(pos, withConnectionProperties(world, pos, getDefaultState()));
+		if (!(world instanceof WorldAccess access)) return;
+		access.setBlockState(pos, withConnectionProperties(world, pos, getDefaultState()), Block.NOTIFY_LISTENERS);
 		setConnectionProperties(world, pos, Optional.ofNullable((PhysicsConnectingBlockEntity) world.getBlockEntity(pos)));
+		for (Direction direction : Direction.values()) {
+			BlockPos offsetPos = pos.offset(direction);
+			BlockState offsetState = world.getBlockState(offsetPos);
+			if (offsetState.getBlock() instanceof PhysicsConnectingBlock) {
+				placer.accept(offsetPos, offsetState.with(FACING_PROPERTIES.get(direction.getOpposite()), true));
+			}
+		}
 	}
 	
 	/**
