@@ -33,7 +33,6 @@ import org.apache.commons.lang3.StringUtils;
 import pers.saikel0rado1iu.silk.api.generate.world.WorldPresetEntry;
 import pers.saikel0rado1iu.silk.api.landform.ChunkStorageData;
 import pers.saikel0rado1iu.silk.api.landform.gen.chunk.ModifiedChunkGenerator;
-import pers.saikel0rado1iu.silk.impl.SilkLandform;
 
 import java.util.List;
 import java.util.Optional;
@@ -84,8 +83,12 @@ public final class TestChunkGenerator extends ModifiedChunkGenerator {
 	}
 	
 	@Override
+	public long seed() {
+		return super.seed();
+	}
+	
+	@Override
 	public Optional<Pair<BlockPos, RegistryEntry<Biome>>> locateBiome(BlockPos origin, int radius, int horizontalBlockCheckInterval, int verticalBlockCheckInterval, Predicate<RegistryEntry<Biome>> predicate, MultiNoiseUtil.MultiNoiseSampler noiseSampler, ServerWorld world) {
-		SilkLandform.getInstance().logger().info(seed() + "");
 		// SilkLandform.getInstance().logger().info(ChunkStorageData.blockToChunkCoord(0) + "");
 		return super.locateBiome(origin, radius, horizontalBlockCheckInterval, verticalBlockCheckInterval, predicate, noiseSampler, world);
 	}

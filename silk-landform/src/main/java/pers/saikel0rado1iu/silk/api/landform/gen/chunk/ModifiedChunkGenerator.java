@@ -61,7 +61,7 @@ public abstract class ModifiedChunkGenerator extends DefaultChunkGenerator imple
 	protected static Optional<Pair<BlockPos, RegistryEntry<Biome>>> getLocateBiomePair(ModifiedChunkGenerator generator, BlockPos pos, int verticalBlockCheckInterval, Predicate<RegistryEntry<Biome>> predicate, MultiNoiseUtil.MultiNoiseSampler noiseSampler, ServerWorld world) {
 		for (int baseY = world.getHeight(); baseY > world.getDimension().minY(); baseY -= verticalBlockCheckInterval) {
 			BlockPos basePos = new BlockPos(pos.getX(), baseY, pos.getZ());
-			if (generator.getBiomeSource(basePos) == generator.biomeSource || generator.getBiomeSource(basePos).getBiomes().stream().filter(predicate).collect(Collectors.toUnmodifiableSet()).isEmpty()) {
+			if (generator.getBiomeSource(basePos).equals(generator.biomeSource) || generator.getBiomeSource(basePos).getBiomes().stream().filter(predicate).collect(Collectors.toUnmodifiableSet()).isEmpty()) {
 				continue;
 			}
 			for (int y = baseY; y > world.getDimension().minY(); y--) {
@@ -79,9 +79,11 @@ public abstract class ModifiedChunkGenerator extends DefaultChunkGenerator imple
 		}
 		List<Integer> xs = new ArrayList<>();
 		List<Integer> zs = new ArrayList<>();
-		for (int count = -radius; count < radius; count += horizontalBlockCheckInterval) {
+		for (int count = 0; count < radius; count += horizontalBlockCheckInterval) {
 			xs.add(origin.getX() + count);
+			xs.add(origin.getX() - count);
 			zs.add(origin.getZ() + count);
+			zs.add(origin.getZ() - count);
 		}
 		Optional<Pair<BlockPos, RegistryEntry<Biome>>> pair;
 		for (int x : xs) {
