@@ -13,30 +13,48 @@ package pers.saikel0rado1iu.silk.mixin.landform.gen.chunk;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.BlockState;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.WorldGenerationProgressListener;
 import net.minecraft.server.command.LocateCommand;
 import net.minecraft.server.world.ServerChunkManager;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.RandomSequencesState;
+import net.minecraft.util.profiler.Profiler;
+import net.minecraft.world.MutableWorldProperties;
+import net.minecraft.world.StructureWorldAccess;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.source.BiomeCoords;
 import net.minecraft.world.biome.source.BiomeSupplier;
 import net.minecraft.world.biome.source.FixedBiomeSource;
 import net.minecraft.world.chunk.ChunkStatus;
+import net.minecraft.world.dimension.DimensionOptions;
+import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.chunk.ChunkNoiseSampler;
 import net.minecraft.world.gen.chunk.NoiseChunkGenerator;
 import net.minecraft.world.gen.structure.Structure;
+import net.minecraft.world.level.ServerWorldProperties;
+import net.minecraft.world.level.storage.LevelStorage;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import pers.saikel0rado1iu.silk.api.landform.gen.chunk.ChunkGeneratorCustom;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Executor;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 /**
  * <h2 style="color:FFC800">{@link ChunkGeneratorCustom} 混入</h2>
@@ -49,16 +67,35 @@ interface ChunkGeneratorCustomMixin {
 	/**
 	 * 获取地图种子
 	 */
-	@Mixin(ChunkStatus.class)
-	abstract class GetSeed {
-		@ModifyArg(method = "<clinit>", at = @At(value = "INVOKE",
-				target = "L net/minecraft/world/chunk/ChunkStatus;register(L java/lang/String;L net/minecraft/world/chunk/ChunkStatus;IZL java/util/EnumSet;L net/minecraft/world/chunk/ChunkStatus$ChunkType;L net/minecraft/world/chunk/ChunkStatus$GenerationTask;L net/minecraft/world/chunk/ChunkStatus$LoadTask;)L net/minecraft/world/chunk/ChunkStatus;",
-				ordinal = 0), index = 6)
-		private static ChunkStatus.GenerationTask empty(ChunkStatus.GenerationTask generationTask) {
-			return (targetStatus, executor, world, generator, structureTemplateManager, lightingProvider, fullChunkConverter, chunks, chunk) -> {
-				if (generator instanceof ChunkGeneratorCustom chunkGeneratorCustom) ChunkGeneratorCustom.SEED_MAP.put(chunkGeneratorCustom, world.getSeed());
-				return generationTask.doWork(targetStatus, executor, world, generator, structureTemplateManager, lightingProvider, fullChunkConverter, chunks, chunk);
-			};
+	interface GetSeed {
+		@Mixin(ChunkStatus.class)
+		abstract class Chunk {
+			@ModifyArg(method = "<clinit>", at = @At(value = "INVOKE",
+					target = "L net/minecraft/world/chunk/ChunkStatus;register(L java/lang/String;L net/minecraft/world/chunk/ChunkStatus;IZL java/util/EnumSet;L net/minecraft/world/chunk/ChunkStatus$ChunkType;L net/minecraft/world/chunk/ChunkStatus$GenerationTask;L net/minecraft/world/chunk/ChunkStatus$LoadTask;)L net/minecraft/world/chunk/ChunkStatus;",
+					ordinal = 0), index = 6)
+			private static ChunkStatus.GenerationTask empty(ChunkStatus.GenerationTask generationTask) {
+				return (targetStatus, executor, world, generator, structureTemplateManager, lightingProvider, fullChunkConverter, chunks, chunk) -> {
+					if (generator instanceof ChunkGeneratorCustom chunkGeneratorCustom) {
+						ChunkGeneratorCustom.SEED_MAP.put(chunkGeneratorCustom, world.getSeed());
+					}
+					return generationTask.doWork(targetStatus, executor, world, generator, structureTemplateManager, lightingProvider, fullChunkConverter, chunks, chunk);
+				};
+			}
+		}
+		
+		@Mixin(ServerWorld.class)
+		abstract class Server extends World implements StructureWorldAccess {
+			private Server(MutableWorldProperties properties, RegistryKey<World> registryRef, DynamicRegistryManager registryManager, RegistryEntry<DimensionType> dimensionEntry, Supplier<Profiler> profiler, boolean isClient, boolean debugWorld, long biomeAccess, int maxChainedNeighborUpdates) {
+				super(properties, registryRef, registryManager, dimensionEntry, profiler, isClient, debugWorld, biomeAccess, maxChainedNeighborUpdates);
+			}
+			
+			@Inject(method = "<init>", at = @At("TAIL"))
+			private void init(MinecraftServer server, Executor workerExecutor, LevelStorage.Session session, ServerWorldProperties properties, RegistryKey<?> worldKey, DimensionOptions dimensionOptions, WorldGenerationProgressListener worldGenerationProgressListener, boolean debugWorld, long seed, List<?> spawners, boolean shouldTickTime, RandomSequencesState randomSequencesState, CallbackInfo ci) {
+				ChunkGenerator generator = ((ServerWorld) (Object) this).getChunkManager().getChunkGenerator();
+				if (generator instanceof ChunkGeneratorCustom chunkGeneratorCustom) {
+					ChunkGeneratorCustom.SEED_MAP.put(chunkGeneratorCustom, seed);
+				}
+			}
 		}
 	}
 	

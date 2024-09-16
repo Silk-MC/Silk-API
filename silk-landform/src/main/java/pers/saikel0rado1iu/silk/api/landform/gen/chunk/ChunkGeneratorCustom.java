@@ -41,7 +41,7 @@ public interface ChunkGeneratorCustom {
 	/**
 	 * @return 生成世界的种子
 	 */
-	default long seed() {
+	default Long seed() {
 		return SEED_MAP.get(this);
 	}
 	

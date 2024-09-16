@@ -3,7 +3,8 @@
 	"package": "pers.saikel0rado1iu.silk.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"landform.gen.chunk.ChunkGeneratorCustomMixin$GetSeed",
+		"landform.gen.chunk.ChunkGeneratorCustomMixin$GetSeed$Chunk",
+		"landform.gen.chunk.ChunkGeneratorCustomMixin$GetSeed$Server",
 		"landform.gen.chunk.ChunkGeneratorCustomMixin$LocateBiome",
 		"landform.gen.chunk.ChunkGeneratorCustomMixin$PopulateBiomes",
 		"landform.gen.chunk.ChunkGeneratorCustomMixin$PopulateNoise",
