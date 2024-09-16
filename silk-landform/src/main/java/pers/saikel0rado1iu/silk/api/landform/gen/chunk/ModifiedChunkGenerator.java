@@ -58,9 +58,13 @@ public abstract class ModifiedChunkGenerator extends DefaultChunkGenerator imple
 		return false;
 	}
 	
-	protected static Optional<Pair<BlockPos, RegistryEntry<Biome>>> getLocateBiomePair(ModifiedChunkGenerator generator, BlockPos pos, Predicate<RegistryEntry<Biome>> predicate, MultiNoiseUtil.MultiNoiseSampler noiseSampler, ServerWorld world) {
-		if (generator.getBiomeSource(pos) != generator.biomeSource && !generator.getBiomeSource(pos).getBiomes().stream().filter(predicate).collect(Collectors.toUnmodifiableSet()).isEmpty()) {
-			for (int y = world.getHeight(); y > world.getDimension().minY(); y--) {
+	protected static Optional<Pair<BlockPos, RegistryEntry<Biome>>> getLocateBiomePair(ModifiedChunkGenerator generator, BlockPos pos, int verticalBlockCheckInterval, Predicate<RegistryEntry<Biome>> predicate, MultiNoiseUtil.MultiNoiseSampler noiseSampler, ServerWorld world) {
+		for (int baseY = world.getHeight(); baseY > world.getDimension().minY(); baseY -= verticalBlockCheckInterval) {
+			BlockPos basePos = new BlockPos(pos.getX(), baseY, pos.getZ());
+			if (generator.getBiomeSource(basePos) == generator.biomeSource || generator.getBiomeSource(basePos).getBiomes().stream().filter(predicate).collect(Collectors.toUnmodifiableSet()).isEmpty()) {
+				continue;
+			}
+			for (int y = baseY; y > world.getDimension().minY(); y--) {
 				if (world.getBlockState(new BlockPos(pos.getX(), y, pos.getZ())).isAir()) continue;
 				return Optional.of(Pair.of(new BlockPos(pos.getX(), y + 1, pos.getZ()), generator.getBiomeSource(pos).getBiome(pos.getX(), y + 1, pos.getZ(), noiseSampler)));
 			}
@@ -80,7 +84,13 @@ public abstract class ModifiedChunkGenerator extends DefaultChunkGenerator imple
 			zs.add(origin.getZ() + count);
 		}
 		Optional<Pair<BlockPos, RegistryEntry<Biome>>> pair;
-		for (int x : xs) for (int z : zs) if ((pair = getLocateBiomePair(this, new BlockPos(x, 0, z), predicate, noiseSampler, world)).isPresent()) return pair;
+		for (int x : xs) {
+			for (int z : zs) {
+				if ((pair = getLocateBiomePair(this, new BlockPos(x, 0, z), verticalBlockCheckInterval, predicate, noiseSampler, world)).isPresent()) {
+					return pair;
+				}
+			}
+		}
 		return Optional.empty();
 	}
 	
