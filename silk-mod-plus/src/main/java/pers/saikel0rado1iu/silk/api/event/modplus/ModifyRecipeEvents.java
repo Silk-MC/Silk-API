@@ -11,12 +11,9 @@
 
 package pers.saikel0rado1iu.silk.api.event.modplus;
 
-import com.google.gson.JsonElement;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.util.Identifier;
-
-import java.util.Map;
 
 /**
  * <h2 style="color:FFC800">修改配方事件</h2>
@@ -29,10 +26,9 @@ public interface ModifyRecipeEvents {
 	/**
 	 * 此事件将删除一个已经定义的配方
 	 */
-	Event<Remove> REMOVE = EventFactory.createArrayBacked(Remove.class, listeners -> map -> {
-		Map<Identifier, JsonElement> m = map;
-		for (Remove event : listeners) m = event.remove(m);
-		return m;
+	Event<Remove> REMOVE = EventFactory.createArrayBacked(Remove.class, listeners -> recipeId -> {
+		for (Remove event : listeners) if (event.canRemove(recipeId)) return true;
+		return false;
 	});
 	
 	/**
@@ -40,6 +36,12 @@ public interface ModifyRecipeEvents {
 	 */
 	@FunctionalInterface
 	interface Remove {
-		Map<Identifier, JsonElement> remove(Map<Identifier, JsonElement> map);
+		/**
+		 * 用于判断是否能移除一个配方
+		 *
+		 * @param recipeId 需要判断配方的 {@link Identifier}
+		 * @return 是否能够删除配方
+		 */
+		boolean canRemove(Identifier recipeId);
 	}
 }

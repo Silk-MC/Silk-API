@@ -19,6 +19,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import pers.saikel0rado1iu.silk.api.event.modplus.ModifyRecipeEvents;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -35,7 +36,9 @@ public interface ModifyRecipeEventsMixin {
 	abstract class Remove {
 		@ModifyVariable(method = "apply(L java/util/Map;L net/minecraft/resource/ResourceManager;L net/minecraft/util/profiler/Profiler;)V", at = @At("HEAD"), ordinal = 0, argsOnly = true)
 		private Map<Identifier, JsonElement> remove(Map<Identifier, JsonElement> map) {
-			return ModifyRecipeEvents.REMOVE.invoker().remove(map);
+			Map<Identifier, JsonElement> result = new HashMap<>(map);
+			for (Identifier recipeId : result.keySet()) if (ModifyRecipeEvents.REMOVE.invoker().canRemove(recipeId)) result.remove(recipeId);
+			return result;
 		}
 	}
 }
