@@ -12,6 +12,9 @@
 package pers.saikel0rado1iu.silk.test.modplus;
 
 import com.google.common.collect.ImmutableSet;
+import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
+import pers.saikel0rado1iu.silk.api.event.modplus.ModifyRecipeEvents;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.api.modpass.ModMain;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
@@ -32,6 +35,7 @@ public final class Test implements ModMain {
 	@Override
 	public void main(ModPass mod) {
 		ModifiedChunkGeneratorTest.test();
+		ModifyRecipeEvents.REMOVE.register(recipeId -> recipeId.equals(Registries.ITEM.getId(Items.CRAFTING_TABLE)));
 	}
 	
 	/**

@@ -37,7 +37,7 @@ public interface ModifyRecipeEventsMixin {
 		@ModifyVariable(method = "apply(L java/util/Map;L net/minecraft/resource/ResourceManager;L net/minecraft/util/profiler/Profiler;)V", at = @At("HEAD"), ordinal = 0, argsOnly = true)
 		private Map<Identifier, JsonElement> remove(Map<Identifier, JsonElement> map) {
 			Map<Identifier, JsonElement> result = new HashMap<>(map);
-			for (Identifier recipeId : result.keySet()) if (ModifyRecipeEvents.REMOVE.invoker().canRemove(recipeId)) result.remove(recipeId);
+			for (Identifier recipeId : map.keySet()) if (ModifyRecipeEvents.REMOVE.invoker().canRemove(recipeId)) result.remove(recipeId);
 			return result;
 		}
 	}
