@@ -5,7 +5,8 @@
 	"mixins": [
 		"event.modplus.ModifyDefaultBiomeParametersEventsMixin$ModifyNonVanillaGeneratedBiome",
 		"event.modplus.ModifyModResourcePackEventsMixin$ModifyGroupDataPackOrder",
-		"event.modplus.ModifyModResourcePackEventsMixin$ModifyGroupResourcePackOrder"
+		"event.modplus.ModifyModResourcePackEventsMixin$ModifyGroupResourcePackOrder",
+		"event.modplus.ModifyRecipeEventsMixin$Remove"
 	],
 	"injectors": {
 		"defaultRequire": 1

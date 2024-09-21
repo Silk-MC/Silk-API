@@ -23,10 +23,10 @@ import java.util.Map;
 
 /**
  * <h2 style="color:FFC800">修改 {@link DefaultBiomeParameters} 事件</h2>
- * * 用于动态修改 {@link DefaultBiomeParameters} 中生成规则的事件<br>
+ * 用于动态修改 {@link DefaultBiomeParameters} 中生成规则的事件<br>
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
- * @since 版本
+ * @since 1.0.0
  */
 public interface ModifyDefaultBiomeParametersEvents {
 	/**

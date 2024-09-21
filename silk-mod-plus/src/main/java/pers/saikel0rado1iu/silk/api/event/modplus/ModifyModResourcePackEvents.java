@@ -29,7 +29,7 @@ import java.util.function.BiFunction;
  * 用于动态的修改模组之间的资源包覆盖关系或完全替换模组的资源包
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
- * @since 版本
+ * @since 1.0.0
  */
 public interface ModifyModResourcePackEvents {
 	/**
