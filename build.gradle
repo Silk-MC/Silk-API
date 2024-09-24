@@ -162,7 +162,7 @@ allprojects {
 	tasks.register('deleteRemoteArtifact', Delete) {
 		doLast {
 			// 使用 GitHub Packages API 获取特定包的所有版本
-			def versionsUrl = "https://api.github.com/users/silk-mc/packages/maven/${project.maven_group}.${archivesBaseName}/versions"
+			def versionsUrl = "https://api.github.com/users/${project.organizations_name}/packages/maven/${project.maven_group}.${archivesBaseName}/versions"
 			def headers = ['Authorization': "token ${System.getenv("GITHUB_TOKEN")}"]
 			
 			def versionsResponse
@@ -187,7 +187,7 @@ allprojects {
 				if (versionName != version) return
 				
 				// 执行删除操作
-				def deleteUrl = "https://api.github.com/users/silk-mc/packages/maven/${project.maven_group}.${archivesBaseName}/versions/${versionId}"
+				def deleteUrl = "https://api.github.com/users/${project.organizations_name}/packages/maven/${project.maven_group}.${archivesBaseName}/versions/${versionId}"
 				def deleteResponse = new URL(deleteUrl).openConnection()
 						.with {
 							requestMethod = 'DELETE'
@@ -224,7 +224,7 @@ allprojects {
 			// 这里的存储库将用于发布您的工件, 而不是用于检索依赖项.
 			maven {
 				name = "GitHubPackages"
-				url = "https://maven.pkg.github.com/silk-mc/silk-api"
+				url = "https://maven.pkg.github.com/${project.organizations_name}/${project.archives_base_name}"
 				credentials {
 					username = System.getenv("GITHUB_ACTOR")
 					password = System.getenv("GITHUB_TOKEN")
