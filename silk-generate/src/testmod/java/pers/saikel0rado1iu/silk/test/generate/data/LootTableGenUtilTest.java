@@ -70,7 +70,7 @@ public interface LootTableGenUtilTest {
 		
 		@Override
 		public void accept(BiConsumer<Identifier, LootTable.Builder> exporter) {
-			LootTableGenUtil.addEntityDrop(exporter, EntityType.PIG, LootTable.builder()
+			exporter.accept(EntityType.PIG.getLootTableId(), LootTable.builder()
 					.pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1))
 							.with(ItemEntry.builder(Items.BEEF)
 									.apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(0, 2)))
