@@ -1,4 +1,5 @@
-<div style="text-align:center">
+<!--suppress HtmlDeprecatedAttribute -->
+<div align="center">
 
 # Silk API
 
@@ -12,9 +13,9 @@
 
 **Fabric API extensions for making fancy functionality**
 
-[<img alt="Wiki" height="64" src="https://cdn.simpleicons.org/wikipedia/000000/FFFFFF]" width="64"/>](https://silk-mc.gitbook.io/silk-api)
-[<img alt="Discord" height="64" src="https://cdn.simpleicons.org/discord" width="64"/>](https://discord.com/invite/ZJuQyH2RBz)
-[<img alt="Patreon" height="64" src="https://cdn.simpleicons.org/patreon/000000/FFFFFF" width="64"/>](https://www.patreon.com/GameGeek_Saikel)
+[![Wiki](https://img.shields.io/badge/WIKI-444444?style=for-the-badge&logo=wikipedia&logoColor=FFFFFF)](https://silk-mc.gitbook.io/silk-api)
+[![Discord](https://img.shields.io/badge/DISCORD-5865F2?style=for-the-badge&logo=discord&logoColor=FFFFFF)](https://discord.com/invite/ZJuQyH2RBz)
+[![Patreon](https://img.shields.io/badge/PATREON-FF424D?style=for-the-badge&logo=patreon&logoColor=FFFFFF)](https://www.patreon.com/GameGeek_Saikel)
 
 </div>
 
