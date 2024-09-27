@@ -17,6 +17,8 @@
 [![Discord](https://img.shields.io/badge/DISCORD-5865F2?style=for-the-badge&logo=discord&logoColor=FFFFFF)](https://discord.com/invite/ZJuQyH2RBz)
 [![Patreon](https://img.shields.io/badge/PATREON-FF424D?style=for-the-badge&logo=patreon&logoColor=FFFFFF)](https://www.patreon.com/GameGeek_Saikel)
 
+**🌍 [English](README.en_us.md) • 简体中文**
+
 </div>
 
 ---
