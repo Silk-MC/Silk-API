@@ -18,7 +18,7 @@ import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.api.modpass.ModMain;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
-import pers.saikel0rado1iu.silk.impl.SilkMagicCube;
+import pers.saikel0rado1iu.silk.impl.SilkGenerate;
 
 import java.util.Set;
 
@@ -56,6 +56,6 @@ public final class GenerateMain implements ModMain {
 	 */
 	@Override
 	public ModData modData() {
-		return SilkMagicCube.getInstance();
+		return SilkGenerate.getInstance();
 	}
 }
