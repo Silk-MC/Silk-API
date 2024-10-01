@@ -3,10 +3,12 @@
 version = project.silk_codex_version + "+" + project.mc_main_version
 
 dependencies {
-	api "com.electronwill.night-config:json:3.7.3"
-	api "com.electronwill.night-config:toml:3.7.3"
-	include "com.electronwill.night-config:json:3.7.3"
-	include "com.electronwill.night-config:toml:3.7.3"
+	api 'com.electronwill.night-config:core:3.8.0'
+	api 'com.electronwill.night-config:json:3.8.0'
+	api 'com.electronwill.night-config:toml:3.7.3'
+	include 'com.electronwill.night-config:core:3.8.0'
+	include 'com.electronwill.night-config:json:3.8.0'
+	include 'com.electronwill.night-config:toml:3.7.3'
 	api project(path: ":silk-api-base", configuration: "namedElements")
 	api project(path: ":silk-mod-pass", configuration: "namedElements")
 	api project(path: ":silk-pattern", configuration: "namedElements")
