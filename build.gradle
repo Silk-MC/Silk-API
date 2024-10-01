@@ -4,7 +4,7 @@
 //file:noinspection UnnecessaryQualifiedReference
 //file:noinspection GroovyAccessibility
 plugins {
-	id 'fabric-loom' version '1.5-SNAPSHOT'
+	id 'fabric-loom' version '1.7-SNAPSHOT'
 	id 'maven-publish'
 }
 

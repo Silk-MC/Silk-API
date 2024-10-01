@@ -8,6 +8,8 @@
 		"defaultRequire": 1
 	},
 	"mixins": [
-		"event.registry.RegisterGroupResourcePackCallbackMixin"
+		"event.registry.RegisterGroupResourcePackCallbackMixin",
+		"modpass.pack.GroupResourcePackMixin$FixNamespaceResourceManager",
+		"modpass.pack.GroupResourcePackMixin$FixReloadableResourceManagerImpl"
 	]
 }
