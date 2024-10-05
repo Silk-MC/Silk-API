@@ -39,5 +39,12 @@
 		"fabric-datagen": [
 			"pers.saikel0rado1iu.silk.entrypoint.BaseDataGen"
 		]
+	},
+	"depends": {
+		"java": ">=17",
+		"minecraft": ">=1.20.3",
+		"fabricloader": ">=0.15.11",
+		"fabric-api": "<=0.91.2",
+		"silk-api-annotation-processor": "*"
 	}
 }

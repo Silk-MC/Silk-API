@@ -12,7 +12,8 @@ subprojects=(
     "silk-generate"
     "silk-pattern"
     "silk-codex"
-    "silk-landform")
+    "silk-landform"
+)
 
 # 删除指定子项目中的 JAR 文件
 for subproject in "${subprojects[@]}"; do
@@ -23,12 +24,17 @@ done
 # 生成指定子项目的 JAR 文件
 for subproject in "${subprojects[@]}"; do
     echo "为 $subproject 生成 JAR 文件..."
-    ./gradlew :$subproject:remapJar
+    ./gradlew :"$subproject":remapJar
 done
 
 # 将所有生成的 JAR 文件复制到 silk-mod-plus/libs 目录中
 destination="silk-mod-plus/libs"
 echo "复制 JAR 文件到 $destination 目录..."
+
+# 删除目标目录中的所有文件
+rm -f "$destination/"*.jar
+
+# 确保目标目录存在
 mkdir -p $destination
 
 for subproject in "${subprojects[@]}"; do

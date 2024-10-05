@@ -209,11 +209,11 @@ allprojects {
 	// 配置 Maven 发布
 	publishing {
 		publications {
-			mavenJava(MavenPublication) {
-				artifactId archivesBaseName
+			create("mavenJava", MavenPublication) {
+				artifactId = project.archivesBaseName
 				from components.java
 				// 发布源码
-				artifact sourcesJar
+				// artifact sourcesJar
 			}
 		}
 		

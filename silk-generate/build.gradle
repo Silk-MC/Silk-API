@@ -1,6 +1,6 @@
 //file:noinspection DependencyNotationArgument
 //file:noinspection GroovyAssignabilityCheck
-version = project.silk_generate_version + "+" + project.mc_main_version
+version = project.silk_generate_version + "+" + project.mc_main_version + "-" + project.mod_version
 
 loom {
 	accessWidenerPath = file("src/main/resources/${project.name}.accesswidener")

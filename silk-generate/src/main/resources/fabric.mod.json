@@ -46,5 +46,17 @@
 	},
 	"mixins": [
 		"silk-generate.mixins.json"
-	]
+	],
+	"depends": {
+		"java": ">=17",
+		"minecraft": ">=1.20.3",
+		"fabricloader": ">=0.15.11",
+		"fabric-api": "<=0.91.2",
+		"silk-api-base": "*",
+		"silk-mod-pass": "*",
+		"silk-spinning-jenny": "*",
+		"silk-rope-stick": "*",
+		"silk-magic-cube": "*",
+		"silk-spore": "*"
+	}
 }

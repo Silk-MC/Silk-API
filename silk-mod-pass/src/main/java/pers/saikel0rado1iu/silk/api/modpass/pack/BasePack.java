@@ -17,6 +17,7 @@ import com.google.common.collect.Maps;
 import net.fabricmc.fabric.api.resource.ModResourcePack;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import net.fabricmc.fabric.impl.resource.loader.GroupResourcePack;
 import net.fabricmc.fabric.impl.resource.loader.ModNioResourcePack;
 import net.fabricmc.fabric.impl.resource.loader.ModResourcePackUtil;
 import net.minecraft.SharedConstants;
@@ -156,7 +157,7 @@ public interface BasePack extends ModPass {
 						return () -> IOUtils.toInputStream(pack, Charsets.UTF_8);
 					}
 					String subPath = ("resourcepacks/" + id().getPath()).replace("/", FileSystems.getDefault().getSeparator());
-					try (ModNioResourcePack modPack = ModNioResourcePack.create(id().toString(), modData().mod(), subPath, resourceType, type(), false)) {
+					try (ModNioResourcePack modPack = ModNioResourcePack.create(id().toString(), modData().mod(), subPath, resourceType, type())) {
 						return modPack.openRoot(segments);
 					}
 				}

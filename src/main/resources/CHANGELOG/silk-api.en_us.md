@@ -1,3 +1,12 @@
+## 1.0.1---2024/10/05
+
+### Fixes：
+
+- Fixed the issue where the world upgrader thread was continuously blocked when creating the first world.
+- Fixed the issue where the API could not access the source code in night-config:core.
+- Fixed the issue where the API built-in resource pack was missing and not compiled into the Jar release file.
+- Fixed the issue where the API could not correctly read Minecraft code files in the user's environment.
+
 ## 1.0.0---2024/09/25
 
 ### Features:

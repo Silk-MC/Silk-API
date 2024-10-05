@@ -1,6 +1,6 @@
 //file:noinspection DependencyNotationArgument
 //file:noinspection GroovyAssignabilityCheck
-version = project.silk_spinning_jenny_version + "+" + project.mc_main_version
+version = project.silk_spinning_jenny_version + "+" + project.mc_main_version + "-" + project.mod_version
 
 dependencies {
 	api project(path: ":silk-api-base", configuration: "namedElements")
