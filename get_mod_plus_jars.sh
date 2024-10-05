@@ -22,10 +22,11 @@ for subproject in "${subprojects[@]}"; do
 done
 
 # 生成指定子项目的 JAR 文件
-for subproject in "${subprojects[@]}"; do
-    echo "为 $subproject 生成 JAR 文件..."
-    ./gradlew :"$subproject":remapJar
-done
+# for subproject in "${subprojects[@]}"; do
+#     echo "为 $subproject 生成 JAR 文件..."
+#     ./gradlew :"$subproject":remapJar
+# done
+./gradlew build
 
 # 将所有生成的 JAR 文件复制到 silk-mod-plus/libs 目录中
 destination="silk-mod-plus/libs"
