@@ -54,6 +54,25 @@ public abstract class UpgradableWorldManager<T extends ChunkGenerator & ChunkGen
 	}
 	
 	/**
+	 * 是否含有注册表管理器
+	 *
+	 * @return 是否含有
+	 */
+	public static boolean haveRegistryManager() {
+		final int allSleepTime = 1000;
+		final int singleSleepTime = 100;
+		for (int count = 0; count < (allSleepTime / singleSleepTime) && REGISTRY_MANAGER_GETTER.get() == null; count++) {
+			try {
+				//noinspection BusyWait
+				Thread.sleep(singleSleepTime);
+			} catch (InterruptedException e) {
+				return false;
+			}
+		}
+		return REGISTRY_MANAGER_GETTER.get() != null;
+	}
+	
+	/**
 	 * 获取注册表管理器
 	 *
 	 * @return 动态注册表管理器

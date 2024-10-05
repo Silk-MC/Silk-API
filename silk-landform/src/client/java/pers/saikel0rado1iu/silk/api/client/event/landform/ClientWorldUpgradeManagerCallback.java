@@ -117,8 +117,8 @@ public interface ClientWorldUpgradeManagerCallback extends Supplier<ClientUpgrad
 			});
 			SESSION_OPERATION_EVENT.register(nbt -> {
 				UpgradableWorldData<?> upgradableWorldData = manager.upgradableWorldData();
+				if (!UpgradableWorldManager.haveRegistryManager()) return nbt;
 				DynamicRegistryManager registryManager = UpgradableWorldManager.registryManager();
-				if (null == registryManager) return nbt;
 				ChunkGenerator chunkGenerator = upgradableWorldData.getGenerator(registryManager);
 				ChunkGeneratorUpgradable chunkGeneratorUpgradable = (ChunkGeneratorUpgradable) chunkGenerator;
 				NbtCompound dimensions = nbt.getCompound("Data").getCompound("WorldGenSettings").getCompound("dimensions");
