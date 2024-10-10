@@ -15,7 +15,6 @@ import net.fabricmc.fabric.api.resource.ModResourcePack;
 import net.minecraft.resource.OverlayResourcePack;
 import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourcePackProfile;
-import pers.saikel0rado1iu.silk.impl.SilkModPass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,17 +34,16 @@ public record GroupResourcePackFactory(ModResourcePack pack) implements Resource
 	
 	@Override
 	public ResourcePack openWithOverlays(String name, ResourcePackProfile.Metadata metadata) {
-		SilkModPass.getInstance().logger().error(metadata.overlays() + "");
-		if (metadata.overlays().isEmpty()) {
+		/*if (metadata.overlays().isEmpty()) {
 			return pack;
-		} else {
+		} else {*/
 			List<ResourcePack> overlays = new ArrayList<>(metadata.overlays().size());
 			
-			for (String overlay : metadata.overlays()) {
+			for (String overlay : List.of("silk-generate-test")) {
 				overlays.add(pack.createOverlay(overlay));
 			}
 			
 			return new OverlayResourcePack(pack, overlays);
-		}
+		//}
 	}
 }

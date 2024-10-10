@@ -14,6 +14,7 @@ package pers.saikel0rado1iu.silk.api.modpass.pack;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.fabric.impl.resource.loader.ModNioResourcePack;
+import net.fabricmc.fabric.impl.resource.loader.ModResourcePackFactory;
 import net.minecraft.resource.ResourcePackProfile;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -143,13 +144,13 @@ public interface BasePack extends ModPass {
 						("resourcepacks/" + id().getPath()).replace("/", FileSystems.getDefault().getSeparator()),
 						type,
 						type(),
-						true);
+						false);
 				if (pack == null) return;
 				ResourcePackProfile profile = ResourcePackProfile.create(
 						modData().id(),
 						Text.translatable(nameKey),
 						type() == ResourcePackActivationType.ALWAYS_ENABLED,
-						new GroupResourcePackFactory(pack),
+						new ModResourcePackFactory(pack),
 						type,
 						ResourcePackProfile.InsertionPosition.TOP,
 						new GroupResourcePackSource(modData())
