@@ -59,8 +59,8 @@ public abstract class UpgradableWorldManager<T extends ChunkGenerator & ChunkGen
 	 * @return 是否含有
 	 */
 	public static boolean haveRegistryManager() {
-		final int allSleepTime = 1000;
-		final int singleSleepTime = 100;
+		final int allSleepTime = 300;
+		final int singleSleepTime = 50;
 		for (int count = 0; count < (allSleepTime / singleSleepTime) && REGISTRY_MANAGER_GETTER.get() == null; count++) {
 			try {
 				//noinspection BusyWait

@@ -11,32 +11,14 @@
 
 package pers.saikel0rado1iu.silk.api.modpass.pack;
 
-import com.google.common.base.Charsets;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import net.fabricmc.fabric.api.resource.ModResourcePack;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
-import net.fabricmc.fabric.impl.resource.loader.GroupResourcePack;
-import net.fabricmc.fabric.impl.resource.loader.ModNioResourcePack;
-import net.fabricmc.fabric.impl.resource.loader.ModResourcePackUtil;
-import net.minecraft.SharedConstants;
-import net.minecraft.resource.ResourcePack;
-import net.minecraft.resource.*;
-import net.minecraft.resource.metadata.ResourceMetadata;
-import net.minecraft.resource.metadata.ResourceMetadataReader;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import org.apache.commons.io.IOUtils;
-import org.jetbrains.annotations.Nullable;
-import pers.saikel0rado1iu.silk.api.event.registry.RegisterGroupResourcePackCallback;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.FileSystems;
-import java.util.*;
+import java.util.List;
 
 /**
  * <h2 style="color:FFC800">基础包</h2>
@@ -125,7 +107,6 @@ public interface BasePack extends ModPass {
 	 * 组资源包<br>
 	 * 组资源包会把所有模组容器内统一路径下的包内容识别为一个资源包
 	 */
-	@SuppressWarnings("UnstableApiUsage")
 	abstract class Group extends Simple implements BasePack {
 		protected final String nameKey;
 		protected final String descKey;
@@ -146,113 +127,9 @@ public interface BasePack extends ModPass {
 			this.orderList = orderList;
 		}
 		
-		private GroupResourcePack createPack(ResourceType resourceType, List<ModResourcePack> packs) {
-			return new GroupResourcePack(resourceType, packs) {
-				@Nullable
-				@Override
-				public InputSupplier<InputStream> openRoot(String... segments) {
-					String fileName = String.join("/", segments);
-					if ("pack.mcmeta".equals(fileName)) {
-						String pack = String.format("{\"pack\":{\"pack_format\":" + SharedConstants.getGameVersion().getResourceVersion(type) + ",\"description\":{\"translate\":\"%s\"}}}", descKey);
-						return () -> IOUtils.toInputStream(pack, Charsets.UTF_8);
-					}
-					String subPath = ("resourcepacks/" + id().getPath()).replace("/", FileSystems.getDefault().getSeparator());
-					try (ModNioResourcePack modPack = ModNioResourcePack.create(id().toString(), modData().mod(), subPath, resourceType, type())) {
-						return modPack.openRoot(segments);
-					}
-				}
-				
-				private List<? extends ResourcePack> orderList(List<? extends ResourcePack> packList) {
-					if (packList == null) return null;
-					List<? extends ResourcePack> packs = Lists.newArrayList(packList);
-					Map<String, Integer> orderMap = Maps.newHashMapWithExpectedSize(packs.size());
-					for (int count = 0; count < orderList.size(); count++) orderMap.put(orderList.get(count), Integer.MAX_VALUE - count);
-					packs.sort(Comparator.comparingInt(pack -> orderMap.getOrDefault(pack.getName(), 0)));
-					Collections.reverse(packs);
-					return packs;
-				}
-				
-				@Override
-				public InputSupplier<InputStream> open(ResourceType type, Identifier id) {
-					List<? extends ResourcePack> packs = orderList(namespacedPacks.get(id.getNamespace()));
-					if (packs == null) return null;
-					InputSupplier<InputStream> inputSupplier = null;
-					for (ResourcePack pack : packs) {
-						InputSupplier<InputStream> supplier = pack.open(type, id);
-						if (supplier != null) inputSupplier = supplier;
-					}
-					return inputSupplier;
-				}
-				
-				@Override
-				public void findResources(ResourceType type, String namespace, String prefix, ResultConsumer consumer) {
-					List<? extends ResourcePack> packs = orderList(namespacedPacks.get(namespace));
-					if (packs == null) return;
-					for (ResourcePack pack : packs) pack.findResources(type, namespace, prefix, consumer);
-				}
-				
-				@Override
-				public void appendResources(ResourceType type, Identifier id, List<Resource> resources) {
-					List<? extends ResourcePack> packs = orderList(namespacedPacks.get(id.getNamespace()));
-					if (packs == null) return;
-					Identifier metadataId = NamespaceResourceManager.getMetadataPath(id);
-					for (ResourcePack pack : packs) {
-						InputSupplier<InputStream> supplier = pack.open(type, id);
-						if (supplier == null) continue;
-						InputSupplier<ResourceMetadata> metadataSupplier = () -> {
-							InputSupplier<InputStream> rawMetadataSupplier = pack.open(this.type, metadataId);
-							return rawMetadataSupplier != null ? NamespaceResourceManager.loadMetadata(rawMetadataSupplier) : ResourceMetadata.NONE;
-						};
-						resources.add(new Resource(pack, supplier, metadataSupplier));
-					}
-				}
-				
-				@Nullable
-				@Override
-				public <T> T parseMetadata(ResourceMetadataReader<T> metaReader) throws IOException {
-					InputSupplier<InputStream> inputSupplier = openRoot("pack.mcmeta");
-					if (inputSupplier == null) return null;
-					try (InputStream input = inputSupplier.get()) {
-						return AbstractFileResourcePack.parseMetadata(metaReader, input);
-					}
-				}
-				
-				@Override
-				public String getName() {
-					return modData().id();
-				}
-			};
-		}
-		
 		@Override
 		public boolean registry() {
-			RegisterGroupResourcePackCallback.EVENT.register((type, consumer) -> {
-				List<ModResourcePack> packs = new ArrayList<>();
-				ModResourcePackUtil.appendModResourcePacks(packs, type, "resourcepacks/" + id().getPath());
-				if (packs.isEmpty()) return;
-				ResourcePackProfile resourcePackProfile = ResourcePackProfile.create(modData().id(), Text.translatable(nameKey), type() == ResourcePackActivationType.ALWAYS_ENABLED, new ResourcePackProfile.PackFactory() {
-					@Override
-					public ResourcePack open(String name) {
-						return createPack(type, packs);
-					}
-					
-					@Override
-					public ResourcePack openWithOverlays(String name, ResourcePackProfile.Metadata metadata) {
-						final ResourcePack basePack = open(name);
-						final List<String> overlays = metadata.overlays();
-						if (overlays.isEmpty()) return basePack;
-						final List<ResourcePack> overlayPacks = new ArrayList<>(overlays.size());
-						for (String overlay : overlays) {
-							List<ModResourcePack> innerPacks = new ArrayList<>();
-							ModResourcePackUtil.appendModResourcePacks(innerPacks, type, overlay);
-							overlayPacks.add(createPack(type, innerPacks));
-						}
-						return new OverlayResourcePack(basePack, overlayPacks);
-					}
-				}, type, ResourcePackProfile.InsertionPosition.TOP, new GroupResourcePackSource(modData()));
-				if (resourcePackProfile != null) consumer.accept(resourcePackProfile);
-			});
-			return true;
+			return ResourceManagerHelper.registerBuiltinResourcePack(id(), modData().mod(), name(), type());
 		}
 	}
 }

@@ -12,6 +12,7 @@
 package pers.saikel0rado1iu.silk.entrypoint;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import pers.saikel0rado1iu.silk.api.generate.DataGenerator;
 import pers.saikel0rado1iu.silk.api.generate.DynamicDataEntry;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
@@ -34,6 +35,15 @@ public final class GenerateDataGen implements DataGenerator {
 		builtinPack.addProvider(GenerateI18nProvider.ZH_CN::provider);
 		builtinPack.addProvider(GenerateI18nProvider.ZH_HK::provider);
 		builtinPack.addProvider(GenerateI18nProvider.ZH_TW::provider);
+		resourcePack.ifPresent(pack -> {
+			FabricDataGenerator.Pack.Factory<?> data = fabricDataOutput -> new FabricLanguageProvider(fabricDataOutput, "zh_cn") {
+				@Override
+				public void generateTranslations(TranslationBuilder translationBuilder) {
+					translationBuilder.add("item.silk-generate.test_bow", "00000");
+				}
+			};
+			pack.addProvider(data);
+		});
 	}
 	
 	/**
