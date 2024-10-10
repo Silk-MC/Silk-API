@@ -13,7 +13,7 @@ package pers.saikel0rado1iu.silk.api.modpass.pack;
 
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
-import net.fabricmc.fabric.impl.resource.loader.ModResourcePackFactory;
+import net.fabricmc.fabric.impl.resource.loader.ModNioResourcePack;
 import net.minecraft.resource.ResourcePackProfile;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -21,6 +21,7 @@ import pers.saikel0rado1iu.silk.api.event.registry.RegisterModResourcePackCallba
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 
+import java.nio.file.FileSystems;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -132,14 +133,23 @@ public interface BasePack extends ModPass {
 		}
 		
 		@Override
+		@SuppressWarnings("UnstableApiUsage")
 		public boolean registry() {
 			AtomicBoolean flag = new AtomicBoolean(false);
 			RegisterModResourcePackCallback.EVENT.register((type, consumer) -> {
+				ModNioResourcePack pack = ModNioResourcePack.create(
+						id().toString(),
+						modData().mod(),
+						("resourcepacks/" + id().getPath()).replace("/", FileSystems.getDefault().getSeparator()),
+						type,
+						type(),
+						true);
+				if (pack == null) return;
 				ResourcePackProfile profile = ResourcePackProfile.create(
 						modData().id(),
 						Text.translatable(nameKey),
 						type() == ResourcePackActivationType.ALWAYS_ENABLED,
-						new ModResourcePackFactory(pack),
+						new GroupResourcePackFactory(pack),
 						type,
 						ResourcePackProfile.InsertionPosition.TOP,
 						new GroupResourcePackSource(modData())
