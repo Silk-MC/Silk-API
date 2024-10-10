@@ -8,6 +8,6 @@
 		"defaultRequire": 1
 	},
 	"mixins": [
-		"event.registry.RegisterGroupResourcePackCallbackMixin"
+		"event.registry.RegisterModResourcePackCallbackMixin"
 	]
 }

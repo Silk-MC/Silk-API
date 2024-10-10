@@ -13,12 +13,16 @@ package pers.saikel0rado1iu.silk.api.modpass.pack;
 
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import net.fabricmc.fabric.impl.resource.loader.ModResourcePackFactory;
+import net.minecraft.resource.ResourcePackProfile;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import pers.saikel0rado1iu.silk.api.event.registry.RegisterModResourcePackCallback;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * <h2 style="color:FFC800">基础包</h2>
@@ -129,7 +133,22 @@ public interface BasePack extends ModPass {
 		
 		@Override
 		public boolean registry() {
-			return ResourceManagerHelper.registerBuiltinResourcePack(id(), modData().mod(), name(), type());
+			AtomicBoolean flag = new AtomicBoolean(false);
+			RegisterModResourcePackCallback.EVENT.register((type, consumer) -> {
+				ResourcePackProfile profile = ResourcePackProfile.create(
+						modData().id(),
+						Text.translatable(nameKey),
+						type() == ResourcePackActivationType.ALWAYS_ENABLED,
+						new ModResourcePackFactory(pack),
+						type,
+						ResourcePackProfile.InsertionPosition.TOP,
+						new GroupResourcePackSource(modData())
+				);
+				if (profile == null) return;
+				consumer.accept(profile);
+				flag.set(true);
+			});
+			return flag.get();
 		}
 	}
 }

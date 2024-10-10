@@ -20,25 +20,25 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import pers.saikel0rado1iu.silk.api.event.registry.RegisterGroupResourcePackCallback;
+import pers.saikel0rado1iu.silk.api.event.registry.RegisterModResourcePackCallback;
 
 import java.util.function.Consumer;
 
 /**
- * <h2 style="color:FFC800">{@link RegisterGroupResourcePackCallback} 混入</h2>
+ * <h2 style="color:FFC800">{@link RegisterModResourcePackCallback} 混入</h2>
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
 @Mixin(ModResourcePackCreator.class)
 @SuppressWarnings("UnstableApiUsage")
-abstract class RegisterGroupResourcePackCallbackMixin {
+abstract class RegisterModResourcePackCallbackMixin {
 	@Shadow
 	@Final
 	private ResourceType type;
 	
 	@Inject(method = "register", at = @At("RETURN"))
 	private void register(Consumer<ResourcePackProfile> consumer, CallbackInfo ci) {
-		RegisterGroupResourcePackCallback.EVENT.invoker().accept(type, consumer);
+		RegisterModResourcePackCallback.EVENT.invoker().accept(type, consumer);
 	}
 }
