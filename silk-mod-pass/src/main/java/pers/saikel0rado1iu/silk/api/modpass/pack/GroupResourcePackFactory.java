@@ -34,16 +34,16 @@ public record GroupResourcePackFactory(ModResourcePack pack) implements Resource
 	
 	@Override
 	public ResourcePack openWithOverlays(String name, ResourcePackProfile.Metadata metadata) {
-		/*if (metadata.overlays().isEmpty()) {
+		if (metadata.overlays().isEmpty()) {
 			return pack;
-		} else {*/
+		} else {
 			List<ResourcePack> overlays = new ArrayList<>(metadata.overlays().size());
 			
-			for (String overlay : List.of("silk-generate-test")) {
+			for (String overlay : metadata.overlays()) {
 				overlays.add(pack.createOverlay(overlay));
 			}
 			
 			return new OverlayResourcePack(pack, overlays);
-		//}
+		}
 	}
 }
