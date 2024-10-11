@@ -36,14 +36,10 @@ echo "复制 JAR 文件到 $destination 目录..."
 rm -f "$destination/"*.jar
 
 # 确保目标目录存在
-mkdir -p "$destination"
+mkdir -p $destination
 
 for subproject in "${subprojects[@]}"; do
     cp "$subproject/build/libs/"*.jar $destination
 done
-
-# 删除所有包含 javadoc 和 sources 后缀的 JAR 文件
-echo "删除包含 javadoc 和 sources 后缀的 JAR 文件..."
-rm -f "$destination/"*-javadoc.jar "$destination/"*-sources.jar
 
 echo "完成所有操作。"
