@@ -20,7 +20,6 @@ import pers.saikel0rado1iu.silk.api.modpass.pack.DataPack;
 import pers.saikel0rado1iu.silk.api.modpass.pack.ResourcePack;
 import pers.saikel0rado1iu.silk.api.modpass.registry.MainRegistrationProvider;
 import pers.saikel0rado1iu.silk.impl.SilkApi;
-import pers.saikel0rado1iu.silk.impl.SilkGenerate;
 
 import java.util.Optional;
 import java.util.Set;
@@ -45,7 +44,7 @@ public final class Main implements ModMain {
 		
 		@Override
 		public Optional<ResourcePack> resourcePack() {
-			return SilkGenerate.getInstance().resourcePack();
+			return Optional.of(ResourcePack.createGroup("resource", ResourcePackActivationType.ALWAYS_ENABLED, modData()));
 		}
 	};
 	

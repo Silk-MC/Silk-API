@@ -13,12 +13,9 @@ package pers.saikel0rado1iu.silk.test.generate;
 
 import com.google.common.collect.ImmutableSet;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import org.jetbrains.annotations.Nullable;
 import pers.saikel0rado1iu.silk.api.generate.DataGenerator;
 import pers.saikel0rado1iu.silk.api.generate.DynamicDataEntry;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
-import pers.saikel0rado1iu.silk.impl.SilkGenerate;
 import pers.saikel0rado1iu.silk.test.generate.data.*;
 import pers.saikel0rado1iu.silk.test.generate.entity.damage.DamageTypeEntryTest;
 import pers.saikel0rado1iu.silk.test.generate.world.*;
@@ -47,15 +44,8 @@ public final class DataGen implements DataGenerator {
 			pack.addProvider(TagGenUtilTest::new);
 		});
 		resourcePack.ifPresent(pack -> {
-			FabricDataGenerator.Pack.Factory<?> data = fabricDataOutput -> new FabricLanguageProvider(fabricDataOutput, "zh_cn") {
-				@Override
-				public void generateTranslations(TranslationBuilder translationBuilder) {
-					translationBuilder.add("item.silk-generate.test_bow", "66666");
-				}
-			};
-			pack.addProvider(data);
 			pack.addProvider(ModelProvider::new);
-			//pack.addProvider(LinkedLanguageProviderTest::new);
+			pack.addProvider(LinkedLanguageProviderTest::new);
 		});
 	}
 	
@@ -84,10 +74,5 @@ public final class DataGen implements DataGenerator {
 	@Override
 	public ModData modData() {
 		return Main.MOD_PASS;
-	}
-	
-	@Override
-	public @Nullable String getEffectiveModId() {
-		return SilkGenerate.getInstance().id();
 	}
 }

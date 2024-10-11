@@ -20,18 +20,18 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
- * <h2 style="color:FFC800">注册模组资源包回调</h2>
+ * <h2 style="color:FFC800">注册组资源包回调</h2>
  * 用于注册组资源包的事件
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 1.0.0
  */
 @FunctionalInterface
-public interface RegisterModResourcePackCallback extends BiConsumer<ResourceType, Consumer<ResourcePackProfile>> {
+public interface RegisterGroupResourcePackCallback extends BiConsumer<ResourceType, Consumer<ResourcePackProfile>> {
 	/**
 	 * 事件
 	 */
-	Event<RegisterModResourcePackCallback> EVENT = EventFactory.createArrayBacked(RegisterModResourcePackCallback.class, listeners -> (type, consumer) -> {
-		for (RegisterModResourcePackCallback event : listeners) event.accept(type, consumer);
+	Event<RegisterGroupResourcePackCallback> EVENT = EventFactory.createArrayBacked(RegisterGroupResourcePackCallback.class, listeners -> (type, consumer) -> {
+		for (RegisterGroupResourcePackCallback event : listeners) event.accept(type, consumer);
 	});
 }
