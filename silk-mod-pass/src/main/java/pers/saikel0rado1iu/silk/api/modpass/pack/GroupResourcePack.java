@@ -16,6 +16,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.fabricmc.fabric.api.resource.ModResourcePack;
+import net.fabricmc.fabric.impl.resource.loader.ModNioResourcePack;
+import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.SharedConstants;
 import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.*;
@@ -27,8 +29,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.FileSystems;
 import java.util.*;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -38,14 +40,14 @@ import java.util.stream.Collectors;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 版本
  */
-public class GroupResourcePack implements ResourcePack {
+public class GroupResourcePack implements ModResourcePack, ResourcePack {
 	protected final ResourceType type;
 	protected final BasePack.Group group;
 	protected final List<String> orderList;
 	protected final List<? extends ResourcePack> packs;
 	protected final Map<String, List<ResourcePack>> namespacedPacks = new Object2ObjectOpenHashMap<>();
 	
-	public GroupResourcePack(ResourceType type, List<? extends ResourcePack> packs, List<String> orderList, Supplier<ModResourcePack> packSupplier, BasePack.Group group) {
+	public GroupResourcePack(ResourceType type, List<? extends ResourcePack> packs, List<String> orderList, BasePack.Group group) {
 		this.type = type;
 		this.packs = packs;
 		this.orderList = orderList;
@@ -64,6 +66,7 @@ public class GroupResourcePack implements ResourcePack {
 		return packs;
 	}
 	
+	@SuppressWarnings("UnstableApiUsage")
 	@Nullable
 	@Override
 	public InputSupplier<InputStream> openRoot(String... segments) {
@@ -72,7 +75,10 @@ public class GroupResourcePack implements ResourcePack {
 			String pack = String.format("{\"pack\":{\"pack_format\":" + SharedConstants.getGameVersion().getResourceVersion(type) + ",\"description\":{\"translate\":\"%s\"}}}", group.descKey);
 			return () -> IOUtils.toInputStream(pack, Charsets.UTF_8);
 		}
-		return packSupplier.get().openRoot(segments);
+		String subPath = ("resourcepacks/" + group.id().getPath()).replace("/", FileSystems.getDefault().getSeparator());
+		try (ModNioResourcePack modPack = ModNioResourcePack.create(group.id().toString(), group.modData().mod(), subPath, type, group.type(), false)) {
+			return modPack.openRoot(segments);
+		}
 	}
 	
 	@Override
@@ -136,5 +142,15 @@ public class GroupResourcePack implements ResourcePack {
 	@Override
 	public void close() {
 		packs.forEach(ResourcePack::close);
+	}
+	
+	@Override
+	public ModMetadata getFabricModMetadata() {
+		return null;
+	}
+	
+	@Override
+	public ModResourcePack createOverlay(String overlay) {
+		return null;
 	}
 }
