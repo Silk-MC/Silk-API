@@ -1,3 +1,17 @@
+## 1.0.2---2024/10/14
+
+### Features:
+
+- Now supports Fabric API version 0.95.3+1.20.4 and above.
+
+### Change:
+
+- Reduced the initialization time for creating an upgradeable world when no save exists.
+
+### Fixes:
+
+- Fixed an issue where the changelog in the mod tab could not be read in most cases.
+
 ## 1.0.1---2024/10/06
 
 ### Fixes：
