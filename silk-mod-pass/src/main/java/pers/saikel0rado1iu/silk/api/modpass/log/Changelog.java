@@ -11,6 +11,7 @@
 
 package pers.saikel0rado1iu.silk.api.modpass.log;
 
+import net.fabricmc.loader.api.FabricLoader;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.impl.SilkModPass;
 
@@ -34,10 +35,11 @@ public interface Changelog {
 	 * 获取更新日志路径<br>
 	 * 读取的更新日志位置于资源包根目录下的 {@code CHANGELOG} 文件夹内
 	 *
+	 * @param modPass  模组通
 	 * @return 更新日志路径
 	 */
-	static Path path() throws NoSuchElementException, URISyntaxException {
-		return Path.of(Optional.ofNullable(Changelog.class.getResource("/CHANGELOG")).orElseThrow().toURI());
+	static Path path(ModPass modPass) throws NoSuchElementException, URISyntaxException {
+		return FabricLoader.getInstance().getModContainer(modPass.modData().id()).orElseThrow().findPath("").orElseThrow().resolve("CHANGELOG");
 	}
 	
 	/**
@@ -53,12 +55,12 @@ public interface Changelog {
 	static Optional<Path> get(ModPass modPass, String langCode) {
 		String msg = "Unexpected error: Unable to read the changelog path!";
 		try {
-			String ChangelogName = String.format("%s.%s.md", modPass.modData().id(), langCode);
-			Path Changelog = path().resolve(ChangelogName);
-			if (Files.exists(Changelog)) return Optional.of(Changelog);
-			ChangelogName = String.format("%s.%s.md", modPass.modData().id(), "en_us");
-			Changelog = path().resolve(ChangelogName);
-			if (Files.exists(Changelog)) return Optional.of(Changelog);
+			String changelogName = String.format("%s.%s.md", modPass.modData().id(), langCode);
+			Path changelog = path(modPass).resolve(changelogName);
+			if (Files.exists(changelog)) return Optional.of(changelog);
+			changelogName = String.format("%s.%s.md", modPass.modData().id(), "en_us");
+			changelog = path(modPass).resolve(changelogName);
+			if (Files.exists(changelog)) return Optional.of(changelog);
 			return Optional.empty();
 		} catch (NoSuchElementException | URISyntaxException e) {
 			SilkModPass.getInstance().logger().warn(msg);
@@ -76,7 +78,7 @@ public interface Changelog {
 	static String read(ModPass modPass, String langCode) {
 		try {
 			Optional<Path> path = get(modPass, langCode);
-			if (path.isEmpty()) return "Changelog does not exist!";
+			if (path.isEmpty()) return "changelog does not exist!";
 			StringBuilder changelog = new StringBuilder().append(Files.readString(path.get(), StandardCharsets.UTF_8));
 			// 把不同的标题大小归一化
 			for (int count = 0; count < 5; count++) changelog = new StringBuilder(changelog.toString().replaceAll("## ", "# "));
@@ -97,7 +99,7 @@ public interface Changelog {
 			else changelog = new StringBuilder(changelog.toString().replaceAll("\t", "  "));
 			return changelog.toString();
 		} catch (IOException e) {
-			return "Changelog does not exist!";
+			return "changelog does not exist!";
 		}
 	}
 }
