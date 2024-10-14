@@ -17,7 +17,7 @@ import com.google.common.collect.Maps;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.fabricmc.fabric.api.resource.ModResourcePack;
 import net.fabricmc.fabric.impl.resource.loader.ModNioResourcePack;
-import net.fabricmc.loader.api.metadata.ModMetadata;
+import net.fabricmc.fabric.impl.resource.loader.ModResourcePackUtil;
 import net.minecraft.SharedConstants;
 import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.*;
@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.FileSystems;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * <h2 style="color:FFC800">组资源包</h2>
@@ -40,17 +39,15 @@ import java.util.stream.Collectors;
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
  * @since 版本
  */
-public class GroupResourcePack implements ModResourcePack, ResourcePack {
+public class GroupResourcePack implements ResourcePack {
 	protected final ResourceType type;
 	protected final BasePack.Group group;
-	protected final List<String> orderList;
 	protected final List<? extends ResourcePack> packs;
 	protected final Map<String, List<ResourcePack>> namespacedPacks = new Object2ObjectOpenHashMap<>();
 	
-	public GroupResourcePack(ResourceType type, List<? extends ResourcePack> packs, List<String> orderList, BasePack.Group group) {
+	public GroupResourcePack(ResourceType type, List<? extends ResourcePack> packs, BasePack.Group group) {
 		this.type = type;
 		this.packs = packs;
-		this.orderList = orderList;
 		this.group = group;
 		this.packs.forEach(pack -> pack.getNamespaces(this.type).forEach(namespace ->
 				this.namespacedPacks.computeIfAbsent(namespace, value -> new ArrayList<>()).add(pack)));
@@ -60,7 +57,7 @@ public class GroupResourcePack implements ModResourcePack, ResourcePack {
 		if (packList == null) return null;
 		List<? extends ResourcePack> packs = Lists.newArrayList(packList);
 		Map<String, Integer> orderMap = Maps.newHashMapWithExpectedSize(packs.size());
-		for (int count = 0; count < orderList.size(); count++) orderMap.put(orderList.get(count), Integer.MAX_VALUE - count);
+		for (int count = 0; count < group.orderList.size(); count++) orderMap.put(group.orderList.get(count), Integer.MAX_VALUE - count);
 		packs.sort(Comparator.comparingInt(pack -> orderMap.getOrDefault(pack.getName(), 0)));
 		Collections.reverse(packs);
 		return packs;
@@ -135,22 +132,30 @@ public class GroupResourcePack implements ModResourcePack, ResourcePack {
 		}
 	}
 	
-	public String getFullName() {
-		return getName() + " (" + packs.stream().map(ResourcePack::getName).collect(Collectors.joining(", ")) + ")";
-	}
-	
 	@Override
 	public void close() {
 		packs.forEach(ResourcePack::close);
 	}
 	
-	@Override
-	public ModMetadata getFabricModMetadata() {
-		return null;
-	}
-	
-	@Override
-	public ModResourcePack createOverlay(String overlay) {
-		return null;
+	public record Factory(ResourceType type, List<? extends ResourcePack> packs, BasePack.Group group) implements ResourcePackProfile.PackFactory {
+		@Override
+		public ResourcePack open(String name) {
+			return new GroupResourcePack(type, packs, group);
+		}
+		
+		@SuppressWarnings("UnstableApiUsage")
+		@Override
+		public ResourcePack openWithOverlays(String name, ResourcePackProfile.Metadata metadata) {
+			final ResourcePack basePack = open(name);
+			final List<String> overlays = metadata.overlays();
+			if (overlays.isEmpty()) return basePack;
+			final List<ResourcePack> overlayPacks = new ArrayList<>(overlays.size());
+			for (String overlay : overlays) {
+				List<ModResourcePack> innerPacks = new ArrayList<>();
+				ModResourcePackUtil.appendModResourcePacks(innerPacks, type, overlay);
+				overlayPacks.add(new GroupResourcePack(type, innerPacks, group));
+			}
+			return new OverlayResourcePack(basePack, overlayPacks);
+		}
 	}
 }
