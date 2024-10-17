@@ -77,7 +77,7 @@ public interface Changelog {
 	 */
 	static String read(ModPass modPass, String langCode) {
 		try {
-			Optional<Path> path = get(modPass, langCode);//
+			Optional<Path> path = get(modPass, langCode);
 			if (path.isEmpty()) return "Changelog does not exist!";
 			StringBuilder changelog = new StringBuilder().append(Files.readString(path.get(), StandardCharsets.UTF_8));
 			// 把不同的标题大小归一化
