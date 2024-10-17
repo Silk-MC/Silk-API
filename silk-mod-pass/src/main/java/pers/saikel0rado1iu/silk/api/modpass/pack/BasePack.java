@@ -21,6 +21,7 @@ import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.api.event.registry.RegisterModResourcePackCallback;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
+import pers.saikel0rado1iu.silk.impl.SilkModPass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,7 +140,9 @@ public interface BasePack extends ModPass {
 			AtomicBoolean flag = new AtomicBoolean(false);
 			RegisterModResourcePackCallback.EVENT.register((type, consumer) -> {
 				List<ModResourcePack> packs = new ArrayList<>();
+				ModResourcePackUtil.appendModResourcePacks(packs, type, null);
 				ModResourcePackUtil.appendModResourcePacks(packs, type, "resourcepacks/" + id().getPath());
+				packs.forEach(pack -> SilkModPass.getInstance().logger().error(pack.getName()));
 				if (packs.isEmpty()) return;
 				ResourcePackProfile profile = ResourcePackProfile.create(
 						modData().id(),
