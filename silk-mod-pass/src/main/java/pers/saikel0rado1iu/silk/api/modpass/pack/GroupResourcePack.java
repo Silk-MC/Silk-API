@@ -61,6 +61,7 @@ public class GroupResourcePack implements ResourcePack {
 		Map<String, Integer> orderMap = Maps.newHashMapWithExpectedSize(packs.size());
 		for (int count = 0; count < orderList.size(); count++) orderMap.put(orderList.get(count), Integer.MAX_VALUE - count);
 		packs.sort(Comparator.comparingInt(pack -> orderMap.getOrDefault(pack.getName(), 0)));
+		Collections.reverse(packs);
 		return packs;
 	}
 	
