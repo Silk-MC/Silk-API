@@ -1,3 +1,13 @@
+## 1.0.3---2024/10/19
+
+### Change:
+
+- Changed the message for when the changelog cannot be read to "Changelog does not exist!".
+
+### Fixes:
+
+- Fixed an issue where the mod's built-in resource pack could not correctly read or override resources.
+
 ## 1.0.2---2024/10/14
 
 ### Features:
