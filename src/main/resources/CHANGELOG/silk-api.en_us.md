@@ -7,6 +7,7 @@
 ### Fixes:
 
 - Fixed an issue where the mod's built-in resource pack could not correctly read or override resources.
+- Removed the mistakenly included built-in resource pack for silk-generate.
 
 ## 1.0.2---2024/10/14
 
