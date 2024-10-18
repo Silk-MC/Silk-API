@@ -12,6 +12,7 @@
 package pers.saikel0rado1iu.silk.api.modpass.pack;
 
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import net.minecraft.resource.ResourceType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
@@ -107,7 +108,7 @@ public interface DataPack extends BasePack {
 	 */
 	final class Group extends BasePack.Group implements DataPack {
 		Group(String packRoot, List<String> orderList, ResourcePackActivationType type, ModPass modPass) {
-			super(packRoot, getNameKey(modPass), getDescKey(modPass), orderList, type, modPass);
+			super(packRoot, getNameKey(modPass), getDescKey(modPass), orderList, type, modPass, ResourceType.SERVER_DATA);
 		}
 	}
 }

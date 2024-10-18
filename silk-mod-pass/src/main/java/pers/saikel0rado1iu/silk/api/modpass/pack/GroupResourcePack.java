@@ -37,18 +37,20 @@ import java.util.*;
  * 表示一个组资源包，将多个资源包作为一个资源包保存。
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
- * @since 版本
+ * @since 1.2.2
  */
 public class GroupResourcePack implements ResourcePack {
 	protected final ResourceType type;
 	protected final BasePack.Group group;
 	protected final List<? extends ResourcePack> packs;
+	protected final List<String> orderList;
 	protected final Map<String, List<ResourcePack>> namespacedPacks = new Object2ObjectOpenHashMap<>();
 	
-	public GroupResourcePack(ResourceType type, List<? extends ResourcePack> packs, BasePack.Group group) {
+	public GroupResourcePack(ResourceType type, List<? extends ResourcePack> packs, List<String> orderList, BasePack.Group group) {
 		this.type = type;
 		this.packs = packs;
 		this.group = group;
+		this.orderList = orderList;
 		this.packs.forEach(pack -> pack.getNamespaces(this.type).forEach(namespace ->
 				this.namespacedPacks.computeIfAbsent(namespace, value -> new ArrayList<>()).add(pack)));
 	}
@@ -57,9 +59,8 @@ public class GroupResourcePack implements ResourcePack {
 		if (packList == null) return null;
 		List<? extends ResourcePack> packs = Lists.newArrayList(packList);
 		Map<String, Integer> orderMap = Maps.newHashMapWithExpectedSize(packs.size());
-		for (int count = 0; count < group.orderList.size(); count++) orderMap.put(group.orderList.get(count), Integer.MAX_VALUE - count);
+		for (int count = 0; count < orderList.size(); count++) orderMap.put(orderList.get(count), Integer.MAX_VALUE - count);
 		packs.sort(Comparator.comparingInt(pack -> orderMap.getOrDefault(pack.getName(), 0)));
-		Collections.reverse(packs);
 		return packs;
 	}
 	
@@ -137,10 +138,11 @@ public class GroupResourcePack implements ResourcePack {
 		packs.forEach(ResourcePack::close);
 	}
 	
-	public record Factory(ResourceType type, List<? extends ResourcePack> packs, BasePack.Group group) implements ResourcePackProfile.PackFactory {
+	public record Factory(ResourceType type, List<? extends ResourcePack> packs, List<String> orderList,
+	                      BasePack.Group group) implements ResourcePackProfile.PackFactory {
 		@Override
 		public ResourcePack open(String name) {
-			return new GroupResourcePack(type, packs, group);
+			return new GroupResourcePack(type, packs, orderList, group);
 		}
 		
 		@SuppressWarnings("UnstableApiUsage")
@@ -153,7 +155,7 @@ public class GroupResourcePack implements ResourcePack {
 			for (String overlay : overlays) {
 				List<ModResourcePack> innerPacks = new ArrayList<>();
 				ModResourcePackUtil.appendModResourcePacks(innerPacks, type, overlay);
-				overlayPacks.add(new GroupResourcePack(type, innerPacks, group));
+				overlayPacks.add(new GroupResourcePack(type, innerPacks, orderList, group));
 			}
 			return new OverlayResourcePack(basePack, overlayPacks);
 		}

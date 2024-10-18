@@ -16,12 +16,13 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.fabric.impl.resource.loader.ModResourcePackUtil;
 import net.minecraft.resource.ResourcePackProfile;
+import net.minecraft.resource.ResourceType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import org.apache.commons.compress.utils.Lists;
 import pers.saikel0rado1iu.silk.api.event.registry.RegisterModResourcePackCallback;
 import pers.saikel0rado1iu.silk.api.modpass.ModData;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
-import pers.saikel0rado1iu.silk.impl.SilkModPass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,20 +119,23 @@ public interface BasePack extends ModPass {
 		protected final String nameKey;
 		protected final String descKey;
 		protected final List<String> orderList;
+		protected final ResourceType resourceType;
 		
 		/**
-		 * @param packRoot  包的根目录
-		 * @param nameKey   名称翻译键
-		 * @param descKey   描述翻译键
-		 * @param orderList 排序列表
-		 * @param type      包激活类型
-		 * @param modPass   所需的模组数据
+		 * @param packRoot     包的根目录
+		 * @param nameKey      名称翻译键
+		 * @param descKey      描述翻译键
+		 * @param orderList    排序列表
+		 * @param type         包激活类型
+		 * @param modPass      所需的模组数据
+		 * @param resourceType 资源包类型
 		 */
-		protected Group(String packRoot, String nameKey, String descKey, List<String> orderList, ResourcePackActivationType type, ModPass modPass) {
+		protected Group(String packRoot, String nameKey, String descKey, List<String> orderList, ResourcePackActivationType type, ModPass modPass, ResourceType resourceType) {
 			super(packRoot, type, modPass);
 			this.nameKey = nameKey;
 			this.descKey = descKey;
 			this.orderList = orderList;
+			this.resourceType = resourceType;
 		}
 		
 		@Override
@@ -139,16 +143,22 @@ public interface BasePack extends ModPass {
 		public boolean registry() {
 			AtomicBoolean flag = new AtomicBoolean(false);
 			RegisterModResourcePackCallback.EVENT.register((type, consumer) -> {
-				List<ModResourcePack> packs = new ArrayList<>();
-				ModResourcePackUtil.appendModResourcePacks(packs, type, null);
+				if (!resourceType.equals(type)) return;
+				final List<ModResourcePack> defaults = new ArrayList<>();
+				final List<ModResourcePack> packs = new ArrayList<>();
+				ModResourcePackUtil.appendModResourcePacks(defaults, type, null);
 				ModResourcePackUtil.appendModResourcePacks(packs, type, "resourcepacks/" + id().getPath());
-				packs.forEach(pack -> SilkModPass.getInstance().logger().error(pack.getName()));
+				packs.addAll(defaults);
+				// 现在排序列表中添加默认模组资源包，然后再添加内置资源包
+				final List<String> ordered = Lists.newArrayList();
+				defaults.forEach(pack -> ordered.add(pack.getName()));
+				ordered.addAll(orderList.stream().map(name -> name + "_resourcepacks/" + id().getPath()).toList());
 				if (packs.isEmpty()) return;
 				ResourcePackProfile profile = ResourcePackProfile.create(
 						modData().id(),
 						Text.translatable(nameKey),
 						type() == ResourcePackActivationType.ALWAYS_ENABLED,
-						new GroupResourcePack.Factory(type, packs, this),
+						new GroupResourcePack.Factory(type, packs, ordered, this),
 						type,
 						ResourcePackProfile.InsertionPosition.TOP,
 						new GroupResourcePackSource(modData())
