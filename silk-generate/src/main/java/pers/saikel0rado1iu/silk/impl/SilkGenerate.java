@@ -11,11 +11,6 @@
 
 package pers.saikel0rado1iu.silk.impl;
 
-import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
-import pers.saikel0rado1iu.silk.api.modpass.pack.ResourcePack;
-
-import java.util.Optional;
-
 /**
  * <h2 style="color:FFC800">Silk API: Generate</h2>
  * Silk API: Generate 的模组数据
@@ -32,11 +27,6 @@ public interface SilkGenerate extends SilkApi {
 	static SilkGenerate getInstance() {
 		return new SilkGenerate() {
 		};
-	}
-	
-	@Override
-	default Optional<ResourcePack> resourcePack() {
-		return Optional.of(ResourcePack.createGroup("resource", ResourcePackActivationType.ALWAYS_ENABLED, modData()));
 	}
 	
 	@Override
