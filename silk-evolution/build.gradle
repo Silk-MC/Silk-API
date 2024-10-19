@@ -1,1 +1,1 @@
-version = project.silk_evolution_version + "+" + project.mc_main_version + "-" + project.mod_version
+version = project.silk_evolution_version + "-" + rootProject.version

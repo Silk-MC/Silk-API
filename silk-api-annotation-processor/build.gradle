@@ -1,4 +1,4 @@
-version = project.silk_api_annotation_processor_version + "+" + project.mc_main_version + "-" + project.mod_version
+version = project.silk_api_annotation_processor_version + "-" + rootProject.version
 
 repositories {
 	mavenCentral()
