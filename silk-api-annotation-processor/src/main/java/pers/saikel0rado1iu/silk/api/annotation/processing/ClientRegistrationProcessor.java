@@ -40,7 +40,7 @@ import static pers.saikel0rado1iu.silk.api.annotation.processing.ProcessorUtil.g
  * @since 1.0.0
  */
 @AutoService(Processor.class)
-@SupportedSourceVersion(SourceVersion.RELEASE_17)
+@SupportedSourceVersion(SourceVersion.RELEASE_21)
 @SupportedAnnotationTypes("pers.saikel0rado1iu.silk.api.annotation.ClientRegistration")
 public final class ClientRegistrationProcessor extends AbstractProcessor {
 	static Optional<TypeSpec.Builder> generateMethod(Optional<TypeSpec.Builder> optionalBuilder, Element element, ProcessingEnvironment processingEnv, ClientRegistration clientRegistration) {
@@ -77,7 +77,7 @@ public final class ClientRegistrationProcessor extends AbstractProcessor {
 			AnnotationSpec annotationSpec = AnnotationSpec.builder(ClassName.get(processingEnv.getElementUtils().getTypeElement("net.fabricmc.api.Environment"))).addMember(
 					"value", "$T.$L",
 					processingEnv.getElementUtils().getTypeElement("net.fabricmc.api.EnvType"),
-					processingEnv.getElementUtils().getTypeElement("net.fabricmc.api.EnvType").getEnclosedElements().get(0)).build();
+					processingEnv.getElementUtils().getTypeElement("net.fabricmc.api.EnvType").getEnclosedElements().getFirst()).build();
 			MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder("registrar")
 					.addJavadoc("""
 							客户端注册方法<br>

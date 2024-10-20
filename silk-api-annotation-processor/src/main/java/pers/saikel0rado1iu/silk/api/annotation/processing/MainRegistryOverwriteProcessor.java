@@ -46,7 +46,7 @@ import static pers.saikel0rado1iu.silk.api.annotation.processing.ProcessorUtil.g
  * @since 1.0.0
  */
 @AutoService(Processor.class)
-@SupportedSourceVersion(SourceVersion.RELEASE_17)
+@SupportedSourceVersion(SourceVersion.RELEASE_21)
 @SupportedAnnotationTypes("pers.saikel0rado1iu.silk.api.annotation.MainRegistryOverwrite")
 public final class MainRegistryOverwriteProcessor extends AbstractProcessor {
 	private static final String IO_ERROR = "出现 I/O 错误：无法找到 %s 的字节码或无法读取 class 文件";
@@ -154,7 +154,7 @@ public final class MainRegistryOverwriteProcessor extends AbstractProcessor {
 			parameter = variableElement.asType();
 		}
 		if (parameter == null) throw new IllegalArgumentException(String.format(OVERWRITE_NOT_FIND, register.overwrite(), field));
-		String prefix = ((TypeElement) processingEnv.getTypeUtils().asElement(interfaces.get(0))).getQualifiedName().toString().replaceAll("\\.", "/").replaceAll("Registry", "");
+		String prefix = ((TypeElement) processingEnv.getTypeUtils().asElement(interfaces.getFirst())).getQualifiedName().toString().replaceAll("\\.", "/").replaceAll("Registry", "");
 		TypeVariableName t = TypeVariableName.get("T");
 		TypeName type = TypeName.get(parameter);
 		String targetFormat = "other".equals(register.method())
@@ -188,7 +188,7 @@ public final class MainRegistryOverwriteProcessor extends AbstractProcessor {
 	static TypeSpec.Builder generateOverwrite(TypeSpec.Builder builder, Element element, ProcessingEnvironment processingEnv, TypeElement registrar, String field) {
 		List<? extends TypeMirror> interfaces = registrar.getInterfaces();
 		if (interfaces.isEmpty()) throw new IllegalArgumentException(String.format(REGISTRAR_ERROR, registrar));
-		String target = ((TypeElement) processingEnv.getTypeUtils().asElement(interfaces.get(0))).getQualifiedName().toString().replaceAll("\\.", "/").replaceAll("Registry", "");
+		String target = ((TypeElement) processingEnv.getTypeUtils().asElement(interfaces.getFirst())).getQualifiedName().toString().replaceAll("\\.", "/").replaceAll("Registry", "");
 		TypeVariableName t = TypeVariableName.get("T");
 		ParameterizedTypeName supplier = ParameterizedTypeName.get(ClassName.get(Supplier.class), t);
 		MethodSpec overwrite = MethodSpec.methodBuilder("overwrite")

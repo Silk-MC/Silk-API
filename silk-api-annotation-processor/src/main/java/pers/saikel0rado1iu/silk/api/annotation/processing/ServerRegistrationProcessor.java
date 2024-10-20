@@ -42,7 +42,7 @@ import static pers.saikel0rado1iu.silk.api.annotation.processing.ProcessorUtil.g
  * @since 1.0.0
  */
 @AutoService(Processor.class)
-@SupportedSourceVersion(SourceVersion.RELEASE_17)
+@SupportedSourceVersion(SourceVersion.RELEASE_21)
 @SupportedAnnotationTypes("pers.saikel0rado1iu.silk.api.annotation.ServerRegistration")
 public final class ServerRegistrationProcessor extends AbstractProcessor {
 	static Optional<TypeSpec.Builder> generateMethod(Optional<TypeSpec.Builder> optionalBuilder, Element element, ProcessingEnvironment processingEnv, ServerRegistration serverRegistration) {
