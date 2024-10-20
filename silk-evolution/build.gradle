@@ -1,1 +1,1 @@
-version = project.silk_evolution_version + "-" + rootProject.version
+version = project.silk_evolution_version + "+" + rootProject.version

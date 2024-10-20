@@ -1,6 +1,6 @@
 //file:noinspection DependencyNotationArgument
 //file:noinspection GroovyAssignabilityCheck
-version = project.silk_mod_plus_version + "-" + rootProject.version
+version = project.silk_mod_plus_version + "+" + rootProject.version
 
 dependencies {
 	def dependentProjects = [
