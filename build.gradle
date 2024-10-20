@@ -3,8 +3,9 @@
 //file:noinspection ForeignDelegate
 //file:noinspection UnnecessaryQualifiedReference
 //file:noinspection GroovyAccessibility
+//file:noinspection GrDeprecatedAPIUsage
 plugins {
-	id 'fabric-loom' version '1.7-SNAPSHOT'
+	id 'fabric-loom' version '1.8-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -128,8 +129,8 @@ allprojects {
 	}
 	
 	tasks.withType(JavaCompile).configureEach {
-		// Minecraft 1.18 (1.18-pre2) 及以上使用 Java 17.
-		it.options.release = 17
+		// Minecraft 1.20.5 及以上使用 Java 21.
+		it.options.release = 21
 		// 使用 UTF-8 编码
 		options.encoding = 'UTF-8'
 	}
@@ -149,8 +150,8 @@ allprojects {
 		// 生成文档
 		withJavadocJar()
 		
-		sourceCompatibility = JavaVersion.VERSION_17
-		targetCompatibility = JavaVersion.VERSION_17
+		sourceCompatibility = JavaVersion.VERSION_21
+		targetCompatibility = JavaVersion.VERSION_21
 	}
 	
 	jar {
