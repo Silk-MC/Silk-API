@@ -11,11 +11,13 @@
 
 package pers.saikel0rado1iu.silk.mixin.spinningjenny.tag;
 
+import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.PlantBlock;
 import net.minecraft.block.SaplingBlock;
+import net.minecraft.component.type.ToolComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.*;
 import net.minecraft.util.ActionResult;
@@ -26,10 +28,12 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import pers.saikel0rado1iu.silk.api.spinningjenny.tag.BlockTags;
 
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -53,27 +57,21 @@ interface BlockTagsMixin {
 		@Mixin(ShearsItem.class)
 		abstract class ShearsBreak {
 			/**
+			 * 更改工具组件，如果方块是 cobwebs 方块标签则应用增幅倍数
+			 */
+			@ModifyArg(method = "createToolComponent", at = @At(value = "INVOKE", target = "L net/minecraft/component/type/ToolComponent;<init>(L java/util/List;FI)V"), index = 0)
+			private static List<ToolComponent.Rule> changeToolComponent(List<ToolComponent.Rule> rules) {
+				List<ToolComponent.Rule> ruleList = Lists.newCopyOnWriteArrayList(rules);
+				ruleList.add(ToolComponent.Rule.ofAlwaysDropping(BlockTags.COBWEB, COBWEB_MINING_SPEED));
+				return ruleList;
+			}
+			
+			/**
 			 * 矿物测试，如果方块是 cobwebs 方块标签则返回 true
 			 */
 			@Inject(method = "postMine", at = @At("RETURN"), cancellable = true)
-			public void postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner, CallbackInfoReturnable<Boolean> cir) {
+			private void postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner, CallbackInfoReturnable<Boolean> cir) {
 				cir.setReturnValue(state.isIn(BlockTags.COBWEB));
-			}
-			
-			/**
-			 * 适用测试，如果方块是 cobwebs 方块标签则返回 true
-			 */
-			@Inject(method = "isSuitableFor", at = @At("RETURN"), cancellable = true)
-			public void isSuitableFor(BlockState state, CallbackInfoReturnable<Boolean> cir) {
-				if (state.isIn(BlockTags.COBWEB)) cir.setReturnValue(true);
-			}
-			
-			/**
-			 * 获取挖掘速度增幅，如果方块是 cobwebs 方块标签则返回增幅倍数
-			 */
-			@Inject(method = "getMiningSpeedMultiplier", at = @At("HEAD"), cancellable = true)
-			public void getMiningSpeedMultiplier(ItemStack stack, BlockState state, CallbackInfoReturnable<Float> cir) {
-				if (state.isIn(BlockTags.COBWEB)) cir.setReturnValue(COBWEB_MINING_SPEED);
 			}
 		}
 		
@@ -83,19 +81,13 @@ interface BlockTagsMixin {
 		@Mixin(SwordItem.class)
 		abstract class SwordBreak {
 			/**
-			 * 使用测试，如果方块是 cobwebs 方块标签则返回 true
+			 * 更改工具组件，如果方块是 cobwebs 方块标签则应用增幅倍数
 			 */
-			@Inject(method = "isSuitableFor", at = @At("RETURN"), cancellable = true)
-			public void isSuitableFor(BlockState state, CallbackInfoReturnable<Boolean> cir) {
-				if (state.isIn(BlockTags.COBWEB)) cir.setReturnValue(true);
-			}
-			
-			/**
-			 * 获取挖掘速度增幅，如果方块是 cobwebs 方块标签则返回增幅倍数
-			 */
-			@Inject(method = "getMiningSpeedMultiplier", at = @At("RETURN"), cancellable = true)
-			public void getMiningSpeedMultiplier(ItemStack stack, BlockState state, CallbackInfoReturnable<Float> cir) {
-				if (state.isIn(BlockTags.COBWEB)) cir.setReturnValue(COBWEB_MINING_SPEED);
+			@ModifyArg(method = "createToolComponent", at = @At(value = "INVOKE", target = "L net/minecraft/component/type/ToolComponent;<init>(L java/util/List;FI)V"), index = 0)
+			private static List<ToolComponent.Rule> changeToolComponent(List<ToolComponent.Rule> rules) {
+				List<ToolComponent.Rule> ruleList = Lists.newCopyOnWriteArrayList(rules);
+				ruleList.add(ToolComponent.Rule.ofAlwaysDropping(BlockTags.COBWEB, COBWEB_MINING_SPEED));
+				return ruleList;
 			}
 		}
 	}
