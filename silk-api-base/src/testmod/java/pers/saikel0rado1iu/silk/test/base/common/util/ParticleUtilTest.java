@@ -66,7 +66,7 @@ public interface ParticleUtilTest {
 		@Override
 		public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
 			LOGGER.info("ParticleUtil.addEffectParticle(world, StatusEffects.FIRE_RESISTANCE, pos.getX(), pos.getY(), pos.getZ())");
-			ParticleUtil.addEffectParticle(world, StatusEffects.FIRE_RESISTANCE, pos.getX(), pos.getY(), pos.getZ());
+			ParticleUtil.addEffectParticle(world, StatusEffects.FIRE_RESISTANCE.value(), pos.getX(), pos.getY(), pos.getZ());
 			return super.onBreak(world, pos, state, player);
 		}
 	}
