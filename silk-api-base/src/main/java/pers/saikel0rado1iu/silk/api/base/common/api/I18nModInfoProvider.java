@@ -14,6 +14,9 @@ package pers.saikel0rado1iu.silk.api.base.common.api;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import net.minecraft.registry.RegistryWrapper;
+
+import java.util.concurrent.CompletableFuture;
 
 /**
  * <h2 style="color:FFC800">国际化模组信息提供器</h2>
@@ -88,12 +91,13 @@ public class I18nModInfoProvider {
 	 * 覆盖 {@link I18nModInfoProvider#generate(FabricLanguageProvider.TranslationBuilder)} 以修改全球化数据生成
 	 *
 	 * @param fabricDataOutput {@link FabricDataOutput}
+	 * @param registryLookup {@link CompletableFuture}
 	 * @return {@link FabricLanguageProvider}
 	 */
-	public FabricLanguageProvider provider(FabricDataOutput fabricDataOutput) {
-		return new FabricLanguageProvider(fabricDataOutput, langCode) {
+	public FabricLanguageProvider provider(FabricDataOutput fabricDataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+		return new FabricLanguageProvider(fabricDataOutput, langCode, registryLookup) {
 			@Override
-			public void generateTranslations(TranslationBuilder translationBuilder) {
+			public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
 				generate(translationBuilder);
 			}
 		};
