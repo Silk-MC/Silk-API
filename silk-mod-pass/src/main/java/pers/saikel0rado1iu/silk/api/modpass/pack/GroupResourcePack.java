@@ -60,7 +60,7 @@ public class GroupResourcePack implements ResourcePack {
 		List<? extends ResourcePack> packs = Lists.newArrayList(packList);
 		Map<String, Integer> orderMap = Maps.newHashMapWithExpectedSize(packs.size());
 		for (int count = 0; count < orderList.size(); count++) orderMap.put(orderList.get(count), Integer.MAX_VALUE - count);
-		packs.sort(Comparator.comparingInt(pack -> orderMap.getOrDefault(pack.getName(), 0)));
+		packs.sort(Comparator.comparingInt(pack -> orderMap.getOrDefault(pack.getId(), 0)));
 		Collections.reverse(packs);
 		return packs;
 	}
@@ -115,8 +115,8 @@ public class GroupResourcePack implements ResourcePack {
 	}
 	
 	@Override
-	public String getName() {
-		return group.modData().id();
+	public ResourcePackInfo getInfo() {
+		return group.info;
 	}
 	
 	public void appendResources(ResourceType type, Identifier id, List<Resource> resources) {
@@ -142,14 +142,14 @@ public class GroupResourcePack implements ResourcePack {
 	public record Factory(ResourceType type, List<? extends ResourcePack> packs, List<String> orderList,
 	                      BasePack.Group group) implements ResourcePackProfile.PackFactory {
 		@Override
-		public ResourcePack open(String name) {
+		public ResourcePack open(ResourcePackInfo info) {
 			return new GroupResourcePack(type, packs, orderList, group);
 		}
 		
 		@SuppressWarnings("UnstableApiUsage")
 		@Override
-		public ResourcePack openWithOverlays(String name, ResourcePackProfile.Metadata metadata) {
-			final ResourcePack basePack = open(name);
+		public ResourcePack openWithOverlays(ResourcePackInfo info, ResourcePackProfile.Metadata metadata) {
+			final ResourcePack basePack = open(group.info);
 			final List<String> overlays = metadata.overlays();
 			if (overlays.isEmpty()) return basePack;
 			final List<ResourcePack> overlayPacks = new ArrayList<>(overlays.size());

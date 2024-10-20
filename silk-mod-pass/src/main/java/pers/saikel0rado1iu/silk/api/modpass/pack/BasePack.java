@@ -15,6 +15,8 @@ import net.fabricmc.fabric.api.resource.ModResourcePack;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.fabric.impl.resource.loader.ModResourcePackUtil;
+import net.minecraft.resource.ResourcePackInfo;
+import net.minecraft.resource.ResourcePackPosition;
 import net.minecraft.resource.ResourcePackProfile;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.text.Text;
@@ -26,6 +28,7 @@ import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -36,6 +39,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @since 1.0.0
  */
 public interface BasePack extends ModPass {
+	ResourcePackPosition ACTIVATION_INFO = new ResourcePackPosition(true, ResourcePackProfile.InsertionPosition.TOP, false);
 	/**
 	 * 包的根目录，数据包目录为 {@code "resourcepacks/packRoot()/..."}
 	 *
@@ -119,6 +123,7 @@ public interface BasePack extends ModPass {
 		protected final String nameKey;
 		protected final String descKey;
 		protected final List<String> orderList;
+		protected final ResourcePackInfo info;
 		protected final ResourceType resourceType;
 		
 		/**
@@ -136,6 +141,7 @@ public interface BasePack extends ModPass {
 			this.descKey = descKey;
 			this.orderList = orderList;
 			this.resourceType = resourceType;
+			this.info = new ResourcePackInfo(modData().id(), Text.translatable(nameKey), new GroupResourcePackSource(modData()), Optional.empty());
 		}
 		
 		@Override
@@ -151,18 +157,10 @@ public interface BasePack extends ModPass {
 				packs.addAll(defaults);
 				// 现在排序列表中添加默认模组资源包，然后再添加内置资源包
 				final List<String> ordered = Lists.newArrayList();
-				defaults.forEach(pack -> ordered.add(pack.getName()));
+				defaults.forEach(pack -> ordered.add(pack.getId()));
 				ordered.addAll(orderList.stream().map(name -> name + "_resourcepacks/" + id().getPath()).toList());
 				if (packs.isEmpty()) return;
-				ResourcePackProfile profile = ResourcePackProfile.create(
-						modData().id(),
-						Text.translatable(nameKey),
-						type() == ResourcePackActivationType.ALWAYS_ENABLED,
-						new GroupResourcePack.Factory(type, packs, ordered, this),
-						type,
-						ResourcePackProfile.InsertionPosition.TOP,
-						new GroupResourcePackSource(modData())
-				);
+				ResourcePackProfile profile = ResourcePackProfile.create(info, new GroupResourcePack.Factory(type, packs, ordered, this), type, ACTIVATION_INFO);
 				if (profile == null) return;
 				consumer.accept(profile);
 				flag.set(true);
