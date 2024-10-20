@@ -5,7 +5,7 @@
 
 <img src="../img/icon.png" alt="Logo" width="160" height="160" />
 
-![Minecraft Support](https://img.shields.io/badge/SUPPORT_FOR_MC-1.20_~_1.20.4-52A535.svg?style=for-the-badge)
+![Minecraft Support](https://img.shields.io/badge/SUPPORT_FOR_MC-1.20_~_1.20.6-52A535.svg?style=for-the-badge)
 
 [![Modrinth Downloads](https://img.shields.io/modrinth/dt/3je4UK0t?style=flat-square&logo=modrinth&color=66D676)](https://modrinth.com/mod/silk-api)
 [![CurseForge Downloads](https://img.shields.io/curseforge/dt/902155?style=flat-square&logo=curseforge&color=E06D44)](https://www.curseforge.com/minecraft/mc-mods/silk-api)
