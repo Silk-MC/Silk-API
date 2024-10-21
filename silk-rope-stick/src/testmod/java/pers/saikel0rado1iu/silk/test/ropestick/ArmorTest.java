@@ -11,127 +11,91 @@
 
 package pers.saikel0rado1iu.silk.test.ropestick;
 
-import com.google.common.collect.ImmutableSet;
-import net.minecraft.entity.effect.StatusEffects;
+import com.google.common.base.Suppliers;
 import net.minecraft.item.ArmorItem;
-import net.minecraft.item.Item;
+import net.minecraft.item.ArmorMaterial;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
 import pers.saikel0rado1iu.silk.api.ropestick.armor.Armor;
-import pers.saikel0rado1iu.silk.api.ropestick.property.*;
 import pers.saikel0rado1iu.silk.impl.SilkRopeStick;
+
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * Test {@link Armor}
  */
-public interface ArmorTest extends Armor {
-	/**
-	 * 材料
-	 */
-	ArmorTest MATERIAL = new ArmorTest() {
-	};
+public enum ArmorTest implements Armor {
+	MATERIAL("test", Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
+		map.put(ArmorItem.Type.BOOTS, 2);
+		map.put(ArmorItem.Type.LEGGINGS, 5);
+		map.put(ArmorItem.Type.CHESTPLATE, 6);
+		map.put(ArmorItem.Type.HELMET, 2);
+		map.put(ArmorItem.Type.BODY, 5);
+	}), 15, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 5, 2, () -> Ingredient.ofItems(Items.TEST_ITEM));
 	
-	/**
-	 * 物品属性集合
-	 *
-	 * @return 物品属性集合
-	 */
-	static ItemProperty[] properties() {
-		return new ItemProperty[]{
-				new PiglinIgnore(EffectiveItemSlot.ALL),
-				new InherentStatusEffect(
-						new InherentStatusEffect.Property(StatusEffects.LUCK, 0, 5, 1,
-								() -> ImmutableSet.of(Items.TEST_HELMET, Items.TEST_CHESTPLATE, Items.TEST_CUSTOM_DYEABLE_ARMOR_ITEM, Items.TEST_BOOTS),
-								0, EffectiveItemSlot.ARMOR),
-						new InherentStatusEffect.Property(StatusEffects.UNLUCK, 1, 2, 0.5F,
-								() -> ImmutableSet.of(Items.TEST_HELMET, Items.TEST_CHESTPLATE, Items.TEST_CUSTOM_DYEABLE_ARMOR_ITEM, Items.TEST_BOOTS),
-								2, EffectiveItemSlot.ARMOR)),
-				new CustomEntityHurt(((stack, damageSource, living, aFloat) -> {
-					stack.damage(aFloat.intValue(), living, p -> p.sendToolBreakStatus(living.getActiveHand()));
-					return 0F;
-				}))
-		};
-	}
+	private final String name;
+	private final Map<ArmorItem.Type, Integer> defense;
+	private final int enchantability;
+	private final RegistryEntry<SoundEvent> equipSound;
+	private final float toughness;
+	private final float knockbackResistance;
+	private final Supplier<Ingredient> ingredient;
+	private final Supplier<RegistryEntry<ArmorMaterial>> material;
 	
-	/**
-	 * 创建头盔
-	 *
-	 * @param settings 物品设置
-	 * @return 头盔物品
-	 */
-	default ArmorItem createHelmet(Item.Settings settings) {
-		return createHelmet(settings, properties());
-	}
-	
-	/**
-	 * 创建胸甲
-	 *
-	 * @param settings 物品设置
-	 * @return 头盔胸甲
-	 */
-	default ArmorItem createChestplate(Item.Settings settings) {
-		return createChestplate(settings, properties());
-	}
-	
-	/**
-	 * 创建护腿
-	 *
-	 * @param settings 物品设置
-	 * @return 头盔护腿
-	 */
-	default ArmorItem createLeggings(Item.Settings settings) {
-		return createLeggings(settings, properties());
-	}
-	
-	/**
-	 * 创建靴子
-	 *
-	 * @param settings 物品设置
-	 * @return 头盔靴子
-	 */
-	default ArmorItem createBoots(Item.Settings settings) {
-		return createBoots(settings, properties());
+	ArmorTest(String name, Map<ArmorItem.Type, Integer> defense, int enchantability, RegistryEntry<SoundEvent> equipSound, float toughness, float knockbackResistance, Supplier<Ingredient> ingredient) {
+		this.name = name;
+		this.defense = defense;
+		this.enchantability = enchantability;
+		this.equipSound = equipSound;
+		this.toughness = toughness;
+		this.knockbackResistance = knockbackResistance;
+		this.ingredient = Suppliers.memoize(ingredient::get);
+		this.material = Suppliers.memoize(() -> Armor.registerMaterial(this));
 	}
 	
 	@Override
-	default Identifier getId() {
-		return SilkRopeStick.getInstance().ofId("test");
+	public Identifier id() {
+		return SilkRopeStick.getInstance().ofId(name);
 	}
 	
 	@Override
-	default int getDurability() {
-		return 15;
+	public Map<ArmorItem.Type, Integer> defense() {
+		return defense;
 	}
 	
 	@Override
-	default int[] getProtections() {
-		return new int[]{4, 6, 5, 5};
+	public int enchantability() {
+		return enchantability;
 	}
 	
 	@Override
-	default float getKnockBackResistance() {
-		return 2;
+	public RegistryEntry<SoundEvent> equipSound() {
+		return equipSound;
 	}
 	
 	@Override
-	default int getEnchantability() {
-		return 15;
+	public Supplier<Ingredient> repairIngredient() {
+		return ingredient;
 	}
 	
 	@Override
-	default SoundEvent getEquipSound() {
-		return SoundEvents.ITEM_ARMOR_EQUIP_GENERIC;
+	public float toughness() {
+		return toughness;
 	}
 	
 	@Override
-	default Ingredient getRepairIngredient() {
-		return Ingredient.ofItems(Items.TEST_ITEM);
+	public float knockbackResistance() {
+		return knockbackResistance;
 	}
 	
 	@Override
-	default float getToughness() {
-		return 5;
+	public Supplier<RegistryEntry<ArmorMaterial>> material() {
+		return material;
 	}
 }
