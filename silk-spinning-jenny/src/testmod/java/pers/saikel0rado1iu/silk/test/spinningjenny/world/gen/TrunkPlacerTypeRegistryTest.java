@@ -23,6 +23,6 @@ public interface TrunkPlacerTypeRegistryTest extends TrunkPlacerTypeRegistry {
 	 * test_trunk_placer_type
 	 */
 	@SuppressWarnings("unused")
-	TrunkPlacerType<TrunkPlacer> TEST_TRUNK_PLACER_TYPE = TrunkPlacerTypeRegistry.registrar(() -> new TrunkPlacerType<>(TrunkPlacer.TYPE_CODEC))
+	TrunkPlacerType<TrunkPlacer> TEST_TRUNK_PLACER_TYPE = TrunkPlacerTypeRegistry.registrar(() -> new TrunkPlacerType<>(TrunkPlacer.TYPE_CODEC.fieldOf("test_trunk_placer_type")))
 			.register("test_trunk_placer_type");
 }

@@ -37,9 +37,9 @@ public interface StatusEffectRegistryTest extends StatusEffectRegistry {
 		}
 		
 		@Override
-		public void applyUpdateEffect(LivingEntity entity, int amplifier) {
+		public boolean applyUpdateEffect(LivingEntity entity, int amplifier) {
 			super.applyUpdateEffect(entity, amplifier);
-			entity.damage(entity.getDamageSources().create(DamageTypes.ARROW), 1);
+			return entity.damage(entity.getDamageSources().create(DamageTypes.ARROW), 1);
 		}
 		
 		@Override

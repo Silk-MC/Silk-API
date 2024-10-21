@@ -12,7 +12,7 @@
 package pers.saikel0rado1iu.silk.test.spinningjenny;
 
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
-import net.minecraft.particle.DefaultParticleType;
+import net.minecraft.particle.SimpleParticleType;
 import pers.saikel0rado1iu.silk.api.spinningjenny.ParticleTypeRegistry;
 
 /**
@@ -23,6 +23,6 @@ public interface ParticleTypeRegistryTest extends ParticleTypeRegistry {
 	 * test_particle_type
 	 */
 	@SuppressWarnings("unused")
-	DefaultParticleType TEST_PARTICLE_TYPE = ParticleTypeRegistry.registrar(() -> FabricParticleTypes.simple())
+	SimpleParticleType TEST_PARTICLE_TYPE = ParticleTypeRegistry.registrar(() -> FabricParticleTypes.simple())
 			.register("test_particle_type");
 }

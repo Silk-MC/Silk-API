@@ -23,6 +23,6 @@ public interface TreeDecoratorTypeRegistryTest extends TreeDecoratorTypeRegistry
 	 * test_tree_decorator_type
 	 */
 	@SuppressWarnings("unused")
-	TreeDecoratorType<TreeDecorator> TEST_TREE_DECORATOR_TYPE = TreeDecoratorTypeRegistry.registrar(() -> new TreeDecoratorType<>(TreeDecorator.TYPE_CODEC))
+	TreeDecoratorType<TreeDecorator> TEST_TREE_DECORATOR_TYPE = TreeDecoratorTypeRegistry.registrar(() -> new TreeDecoratorType<>(TreeDecorator.TYPE_CODEC.fieldOf("tree_decorator")))
 			.register("test_tree_decorator_type");
 }
