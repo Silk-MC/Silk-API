@@ -11,7 +11,6 @@
 
 package pers.saikel0rado1iu.silk.api.ropestick;
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
@@ -57,7 +56,7 @@ public interface ItemGroupCreator {
 	 * @return 物品组注册表
 	 */
 	static RegistryKey<ItemGroup> create(ModPass modPass, String id) {
-		Item icon = new Item(new FabricItemSettings());
+		Item icon = new Item(new Item.Settings());
 		Registry.register(Registries.ITEM, modPass.modData().ofId(getIconId(id)), icon);
 		Registry.register(Registries.ITEM_GROUP, modPass.modData().ofId(id),
 				FabricItemGroup.builder().icon(() -> new ItemStack(icon)).displayName(getText(modPass, id)).build());
