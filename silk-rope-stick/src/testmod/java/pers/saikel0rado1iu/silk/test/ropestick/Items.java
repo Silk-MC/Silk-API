@@ -11,8 +11,10 @@
 
 package pers.saikel0rado1iu.silk.test.ropestick;
 
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.DyedColorComponent;
 import net.minecraft.item.*;
-import pers.saikel0rado1iu.silk.api.ropestick.armor.CustomDyeableArmorItem;
+import net.minecraft.util.math.ColorHelper;
 import pers.saikel0rado1iu.silk.api.spinningjenny.ItemRegistry;
 import pers.saikel0rado1iu.silk.impl.SilkRopeStick;
 
@@ -64,12 +66,6 @@ public interface Items extends ItemRegistry {
 			.group(ItemGroupCreatorTest.TEST_ITEM_GROUP1, ItemGroupCreatorTest.TEST_ITEM_GROUP2)
 			.register(SilkRopeStick.getInstance().ofId("test_crossbow"));
 	/**
-	 * test_leggings
-	 */
-	CustomDyeableArmorItem TEST_CUSTOM_DYEABLE_ARMOR_ITEM = ItemRegistry.registrar(() -> new CustomDyeableArmorItem(ArmorTest.MATERIAL, ArmorItem.Type.LEGGINGS, new Item.Settings(), 0xFFFF00))
-			.group(ItemGroupCreatorTest.TEST_ITEM_GROUP1, ItemGroupCreatorTest.TEST_ITEM_GROUP2)
-			.register(SilkRopeStick.getInstance().ofId("test_custom_dyeable_armor_item"));
-	/**
 	 * test_shovel
 	 */
 	ShovelItem TEST_SHOVEL = ItemRegistry.registrar(() -> ToolTest.MATERIAL.createShovel(4, new Item.Settings()))
@@ -114,7 +110,7 @@ public interface Items extends ItemRegistry {
 	/**
 	 * test_leggings
 	 */
-	ArmorItem TEST_LEGGINGS = ItemRegistry.registrar(() -> ArmorTest.MATERIAL.createLeggings(new Item.Settings()))
+	ArmorItem TEST_LEGGINGS = ItemRegistry.registrar(() -> ArmorTest.MATERIAL.createLeggings(new Item.Settings().component(DataComponentTypes.DYED_COLOR, new DyedColorComponent(ColorHelper.Argb.fullAlpha(0xFFFFB3), true))))
 			.group(ItemGroupCreatorTest.TEST_ITEM_GROUP1, ItemGroupCreatorTest.TEST_ITEM_GROUP2)
 			.register(SilkRopeStick.getInstance().ofId("test_leggings"));
 	/**
