@@ -56,7 +56,7 @@ public interface Items extends ItemRegistry {
 	/**
 	 * test_bow
 	 */
-	BowTest TEST_BOW = ItemRegistry.registrar(() -> new BowTest(new Item.Settings()))
+	BowLikeItemTest TEST_BOW = ItemRegistry.registrar(() -> new BowLikeItemTest(new Item.Settings()))
 			.group(ItemGroupCreatorTest.TEST_ITEM_GROUP1, ItemGroupCreatorTest.TEST_ITEM_GROUP2)
 			.register(SilkRopeStick.getInstance().ofId("test_bow"));
 	/**

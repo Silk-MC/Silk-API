@@ -29,7 +29,7 @@ import net.minecraft.util.math.Vec3d;
 import pers.saikel0rado1iu.silk.api.generate.data.ModelGenUtil;
 import pers.saikel0rado1iu.silk.api.modpass.ModPass;
 import pers.saikel0rado1iu.silk.api.ropestick.ItemGroupCreator;
-import pers.saikel0rado1iu.silk.api.ropestick.ranged.Bow;
+import pers.saikel0rado1iu.silk.api.ropestick.ranged.BowLikeItem;
 import pers.saikel0rado1iu.silk.api.ropestick.ranged.Crossbow;
 import pers.saikel0rado1iu.silk.impl.SilkApi;
 
@@ -132,7 +132,7 @@ public class ExtendedItemModelGenerator extends ItemModelGenerator {
 	 * @param bow       弓
 	 * @param pullStage 拉弓状态
 	 */
-	public void registerBow(Bow bow, float[] pullStage) {
+	public void registerBow(BowLikeItem bow, float[] pullStage) {
 		JsonObject display = new JsonObject();
 		display.add(ModelTransformationMode.THIRD_PERSON_RIGHT_HAND.asString(), ModelGenUtil.modelTransModeJson(new Vec3d(-80, 260, -40), new Vec3d(-1, -2, 2.5), new Vec3d(0.9, 0.9, 0.9)));
 		display.add(ModelTransformationMode.THIRD_PERSON_LEFT_HAND.asString(), ModelGenUtil.modelTransModeJson(new Vec3d(-80, -280, 40), new Vec3d(-1, -2, 2.5), new Vec3d(0.9, 0.9, 0.9)));
@@ -163,7 +163,7 @@ public class ExtendedItemModelGenerator extends ItemModelGenerator {
 	 * @param display   自定义显示
 	 * @param pullStage 拉弓状态
 	 */
-	public void registerBow(Bow bow, JsonObject display, float[] pullStage) {
+	public void registerBow(BowLikeItem bow, JsonObject display, float[] pullStage) {
 		Models.GENERATED.upload(ModelIds.getItemModelId(bow), TextureMap.layer0(bow), writer, (id, textures) -> {
 			JsonObject jsonObject = Models.GENERATED.createJson(id, textures);
 			jsonObject.add("display", display);
@@ -174,10 +174,10 @@ public class ExtendedItemModelGenerator extends ItemModelGenerator {
 					JsonObject object = new JsonObject();
 					float index = bow.getProjectileIndex(projectile);
 					if (index != 0) object.addProperty(Crossbow.PROJECTILE_INDEX_KEY, index);
-					object.addProperty(Bow.PULLING_KEY, 1);
-					object.addProperty(Bow.PULL_KEY, pullStage[count]);
+					object.addProperty(BowLikeItem.PULLING_KEY, 1);
+					object.addProperty(BowLikeItem.PULL_KEY, pullStage[count]);
 					predicate.add("predicate", object);
-					predicate.addProperty("model", id.withSuffixedPath('_' + Registries.ITEM.getId(projectile).getPath() + '_' + Bow.PULLING_KEY + '_' + count).toString());
+					predicate.addProperty("model", id.withSuffixedPath('_' + Registries.ITEM.getId(projectile).getPath() + '_' + BowLikeItem.PULLING_KEY + '_' + count).toString());
 					jsonArray.add(predicate);
 				}
 			}
@@ -186,7 +186,7 @@ public class ExtendedItemModelGenerator extends ItemModelGenerator {
 		});
 		for (Item projectile : bow.launchableProjectiles()) {
 			for (int count = 0; count < pullStage.length; count++) {
-				String suffix = '_' + Registries.ITEM.getId(projectile).getPath() + '_' + Bow.PULLING_KEY + '_' + count;
+				String suffix = '_' + Registries.ITEM.getId(projectile).getPath() + '_' + BowLikeItem.PULLING_KEY + '_' + count;
 				new Model(Optional.of(ModelIds.getItemModelId(bow)), Optional.empty(), TextureKey.LAYER0)
 						.upload(ModelIds.getItemSubModelId(bow, suffix), TextureMap.layer0(TextureMap.getSubId(bow, suffix)), writer);
 			}
@@ -211,10 +211,10 @@ public class ExtendedItemModelGenerator extends ItemModelGenerator {
 					JsonObject object = new JsonObject();
 					float index = crossbow.getProjectileIndex(projectile);
 					if (index != 0) object.addProperty(Crossbow.PROJECTILE_INDEX_KEY, index);
-					object.addProperty(Bow.PULLING_KEY, 1);
-					object.addProperty(Bow.PULL_KEY, pullStage[count]);
+					object.addProperty(BowLikeItem.PULLING_KEY, 1);
+					object.addProperty(BowLikeItem.PULL_KEY, pullStage[count]);
 					predicate.add("predicate", object);
-					predicate.addProperty("model", id.withSuffixedPath('_' + Registries.ITEM.getId(projectile).getPath() + '_' + Bow.PULLING_KEY + '_' + count).toString());
+					predicate.addProperty("model", id.withSuffixedPath('_' + Registries.ITEM.getId(projectile).getPath() + '_' + BowLikeItem.PULLING_KEY + '_' + count).toString());
 					jsonArray.add(predicate);
 				}
 				JsonObject predicate = new JsonObject();

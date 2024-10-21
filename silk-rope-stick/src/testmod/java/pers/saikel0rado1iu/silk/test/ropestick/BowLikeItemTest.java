@@ -9,31 +9,28 @@
  * You should have received a copy of the GNU General Public License along with Silk API. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package pers.saikel0rado1iu.silk.test.generate;
+package pers.saikel0rado1iu.silk.test.ropestick;
 
-import com.google.common.collect.ImmutableSet;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
-import pers.saikel0rado1iu.silk.api.generate.advancement.criterion.Criteria;
-import pers.saikel0rado1iu.silk.api.generate.advancement.criterion.RangedKilledEntityCriterion;
-import pers.saikel0rado1iu.silk.api.ropestick.ranged.Bow;
+import pers.saikel0rado1iu.silk.api.ropestick.ranged.BowLikeItem;
 import pers.saikel0rado1iu.silk.api.ropestick.tool.AdjustFovWhileUse;
 
 import java.util.Optional;
 import java.util.Set;
 
 /**
- * Test {@link Bow}
+ * Test {@link BowLikeItem}
  */
-public final class BowTest extends Bow {
+public final class BowLikeItemTest extends BowLikeItem {
 	/**
 	 * @param settings 物品设置
 	 */
-	public BowTest(Settings settings) {
+	public BowLikeItemTest(Settings settings) {
 		super(settings);
 	}
 	
@@ -46,8 +43,6 @@ public final class BowTest extends Bow {
 	 */
 	@Override
 	public void triggerCriteria(ServerPlayerEntity serverPlayer, ItemStack ranged, ProjectileEntity projectile) {
-		RangedKilledEntityCriterion.setRangedWeapon(projectile, ranged);
-		Criteria.SHOT_PROJECTILE_CRITERION.trigger(serverPlayer, ranged, projectile);
 	}
 	
 	@Override
@@ -124,6 +119,6 @@ public final class BowTest extends Bow {
 	 */
 	@Override
 	public Set<Item> launchableProjectiles() {
-		return ImmutableSet.of(Items.ARROW, Items.SPECTRAL_ARROW, Items.TIPPED_ARROW);
+		return Set.of();
 	}
 }

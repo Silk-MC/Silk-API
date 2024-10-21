@@ -13,7 +13,7 @@ package pers.saikel0rado1iu.silk.api.client.ropestick.ranged;
 
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.util.Identifier;
-import pers.saikel0rado1iu.silk.api.ropestick.ranged.Bow;
+import pers.saikel0rado1iu.silk.api.ropestick.ranged.BowLikeItem;
 
 /**
  * <h2 style="color:FFC800">弓模型谓词提供器</h2>
@@ -28,18 +28,18 @@ public interface BowModelPredicateProvider {
 	 *
 	 * @param bow 弓
 	 */
-	static void register(Bow bow) {
-		ModelPredicateProviderRegistry.register(bow, new Identifier(Bow.PULLING_KEY), (stack, world, entity, seed) -> {
+	static void register(BowLikeItem bow) {
+		ModelPredicateProviderRegistry.register(bow, new Identifier(BowLikeItem.PULLING_KEY), (stack, world, entity, seed) -> {
 			if (entity == null) return 0;
 			return entity.isUsingItem() && entity.getActiveItem() == stack ? 1 : 0;
 		});
-		ModelPredicateProviderRegistry.register(bow, new Identifier(Bow.PULL_KEY), (stack, world, entity, seed) -> {
+		ModelPredicateProviderRegistry.register(bow, new Identifier(BowLikeItem.PULL_KEY), (stack, world, entity, seed) -> {
 			if (entity == null) return 0;
-			return entity.getActiveItem() != stack ? 0 : ((Bow) stack.getItem()).getUsingProgress(stack.getMaxUseTime() - entity.getItemUseTimeLeft(), stack);
+			return entity.getActiveItem() != stack ? 0 : ((BowLikeItem) stack.getItem()).getUsingProgress(stack.getMaxUseTime() - entity.getItemUseTimeLeft(), stack);
 		});
-		ModelPredicateProviderRegistry.register(bow, new Identifier(Bow.PROJECTILE_INDEX_KEY), (stack, world, entity, seed) -> {
+		ModelPredicateProviderRegistry.register(bow, new Identifier(BowLikeItem.PROJECTILE_INDEX_KEY), (stack, world, entity, seed) -> {
 			if (entity == null) return 0;
-			return entity.getActiveItem() != stack ? 0 : ((Bow) stack.getItem()).getProjectileIndex(stack);
+			return entity.getActiveItem() != stack ? 0 : ((BowLikeItem) stack.getItem()).getProjectileIndex(stack);
 		});
 	}
 }

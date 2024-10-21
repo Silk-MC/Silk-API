@@ -23,7 +23,7 @@ public interface Items extends ItemRegistry {
 	/**
 	 * test_bow
 	 */
-	BowTest TEST_BOW = ItemRegistry.registrar(() -> new BowTest(new Item.Settings()))
+	BowLikeItemTest TEST_BOW = ItemRegistry.registrar(() -> new BowLikeItemTest(new Item.Settings()))
 			.group(ItemGroups.COMBAT)
 			.register(SilkGenerate.getInstance().ofId("test_bow"));
 	/**
