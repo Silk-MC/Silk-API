@@ -14,7 +14,7 @@ package pers.saikel0rado1iu.silk.api.client.ropestick.ranged;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.util.Identifier;
-import pers.saikel0rado1iu.silk.api.ropestick.ranged.Crossbow;
+import pers.saikel0rado1iu.silk.api.ropestick.ranged.CrossbowLikeItem;
 
 /**
  * <h2 style="color:FFC800">弩模型谓词提供器</h2>
@@ -29,22 +29,22 @@ public interface CrossbowModelPredicateProvider {
 	 *
 	 * @param crossbow 弩
 	 */
-	static void register(Crossbow crossbow) {
-		ModelPredicateProviderRegistry.register(crossbow, new Identifier(Crossbow.PULLING_KEY), (stack, world, entity, seed) -> {
+	static void register(CrossbowLikeItem crossbow) {
+		ModelPredicateProviderRegistry.register(crossbow, new Identifier(CrossbowLikeItem.PULLING_KEY), (stack, world, entity, seed) -> {
 			if (entity == null) return 0;
 			return entity.isUsingItem() && entity.getActiveItem() == stack ? 1 : 0;
 		});
-		ModelPredicateProviderRegistry.register(crossbow, new Identifier(Crossbow.PULL_KEY), (stack, world, entity, seed) -> {
+		ModelPredicateProviderRegistry.register(crossbow, new Identifier(CrossbowLikeItem.PULL_KEY), (stack, world, entity, seed) -> {
 			if (entity == null) return 0;
-			return entity.getActiveItem() != stack ? 0 : ((Crossbow) stack.getItem()).getUsingProgress(stack.getMaxUseTime() - entity.getItemUseTimeLeft(), stack);
+			return entity.getActiveItem() != stack ? 0 : ((CrossbowLikeItem) stack.getItem()).getUsingProgress(stack.getMaxUseTime() - entity.getItemUseTimeLeft(), stack);
 		});
-		ModelPredicateProviderRegistry.register(crossbow, new Identifier(Crossbow.CHARGED_KEY), (stack, world, entity, seed) -> {
+		ModelPredicateProviderRegistry.register(crossbow, new Identifier(CrossbowLikeItem.CHARGED_KEY), (stack, world, entity, seed) -> {
 			if (entity == null) return 0;
 			return CrossbowItem.isCharged(stack) ? 1 : 0;
 		});
-		ModelPredicateProviderRegistry.register(crossbow, new Identifier(Crossbow.PROJECTILE_INDEX_KEY), (stack, world, entity, seed) -> {
+		ModelPredicateProviderRegistry.register(crossbow, new Identifier(CrossbowLikeItem.PROJECTILE_INDEX_KEY), (stack, world, entity, seed) -> {
 			if (entity == null) return 0;
-			return ((Crossbow) stack.getItem()).getProjectileIndex(stack);
+			return ((CrossbowLikeItem) stack.getItem()).getProjectileIndex(stack);
 		});
 	}
 }
