@@ -34,7 +34,7 @@ import java.util.function.Predicate;
  * 加强方法的 {@link BowLikeItem}，辅助弓的创建的数据直观和清晰
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
- * @since 1.0.2
+ * @since 1.1.2
  */
 public abstract class BowLikeItem extends BowItem implements BowExpansion {
 	protected ItemStack tempStack;
@@ -55,7 +55,7 @@ public abstract class BowLikeItem extends BowItem implements BowExpansion {
 		// 检查用户使用者是否为玩家
 		if (!(user instanceof PlayerEntity player)) return;
 		// 获取弹丸
-		ItemStack projectile = player.getProjectileType(stack);
+		ItemStack projectile = getProjectileType(user, stack);
 		if (projectile.isEmpty()) return;
 		// 获取弓已使用游戏刻
 		int usedTicks = getMaxUseTime(stack) - remainingUseTicks;
