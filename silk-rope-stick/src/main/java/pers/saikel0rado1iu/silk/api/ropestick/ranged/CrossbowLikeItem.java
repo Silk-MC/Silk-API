@@ -150,6 +150,7 @@ public abstract class CrossbowLikeItem extends CrossbowItem implements CrossbowE
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		ItemStack stack = user.getStackInHand(hand);
+		setProjectileIndex(stack, getProjectileType(user, stack));
 		ChargedProjectilesComponent component = stack.get(DataComponentTypes.CHARGED_PROJECTILES);
 		// 如果已装填
 		if (component != null && !component.isEmpty()) {
