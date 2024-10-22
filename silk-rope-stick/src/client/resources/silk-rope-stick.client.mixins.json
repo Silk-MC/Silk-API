@@ -11,8 +11,8 @@
 		"client.ropestick.AdjustFovWhileUseMixin$RenderHudOverlay",
 		"client.ropestick.ModifyMoveWhileHoldMixin",
 		"client.ropestick.ModifyMoveWhileUseMixin",
-		"client.ropestick.tool.CrossbowMixin$FirstPersonRender",
-		"client.ropestick.tool.CrossbowMixin$ThirdPersonRender"
+		"client.ropestick.tool.CrossbowLikeItemMixin$FirstPersonRender",
+		"client.ropestick.tool.CrossbowLikeItemMixin$ThirdPersonRender"
 	],
 	"injectors": {
 		"defaultRequire": 1

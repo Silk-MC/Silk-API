@@ -17,20 +17,20 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
-import pers.saikel0rado1iu.silk.api.ropestick.ranged.Crossbow;
+import pers.saikel0rado1iu.silk.api.ropestick.ranged.CrossbowLikeItem;
 import pers.saikel0rado1iu.silk.api.ropestick.tool.AdjustFovWhileUse;
 
 import java.util.Optional;
 import java.util.Set;
 
 /**
- * Test {@link Crossbow}
+ * Test {@link CrossbowLikeItem}
  */
-public final class CrossbowTest extends Crossbow {
+public final class CrossbowLikeItemTest extends CrossbowLikeItem {
 	/**
 	 * @param settings 物品设置
 	 */
-	public CrossbowTest(Settings settings) {
+	public CrossbowLikeItemTest(Settings settings) {
 		super(settings);
 	}
 	

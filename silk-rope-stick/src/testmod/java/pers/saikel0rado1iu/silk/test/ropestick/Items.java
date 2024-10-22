@@ -62,7 +62,7 @@ public interface Items extends ItemRegistry {
 	/**
 	 * test_crossbow
 	 */
-	CrossbowTest TEST_CROSSBOW = ItemRegistry.registrar(() -> new CrossbowTest(new Item.Settings()))
+	CrossbowLikeItemTest TEST_CROSSBOW = ItemRegistry.registrar(() -> new CrossbowLikeItemTest(new Item.Settings()))
 			.group(ItemGroupCreatorTest.TEST_ITEM_GROUP1, ItemGroupCreatorTest.TEST_ITEM_GROUP2)
 			.register(SilkRopeStick.getInstance().ofId("test_crossbow"));
 	/**

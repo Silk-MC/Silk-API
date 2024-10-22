@@ -25,16 +25,16 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import pers.saikel0rado1iu.silk.api.ropestick.ranged.Crossbow;
+import pers.saikel0rado1iu.silk.api.ropestick.ranged.CrossbowLikeItem;
 
 /**
- * <h2 style="color:FFC800">{@link Crossbow} 混入</h2>
+ * <h2 style="color:FFC800">{@link CrossbowLikeItem} 混入</h2>
  * 设置弩的物品渲染
  *
  * @author <a href="https://github.com/Saikel-Orado-Liu"><img alt="author" src="https://avatars.githubusercontent.com/u/88531138?s=64&v=4"></a>
- * @since 0.1.0
+ * @since 1.1.2
  */
-interface CrossbowMixin {
+interface CrossbowLikeItemMixin {
 	/**
 	 * 弩的第一人称渲染
 	 */
